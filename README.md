@@ -263,21 +263,19 @@ A nice companion custom element that works well together with p-d is [xtal-decor
 With these two combined the counter would look like:
 
 ```html
-    <xtal-deco><script nomodule>
-        ({
-            on: {
-                click:{
-                    this.counter++;
-                }
-            },
-            props:{
-                counter: 0
-            }
-        })
-    </script></xtal-deco>
-    <button>Increment</button>
-    <p-d on="counter-changed" prop="innerText"></p-d>
-    <div></div>
+<xtal-deco><script nomodule>({
+    on: {
+        click:{
+            this.counter++;
+        }
+    },
+    props:{
+        counter: 0
+    }
+})</script></xtal-deco>
+<button>Increment</button>
+<p-d on="counter-changed" prop="textContent"></p-d>
+<div></div>
 ```
 
 ##  Another impossible dream
@@ -350,6 +348,33 @@ There is a special string used to refer to an element of [composedPath()](https:
 ```
 
 This pulls the node from event.composedPath()[0].node.
+
+## Computed values
+
+You can create little p-d-x extension custom elements thusly:
+
+```TypeScript
+import {extend} from 'p-et-alia/p-d-x.js';
+
+extend('slot-bot', {
+    valFromEvent: (e: Event) =>{
+        const slot = e.target as HTMLSlotElement;
+        const ret = slot.assignedElements().map(el => {
+            const clone = el.cloneNode(true) as HTMLElement;
+            clone.removeAttribute('slot');
+            return clone.outerHTML;
+        }).join('');
+        return ret;
+    }
+})
+```
+
+```html
+    <!-- Options to vote on, passed in via light children.  -->
+    <slot name="options"></slot>
+    <p-d-x-slot-bot on="slotchange" prop="innerHTML"></p-d-x-slot-bot>
+    <xtal-radio-group-md name="pronoun" data-flag="voted" data-allow-voting="-1"></xtal-radio-group-md>
+```
 
 ##  Differences to other frameworks
 
