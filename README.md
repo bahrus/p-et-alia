@@ -8,7 +8,7 @@ These two components dream the impossible dream -- be able to progressively, dec
 
 Use cases:
 
-1.  If you just need to connect some elements of a mostly static or server-rendered web site, these components provide a light weight way of doing that.
+1.  If you just need to connect some elements of a mostly static or [server-rendered](https://www.similartech.com/categories/framework) web site, these components provide a light weight way of doing that.
 2.  These components allow you to keep code-centric **builds** at bay as much as possible.  Why is this important?  Because browsers can process HTML significantly faster than JS.  That doesn't mean you have to edit HTML files.  Theoretically, you could edit in JavaScript and benefit from the tooling (type checks, etc), but compile to HTML for optimum performance. 
 
 These components emphasize simplicity and small size -- to be used for 30,000 ft. above the ground component gluing.  Think connecting a TV to a Roku, rather than connecting tightly coupled micro chips together.  See the section "p-s" for more discussion about this. 
