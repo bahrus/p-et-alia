@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>xtal-json-merge demo</title>
+
+
+</head>
+
+<body>
+  <div class="vertical-section-container centered">
+    <xtal-sip><script nomodule>["xtal-json-merge", "p-d", "xtal-json-editor"]</script></xtal-sip>
+    <h3>Basic xtal-json-merge demo</h3>
+
+    <!-- <div> -->
+    <div>Input:</div>
+    <xtal-json-merge input="[]" data-imp>
+      <script type="application/json">
+                  [
+                    [
+                        {"name": "Harry Potter", "age":"13"},
+                        {"name": "Albus Dumbledore", "age":"279"}
+                    ]
+                  ]
+                    </script>
+    </xtal-json-merge>
+    <p-d on="merged-prop-changed" to="#firstEditor" prop="input" val="target.mergedProp"></p-d>
+    <p-d on="merged-prop-changed" to="#insertData" prop="input" val="target.mergedProp"></p-d>
+
+    <xtal-json-editor id="firstEditor" options="{}" data-imp></xtal-json-editor>
+    <br>
+    <div>Merge with</div>
+    <pre>
+                    [{
+                    "columns":[
+                        {"id": "index",       "name": "Index",      "field": "index"},
+                        {"id": "isActive",    "name": "Active",     "field": "isActive"},
+                        {"id": "balance",     "name": "Balance",    "field": "balance"},
+                        {"id": "age",         "name": "Age",        "field": "age"},
+                        {"id": "eyeColor",    "name": "Eye Color",  "field": "eyeColor"},
+                        {"id": "name",        "name": "Name",       "field": "name"},
+                        {"id": "gender",      "name": "Gender",     "field": "gender"},
+                        {"id": "company",     "name":"Company",     "field": "company"}
+                    ],
+                    "gridOptions":{
+                        "enableCellNavigation": true,
+                        "enableColumnReorder": false
+                    }
+                    }]              
+                </pre>
+    <br>
+    <xtal-json-merge disabled id="insertData" with-path="data" hidden>
+      <script type="application/json">
+                    [{
+                    "columns":[
+                        {"id": "index",       "name": "Index",      "field": "index"},
+                        {"id": "isActive",    "name": "Active",     "field": "isActive"},
+                        {"id": "balance",     "name": "Balance",    "field": "balance"},
+                        {"id": "age",         "name": "Age",        "field": "age"},
+                        {"id": "eyeColor",    "name": "Eye Color",  "field": "eyeColor"},
+                        {"id": "name",        "name": "Name",       "field": "name"},
+                        {"id": "gender",      "name": "Gender",     "field": "gender"},
+                        {"id": "company",     "name":"Company",     "field": "company"}
+                    ],
+                    "gridOptions":{
+                        "enableCellNavigation": true,
+                        "enableColumnReorder": false
+                    }
+                    }]
+                </script>
+    </xtal-json-merge>
+    <p-d on="merged-prop-changed" to="xtal-json-editor" prop="input" val="target.mergedProp"></p-d>
+    <br>
+    <div>Output:</div>
+    <xtal-json-editor id="secondEditor" options="{}"></xtal-json-editor>
+    <!-- Use experimental import maps -->
+    <script defer src="https://cdn.jsdelivr.net/npm/es-module-shims@0.2.4/dist/es-module-shims.js"></script>
+    <script type="importmap-shim">
+    {
+      "imports": {
+        "xtal-element/": "../node_modules/xtal-element/",
+        "trans-render/": "../node_modules/trans-render/",
+        "xtal-sip": "https://cdn.jsdelivr.net/npm/xtal-sip@0.0.80/xtal-sip.js",
+        "xtal-json-merge": "https://cdn.jsdelivr.net/npm/xtal-json-merge@0.2.37/xtal-json-merge.js",
+        "xtal-json-editor": "https://cdn.jsdelivr.net/npm/xtal-json-editor@0.0.35/xtal-json-editor.js",
+        "p-d": "../p-d.js"
+      }
+    }
+    </script>
+    <!-- <script type="module" src="../p-d.js"></script> -->
+    <script  type="module-shim">
+        import 'xtal-sip';
+    </script>
+  </div>
+</body>
+
+</html>

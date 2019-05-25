@@ -1,0 +1,26 @@
+{
+  "sources":[
+   "p-d.js",
+   "dist/p-d.iife.js",
+   "p-u.js",
+   
+   "p-destal.js",
+   "dist/p-all.iife.js",
+   "PDQ.js",
+   "dist/PDQ.iife.js"
+  ],
+  "npm": true,
+  "lint": {
+    "rules": [
+      "polymer-3"
+    ]
+  },
+  "builds":[
+    {
+      "name": "ES5",
+      "js": {"minify": false, "compile": true},
+      "html": {"minify": true},
+      "css" : {"minify": true}
+    }
+  ]
+}
