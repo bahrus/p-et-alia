@@ -103,7 +103,7 @@ export interface ExtensionParams{
 export function extend(name: string, params: ExtensionParams){
     class Extension extends PDX{
         valFromEvent(e: Event){
-            params.valFromEvent(e);
+            return params.valFromEvent(e);
         }
     }
     customElements.define('p-d-x-' + name, Extension);

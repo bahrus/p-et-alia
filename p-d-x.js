@@ -92,7 +92,7 @@ define(PDX);
 export function extend(name, params) {
     class Extension extends PDX {
         valFromEvent(e) {
-            params.valFromEvent(e);
+            return params.valFromEvent(e);
         }
     }
     customElements.define('p-d-x-' + name, Extension);
