@@ -3,12 +3,26 @@
   "version": "0.0.0",
   "description": "TBD",
   "main": "p-et-alia.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bahrus/p-et-alia.git"
+  },
+  "module": "p-d.js",
+  "dependencies": {
+    "xtal-element": "0.0.59",
+    "trans-render": "0.0.111"
+  },
+  "devDependencies": {
+    "@types/node": "12.0.0",
+    "@types/tape": "4.2.33",
+    "@webcomponents/webcomponentsjs": "2.2.10",
+    "jiife": "0.0.12",
+    "tape": "4.10.1",
+    "xtal-test": "0.0.18"
+  },
+  "scripts": {
+    "test": "node createIIFE.js && tape test/*.js",
+    "serve": "node node_modules/xtal-test/serve.js"
   },
   "author": "",
   "license": "MIT",
