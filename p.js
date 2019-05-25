@@ -155,12 +155,12 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
             return ifnull;
         return value;
     }
-    propFromEvent(e) {
+    valFromEvent(e) {
         const gpfp = this.getProp.bind(this);
         return this._s !== null ? gpfp(e, this._s) : this.$N(gpfp(e, ['detail', 'value']), gpfp(e, ['target', 'value']));
     }
     setVal(e, target) {
-        this.commit(target, this.propFromEvent(e));
+        this.commit(target, this.valFromEvent(e));
     }
     commit(target, val) {
         if (val === undefined)
