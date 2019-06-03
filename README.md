@@ -80,11 +80,14 @@ Since p-* are all non visual components, they are given display:none style by de
 Another benefit of making this explicit:  There is likely less overhead from components with display:none, as they may not get added to the [rendering tree](https://www.html5rocks.com/en/tutorials/internals/howbrowserswork/#Render_tree_construction).
 
 
-## Compact notation
-One can't help noticing quite a bit of redundancy in the markup above.  We can reduce this redundancy if we apply some default settings.
+## Compact notation I
+
+One can't help noticing quite a bit of redundancy in the markup above.  We can reduce this redundancy if we apply some default settings. 
 
 1)  If no css specifier is defined, it will pass the properties to the next element.
-2)  If no value is specified, it will see if detail.value exists.  If not it will try target.value.  
+2)  If no value is specified, it will see if detail.value exists.  If not it will try target.value.
+
+We can also forgo quotes when not needed.
 
 What we end up with is shown below:
 
@@ -97,20 +100,47 @@ What we end up with is shown below:
 </style>
 <div style="display:grid">
     <input/>                                                                    
-    <p-d on="input" prop="input"></p-d>
+    <p-d on=input prop=input></p-d>
     <url-builder prepend="api/allEmployees?startsWith=" nv></url-builder>   
-    <p-d on="value-changed"  prop="url"></p-d>
+    <p-d on=value-changed  prop=url></p-d>
     <fetch-data></fetch-data>                                                   
-    <p-d on="fetch-complete" to="my-filter" prop="input" m="2"></p-d>
-    <my-filter select="isActive" nv></my-filter>                                   
-    <p-d on="value-changed"  to="#activeList" prop="items" m="1"></p-d>
-    <my-filter select="!isActive" nv></my-filter>                                  
-    <p-d on="value-changed"  to="#inactiveList" prop="items" m="1"></p-d>
+    <p-d on=fetch-complete to=my-filter prop=input m=2></p-d>
+    <my-filter select=isActive nv></my-filter>                                   
+    <p-d on=value-changed  to=#activeList prop=items m=1></p-d>
+    <my-filter select=!isActive nv></my-filter>                                  
+    <p-d on=value-changed  to=#inactiveList prop=items m=1></p-d>
     <h3>Active</h3>
-    <my-grid id="activeList"></my-grid>
+    <my-grid id=activeList></my-grid>
     <h3>Inactive</h3>
-    <my-grid id="inactiveList"><my-grid>
+    <my-grid id=inactiveList><my-grid>
 </div>
+```
+
+## Compact Notation II [TODO]
+
+One of the beauties of html / attributes vs JavaScript is that attributes can be defined in such a way that configuring a web component can almost read like english:
+
+```html
+<visual-ize display calendar with-time-period=year as mobius-grid with dali-esque clocks></visual-ize>
+```
+
+This works best if the binding syntax can express those attributes directly, "pulling in " the values:
+
+```html
+<visual-ize display={this.mode==='visualize'} with-time-period={this.timePeriod}  as mobius-grid with dali-esque clocks></visual-ize>
+```
+
+Put p-* elements operate more on a "push values to specified targets when events are fired" approach, rather than "push values to specified state, and pull values from state into target properties" which can make the markup harder to read.
+
+So an additional way of providing both more compact and more readable markup is shown below:
+
+```html
+<label for=lhs>LHS:</label><input id=lhs> 
+<p-d on=input to=if-diff:lhs m=1></p-d>
+<label for=rhs>RHS:</label><input id=rhs>
+<p-d on=input to="if-diff:rhs" m=1></p-d>
+...
+<if-diff if -lhs equals -rhs tag=equals></if-diff>
 ```
 
 ## Recursive sibling drilldown with p-d-r -- Invitation Only
