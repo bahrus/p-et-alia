@@ -144,7 +144,13 @@ So we provide a slight variation in the syntax:
 <label for=rhs>RHS:</label><input id=rhs>
 <p-d on=input to=if-diff[-rhs] m=1></p-d>
 ...
-<if-diff if -lhs equals -rhs tag=equals></if-diff>
+<if-diff if -lhs equals -rhs data-key-name=lhs-matches-rhs></if-diff>
+...
+<div data-lhs-matches-rhs="0">
+    <template>
+        
+    </template>
+</div>
 ```
 
 What does p-d do with this syntax?
