@@ -80,7 +80,7 @@ Since p-* are all non visual components, they are given display:none style by de
 Another benefit of making this explicit:  There is likely less overhead from components with display:none, as they may not get added to the [rendering tree](https://www.html5rocks.com/en/tutorials/internals/howbrowserswork/#Render_tree_construction).
 
 
-## Compact notation I
+## Compact notation
 
 One can't help noticing quite a bit of redundancy in the markup above.  We can reduce this redundancy if we apply some default settings. 
 
@@ -116,32 +116,49 @@ What we end up with is shown below:
 </div>
 ```
 
-## Compact Notation II [TODO]
+## A spoonful of [syntactic sugar](https://www.google.com/search?q=a+spoonful+of+syntactic+sugar&rlz=1C1CHBF_enUS834US834&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjf8uuemdDiAhWKm-AKHTTwAy4Q_AUIESgC&biw=1707&bih=850)
 
-One of the beauties of html / attributes vs JavaScript is that attributes can be defined in such a way that configuring a web component can almost read like english:
+One of the beauties of html / attributes vs JavaScript is that attributes can be defined in such a way that configuring a web component can almost read like English:
 
 ```html
 <visual-ize display calendar with-time-period=year as mobius-grid with dali-esque clocks></visual-ize>
 ```
 
-This works best if the binding syntax can express those attributes directly, "pulling in " the values:
+If the attributes need to be dynamic, it is easiest to read if the binding syntax can express those attributes directly, "pulling in" the values from somewhere:
 
-```html
-<visual-ize display={this.mode==='visualize'} with-time-period={this.timePeriod}  as mobius-grid with dali-esque clocks></visual-ize>
+```JavaScript
+//Psuedo code
+`<visual-ize display?=${showOrhide} with-time-period=${timePeriod} 
+    as ${displayType} with ${themed} ${decorationType}></visual-ize>`
 ```
 
-Put p-* elements operate more on a "push values to specified targets when events are fired" approach, rather than "push values to specified state, and pull values from state into target properties" which can make the markup harder to read.
+But p-* elements, as demonstrated so far, operate more on a "push values to specified targets when events are fired" approach, rather than "push values to specified state(either declaratively or via event handlers), and pull values from state declaratively into target properties." The latter approach seems more natural to read, especially as the communication appears more "mutual," and looking at either tag (source vs destination) gives a clue as to what is going on.
 
-So an additional way of providing both more compact and more readable markup is shown below:
+We want to accomplish this with something that is actually meaningful, and that doesn't add superfluous, non verifiable syntax, while sticking to unidirectional data flow.
+
+So we provide a slight variation in the syntax:
 
 ```html
 <label for=lhs>LHS:</label><input id=lhs> 
-<p-d on=input to=if-diff:lhs m=1></p-d>
+<p-d on=input to=if-diff[-lhs] m=1></p-d>
 <label for=rhs>RHS:</label><input id=rhs>
-<p-d on=input to="if-diff:rhs" m=1></p-d>
+<p-d on=input to=if-diff[-rhs] m=1></p-d>
 ...
 <if-diff if -lhs equals -rhs tag=equals></if-diff>
 ```
+
+What does p-d do with this syntax?
+
+Since 
+
+1. No "prop" attribute is found, and 
+2. Since the "to" attribute follows a special pattern, where
+ - the expression ends with an attribute selector, and where 
+ - that attribute starts with a dash
+ 
+then the "prop" attribute defaults to the attribute following the first dash i.e.  "lhs" or "rhs."  lisp-case to camelCase property setting is supported.  I.e. to="[-my-long-winded-property-name]" will set the property with name "myLongWindedPropertyName."
+
+Furthermore, no match will be found if if-diff does not contain the -lhs (or -rhs) "pseudo" attribute.
 
 ## Recursive sibling drilldown with p-d-r -- Invitation Only
 
@@ -270,13 +287,13 @@ You can specify the "depth" of disabling thusly:
 
 ```html
     <!-- Parse the address bar -->
-    <xtal-state-parse disabled="2" parse="location.href" level="global" 
+    <xtal-state-parse disabled=2 parse=location.href level=global 
         with-url-pattern="id=(?<storeId>[a-z0-9-]*)">
     </xtal-state-parse>
     <!-- If no id found in address bar, create a new record ("session") -->
-    <p-d on="no-match-found" to="purr-sist[write]" prop="new" val="target.noMatch"  m="1" skip-init></p-d>
+    <p-d on=no-match-found to=purr-sist[write] prop=new val=target.noMatch  m=1 skip-init></p-d>
     <!-- If id found in address bar, pass it to the persistence reader and writer -->
-    <p-d on="match-found" to="purr-sist" prop="storeId" val="target.value.storeId" m="2" skip-init></p-d>
+    <p-d on=match-found to=purr-sist prop=storeId val=target.value.storeId m=2 skip-init></p-d>
     <!-- Read stored history.state from remote database if saved -->
     <purr-sist read></purr-sist>
 ```
@@ -304,10 +321,10 @@ With these two combined the counter would look like:
     }
 })</script></xtal-deco>
 <button>Increment</button>
-<p-d on="counter-changed" prop="textContent"></p-d>
+<p-d on=counter-changed prop=textContent></p-d>
 <div></div>
 ```
-
+<!-->
 ##  Another impossible dream
 
 p-destal (pronunced "pedestal") is another web component in shining armor.  Its quest is to allow some types of web components to serve dual roles -- they could work as stand alone web pages, but also as web components, embedded within other pages / apps.  Much like iFrames.  The type of scenario where this would be useful is *not* highly reusable generic web components, like those found on webcomponents.org, but rather business domain, markup-centric, dynamic (server-generated?) HTML content.  The definition of such a component would be in the form of an html file:  *.html, or *.cshtml, or *.jsp or *.pug, etc.
@@ -315,6 +332,7 @@ p-destal (pronunced "pedestal") is another web component in shining armor.  Its 
 A key piece of the puzzle p-destal unlocks is how to pass information to these pages / web components that wear two hats?
 
 Whereas p-d works at ground level -- monitoring for events from its elder sibling, and passing along information to its fellow downstream siblings -- p-destal climbs up the tree before starting its lookout.  The markup may look like this:
+
 
 ```html
 <p-destal on="[period],[emp_id]" to="fetch-data{period:target.period,empID:target.emp_id}"></p-destal>
@@ -324,6 +342,8 @@ What p-destal does is:
 
 1)  Traverses up the DOM tree, searching for a custom element container.  It identifies an element as a custom element if it either is a host of Shadow DOM, or has a dash in the element name. If it locates such a container, it monitors that element for attribute mutations (period and emp_id in this case), and passes the values to down stream siblings of the p-destal element.
 2)  If no such custom element container is found, it monitors location.search (the query string in the address bar) for parameters with the same names (period, emp_id), and passes those values to downstream siblings as they change.
+
+-->
 
 ## Targeted, tightly-coupled passing with p-u ("partly-untested")   
 
@@ -350,7 +370,7 @@ For that we have:
 ## Punting [Untested]
 
 ```html
-<p-unt on="click" dispatch to="myEventName" prop="toggledNode" val="target.node" composed bubbles></p-unt>
+<p-unt on=click dispatch to=myEventName prop=toggledNode val=target.node composed bubbles></p-unt>
 ```
 
 Another way you can make data "cycle" is by placing a p-* element at the beginning -- if no previous non p-* elements are found, the event handler is attached to the parent.
@@ -367,7 +387,7 @@ Another custom element, p-d-x, extends p-d and adds these additional features;
 6)  For attribute val, more extended expressions are allowed using notation:  a.b.c.fn(param1,param2).d.  fn is a name of a function, and the values inside the paranthesis are converted to strings.  E.g.
 
 ```html
-<p-d on="value-changed" to="textContent" val="target.value.querySelector(FahrenheitToCelsiusResult).textContent"></p-d>
+<p-d-x on=value-changed to=textContent val=target.value.querySelector(FahrenheitToCelsiusResult).textContent></p-d-x>
 ```
 
 
@@ -414,8 +434,8 @@ And if you want to add some state management while sticking to codeless, declara
 
 ```html
 <div>
-    <xtal-state-watch watch level="local"></xtal-state-watch>
-    <p-d on="history-changed" to="#handleViewableNodesChanged" prop="firstVisibleIndex" val="target.history" m="1"></p-d>
+    <xtal-state-watch watch level=local></xtal-state-watch>
+    <p-d on=history-changed to=#handleViewableNodesChanged prop=firstVisibleIndex val=target.history m=1></p-d>
     ...
 </div>
 ```
@@ -428,8 +448,8 @@ Note the use of the attribute "level='local'".  This limits the scope of the sta
     <iron-list>
         ...
     </iron-list>
-    <p-d on="scroll" to="{history:target.firstVisibleIndex}"></p-d>
-    <xtal-state-commit level="local" rewrite href="/scroll"></xtal-state-commit>
+    <p-d on=scroll prop=history val=target.firstVisibleIndex></p-d>
+    <xtal-state-commit level=local rewrite href=/scroll></xtal-state-commit>
 ...
 </div>
 ```
@@ -473,7 +493,7 @@ For that we have p-s, which stands for "pass sideways".  It relies a little on t
     <button>a</button>
     <button>b</button>
     <button>c</button>
-    <p-s on="click" if="button" prop="innerText" val="target.innerText" skip-init></p-s>
+    <p-s on=click if=button prop=innerText val=target.innerText skip-init></p-s>
     <div></div>
 </div>
 ```
