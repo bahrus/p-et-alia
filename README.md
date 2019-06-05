@@ -136,7 +136,7 @@ But p-* elements, as demonstrated so far, operate more on a "push values to spec
 
 We want to accomplish this with something that is actually meaningful, and that doesn't add superfluous, non verifiable syntax, while sticking to unidirectional data flow.
 
-So we provide a slight variation in the syntax:
+So we provide support for a slight variation in the syntax:
 
 ```html
 <label for=lhs>LHS:</label><input id=lhs> 
@@ -148,7 +148,7 @@ So we provide a slight variation in the syntax:
 ...
 <div data-lhs-matches-rhs="0">
     <template>
-        
+
     </template>
 </div>
 ```
@@ -160,9 +160,9 @@ Since
 1. No "prop" attribute is found, and 
 2. Since the "to" attribute follows a special pattern, where
  - the expression ends with an attribute selector, and where 
- - that attribute starts with a dash
+ - that attribute starts with a dash (or data-)
  
-then the "prop" attribute defaults to the attribute following the first dash i.e.  "lhs" or "rhs."  lisp-case to camelCase property setting is supported.  I.e. to="[-my-long-winded-property-name]" will set the property with name "myLongWindedPropertyName."
+then the "prop" attribute defaults to the attribute following the first dash i.e.  "lhs" or "rhs."  lisp-case to camelCase property setting is supported.  I.e. to="[data-my-long-winded-property-name]" will set the property with name "myLongWindedPropertyName."
 
 Furthermore, no match will be found if if-diff does not contain the -lhs (or -rhs) "pseudo" attribute.
 
