@@ -10,15 +10,15 @@
   "module": "p-d.js",
   "dependencies": {
     "xtal-element": "0.0.59",
-    "trans-render": "0.0.111"
+    "trans-render": "0.0.112"
   },
   "devDependencies": {
-    "@types/node": "12.0.0",
+    "@types/node": "12.0.7",
     "@types/tape": "4.2.33",
     "@webcomponents/webcomponentsjs": "2.2.10",
     "jiife": "0.0.12",
-    "tape": "4.10.1",
-    "xtal-test": "0.0.18"
+    "tape": "4.10.2",
+    "xtal-test": "0.0.19"
   },
   "scripts": {
     "test": "node createIIFE.js && tape test/*.js",

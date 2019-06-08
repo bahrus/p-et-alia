@@ -4,7 +4,7 @@
 
 # p-et-alia
 
-p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/left-occipital-right-frontal-petalia-torque-asymmetry)) is a suite of web components beginning with the letter p- that recognizes a fundamental asymmetry in how data should flow in an application -- mostly down, but passing up can't be avoided occasionally.
+p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/left-occipital-right-frontal-petalia-torque-asymmetry)) is a suite of web components beginning with the letter ("p-*") that recognizes a fundamental asymmetry in how data should flow in an application -- mostly down, but passing up can't be avoided occasionally.
 
 This package contains two primary custom elements:  p-d and p-u, which stand for "pass down" and "pass up."
 
@@ -223,7 +223,7 @@ If the issue of mixing JavaScript script tags inside markup is *not* a serious c
 ```html
 <p-d on="selected-root-nodes-changed" prop="input" val="target"></p-d>
 <script type="module">
-    import {PDQ} from 'https://unpkg.com/p-d.p-u@0.0.64/PDQ.js?module';
+    import {PDQ} from 'https://unpkg.com/p-et-alia@0.0.4/PDQ.js?module';
     PDQ.define('selected-node-change-handler', (input) =>{
         if((typeof(nodeList) === 'undefined') || !nodeList.items) return;
         const idx = nodeList.firstVisibleIndex;
@@ -237,7 +237,7 @@ If the issue of mixing JavaScript script tags inside markup is *not* a serious c
 With [package name map](https://github.com/WICG/import-maps) support, the import statement could look more like the previous example:
 
 ```JavaScript
-import {PDQ} from 'p-d.p-u/PDQ.js';
+import {PDQ} from 'p-et-alia/PDQ.js';
 ```
 
 **NB**  There is now a [nice polyfill](https://www.npmjs.com/package/es-module-shims) for import maps.
@@ -365,7 +365,7 @@ Sample markup:
  <p-u on="click" to="/myTree" prop="toggledNode" val="target.node"></p-u>
 ```
 
-Unlike p-d, p-u doesn't worry about DOM nodes getting created after any passing of data takes place.  If you are using p-u to pass data to previous siblings, or parents of the p-u element,or previous siblings of the parent, etc, then it is quite likely that the DOM element will already have been created, as a natural result of how the browser, and frameworks, typically render DOM.  If, however, you choose to target DOM elements out of this range, it's more of a crapshoot, and do so at your own risk.
+Unlike p-d, p-u doesn't worry about DOM nodes getting created after any passing of data takes place.  If you are using p-u to pass data to previous siblings, or parents of the p-u element, or previous siblings of the parent, etc, then it is quite likely that the DOM element will already have been created, as a natural result of how the browser, and frameworks, typically render DOM.  If, however, you choose to target DOM elements out of this range, it's more of a crapshoot, and do so at your own risk.
 
 Despite its bad code smell, if you look at Example 2 carefully, you will see I couldn't resist using p-u:  It is in fact passing down to some static HTML tag with an id which will surely be present as the HTML is static.  And p-u is on the small side, as you would expect for such simple functionality. 
 

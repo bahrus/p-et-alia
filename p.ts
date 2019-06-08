@@ -8,6 +8,31 @@ const to = 'to';
 const prop ='prop';
 const val = 'val';
 
+const stcRe = /(\-\w)/g;
+export function snakeToCamel(s: string){
+    return s.replace(stcRe, function(m){return m[1].toUpperCase();});
+}
+
+// getPropFromPath(val: any, path: string){
+//     if(!path || path==='.') return val;
+//     return this.getProp(val, path.split('.'));
+// }
+function getProp(val: any, pathTokens: (string | [string, string[]])[]){
+    let context = val;
+    pathTokens.forEach(token => {
+        if(context)  {
+            switch(typeof token){
+                case 'string':
+                    context = context[token];
+                    break;
+                default:
+                    context = context[token[0]].apply(context, token[1]);
+            }
+        }
+    });
+    return context;
+}
+
 export abstract class P extends XtallatX(hydrate(HTMLElement)){
     constructor(){
         super();
@@ -64,7 +89,7 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
     static get observedAttributes(){
         return (<any>super.observedAttributes).concat([on, to, noblock, iff, prop, val]);
     }
-    _s: (string | [string, string[]])[] | null = null;
+    _s: (string | [string, string[]])[] | null = null;  // split prop using '.' as deliiter
     getSplit(newVal: string){
         if(newVal === '.'){
             return [];
@@ -167,35 +192,29 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
         return value;
      }
     valFromEvent(e: Event){
-        const gpfp = this.getProp.bind(this);
-        return this._s !== null ? gpfp(e, this._s) : this.$N(gpfp(e, ['detail', 'value']), gpfp(e, ['target', 'value']));
+        //const gpfp = getProp.bind(this);
+        return this._s !== null ? getProp(e, this._s) : this.$N(getProp(e, ['detail', 'value']), getProp(e, ['target', 'value']));
     }
     setVal(e: Event, target: any){
         this.commit(target, this.valFromEvent(e));
     }
     commit(target: HTMLElement, val: any){
         if(val===undefined) return;
-        (<any>target)[this.prop] = val;
-    }
-    // getPropFromPath(val: any, path: string){
-    //     if(!path || path==='.') return val;
-    //     return this.getProp(val, path.split('.'));
-    // }
-    getProp(val: any, pathTokens: (string | [string, string[]])[]){
-        let context = val;
-        pathTokens.forEach(token => {
-            if(context)  {
-                switch(typeof token){
-                    case 'string':
-                        context = context[token];
-                        break;
-                    default:
-                        context = context[token[0]].apply(context, token[1]);
+        let prop = this._prop;
+        if(prop === undefined){
+            const toSplit = this.to.split('[');
+            const len = toSplit.length;
+            if(len > 1){
+                //TODO:  optimize (cache, etc)
+                const last = toSplit[len - 1].replace(']', '');
+                if(last.startsWith('-') || last.startsWith('data-')){
+                    prop = snakeToCamel( last.split('-').slice(1).join('-'));
                 }
             }
-        });
-        return context;
+        }
+        (<any>target)[prop] = val;
     }
+
     detach(pS: Element){
         pS.removeEventListener(this._on, this._bndHndlEv);
     }
