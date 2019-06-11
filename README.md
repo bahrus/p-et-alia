@@ -140,11 +140,11 @@ So we provide support for a slight variation in the syntax:
 
 ```html
 <label for=lhs>LHS:</label><input id=lhs> 
-<p-d on=input to=if-diff[-lhs] m=1></p-d>
+<p-d on=input to=if-diff[lhs\:] m=1></p-d>
 <label for=rhs>RHS:</label><input id=rhs>
-<p-d on=input to=if-diff[-rhs] m=1></p-d>
+<p-d on=input to=if-diff[rhs\:] m=1></p-d>
 ...
-<if-diff if -lhs equals -rhs data-key-name=lhs-matches-rhs></if-diff>
+<if-diff if lhs: equals rhs: data-key-name=lhs-matches-rhs></if-diff>
 ...
 <div data-lhs-matches-rhs="0">
     <template>
@@ -160,7 +160,7 @@ Since
 1. No "prop" attribute is found, and 
 2. Since the "to" attribute follows a special pattern, where
  - the expression ends with an attribute selector, and where 
- - that attribute starts with a dash (or data-)
+ - that attribute starts ends with an escaped colon (\:)
  
 then the "prop" attribute defaults to the attribute following the first dash i.e.  "lhs" or "rhs."  lisp-case to camelCase property setting is supported.  I.e. to="[data-my-long-winded-property-name]" will set the property with name "myLongWindedPropertyName."
 

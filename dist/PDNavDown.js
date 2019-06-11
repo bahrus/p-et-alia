@@ -13,8 +13,10 @@ export class PDNavDown extends NavDown {
             return;
         }
         const fec = sib.firstElementChild;
-        if (fec === null)
+        if (fec === null) {
+            setTimeout(() => this.sibCheck(sib, c), 50);
             return;
+        }
         if (this.root.matches(attr)) {
             const pdnd = new PDNavDown(fec, this.match, this.notify, this.max, null, this.mutDebounce);
             pdnd.root = this.root;

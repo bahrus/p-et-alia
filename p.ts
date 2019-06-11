@@ -9,9 +9,9 @@ const prop ='prop';
 const val = 'val';
 
 const stcRe = /(\-\w)/g;
-export function snakeToCamel(s: string){
-    return s.replace(stcRe, function(m){return m[1].toUpperCase();});
-}
+// export function snakeToCamel(s: string){
+//     return s.replace(stcRe, function(m){return m[1].toUpperCase();});
+// }
 
 // getPropFromPath(val: any, path: string){
 //     if(!path || path==='.') return val;
@@ -191,15 +191,15 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
           return ifnull;
         return value;
      }
-    valFromEvent(e: Event){
-        //const gpfp = getProp.bind(this);
-        return this._s !== null ? getProp(e, this._s) : this.$N(getProp(e, ['detail', 'value']), getProp(e, ['target', 'value']));
+    valFromEvent(e: Event, s: string[] | null = null){
+        const st = (s || this._s);
+        return st !== null ? getProp(e, st) : this.$N(getProp(e, ['detail', 'value']), getProp(e, ['target', 'value']));
     }
     setVal(e: Event, target: any){
-        this.commit(target, this.valFromEvent(e));
+        this.commit(target, this.valFromEvent(e), e);
     }
-    commit(target: HTMLElement, val: any){
-        if(val===undefined) return;
+    commit(target: HTMLElement, val: any, e: Event){
+        let modifiedVal = val;
         let prop = this._prop;
         if(prop === undefined){
             const toSplit = this.to.split('[');
@@ -207,12 +207,18 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
             if(len > 1){
                 //TODO:  optimize (cache, etc)
                 const last = toSplit[len - 1].replace(']', '');
-                if(last.startsWith('-') || last.startsWith('data-')){
-                    prop = snakeToCamel( last.split('-').slice(1).join('-'));
+                if(last.endsWith('\\:')){
+                    //prop = snakeToCamel( last.split('-').slice(1).join('-'));
+                    prop = last.slice(0, -2);
+                    const targetAttrVal = target.getAttribute(prop + ':');
+                    if(targetAttrVal) {
+                        modifiedVal = this.valFromEvent(e, targetAttrVal.split('.'));
+                    } 
                 }
             }
         }
-        (<any>target)[prop] = val;
+        if(modifiedVal === undefined) return;
+        (<any>target)[prop] = modifiedVal;
     }
 
     detach(pS: Element){

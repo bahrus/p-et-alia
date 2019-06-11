@@ -6,10 +6,33 @@ const iff = 'if';
 const to = 'to';
 const prop = 'prop';
 const val = 'val';
+const stcRe = /(\-\w)/g;
+// export function snakeToCamel(s: string){
+//     return s.replace(stcRe, function(m){return m[1].toUpperCase();});
+// }
+// getPropFromPath(val: any, path: string){
+//     if(!path || path==='.') return val;
+//     return this.getProp(val, path.split('.'));
+// }
+function getProp(val, pathTokens) {
+    let context = val;
+    pathTokens.forEach(token => {
+        if (context) {
+            switch (typeof token) {
+                case 'string':
+                    context = context[token];
+                    break;
+                default:
+                    context = context[token[0]].apply(context, token[1]);
+            }
+        }
+    });
+    return context;
+}
 export class P extends XtallatX(hydrate(HTMLElement)) {
     constructor() {
         super();
-        this._s = null;
+        this._s = null; // split prop using '.' as deliiter
         this._lastEvent = null;
     }
     get on() {
@@ -155,36 +178,35 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
             return ifnull;
         return value;
     }
-    propFromEvent(e) {
-        const gpfp = this.getProp.bind(this);
-        return this._s !== null ? gpfp(e, this._s) : this.$N(gpfp(e, ['detail', 'value']), gpfp(e, ['target', 'value']));
+    valFromEvent(e, s = null) {
+        const st = (s || this._s);
+        return st !== null ? getProp(e, st) : this.$N(getProp(e, ['detail', 'value']), getProp(e, ['target', 'value']));
     }
     setVal(e, target) {
-        this.commit(target, this.propFromEvent(e));
+        this.commit(target, this.valFromEvent(e), e);
     }
-    commit(target, val) {
-        if (val === undefined)
-            return;
-        target[this.prop] = val;
-    }
-    // getPropFromPath(val: any, path: string){
-    //     if(!path || path==='.') return val;
-    //     return this.getProp(val, path.split('.'));
-    // }
-    getProp(val, pathTokens) {
-        let context = val;
-        pathTokens.forEach(token => {
-            if (context) {
-                switch (typeof token) {
-                    case 'string':
-                        context = context[token];
-                        break;
-                    default:
-                        context = context[token[0]].apply(context, token[1]);
+    commit(target, val, e) {
+        let modifiedVal = val;
+        let prop = this._prop;
+        if (prop === undefined) {
+            const toSplit = this.to.split('[');
+            const len = toSplit.length;
+            if (len > 1) {
+                //TODO:  optimize (cache, etc)
+                const last = toSplit[len - 1].replace(']', '');
+                if (last.endsWith('\\:')) {
+                    //prop = snakeToCamel( last.split('-').slice(1).join('-'));
+                    prop = last.slice(0, -2);
+                    const targetAttrVal = target.getAttribute(prop + ':');
+                    if (targetAttrVal) {
+                        modifiedVal = this.valFromEvent(e, targetAttrVal.split('.'));
+                    }
                 }
             }
-        });
-        return context;
+        }
+        if (modifiedVal === undefined)
+            return;
+        target[prop] = modifiedVal;
     }
     detach(pS) {
         pS.removeEventListener(this._on, this._bndHndlEv);

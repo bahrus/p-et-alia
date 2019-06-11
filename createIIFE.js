@@ -9,7 +9,7 @@ const ND = xl + 'NavDown.js';
 // const PDND = 'PDNavDown.js';
 // const cnp = xl + 'createNestedProp.js';
 jiife.processFiles([define, hydrate, xlxl, ND, 'p.js', 'p-d.js', ], 'dist/p-d.iife.js');
-// jiife.processFiles([define, xlxl, ND, 'p.js', 'p-d.js'], 'dist/p-d.iife.js');
+jiife.processFiles([define, xlxl, ND, 'p.js', 'p-d.js'], 'dist/p-d.iife.js');
 // jiife.processFiles([define, xlxl, 'p.js', 'p-u.js'], 'dist/p-u.iife.js');
 //jiife.processFiles([define, xlxl, ND, PDND, cnp, 'p.js', 'p-d.js', 'p-d-r.js', 'p-d-x.js', 'p-u.js', 'p-destal.js', 'p-s.js'], 'dist/p-all.iife.js');
 // jiife.processFiles([define, deb, xlxl, 'PDQ.js'], 'dist/PDQ.iife.js');
