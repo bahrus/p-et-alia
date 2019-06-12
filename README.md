@@ -140,11 +140,11 @@ So we provide support for a slight variation in the syntax:
 
 ```html
 <label for=lhs>LHS:</label><input id=lhs> 
-<p-d on=input to=if-diff[lhs\:] m=1></p-d>
+<p-d on=input to=if-diff[-lhs] m=1></p-d>
 <label for=rhs>RHS:</label><input id=rhs>
-<p-d on=input to=if-diff[rhs\:] m=1></p-d>
+<p-d on=input to=if-diff[-rhs] m=1></p-d>
 ...
-<if-diff if lhs: equals rhs: data-key-name=lhs-matches-rhs></if-diff>
+<if-diff if -lhs equals -rhs data-key-name=lhs-matches-rhs></if-diff>
 ...
 <div data-lhs-matches-rhs="0">
     <template>
@@ -160,7 +160,7 @@ Since
 1. No "prop" attribute is found, and 
 2. Since the "to" attribute follows a special pattern, where
  - the expression ends with an attribute selector, and where 
- - that attribute starts ends with an escaped colon (\:)
+ - that attribute starts with a dash (or data-)
  
 then the "prop" attribute defaults to the attribute following the first dash i.e.  "lhs" or "rhs."  lisp-case to camelCase property setting is supported.  I.e. to="[data-my-long-winded-property-name]" will set the property with name "myLongWindedPropertyName."
 
@@ -367,7 +367,6 @@ Sample markup:
 
 Unlike p-d, p-u doesn't worry about DOM nodes getting created after any passing of data takes place.  If you are using p-u to pass data to previous siblings, or parents of the p-u element, or previous siblings of the parent, etc, then it is quite likely that the DOM element will already have been created, as a natural result of how the browser, and frameworks, typically render DOM.  If, however, you choose to target DOM elements out of this range, it's more of a crapshoot, and do so at your own risk.
 
-Despite its bad code smell, if you look at Example 2 carefully, you will see I couldn't resist using p-u:  It is in fact passing down to some static HTML tag with an id which will surely be present as the HTML is static.  And p-u is on the small side, as you would expect for such simple functionality. 
 
 Another objection to this approach is that there needs to be coordination between  these potentially disparate areas of the DOM, as far as what the agreed ID should be.  This is obviously not a good approach if you are designing a generic component.  Do you really want to tell the person using your component that they need to plop a DOM element with a specific ID, in order to receive the data?  I didn't think you would.  So p-u should probably not be used for this use case (a way of passing information from a generic, reusable component).
 
