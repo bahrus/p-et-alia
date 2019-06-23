@@ -1,4 +1,4 @@
-import {XtallatX} from 'xtal-element/xtal-latx.js';
+import {XtallatX, lispToCamel} from 'xtal-element/xtal-latx.js';
 import {hydrate} from 'trans-render/hydrate.js';
 
 const on = 'on';
@@ -8,10 +8,7 @@ const to = 'to';
 const prop ='prop';
 const val = 'val';
 
-const stcRe = /(\-\w)/g;
-export function snakeToCamel(s: string){
-    return s.replace(stcRe, function(m){return m[1].toUpperCase();});
-}
+
 
 // getPropFromPath(val: any, path: string){
 //     if(!path || path==='.') return val;
@@ -208,7 +205,7 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
                 //TODO:  optimize (cache, etc)
                 const last = toSplit[len - 1].replace(']', '');
                 if(last.startsWith('-') || last.startsWith('data-')){
-                    prop = snakeToCamel( last.split('-').slice(1).join('-'));
+                    prop = lispToCamel( last.split('-').slice(1).join('-'));
                 }
             }
         }
