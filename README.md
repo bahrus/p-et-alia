@@ -166,21 +166,6 @@ then the "prop" attribute defaults to the attribute following the first dash i.e
 
 Furthermore, no match will be found if if-diff does not contain the -lhs (or -rhs) "pseudo" attribute.
 
-##  Passing down to your younger sibling's children
-
-## Recursive sibling drilldown with p-d-r -- Invitation Only
-
-To keep performance optimal and scalable, the p-d element only tests downstream siblings -- not children of siblings.  However, the use case for being able to drilldown inside a DOM node is quite high.  Unlike Polymer, permission to do this must be granted explicitly, using the p-d-if attribute on elements where drilldown is needed.  The value of the attribute is used to test against the p-d element (hence you will want to specify some marker, like an ID, on the p-d element, which can be used to validate the invitation.)
-
-```html   
-    <text-box></text-box>                                                               
-    <p-d-r on="input" to="url-builder" prop="input"></p-d-r>
-    <h3>Search Employees</h3>
-    <div p-d-if="p-d-r">
-        <url-builder></url-builder>
-        <my-filter></my-filter>
-    </div>
-```
 ##  Seeing through Walls
 
 Consider the following markup:
@@ -204,6 +189,21 @@ Clearly, "my-custom-element" is below the p-d element.  The problem is p-d wasn'
 </details>
 <my-custom-element -lhs></my-custom-element>
 ```
+
+## Recursive sibling drilldown with p-d-r -- Invitation Only
+
+To keep performance optimal and scalable, the p-d element only tests downstream siblings -- not children of siblings.  However, the use case for being able to drilldown inside a DOM node is quite high.  Unlike Polymer, permission to do this must be granted explicitly, using the p-d-if attribute on elements where drilldown is needed.  The value of the attribute is used to test against the p-d element (hence you will want to specify some marker, like an ID, on the p-d element, which can be used to validate the invitation.)
+
+```html   
+    <text-box></text-box>                                                               
+    <p-d-r on="input" to="url-builder" prop="input"></p-d-r>
+    <h3>Search Employees</h3>
+    <div p-d-if="p-d-r">
+        <url-builder></url-builder>
+        <my-filter></my-filter>
+    </div>
+```
+
 
 ##  Defining a piping custom element
 
