@@ -461,7 +461,7 @@ extend('slot-bot', {
 
 While these components provide a kind of "framework built with web components", similar to Polymer, there's a fundamental difference.  Unlike Polymer (and other competing frameworks), these components don't depend on the existence of a controlling component which manages state.  Instead, it is a little more [JQuery](https://w3techs.com/technologies/overview/javascript_library/all) like.  It is a "peer-to-peer binding framework."  This may be more appealing for some [people](https://www.youtube.com/watch?v=RplnSVTzvnU) / use cases, less appealing to others.  
 
-And if you want to add some [(minimal) state management](https://www.youtube.com/watch?v=IRJ8uFNmzqU) while sticking to codeless, declarative approaches, consider using [xtal-state](https://www.webcomponents.org/element/xtal-state).  You can place a history.state watcher at the top of a DOM element, for example:
+And if you want to add some (minimal) state management while sticking to codeless, declarative approaches, consider using [xtal-state](https://www.webcomponents.org/element/xtal-state).  You can place a [history.state watcher at the top](https://www.youtube.com/watch?v=IRJ8uFNmzqU) of a DOM element, for example:
 
 ```html
 <div>
@@ -485,11 +485,6 @@ Note the use of the attribute "level='local'".  This limits the scope of the sta
 </div>
 ```
 
-
-
-## Install the Polymer-CLI
-
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) and npm (packaged with [Node.js](https://nodejs.org)) installed. Run `npm install` to install your element's dependencies, then run `polymer serve` to serve your element locally.
 
 ## Viewing Your Element
 
