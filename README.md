@@ -356,26 +356,6 @@ With these two combined the counter would look like:
 ```
 
 
-##  Another impossible dream [TODO]
-
-p-destal (pronunced "pedestal") is another web component in shining armor.  Its quest is to allow some types of web components to serve dual roles -- they could work as stand alone web pages, but also as web components, embedded within other pages / apps.  Much like iFrames.  The type of scenario where this would be useful is *not* highly reusable generic web components, like those found on webcomponents.org, [but rather business domain](https://martinfowler.com/articles/micro-frontends.html#Cross-applicationCommunication), markup-centric, dynamic (server-generated?) HTML content.  The definition of such a component would be in the form of an html file:  *.html, or *.cshtml, or *.jsp or *.pug, etc.
-
-A key piece of the puzzle p-destal unlocks is how to pass information to these pages / web components that wear two hats?
-
-Whereas p-d works at ground level -- monitoring for events from its elder sibling, and passing along information to its fellow downstream siblings -- p-destal climbs up the tree before starting its lookout.  The markup may look like this:
-
-
-```html
-<p-destal look-for='["period", "empID"]' in='["host-attributes", "location.search"]' pass-to="fetch-data" props='["quarter", "employeeID"]'></p-destal>
-```
-
-What p-destal will do [work in progress]:
-
-1)  Traverses up the DOM tree, searching for a custom element container.  It identifies an element as a custom element if it either is a host of Shadow DOM, or has a dash in the element name. If it locates such a container, it monitors that element for attribute mutations (period and emp_id in this case), and passes the values to down stream siblings of the p-destal element.
-2)  If no such custom element container is found, it monitors location.search (the query string in the address bar) for parameters with the same names (period, emp_id), and passes those values to downstream siblings as they change.
-
-
-
 ## Targeted, tightly-coupled passing with p-u ("partly-untested")   
 
 I would suggest that for most applications, most of the time, data will naturally flow in one direction.  Those of us who read and write in a [downward direction](https://www.quora.com/Are-there-any-languages-that-read-from-bottom-to-top) will probably want to stick with that direction when arranging our elements.  But there will inevitably be points where the data flow must go up -- typically in response to a user action.  
@@ -456,9 +436,11 @@ extend('slot-bot', {
 
 ##  Differences to other frameworks
 
-While these components provide a kind of "framework built with web components", similar to Polymer, there's a fundamental difference.  Unlike Polymer (and other competing frameworks), these components don't depend on the existence of a controlling component which manages state.  Instead, it is a little more [JQuery](https://w3techs.com/technologies/overview/javascript_library/all) like.  It is a "peer-to-peer binding framework."  This may be more appealing for some [people](https://www.youtube.com/watch?v=RplnSVTzvnU) / use cases, less appealing to others.  
+While these components provide a kind of "framework built with web components", similar to Polymer, there's a fundamental difference.  Unlike Polymer (and other competing frameworks), these components don't depend on the existence of a controlling component which manages state.  Instead, it is a little more [JQuery](https://w3techs.com/technologies/overview/javascript_library/all) like.  It is a "peer-to-peer binding framework."  This may be more appealing for some [people](https://www.youtube.com/watch?v=RplnSVTzvnU) / use cases, less appealing to others.  Why not let each component decide how best to manage its own state? 
 
-And if you want to add some (minimal) state management while sticking to codeless, declarative approaches, consider using [xtal-state](https://www.webcomponents.org/element/xtal-state).  You can place a [history.state watcher at the top](https://www.youtube.com/watch?v=IRJ8uFNmzqU) of a DOM element, for example:
+##  All Hail, Keeper of All Our Stories! 
+
+What if one of the components is an unreliable dog of a component?  Perhaps the complexity of your application is such that leaving state up to data passing between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore on setState of some framework you will be stuck with forever, version after version, no matter what wrong, cruel and stupid turns it takes?   What better  thing to bind components together than the keeper of all the history, [history.state](https://www.youtube.com/watch?v=IRJ8uFNmzqU).  One library that takes this approach is [xtal-state](https://www.webcomponents.org/element/xtal-state).  AMP appears to as well.
 
 ```html
 <div>
