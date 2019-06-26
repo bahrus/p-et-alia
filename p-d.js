@@ -2,6 +2,7 @@ import { P } from './p.js';
 import { define } from 'trans-render/define.js';
 import { NavDown } from 'xtal-element/NavDown.js';
 const m = 'm';
+const from = 'from';
 /**
  * `p-d`
  *  Pass data from one element down the DOM tree to other elements
@@ -25,8 +26,14 @@ export class PD extends P {
     set m(val) {
         this.attr(m, val.toString());
     }
+    get from() {
+        return this._from;
+    }
+    set from(nv) {
+        this.attr(from, nv);
+    }
     static get observedAttributes() {
-        return super.observedAttributes.concat([m]);
+        return super.observedAttributes.concat([m, from]);
     }
     pass(e) {
         this._lastEvent = e;
@@ -59,15 +66,21 @@ export class PD extends P {
                 if (newVal !== null) {
                     this._m = parseInt(newVal);
                 }
+                break;
+            case from:
+                this._from = newVal;
+                break;
+            default:
+                super.attributeChangedCallback(name, oldVal, newVal);
         }
-        super.attributeChangedCallback(name, oldVal, newVal);
     }
     newNavDown() {
         const bndApply = this.applyProps.bind(this);
-        return new NavDown(this, this.to, bndApply, this.m);
+        const seed = this._from === undefined ? this : this.closest(this._from);
+        return new NavDown(seed, this.to, bndApply, this.m);
     }
     connectedCallback() {
-        this.propUp([m]);
+        this.propUp([m, from]);
         this.attr('pds', '📞');
         if (!this.to) {
             //apply to next only

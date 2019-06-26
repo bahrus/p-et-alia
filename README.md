@@ -132,7 +132,7 @@ If the attributes need to be dynamic, it is easiest to read if the binding synta
     as ${displayType} with ${themed} ${decorationType}></visual-ize>`
 ```
 
-But p-* elements, as demonstrated so far, operate more on a "push values to specified targets when events are fired" approach, rather than "push values to specified state(either declaratively or via event handlers), and pull values from state declaratively into target properties." The latter approach seems more natural to read, especially as the communication appears more "mutual," and looking at either tag (source vs destination) gives a clue as to what is going on.
+But p-* elements, as demonstrated so far, operate more on a "push values down to specified targets when events are fired" approach, rather than "push values up to specified state(either declaratively or via event handlers), and pull values down from state declaratively into target properties." The latter approach seems more natural to read, especially as the communication appears more "mutual," and looking at either tag (source vs destination) gives a clue as to what is going on.  
 
 We want to accomplish this with something that is actually meaningful, and that doesn't add superfluous, non verifiable syntax, while sticking to unidirectional data flow.
 
@@ -166,6 +166,8 @@ then the "prop" attribute defaults to the attribute following the first dash i.e
 
 Furthermore, no match will be found if if-diff does not contain the -lhs (or -rhs) "pseudo" attribute.
 
+##  Passing down to your younger sibling's children
+
 ## Recursive sibling drilldown with p-d-r -- Invitation Only
 
 To keep performance optimal and scalable, the p-d element only tests downstream siblings -- not children of siblings.  However, the use case for being able to drilldown inside a DOM node is quite high.  Unlike Polymer, permission to do this must be granted explicitly, using the p-d-if attribute on elements where drilldown is needed.  The value of the attribute is used to test against the p-d element (hence you will want to specify some marker, like an ID, on the p-d element, which can be used to validate the invitation.)
@@ -179,7 +181,29 @@ To keep performance optimal and scalable, the p-d element only tests downstream 
         <my-filter></my-filter>
     </div>
 ```
+##  Seeing through Walls
 
+Consider the following markup:
+
+```html
+<details>
+	<summary>my-custom-element Editor</summary>
+	<input/>
+	<p-d on=input to=my-custom-element[-lhs]></p-d> 
+</details>
+<my-custom-element -lhs></my-custom-element>
+```
+
+Clearly, "my-custom-element" is below the p-d element.  The problem is p-d wasn't born on planet Krypton, and can't see that.  To allow p-d to cross the details wall, provide the "from" attribute:
+
+```html
+<details>
+	<summary>my-custom-element Editor</summary>
+	<input/>
+	<p-d on="input" from="details" to="my-custom-element[-lhs]"></p-d> 
+</details>
+<my-custom-element -lhs></my-custom-element>
+```
 
 ##  Defining a piping custom element
 

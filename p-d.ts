@@ -3,6 +3,7 @@ import { define } from 'trans-render/define.js';
 import {NavDown} from 'xtal-element/NavDown.js';
 
 const m = 'm';
+const from = 'from';
 
 /**
  * `p-d`
@@ -23,8 +24,16 @@ export class PD extends P {
     set m(val) {
         this.attr(m, val.toString());
     }
+
+    _from!: string;
+    get from(){
+        return this._from;
+    }
+    set from(nv){
+        this.attr(from, nv);
+    }
     static get observedAttributes() {
-        return super.observedAttributes.concat([m]);
+        return super.observedAttributes.concat([m, from]);
     }
 
     pass(e: Event) {
@@ -56,17 +65,24 @@ export class PD extends P {
                 if (newVal !== null) {
                     this._m = parseInt(newVal);
                 } 
+                break;
+            case from:
+                this._from = newVal;
+                break;
+            default:
+                super.attributeChangedCallback(name, oldVal, newVal);
         }
-        super.attributeChangedCallback(name, oldVal, newVal);
+        
     }
     newNavDown(){
         const bndApply = this.applyProps.bind(this);
-        return new NavDown(this, this.to, bndApply, this.m);
+        const seed = this._from === undefined ? this : this.closest(this._from);
+        return new NavDown(seed, this.to, bndApply, this.m);
     }
     _iIP = false;
     connectedCallback() {
         
-        this.propUp([m]);
+        this.propUp([m, from]);
         this.attr('pds', '📞');
         if(!this.to){
             //apply to next only
