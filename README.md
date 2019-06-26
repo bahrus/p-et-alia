@@ -354,8 +354,9 @@ With these two combined the counter would look like:
 <p-d on=counter-changed prop=textContent></p-d>
 <div></div>
 ```
-<!-->
-##  Another impossible dream
+
+
+##  Another impossible dream [TODO]
 
 p-destal (pronunced "pedestal") is another web component in shining armor.  Its quest is to allow some types of web components to serve dual roles -- they could work as stand alone web pages, but also as web components, embedded within other pages / apps.  Much like iFrames.  The type of scenario where this would be useful is *not* highly reusable generic web components, like those found on webcomponents.org, but rather business domain, markup-centric, dynamic (server-generated?) HTML content.  The definition of such a component would be in the form of an html file:  *.html, or *.cshtml, or *.jsp or *.pug, etc.
 
@@ -365,15 +366,16 @@ Whereas p-d works at ground level -- monitoring for events from its elder siblin
 
 
 ```html
-<p-destal on="[period],[emp_id]" to="fetch-data{period:target.period,empID:target.emp_id}"></p-destal>
+<p-destal on="[period]" to="fetch-data" prop="period" val="target.period"></p-destal>
+<p-destal on="[empID]" to="fetch-data" prop="employeeId" val="target.empID"></p-destal>
 ```
 
-What p-destal does is:
+What p-destal will do [work in progress]:
 
 1)  Traverses up the DOM tree, searching for a custom element container.  It identifies an element as a custom element if it either is a host of Shadow DOM, or has a dash in the element name. If it locates such a container, it monitors that element for attribute mutations (period and emp_id in this case), and passes the values to down stream siblings of the p-destal element.
 2)  If no such custom element container is found, it monitors location.search (the query string in the address bar) for parameters with the same names (period, emp_id), and passes those values to downstream siblings as they change.
 
--->
+
 
 ## Targeted, tightly-coupled passing with p-u ("partly-untested")   
 
@@ -409,8 +411,8 @@ Another way you can make data "cycle" is by placing a p-* element at the beginni
 Another custom element, p-d-x, extends p-d and adds these additional features;
 
 1)  You can specify adding / removing a css class (untested).
-2)  You can specify a nested path that needs setting (tested).
-3)  You can  specify multiple properties that need setting on the same element, more compactly (tested).
+2)  You can specify a nested path that needs setting.
+3)  ~~You can  specify multiple properties that need setting on the same element, more compactly.~~
 4)  You can observe attribute changes, in lieu of listening for an event (tested).
 5)  You can copy all properties of the source to the target if you specify to="{.:.}" (partly tested).
 6)  For attribute val, more extended expressions are allowed using notation:  a.b.c.fn(param1,param2).d.  fn is a name of a function, and the values inside the paranthesis are converted to strings.  E.g.
