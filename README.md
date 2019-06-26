@@ -4,7 +4,7 @@
 
 # p-et-alia
 
-p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/left-occipital-right-frontal-petalia-torque-asymmetry)) is a suite of web components beginning with the letter ("p-*") that recognizes a fundamental asymmetry in how data should flow in an application -- mostly down, but passing up can't be avoided occasionally.
+p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/left-occipital-right-frontal-petalia-torque-asymmetry)) is a suite of web components beginning with the letter ("p-*") that recognizes a fundamental asymmetry in how data should flow in an application -- mostly down, but passing up can't be avoided occasionally.  [Note, these components had to change their name due to VSCode rudeness].
 
 This package contains two primary custom elements:  p-d and p-u, which stand for "pass down" and "pass up."
 
@@ -434,15 +434,17 @@ extend('slot-bot', {
     <xtal-radio-group-md name="pronoun" data-flag="voted" data-allow-voting="-1"></xtal-radio-group-md>
 ```
 
-##  Differences to other frameworks
+##  Differences to other frameworks - data-passing chain vs centralized control
 
-While these components provide a kind of "framework built with web components", similar to Polymer, there's a fundamental difference.  Unlike Polymer (and other competing frameworks), these components don't depend on the existence of a controlling component which manages state.  Instead, it is a little more [JQuery](https://w3techs.com/technologies/overview/javascript_library/all) like.  It is a "peer-to-peer binding framework."  This may be more appealing for some [people](https://www.youtube.com/watch?v=RplnSVTzvnU) / use cases, less appealing to others.  Why not let each component decide how best to manage its own state? 
+While these components provide a kind of "framework built with web components", similar to Polymer, there's a fundamental difference.  Unlike Polymer (and other competing frameworks), these components don't depend on the existence of a controlling component which manages state.  Instead, it is a little more [JQuery](https://w3techs.com/technologies/overview/javascript_library/all) like.  Why not let each component decide how best to manage its own state?  It is a "peer-to-peer binding framework."  This may be more appealing for some [people](https://www.youtube.com/watch?v=RplnSVTzvnU) / use cases, less appealing to others.  
 
 ##  All Hail, Keeper of All Our Stories! 
 
-What if one of the components in your data passing chain is an unreliable dog of a component?  Perhaps the complexity of your application is such that leaving state up to data passing between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore, on setState of some framework you will be stuck with forever, version after version, no matter what wrong, cruel and stupid turns it takes?   What better  thing to bind components together than the keeper of all history, [history.state](https://www.youtube.com/watch?v=IRJ8uFNmzqU).  
+What if one of the components in your data passing chain is an unreliable dog of a component?  Perhaps the complexity of your application is such that limiting a unified "state" to simply passing data between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore, on setState of some framework you will be stuck with forever, version after version, no matter what wrong, cruel and stupid turns it takes?   What better  thing to bind components together than the keeper of all history, [history.state](https://www.youtube.com/watch?v=IRJ8uFNmzqU).  
 
-One library that takes this approach is [xtal-state](https://www.webcomponents.org/element/xtal-state).  AMP appears to as well.
+One candidate for providing a hand with managing history.state is [xtal-state](https://www.webcomponents.org/element/xtal-state), [purr-sist](https://www.webcomponents.org/element/purr-sist) and [bi-st](https://www.webcomponents.org/element/bi-st).
+
+AMP appears to rely on history.state as its unifying system of record as well.
 
 ```html
 <div>
