@@ -358,7 +358,7 @@ With these two combined the counter would look like:
 
 ##  Another impossible dream [TODO]
 
-p-destal (pronunced "pedestal") is another web component in shining armor.  Its quest is to allow some types of web components to serve dual roles -- they could work as stand alone web pages, but also as web components, embedded within other pages / apps.  Much like iFrames.  The type of scenario where this would be useful is *not* highly reusable generic web components, like those found on webcomponents.org, but rather business domain, markup-centric, dynamic (server-generated?) HTML content.  The definition of such a component would be in the form of an html file:  *.html, or *.cshtml, or *.jsp or *.pug, etc.
+p-destal (pronunced "pedestal") is another web component in shining armor.  Its quest is to allow some types of web components to serve dual roles -- they could work as stand alone web pages, but also as web components, embedded within other pages / apps.  Much like iFrames.  The type of scenario where this would be useful is *not* highly reusable generic web components, like those found on webcomponents.org, [but rather business domain](https://martinfowler.com/articles/micro-frontends.html#Cross-applicationCommunication), markup-centric, dynamic (server-generated?) HTML content.  The definition of such a component would be in the form of an html file:  *.html, or *.cshtml, or *.jsp or *.pug, etc.
 
 A key piece of the puzzle p-destal unlocks is how to pass information to these pages / web components that wear two hats?
 
@@ -366,8 +366,7 @@ Whereas p-d works at ground level -- monitoring for events from its elder siblin
 
 
 ```html
-<p-destal on="[period]" to="fetch-data" prop="period" val="target.period"></p-destal>
-<p-destal on="[empID]" to="fetch-data" prop="employeeId" val="target.empID"></p-destal>
+<p-destal look-for='["period", "empID"]' in='["host-attributes", "location.search"]' pass-to="fetch-data" props='["quarter", "employeeID"]'></p-destal>
 ```
 
 What p-destal will do [work in progress]:
@@ -412,10 +411,8 @@ Another custom element, p-d-x, extends p-d and adds these additional features;
 
 1)  You can specify adding / removing a css class (untested).
 2)  You can specify a nested path that needs setting.
-3)  ~~You can  specify multiple properties that need setting on the same element, more compactly.~~
-4)  You can observe attribute changes, in lieu of listening for an event (tested).
-5)  You can copy all properties of the source to the target if you specify to="{.:.}" (partly tested).
-6)  For attribute val, more extended expressions are allowed using notation:  a.b.c.fn(param1,param2).d.  fn is a name of a function, and the values inside the paranthesis are converted to strings.  E.g.
+3)  You can copy all properties of the source to the target if you specify to="{.:.}" (partly tested).
+4)  For attribute val, more extended expressions are allowed using notation:  a.b.c.fn(param1,param2).d.  fn is a name of a function, and the values inside the paranthesis are converted to strings.  E.g.
 
 ```html
 <p-d-x on=value-changed to=textContent val=target.value.querySelector(FahrenheitToCelsiusResult).textContent></p-d-x>

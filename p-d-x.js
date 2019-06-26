@@ -33,41 +33,6 @@ export class PDX extends PD {
                 }
         }
     }
-    attchEvListnrs() {
-        if (this._on[0] !== '[') {
-            super.attchEvListnrs();
-            return;
-        }
-        const prevSibling = this.getPreviousSib();
-        if (!prevSibling)
-            return;
-        const split = this._on.split(',').map(s => s.substr(1, s.length - 2));
-        const config = {
-            attributes: true,
-            attributeFilter: split
-        };
-        this._attributeObserver = new MutationObserver(mutationRecords => {
-            const values = {};
-            split.forEach(attrib => {
-                values[attrib] = prevSibling.getAttribute(attrib);
-            });
-            const fakeEvent = {
-                mutationRecords: mutationRecords,
-                values: values,
-                target: prevSibling
-            };
-            this._hndEv(fakeEvent);
-        });
-        this._attributeObserver.observe(prevSibling, config);
-    }
-    disconnect() {
-        if (this._attributeObserver)
-            this._attributeObserver.disconnect();
-    }
-    disconnectedCallback() {
-        this.disconnect();
-        super.disconnectedCallback();
-    }
 }
 define(PDX);
 export function extend(name, params) {
