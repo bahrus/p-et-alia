@@ -440,7 +440,9 @@ While these components provide a kind of "framework built with web components", 
 
 ##  All Hail, Keeper of All Our Stories! 
 
-What if one of the components is an unreliable dog of a component?  Perhaps the complexity of your application is such that leaving state up to data passing between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore on setState of some framework you will be stuck with forever, version after version, no matter what wrong, cruel and stupid turns it takes?   What better  thing to bind components together than the keeper of all the history, [history.state](https://www.youtube.com/watch?v=IRJ8uFNmzqU).  One library that takes this approach is [xtal-state](https://www.webcomponents.org/element/xtal-state).  AMP appears to as well.
+What if one of the components in your data passing chain is an unreliable dog of a component?  Perhaps the complexity of your application is such that leaving state up to data passing between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore, on setState of some framework you will be stuck with forever, version after version, no matter what wrong, cruel and stupid turns it takes?   What better  thing to bind components together than the keeper of all history, [history.state](https://www.youtube.com/watch?v=IRJ8uFNmzqU).  
+
+One library that takes this approach is [xtal-state](https://www.webcomponents.org/element/xtal-state).  AMP appears to as well.
 
 ```html
 <div>
