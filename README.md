@@ -127,8 +127,8 @@ One of the beauties of html / attributes vs JavaScript is that attributes can be
 If the attributes need to be dynamic, it is easiest to read if the binding syntax can express those attributes directly, "pulling in" the values from somewhere:
 
 ```JavaScript
-//Psuedo code
-`<visual-ize display?=${showOrhide} with-time-period=${timePeriod} 
+//Pseudo code
+/* html */`<visual-ize display?=${showOrhide} ${directObjectType} with-${scope} 
     as ${displayType} with ${themed} ${decorationType}></visual-ize>`
 ```
 
