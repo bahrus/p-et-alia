@@ -1,4 +1,4 @@
-import { XtallatX } from 'xtal-element/xtal-latx.js';
+import { XtallatX, lispToCamel } from 'xtal-element/xtal-latx.js';
 import { hydrate } from 'trans-render/hydrate.js';
 const on = 'on';
 const noblock = 'noblock';
@@ -6,10 +6,6 @@ const iff = 'if';
 const to = 'to';
 const prop = 'prop';
 const val = 'val';
-const stcRe = /(\-\w)/g;
-// export function snakeToCamel(s: string){
-//     return s.replace(stcRe, function(m){return m[1].toUpperCase();});
-// }
 // getPropFromPath(val: any, path: string){
 //     if(!path || path==='.') return val;
 //     return this.getProp(val, path.split('.'));
@@ -178,15 +174,16 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
             return ifnull;
         return value;
     }
-    valFromEvent(e, s = null) {
-        const st = (s || this._s);
-        return st !== null ? getProp(e, st) : this.$N(getProp(e, ['detail', 'value']), getProp(e, ['target', 'value']));
+    valFromEvent(e) {
+        //const gpfp = getProp.bind(this);
+        return this._s !== null ? getProp(e, this._s) : this.$N(getProp(e, ['detail', 'value']), getProp(e, ['target', 'value']));
     }
     setVal(e, target) {
-        this.commit(target, this.valFromEvent(e), e);
+        this.commit(target, this.valFromEvent(e));
     }
-    commit(target, val, e) {
-        let modifiedVal = val;
+    commit(target, val) {
+        if (val === undefined)
+            return;
         let prop = this._prop;
         if (prop === undefined) {
             const toSplit = this.to.split('[');
@@ -194,19 +191,12 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
             if (len > 1) {
                 //TODO:  optimize (cache, etc)
                 const last = toSplit[len - 1].replace(']', '');
-                if (last.endsWith('\\:')) {
-                    //prop = snakeToCamel( last.split('-').slice(1).join('-'));
-                    prop = last.slice(0, -2);
-                    const targetAttrVal = target.getAttribute(prop + ':');
-                    if (targetAttrVal) {
-                        modifiedVal = this.valFromEvent(e, targetAttrVal.split('.'));
-                    }
+                if (last.startsWith('-') || last.startsWith('data-')) {
+                    prop = lispToCamel(last.split('-').slice(1).join('-'));
                 }
             }
         }
-        if (modifiedVal === undefined)
-            return;
-        target[prop] = modifiedVal;
+        target[prop] = val;
     }
     detach(pS) {
         pS.removeEventListener(this._on, this._bndHndlEv);

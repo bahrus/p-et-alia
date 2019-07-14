@@ -64,8 +64,8 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
         }
     }
     get val() { return this._val; }
-    set val(val) {
-        this.attr(prop, val);
+    set val(nv) {
+        this.attr(val, nv);
     }
     static get observedAttributes() {
         return super.observedAttributes.concat([on, to, noblock, iff, prop, val]);

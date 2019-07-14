@@ -9,8 +9,8 @@
   },
   "module": "p-d.js",
   "dependencies": {
-    "xtal-element": "0.0.63",
-    "trans-render": "0.0.116"
+    "xtal-element": "0.0.64",
+    "trans-render": "0.0.118"
   },
   "devDependencies": {
     "@types/node": "12.0.7",

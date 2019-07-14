@@ -79,8 +79,8 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
 
     _val!: string;
     get val(){return this._val;}
-    set val(val){
-        this.attr(prop, val);
+    set val(nv){
+        this.attr(val, nv);
     }
     
     static get observedAttributes(){

@@ -10,6 +10,10 @@
     customElements.define(tagName, custEl);
 }
 
+const stcRe = /(\-\w)/g;
+function lispToCamel(s) {
+    return s.replace(stcRe, function (m) { return m[1].toUpperCase(); });
+}
 /**
  * Base class for many xtal- components
  * @param superClass
@@ -64,7 +68,6 @@ function XtallatX(superClass) {
 }
 
 class NavDown {
-    //_debouncer!: any;
     constructor(seed, match, notify, max, ignore = null, mutDebounce = 50) {
         this.seed = seed;
         this.match = match;
@@ -73,37 +76,13 @@ class NavDown {
         this.ignore = ignore;
         this.mutDebounce = mutDebounce;
         this._inMutLoop = false;
-        //this.init();
     }
     init() {
-        // this._debouncer = debounce(() =>{
-        //     this.sync();
-        // }, this.mutDebounce);
         this.sync();
-        this.addMutObs(this.seed.parentElement);
-    }
-    addMutObs(elToObs) {
-        if (elToObs === null)
-            return;
-        const nodes = [];
-        this._mutObs = new MutationObserver((m) => {
-            this._inMutLoop = true;
-            m.forEach(mr => {
-                mr.addedNodes.forEach(node => {
-                    if (node.nodeType === 1) {
-                        const el = node;
-                        el.dataset.__pdWIP = '1';
-                        nodes.push(el);
-                    }
-                });
-            });
-            nodes.forEach(node => delete node.dataset.__pdWIP);
-            this.sync();
-            this._inMutLoop = false;
-            //this._debouncer(true);
+        import('./NDAddMut.js').then(({ addMutObs }) => {
+            addMutObs(this.seed.parentElement, this);
         });
-        this._mutObs.observe(elToObs, { childList: true });
-        // (<any>elToObs)._addedMutObs = true;
+        //this.addMutObs(this.seed.parentElement);
     }
     sibCheck(sib, c) { }
     sync(c = 0) {
@@ -139,10 +118,6 @@ const iff = 'if';
 const to = 'to';
 const prop = 'prop';
 const val = 'val';
-const stcRe = /(\-\w)/g;
-// export function snakeToCamel(s: string){
-//     return s.replace(stcRe, function(m){return m[1].toUpperCase();});
-// }
 // getPropFromPath(val: any, path: string){
 //     if(!path || path==='.') return val;
 //     return this.getProp(val, path.split('.'));
@@ -311,15 +286,16 @@ class P extends XtallatX(hydrate(HTMLElement)) {
             return ifnull;
         return value;
     }
-    valFromEvent(e, s = null) {
-        const st = (s || this._s);
-        return st !== null ? getProp(e, st) : this.$N(getProp(e, ['detail', 'value']), getProp(e, ['target', 'value']));
+    valFromEvent(e) {
+        //const gpfp = getProp.bind(this);
+        return this._s !== null ? getProp(e, this._s) : this.$N(getProp(e, ['detail', 'value']), getProp(e, ['target', 'value']));
     }
     setVal(e, target) {
-        this.commit(target, this.valFromEvent(e), e);
+        this.commit(target, this.valFromEvent(e));
     }
-    commit(target, val, e) {
-        let modifiedVal = val;
+    commit(target, val) {
+        if (val === undefined)
+            return;
         let prop = this._prop;
         if (prop === undefined) {
             const toSplit = this.to.split('[');
@@ -327,19 +303,12 @@ class P extends XtallatX(hydrate(HTMLElement)) {
             if (len > 1) {
                 //TODO:  optimize (cache, etc)
                 const last = toSplit[len - 1].replace(']', '');
-                if (last.endsWith('\\:')) {
-                    //prop = snakeToCamel( last.split('-').slice(1).join('-'));
-                    prop = last.slice(0, -2);
-                    const targetAttrVal = target.getAttribute(prop + ':');
-                    if (targetAttrVal) {
-                        modifiedVal = this.valFromEvent(e, targetAttrVal.split('.'));
-                    }
+                if (last.startsWith('-') || last.startsWith('data-')) {
+                    prop = lispToCamel(last.split('-').slice(1).join('-'));
                 }
             }
         }
-        if (modifiedVal === undefined)
-            return;
-        target[prop] = modifiedVal;
+        target[prop] = val;
     }
     detach(pS) {
         pS.removeEventListener(this._on, this._bndHndlEv);
@@ -352,6 +321,7 @@ class P extends XtallatX(hydrate(HTMLElement)) {
 }
 
 const m = 'm';
+const from = 'from';
 /**
  * `p-d`
  *  Pass data from one element down the DOM tree to other elements
@@ -375,8 +345,14 @@ class PD extends P {
     set m(val) {
         this.attr(m, val.toString());
     }
+    get from() {
+        return this._from;
+    }
+    set from(nv) {
+        this.attr(from, nv);
+    }
     static get observedAttributes() {
-        return super.observedAttributes.concat([m]);
+        return super.observedAttributes.concat([m, from]);
     }
     pass(e) {
         this._lastEvent = e;
@@ -409,15 +385,21 @@ class PD extends P {
                 if (newVal !== null) {
                     this._m = parseInt(newVal);
                 }
+                break;
+            case from:
+                this._from = newVal;
+                break;
+            default:
+                super.attributeChangedCallback(name, oldVal, newVal);
         }
-        super.attributeChangedCallback(name, oldVal, newVal);
     }
     newNavDown() {
         const bndApply = this.applyProps.bind(this);
-        return new NavDown(this, this.to, bndApply, this.m);
+        const seed = this._from === undefined ? this : this.closest(this._from);
+        return new NavDown(seed, this.to, bndApply, this.m);
     }
     connectedCallback() {
-        this.propUp([m]);
+        this.propUp([m, from]);
         this.attr('pds', '📞');
         if (!this.to) {
             //apply to next only
