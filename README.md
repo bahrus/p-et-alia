@@ -166,6 +166,8 @@ then the "prop" attribute defaults to the attribute following the first dash i.e
 
 Furthermore, no match will be found if if-diff does not contain the -lhs (or -rhs) "pseudo" attribute.
 
+## [Demo 1](https://jsfiddle.net/bahrus/y8moqgrb/)
+
 ##  Seeing through Walls
 
 Consider the following markup:
