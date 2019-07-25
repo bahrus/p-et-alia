@@ -355,8 +355,7 @@ With these two combined the counter would look like:
 <button>Increment</button>
 <p-d on=counter-changed prop=textContent></p-d>
 <div></div>
-```
-
+``` 
 
 ## Targeted, tightly-coupled passing with p-u ("partly-untested")   
 
@@ -442,11 +441,11 @@ While these components provide a kind of "framework built with web components", 
 
 ##  All Hail, Keeper of All Our Stories! 
 
-What if one of the components in your data passing chain is an unreliable dog of a component?  Perhaps the complexity of your application is such that limiting a unified "state" to simply passing data between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore, on setState of some framework you will be stuck with forever, version after version, no matter what wrong, cruel and stupid turns it takes?   What better  thing to bind components together than the keeper of all history, [history.state](https://www.youtube.com/watch?v=IRJ8uFNmzqU).  
+What if one of the components in your data passing chain is an unreliable dog of a component?  Perhaps the complexity of your application is such that limiting a unified "state" to simply passing data between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore, on setState of some framework you will be stuck with forever, version after version, no matter what wrong, cruel and stupid turns it takes?   What better  thing to bind components together than the keeper of all history, [history.state](https://www.youtube.com/watch?v=IRJ8uFNmzqU)?  
 
 One candidate for providing a hand with managing history.state is the AMP's [amp-bind](https://amp.dev/documentation/components/amp-bind/?referrer=ampproject.org) component, which appears to rely on history.state as its unifying system of record.
 
- [xtal-state](https://www.webcomponents.org/element/xtal-state), [purr-sist](https://www.webcomponents.org/element/purr-sist) and [bi-st](https://www.webcomponents.org/element/bi-st) also offer their services.
+ [xtal-state](https://www.webcomponents.org/element/xtal-state), [purr-sist](https://www.webcomponents.org/element/purr-sist) and [bi-st](https://www.webcomponents.org/element/bi-st) also offer their services:
 
 
 
@@ -471,6 +470,22 @@ Note the use of the attribute "level='local'".  This limits the scope of the sta
 ...
 </div>
 ```
+
+<details>
+<summary>TodoMVC or not TodoMVC</summary>
+
+
+
+These "connector components" would be useless if there were no, you know, components to connect.  It would be like blockchain without people actually engaging in commerce.  As such, the p-et-alia components want you to know that they are very pro-component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
+
+Recursively, some areas of said components may also involve gluing loosely coupled sub-components together, so these could also be used there reduce boilerplate, expensive JavaScript.
+
+However, there are many scenarios where some UI functionality is sufficiently, and intricate that "gluing together" loosely coupled components isn't the right mindset.  Instead of connecting a Roku to a TV, think implementing a swiss watch.
+
+![](https://deployant.com/wp-content/uploads/2016/09/patek-repeater-perpetual-tourbillon.jpg)
+
+An example of this is the classic [TodoMVC](http://todomvc.com/) application.  Could such a thing be built without a "Model" and "Controller" that drive the view, without triggering a gag reflex? 
+</details>
 
 
 ## Viewing Your Element
