@@ -439,7 +439,7 @@ extend('slot-bot', {
 
 While these components provide a kind of "framework built with web components", similar to Polymer, there's a fundamental difference.  Unlike Polymer (and other competing frameworks), these components don't depend on the existence of a controlling component which manages state.  Instead, it is a little more [JQuery](https://w3techs.com/technologies/overview/javascript_library/all) like.  Why not let each component decide how best to manage its own state?  It is a "peer-to-peer binding framework."  This may be more appealing for some [people](https://www.youtube.com/watch?v=RplnSVTzvnU) / use cases, less appealing to others.  
 
-##  All Hail, Keeper of All Our Stories! 
+###  All Hail, Keeper of All Our Stories! 
 
 What if one of the components in your data passing chain is an unreliable dog of a component?  Perhaps the complexity of your application is such that limiting a unified "state" to simply passing data between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore, on setState of some framework you will be stuck with forever, version after version, no matter what wrong, cruel and stupid turns it takes?   What better  thing to bind components together than the keeper of all history, [history.state](https://www.youtube.com/watch?v=IRJ8uFNmzqU)?  
 
@@ -472,7 +472,9 @@ Note the use of the attribute "level='local'".  This limits the scope of the sta
 ```
 
 <details>
-<summary>TodoMVC or not TodoMVC</summary>
+<summary>
+###TodoMVC or not TodoMVC
+</summary>
 
 
 
