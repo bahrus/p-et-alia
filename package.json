@@ -9,8 +9,8 @@
   },
   "module": "p-d.js",
   "dependencies": {
-    "xtal-element": "0.0.64",
-    "trans-render": "0.0.118"
+    "xtal-element": "0.0.78",
+    "trans-render": "0.0.130"
   },
   "devDependencies": {
     "@types/node": "12.0.7",
@@ -18,7 +18,8 @@
     "@webcomponents/webcomponentsjs": "2.2.10",
     "jiife": "0.0.12",
     "tape": "4.10.2",
-    "xtal-test": "0.0.19"
+    "xtal-test": "0.0.19",
+    "es-module-shims": "0.2.14"
   },
   "scripts": {
     "test": "node createIIFE.js && tape test/*.js",
