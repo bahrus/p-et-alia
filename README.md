@@ -472,9 +472,7 @@ Note the use of the attribute "level='local'".  This limits the scope of the sta
 ```
 
 <details>
-<summary>
-###TodoMVC or not TodoMVC
-</summary>
+<summary><h3>TodoMVC or not TodoMVC</h3></summary>
 
 
 
