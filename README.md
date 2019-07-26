@@ -477,16 +477,43 @@ Note the use of the attribute "level='local'".  This limits the scope of the sta
 </summary>
 
 
+These "connector components" would be useless if there were no, you know, components to connect.  It would be like blockchain without people actually engaging in trade.  As such, the p-et-alia components want you to know that they are very pro-component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
 
-These "connector components" would be useless if there were no, you know, components to connect.  It would be like blockchain without people actually engaging in commerce.  As such, the p-et-alia components want you to know that they are very pro-component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
+Recursively, some areas of said components may also involve gluing loosely coupled sub-components together, so these connector components could also be used there to reduce boilerplate, expensive JavaScript, especially in a setting where HTML is imported.
 
-Recursively, some areas of said components may also involve gluing loosely coupled sub-components together, so these could also be used there reduce boilerplate, expensive JavaScript.
-
-However, there are many scenarios where some UI functionality is sufficiently, and intricate that "gluing together" loosely coupled components isn't the right mindset.  Instead of connecting a Roku to a TV, think implementing a swiss watch.
+However, there are many scenarios where some UI functionality is sufficiently complex and intricate that "gluing together" loosely coupled components isn't the right mindset.  Instead of connecting a Roku to a TV, think implementing a swiss watch.
 
 ![](https://deployant.com/wp-content/uploads/2016/09/patek-repeater-perpetual-tourbillon.jpg)
 
-An example of this is the classic [TodoMVC](http://todomvc.com/) application.  Could such a thing be built without a "Model" and "Controller" that drive the view, without triggering a gag reflex? 
+An example of this is the classic [TodoMVC](http://todomvc.com/) functionality.  
+We recommend that this is the type of functionality best built with a [component helper library](https://webcomponents.dev/).
+
+But it is worth examining the question:  What is the least amount of "central control" needed to implement the TodoMVC, without triggering a gag reflex?
+
+What follows is a discussion of what that might look like.  
+
+The main issue is that we want to be able to work with a list of objects using an intuitive, easy api that specializes in managing lists of objects.  Namely our good curly braced friend.
+
+What we want to "outsource" and make as painless as possible is mapping this beautiful JS to the UI.
+
+```html
+<div>
+    <p-d on=delete-item-event to=[-delete-task] m=1></p-d>
+    <p-d on=edited-item-event to=[-update-task] m=1></p-d>
+    <input placeholder="What needs to be done?">
+    <p-d on=input to=[-new-task]>
+    <my-non-visual-to-list-view-model -new-task -delete-task -update-task></my-non-visual-to-list-view-model>
+    <p-d on=list-changed to=[-items] m=1></p-d>
+    <p-d on=list-changed to=[-json] m=1></p-d>
+    <my-visual-list -items></my-visual-list>
+    <my-remote-persister -json></my-remote-persister>
+</div>
+```
+
+Here we are relying on the "cycling" effect of placing p-d's at the top of a DOM node, with no non p-* nodes.  We assume the component my-visual-list is designed in such a way that when you click on smoe delete button inside that component, it emits an event "delete-item-event", and if you edit an item, it emits an event "edited-item-event."
+
+Splitting up the todo composition into two sub components -- my-non-visual-to-list-view-model and my-visual-list could allow one or both pieces to re-used without the other.  For example, maybe in one scenario we want the list to display as a simple list, but elsewhere we want it to display inside a calendar.    Or both at the same time.  
+
 </details>
 
 
