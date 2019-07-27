@@ -502,7 +502,6 @@ This could all be done with a single self-contained component, but another optio
 <div>
     <p-d on=delete-item-event to=[-delete-task] m=1></p-d>
     <p-d on=edited-item-event to=[-update-task] m=1></p-d>
-    <p-d on=store-found to=[-items]></p-d>
     <input placeholder="What needs to be done?">
     <p-d on=input to=[-new-task]>
     <my-non-visual-list-view-model -new-task -delete-task -update-task></my-non-visual-list-view-model>
