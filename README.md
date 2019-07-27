@@ -57,7 +57,7 @@ p-d  passes information from that previous sibling's event down the p-d instance
 
 "val" is a JavaScript path / expression for where to get the value used for setting.  The path is evaluated from the JavaScript event that gets fired.  For example "a.b.c" type expressions are allowed.  No ! or other JavaScript expressions is currently supported.  If the path is a single ., then it will pass the entire event object.  
 
-If any of the sub-expressions evaluate to null, then the target element(s) aren't modified.
+If any of the sub-expressions evaluate to null or undefined, then the target element(s) aren't modified.
 
 All the components described in this document support an attribute (not a property), "debug".  If the attribute is present, the code will break every time the event it is monitoring for fires.
 
