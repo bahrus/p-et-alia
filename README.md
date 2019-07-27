@@ -92,7 +92,7 @@ We can also forgo quotes when not needed.
 What we end up with is shown below:
 
 ```html
-<!-- abreviated syntax -->
+<!-- abbreviated syntax -->
 <style>
 [nv]{
     display:none;
@@ -132,7 +132,7 @@ If the attributes need to be dynamic, it is easiest to read if the binding synta
     as ${displayType} with ${themed} ${decorationType}></visual-ize>`
 ```
 
-But p-* elements, as demonstrated so far, operate more on a "push values down to specified targets when events are fired" approach, rather than "push values up to specified state(either declaratively or via event handlers), and pull values down from state declaratively into target properties." The latter approach seems more natural to read, especially as the communication appears more "mutual," and looking at either tag (source vs destination) gives a clue as to what is going on.  
+But p-* elements, as demonstrated so far, operate more on a "push values down to specified targets when events are fired" approach, rather than "push values up to specified state (either declaratively or via event handlers), and pull values down from state declaratively into target properties." The latter approach seems more natural to read, especially as the communication appears more "mutual," and looking at either tag (source vs destination) gives a clue as to what is going on.  
 
 We want to accomplish this with something that is actually meaningful, and that doesn't add superfluous, non verifiable syntax, while sticking to unidirectional data flow.
 
@@ -159,8 +159,8 @@ Since
 
 1. No "prop" attribute is found, and 
 2. Since the "to" attribute follows a special pattern, where
- - the expression ends with an attribute selector, and where 
- - that attribute starts with a dash (or data-)
+..* the expression ends with an attribute selector, and where 
+..* that attribute starts with a dash (or data-)
  
 then the "prop" attribute defaults to the attribute following the first dash i.e.  "lhs" or "rhs."  lisp-case to camelCase property setting is supported.  I.e. to="[data-my-long-winded-property-name]" will set the property with name "myLongWindedPropertyName."
 
@@ -274,15 +274,15 @@ Now if you add a breakpoint, it will take you to the code, where you can see the
 
 Although the markup / code above is a little more verbose than standard ways of adding event handlers, it does have some benefits.  If you do view the live elements, you can sort of "walk through" the DOM elements and custom elements, and see how data is transformed from step to step.  This would be particularly easy if there were a nice browser extension that can quickly view web component properties, regardless of their flavor.  Unfortunately, [existing](https://chrome.google.com/webstore/detail/polyspector/naoehbibkfilaolkmfiehggkfjndlhpd?hl=en) [extensions](https://chrome.google.com/webstore/detail/stencil-inspector/komnnoelcbjpjfnbhmdpgmlbklmicmdi/related) don't seem to support that yet. 
 
-But I am quite excited to see Firefox nightly making some [giant leaps forward](https://blog.nightly.mozilla.org/2018/09/06/developer-tools-support-for-web-components-in-firefox-63/) in supporting universal web component debugging.
+But I am quite excited to see Firefox has made some [giant leaps forward](https://blog.nightly.mozilla.org/2018/09/06/developer-tools-support-for-web-components-in-firefox-63/) in supporting universal web component debugging.
 
-In addition, you might find the following helpful.  What follows is Chrome-centric discussion, and requires support for dynamic import:
+In addition, you might find the following helpful.  What follows requires support for [dynamic import]() and has been tested in Chrome and Firefox.  I must say that Firefox has a number of suble features here not found in Chrome.  Bravo!
 
 In the console, type:
 
 import('https://unpkg.com/xtal-shell@0.0.7/$hell.js');
 
-Then make you sure you select the Elements tab in the dev tools, in such a way that you can see both the elements and the console at the same time.
+Then make you sure you select the Elements / Inspector tab in the dev tools (right-clicking on an element and selecting "Inspect" should get you there), in such a way that you can see both the elements and the console at the same time.
 
 Then, as you inspect custom elements, you can type this in the console:
 
@@ -477,16 +477,16 @@ Note the use of the attribute "level='local'".  This limits the scope of the sta
 </summary>
 
 
-These "connector components" would be useless if there were no, you know, components to connect.  It would be like blockchain without people actually engaging in trade.  As such, the p-et-alia components want you to know that they are very pro-component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
+These "connector components" would be useless if there were no, you know, components to connect.  It would be like blockchain without people actually engaging in trade.  As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
 
 Recursively, some areas of said components may also involve gluing loosely coupled sub-components together, so these connector components could also be used there to reduce boilerplate, expensive JavaScript, especially in a setting where HTML is imported.
 
-However, there are many scenarios where some UI functionality is sufficiently complex and intricate that "gluing together" loosely coupled components isn't the right mindset.  Instead of connecting a Roku to a TV, think implementing a swiss watch.
+However, there are many scenarios where some UI functionality is sufficiently complex and intricate that "gluing together" loosely coupled components isn't the right mindset.  Instead of connecting a Roku to a TV, think implementing a new design of a swiss watch.
 
 ![](https://deployant.com/wp-content/uploads/2016/09/patek-repeater-perpetual-tourbillon.jpg)
 
 An example of this is the classic [TodoMVC](http://todomvc.com/) functionality.  
-We recommend that this is the type of functionality best built with a [component helper library](https://webcomponents.dev/).
+This is the type of functionality best built with a [component helper library](https://webcomponents.dev/) or two.
 
 But it is worth examining the question:  What is the least amount of "central control" needed to implement the TodoMVC, without triggering a gag reflex?
 
@@ -496,23 +496,25 @@ The main issue is that we want to be able to work with a list of objects using a
 
 What we want to "outsource" and make as painless as possible is mapping this beautiful JS to the UI.
 
+This could all be done with a single self-contained component, but another option is to break down the core functionality into two components -- a non visual view model component and a component that displays the view model:
+
 ```html
 <div>
     <p-d on=delete-item-event to=[-delete-task] m=1></p-d>
     <p-d on=edited-item-event to=[-update-task] m=1></p-d>
+    <p-d on=store-found to=[-items]></p-d>
     <input placeholder="What needs to be done?">
     <p-d on=input to=[-new-task]>
-    <my-non-visual-to-list-view-model -new-task -delete-task -update-task></my-non-visual-to-list-view-model>
+    <my-non-visual-list-view-model -new-task -delete-task -update-task></my-non-visual-list-view-model>
     <p-d on=list-changed to=[-items] m=1></p-d>
     <p-d on=list-changed to=[-json] m=1></p-d>
     <my-visual-list -items></my-visual-list>
-    <my-remote-persister -json></my-remote-persister>
 </div>
 ```
 
-Here we are relying on the "cycling" effect of placing p-d's at the top of a DOM node, with no non p-* nodes.  We assume the component my-visual-list is designed in such a way that when you click on smoe delete button inside that component, it emits an event "delete-item-event", and if you edit an item, it emits an event "edited-item-event."
+Here we are relying on the "cycling" effect of placing p-d's at the top of a DOM node, with no previous non p-* nodes.  We assume the component my-visual-list is designed in such a way that when you click on some delete button inside that component, it emits an event "delete-item-event" and if you edit an item, it emits an event "edited-item-event", both of which bubble up.
 
-Splitting up the todo composition into two sub components -- my-non-visual-to-list-view-model and my-visual-list could allow one or both pieces to re-used without the other.  For example, maybe in one scenario we want the list to display as a simple list, but elsewhere we want it to display inside a calendar.    Or both at the same time.  
+Splitting up the todo composition into these two sub components could allow one or both pieces to be re-used with or without the other.  For example, maybe in one scenario we want the list to display as a simple list, but elsewhere we want it to display inside a calendar.    Or both at the same time.  
 
 </details>
 
