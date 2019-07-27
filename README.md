@@ -507,7 +507,6 @@ This could all be done with a single self-contained component, but another optio
     <p-d on=input to=[-new-task]>
     <my-non-visual-list-view-model -new-task -delete-task -update-task></my-non-visual-list-view-model>
     <p-d on=list-changed to=[-items] m=1></p-d>
-    <p-d on=list-changed to=[-json] m=1></p-d>
     <my-visual-list -items></my-visual-list>
 </div>
 ```
