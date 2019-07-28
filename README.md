@@ -496,14 +496,14 @@ The main issue is that we want to be able to work with a list of objects using a
 
 What we want to "outsource" and make as painless as possible is mapping this beautiful JS to the UI.
 
-This could all be done with a single self-contained component, but another option is to break down the core functionality into two components -- a non visual view model component and a component that displays the view model:
+This could all be done with a single self-contained component, but another option is to break down the core functionality into two key components -- a non visual view model component and a component that displays the view model.  Since we only want to add a task when you hit enter, an enhanced input component would make sense:
 
 ```html
 <div>
     <p-d on=delete-item-event to=[-delete-task] m=1></p-d>
     <p-d on=edited-item-event to=[-update-task] m=1></p-d>
-    <input placeholder="What needs to be done?">
-    <p-d on=input to=[-new-task]>
+    <to-do-input placeholder="What needs to be done?"></to-do-input>
+    <p-d on=commit to=[-new-task]>
     <my-non-visual-list-view-model -new-task -delete-task -update-task></my-non-visual-list-view-model>
     <p-d on=list-changed to=[-items] m=1></p-d>
     <my-visual-list -items></my-visual-list>
