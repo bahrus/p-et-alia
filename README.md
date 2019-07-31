@@ -384,7 +384,7 @@ For that we have:
 <p-unt on=click dispatch to=myEventName prop=toggledNode val=target.node composed bubbles></p-unt>
 ```
 
-Another way you can make data "cycle" is by placing a p-* element at the beginning -- if no previous non p-* elements are found, the event handler is attached to the parent.
+Another way you can make data "cycle" is by placing a p-* element at the beginning -- if no previous non p-* elements are found, the event handler is attached to the parent. [This has the flaw that it doesn't support the disabling capability]
 
 ## Deluxe version [partially untested]
 
@@ -500,19 +500,23 @@ This could all be done with a single self-contained component, but another optio
 
 ```html
 <div>
-    <p-d on=delete-item-event to=[-delete-task] m=1></p-d>
-    <p-d on=edited-item-event to=[-update-task] m=1></p-d>
+    <p-d on=item-deleted if=my-visual-to-do-list to=[-delete-task] m=1></p-d>
+    <p-d on=item-edited if=my-visual-to-do-list to=[-update-task] m=1></p-d>
     <enhanced-input placeholder="What needs to be done?"></enhanced-input>
     <p-d on=commit to=[-new-task]>
-    <my-non-visual-list-view-model -new-task -delete-task -update-task></my-non-visual-list-view-model>
+    <my-non-visual-to-do-list-view-model -new-task -delete-task -update-task></my-non-visual-to-do-list-view-model>
     <p-d on=list-changed to=[-items] m=1></p-d>
-    <my-visual-list -items></my-visual-list>
+    <my-visual-to-do-list disabled="2" -items></my-visual-to-do-list>
 </div>
 ```
 
-Here we are relying on the "cycling" effect of placing p-d's at the top of a DOM node, with no previous non p-* nodes.  We assume the component my-visual-list is designed in such a way that when you click on some delete button inside that component, it emits an event "delete-item-event" and if you edit an item, it emits an event "edited-item-event", both of which bubble up.
+Here we are relying on the "cycling" effect of placing p-d's at the top of a DOM node, with no previous non p-* nodes.  We assume the component my-visual-list is designed in such a way that when you click on some delete button inside that component, it emits an event "item-deleted" and if you edit an item, it emits an event "item-edited", both of which bubble up.
 
 Splitting up the todo composition into these two sub components could allow one or both pieces to be re-used with or without the other.  For example, maybe in one scenario we want the list to display as a simple list, but elsewhere we want it to display inside a calendar.    Or both at the same time.  
+
+But are my-non-visual-to-do-list-view-model and my-visual-to-do-list really loosely coupled?  To a degree.  But they must agree to a common contract as far as the expected format of the events.
+
+To allow for even more loosely coupled integrations, the simple but sweet p-d can be replaced with a more sophisticated, extending [translator/adaptor connector](https://funtranslations.com/valyrian), like the [slot-bot example](https://github.com/bahrus/p-et-alia#computed-values).
 
 </details>
 
