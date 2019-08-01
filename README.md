@@ -168,7 +168,7 @@ Furthermore, no match will be found if if-diff does not contain the -lhs (or -rh
 
 ## [Demo 1](https://jsfiddle.net/bahrus/y8moqgrb/)
 
-##  Seeing through Walls
+##  Seeing through Walls, Part I
 
 Consider the following markup:
 
@@ -192,9 +192,39 @@ Clearly, "my-custom-element" is below the p-d element.  The problem is p-d wasn'
 <my-custom-element -lhs></my-custom-element>
 ```
 
+## Seeing through Walls, Part II [TODO]
+
+To keep performance optimal and scalable, the p-d element only tests downstream siblings -- not children of siblings.  However, the use case for being able to drilldown inside a DOM node is quite high.  p-et-alia provides an easy way and a hard way.
+
+Consider the following:
+
+```html
+<details>
+	<summary>my-custom-element Editor</summary>
+	<input/>
+	<p-d on=input to=my-custom-element[-lhs] m=1></p-d> 
+</details>
+<details>
+    <summary>my-custom-element in the flesh</summary>
+    <my-custom-element -lhs></my-custom-element>
+</details>
+```
+
+```html
+<details>
+	<summary>my-custom-element Editor</summary>
+	<input/>
+	<p-d on=input from=details to=details care-of=my-custom-element[-lhs] m=1></p-d> 
+</details>
+<details>
+    <summary>my-custom-element in the flesh</summary>
+    <my-custom-element -lhs></my-custom-element>
+</details>
+```
+
 ## Recursive sibling drilldown with p-d-r -- Invitation Only
 
-To keep performance optimal and scalable, the p-d element only tests downstream siblings -- not children of siblings.  However, the use case for being able to drilldown inside a DOM node is quite high.  Unlike Polymer, permission to do this must be granted explicitly, using the p-d-if attribute on elements where drilldown is needed.  The value of the attribute is used to test against the p-d element (hence you will want to specify some marker, like an ID, on the p-d element, which can be used to validate the invitation.)
+Unlike Polymer, permission to do this must be granted explicitly, using the p-d-if attribute on elements where drilldown is needed.  The value of the attribute is used to test against the p-d element (hence you will want to specify some marker, like an ID, on the p-d element, which can be used to validate the invitation.)
 
 ```html   
     <text-box></text-box>                                                               
@@ -477,7 +507,7 @@ Note the use of the attribute "level='local'".  This limits the scope of the sta
 </summary>
 
 
-These "connector components" would be useless if there were no, you know, components to connect.  It would be like blockchain without people actually engaging in trade.  [Admittedly, the parallels with blockchain are a bit tenous, but I'm attempting to apply what I believe to be the spirit behind blockchain to the world of DOM elements, in that p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework"]  As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
+These "connector components" would be useless if there were no, you know, components to connect.  It would be like blockchain without people actually engaging in trade.  [Admittedly, the parallels with blockchain are a bit tenous, but I'm attempting to apply what I believe to be the spirit behind blockchain in both how it works and it's desired outcome, to the world of DOM elements, in that p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework", that may free us from vendor lock-in].  As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
 
 Recursively, some parts of a web component may also involve gluing loosely coupled sub-components together, so these connector components could also be used there to reduce boilerplate, expensive JavaScript, especially in a setting where HTML is imported, though careful measurements will need to be made when there's something [concrete to test](https://discourse.wicg.io/t/proposal-html-modules/3309/10).
 

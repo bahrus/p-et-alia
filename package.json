@@ -2,12 +2,12 @@
   "name": "p-et-alia",
   "version": "0.0.14",
   "description": "Declaratively pass properties between DOM elements",
-  "main": "p-et-alia.js",
+  "main": "p-d.js",
+  "module": "p-d.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bahrus/p-et-alia.git"
   },
-  "module": "p-d.js",
   "dependencies": {
     "xtal-element": "0.0.78",
     "trans-render": "0.0.130"
