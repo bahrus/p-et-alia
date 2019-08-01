@@ -222,6 +222,8 @@ Consider the following:
 </details>
 ```
 
+care-of only finds the first match (using querySelector)
+
 ## Recursive sibling drilldown with p-d-r -- Invitation Only
 
 Unlike Polymer, permission to do this must be granted explicitly, using the p-d-if attribute on elements where drilldown is needed.  The value of the attribute is used to test against the p-d element (hence you will want to specify some marker, like an ID, on the p-d element, which can be used to validate the invitation.)
@@ -389,7 +391,7 @@ With these two combined the counter would look like:
 
 ## Targeted, tightly-coupled passing with p-u ("partly-untested")   
 
-I would suggest that for most applications, most of the time, data will naturally flow in one direction.  Those of us who read and write in a [downward direction](https://www.quora.com/Are-there-any-languages-that-read-from-bottom-to-top) will probably want to stick with that direction when arranging our elements.  But there will inevitably be points where the data flow must go up -- typically in response to a user action.  
+I would suggest that for most applications, most of the time, data will naturally flow in one direction.  Those of us who read and write in a [downward direction](https://www.quora.com/Are-there-any-languages-that-read-from-bottom-to-top) will [probably](https://daverupert.com/2019/07/what-i-like-about-vue/) want to stick with that direction when arranging our elements.  But there will inevitably be points where the data flow must go up -- typically in response to a user action.  
 
 That's what p-u provides.  As the name suggests, it should be used sparingly.  
 
