@@ -477,9 +477,9 @@ Note the use of the attribute "level='local'".  This limits the scope of the sta
 </summary>
 
 
-These "connector components" would be useless if there were no, you know, components to connect.  It would be like blockchain without people actually engaging in trade.  As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
+These "connector components" would be useless if there were no, you know, components to connect.  It would be like blockchain without people actually engaging in trade.  [Admittedly, the parallels with blockchain are a bit tenous, but I'm attempting to apply what I believe to be the spirit behind blockchain to the world of DOM elements that we are trying to bind together on the web page with a weak, aloof, technology agnostic "framework"]  As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
 
-Recursively, some areas of said components may also involve gluing loosely coupled sub-components together, so these connector components could also be used there to reduce boilerplate, expensive JavaScript, especially in a setting where HTML is imported.
+Recursively, some areas of said components may also involve gluing loosely coupled sub-components together, so these connector components could also be used there to reduce boilerplate, expensive JavaScript, especially in a setting where HTML is imported (though careful measurements will need to be made when there's something concrete to test).
 
 However, there are many scenarios where some UI functionality is sufficiently complex and intricate that "gluing together" loosely coupled components isn't the right mindset.  Instead of connecting a Roku to a TV, think implementing a new design of a swiss watch.
 
@@ -492,7 +492,7 @@ But it is worth examining the question:  What is the least amount of "central co
 
 What follows is a discussion of what that might look like.  
 
-The main issue is that we want to be able to work with a list of objects using an intuitive, easy api that specializes in managing lists of objects.  Namely our good curly braced friend.
+The main issue is that we want to be able to work with a list of objects using an intuitive, easy api that specializes in managing lists of objects.  Namely our good curly braced friend.  And maybe those objects should be stored outside of RAM, like IndexedDB, and manipulated via web workers (for example, but certainly not required.)
 
 What we want to "outsource" and make as painless as possible is mapping this beautiful JS to the UI.
 
@@ -516,7 +516,7 @@ Splitting up the todo composition into these two sub components could allow one 
 
 But are my-non-visual-to-do-list-view-model and my-visual-to-do-list really loosely coupled?  To a degree.  But they must agree to a common contract as far as the expected format of the events.
 
-To allow for even more loosely coupled integrations, the simple but sweet p-d can be replaced with a more sophisticated, extending [translator/adaptor connector](https://funtranslations.com/valyrian), like the [slot-bot example](https://github.com/bahrus/p-et-alia#computed-values).
+To allow for even more loosely coupled integrations, the simple but sweet p-d can be replaced with a more specialized [translator/adaptor connector](https://funtranslations.com/valyrian), that extends p-d-x, which in turn extends p-d, like the [slot-bot example](https://github.com/bahrus/p-et-alia#computed-values).  You could consider it local "mediator" in the blockchain
 
 </details>
 
