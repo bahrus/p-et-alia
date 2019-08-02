@@ -159,6 +159,7 @@ Since
 
 1. No "prop" attribute is found, and 
 2. Since the "to" attribute follows a special pattern, where
+
   * the expression ends with an attribute selector, and where 
   * that attribute starts with a dash (or data-)
  
