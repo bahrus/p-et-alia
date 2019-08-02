@@ -159,8 +159,8 @@ Since
 
 1. No "prop" attribute is found, and 
 2. Since the "to" attribute follows a special pattern, where
-..* the expression ends with an attribute selector, and where 
-..* that attribute starts with a dash (or data-)
+  * the expression ends with an attribute selector, and where 
+  * that attribute starts with a dash (or data-)
  
 then the "prop" attribute defaults to the attribute following the first dash i.e.  "lhs" or "rhs."  lisp-case to camelCase property setting is supported.  I.e. to="[data-my-long-winded-property-name]" will set the property with name "myLongWindedPropertyName."
 
@@ -416,7 +416,7 @@ For that we have:
 <p-unt on=click dispatch to=myEventName prop=toggledNode val=target.node composed bubbles></p-unt>
 ```
 
-Another way you can make data "cycle" is by placing a p-* element at the beginning -- if no previous non p-* elements are found, the event handler is attached to the parent. [This has the flaw that it doesn't support the disabling capability]
+Another way you can make data "cycle" is by placing a p-* element at the beginning -- if no previous non p-* elements are found, the event handler is attached to the parent. [This has the flaw that it doesn't support the disabling capability, but a possible solution is on the way]
 
 ## Deluxe version [partially untested]
 
@@ -509,7 +509,14 @@ Note the use of the attribute "level='local'".  This limits the scope of the sta
 </summary>
 
 
-These "connector components" would be useless if there were no, you know, components to connect.  It would be like blockchain without people actually engaging in trade.  [Admittedly, the parallels with blockchain are a bit tenous, but I'm attempting to apply what I believe to be the spirit behind blockchain in both how it works and it's desired outcome, to the world of DOM elements, in that p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework", that may free us from vendor lock-in].  As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
+These "connector components" would be useless if there were no, you know, components to connect.  It would be like blockchain without people actually engaging in trade.  
+
+<details>
+<summary>Blockchain?</summary>
+Admittedly, the parallels with blockchain are a bit tenous, but I'm attempting to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements, in that p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow unfettered competition between different component "vendors"].  
+</details>
+
+As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
 
 Recursively, some parts of a web component may also involve gluing loosely coupled sub-components together, so these connector components could also be used there to reduce boilerplate, expensive JavaScript, especially in a setting where HTML is imported, though careful measurements will need to be made when there's something [concrete to test](https://discourse.wicg.io/t/proposal-html-modules/3309/10).
 
@@ -544,7 +551,7 @@ This could all be done with a single self-contained component, but another optio
 
 Here we are relying on the "cycling" effect of placing p-d's at the top of a DOM node, with no previous non p-* nodes.  We assume the component my-visual-list is designed in such a way that when you click on some delete button inside that component, it emits an event "item-deleted" and if you edit an item, it emits an event "item-edited", both of which bubble up.
 
-Splitting up the todo composition into these two sub components could allow one or both pieces to be re-used with or without the other.  For example, maybe in one scenario we want the list to display as a simple list, but elsewhere we want it to display inside a calendar.    Or both at the same time.  
+Splitting up the todo composition into these three sub components could allow one or more pieces to be re-used with or without the other.  For example, maybe in one scenario we want the list to display as a simple list, but elsewhere we want it to display inside a calendar.    Or both at the same time.  
 
 But are my-non-visual-to-do-list-view-model and my-visual-to-do-list really loosely coupled?  To a degree.  But they must agree to a common contract as far as the expected format of the events.
 
