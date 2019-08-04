@@ -359,7 +359,7 @@ These "connector components" would be useless if there were no, you know, compon
 
 <details>
 <summary>Blockchain?</summary>
-Admittedly, the parallels with [blockchain](https://www.youtube.com/watch?v=RplnSVTzvnU) are a bit tenous, but I'm attempting to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements. p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow unfettered competition between different component "vendors".  
+Admittedly, the parallels with <a href="https://www.youtube.com/watch?v=RplnSVTzvnU" target="_blank">blockchain</a> are a bit tenous, but this is an attempt to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements. p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow unfettered competition between different component "vendors".  
 </details>
 
 As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
