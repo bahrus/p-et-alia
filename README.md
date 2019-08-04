@@ -199,7 +199,7 @@ To keep performance optimal and scalable, the p-d element only tests downstream 
 
 ### The Easy Way
 
-The easy way uses the ["care-of"](https://faq.usps.com/s/article/How-do-I-address-mail-In-care-of) attribute:
+The "easy way" uses the ["care-of"](https://faq.usps.com/s/article/How-do-I-address-mail-In-care-of) attribute:
 
 Consider the following:
 
@@ -344,7 +344,7 @@ These "connector components" would be useless if there were no, you know, compon
 
 <details>
 <summary>Blockchain?</summary>
-Admittedly, the parallels with blockchain are a bit tenous, but I'm attempting to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements. p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow unfettered competition between different component "vendors".  
+Admittedly, the parallels with [blockchain](https://www.youtube.com/watch?v=RplnSVTzvnU) are a bit tenous, but I'm attempting to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements. p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow unfettered competition between different component "vendors".  
 </details>
 
 As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
@@ -362,7 +362,7 @@ But it is worth examining the question:  What is the least amount of "central co
 
 What follows is a discussion of what that might look like.  
 
-The main issue is that we want to be able to work with a list of objects using an intuitive, easy api that specializes in managing lists of objects.  Namely our good curly braced friend.  And maybe those objects should be stored outside of RAM, like IndexedDB, and manipulated via web workers (for example, but certainly not required.)
+The main issue is that we want to be able to work with a list of objects using an intuitive, easy api that specializes in managing lists of objects.  Namely our good curly braced friend.  And maybe those objects should be stored outside of RAM, like IndexedDB, and manipulated via web workers (for example, but certainly not required.) [so as to not block the UI thread](https://dassur.ma/things/react-redux-comlink/).
 
 What we want to "outsource" and make as painless as possible is mapping this beautiful JS to the UI.
 
