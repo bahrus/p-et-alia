@@ -6,6 +6,7 @@ const iff = 'if';
 const to = 'to';
 const prop = 'prop';
 const val = 'val';
+const care_of = 'care-of';
 // getPropFromPath(val: any, path: string){
 //     if(!path || path==='.') return val;
 //     return this.getProp(val, path.split('.'));
@@ -43,6 +44,12 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
     set to(val) {
         this.attr(to, val);
     }
+    get careOf() {
+        return this._careOf;
+    }
+    set careOf(nv) {
+        this._careOf = nv;
+    }
     get noblock() {
         return this._noblock;
     }
@@ -68,7 +75,7 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
         this.attr(val, nv);
     }
     static get observedAttributes() {
-        return super.observedAttributes.concat([on, to, noblock, iff, prop, val]);
+        return super.observedAttributes.concat([on, to, noblock, iff, prop, val, care_of]);
     }
     getSplit(newVal) {
         if (newVal === '.') {
@@ -81,6 +88,7 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
     attributeChangedCallback(name, oldVal, newVal) {
         const f = '_' + name;
         switch (name) {
+            case care_of:
             case iff:
             case on:
             case prop:
@@ -111,7 +119,7 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
     }
     connectedCallback() {
         this.style.display = 'none';
-        this.propUp([on, to, noblock, iff, prop, val]);
+        this.propUp([on, to, noblock, iff, prop, val, 'careOf']);
         this.init();
     }
     init() {
@@ -186,10 +194,11 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
             return;
         let prop = this._prop;
         if (prop === undefined) {
-            const toSplit = this.to.split('[');
+            //TODO:  optimize (cache, etc)
+            const thingToSplit = this._careOf || this._to;
+            const toSplit = thingToSplit.split('[');
             const len = toSplit.length;
             if (len > 1) {
-                //TODO:  optimize (cache, etc)
                 const last = toSplit[len - 1].replace(']', '');
                 if (last.startsWith('-') || last.startsWith('data-')) {
                     prop = lispToCamel(last.split('-').slice(1).join('-'));

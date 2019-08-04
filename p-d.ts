@@ -77,7 +77,7 @@ export class PD extends P {
     newNavDown(){
         const bndApply = this.applyProps.bind(this);
         const seed = this._from === undefined ? this : this.closest(this._from);
-        return new NavDown(seed!, this.to, bndApply, this.m);
+        return new NavDown(seed!, this.to, this._careOf, bndApply, this.m);
     }
     _iIP = false;
     connectedCallback() {

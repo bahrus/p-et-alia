@@ -11,7 +11,7 @@ export class PDR extends PD{
     }
     newNavDown(){
         const bndApply = this.applyProps.bind(this);
-        const pdnd = new PDNavDown(this, this.to, bndApply, this.m);
+        const pdnd = new PDNavDown(this, this.to, this._careOf, bndApply, this.m);
         pdnd.root = this;
         return pdnd;
     }

@@ -211,6 +211,8 @@ Consider the following:
 </details>
 ```
 
+To see past both details walls, use the care-of attribute:
+
 ```html
 <details>
 	<summary>my-custom-element Editor</summary>
@@ -223,7 +225,9 @@ Consider the following:
 </details>
 ```
 
-care-of only finds the first match (using querySelector)
+"care-of" only finds the first match (using querySelector).
+
+p-d watches for DOM mutations, in case the set of matching downstream siblings changes. But the "care-of" attribute assumes (for now) that the DOM structure has "settled." If you want to apply recursive DOM monitoring (ia mutationObserver)
 
 ## Recursive sibling drilldown with p-d-r -- Invitation Only
 
@@ -309,7 +313,7 @@ Although the markup / code above is a little more verbose than standard ways of 
 
 But I am quite excited to see Firefox has made some [giant leaps forward](https://blog.nightly.mozilla.org/2018/09/06/developer-tools-support-for-web-components-in-firefox-63/) in supporting universal web component debugging.
 
-In addition, you might find the following helpful.  What follows requires support for [dynamic import]() and has been tested in Chrome and Firefox.  I must say that Firefox has a number of suble features here not found in Chrome.  Bravo!
+In addition, you might find the following helpful.  What follows requires support for [dynamic import]() and has been tested in Chrome and Firefox.  I must say that Firefox has a number of subtle features here not found in Chrome.  Bravo!
 
 In the console, type:
 
@@ -514,7 +518,7 @@ These "connector components" would be useless if there were no, you know, compon
 
 <details>
 <summary>Blockchain?</summary>
-Admittedly, the parallels with blockchain are a bit tenous, but I'm attempting to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements, in that p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow unfettered competition between different component "vendors"].  
+Admittedly, the parallels with blockchain are a bit tenous, but I'm attempting to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements. p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow unfettered competition between different component "vendors".  
 </details>
 
 As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
