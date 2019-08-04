@@ -377,7 +377,7 @@ But it is worth examining the question:  What is the least amount of "central co
 
 What follows is a discussion of what that might look like.  
 
-The main issue is that we want to be able to work with a list of objects using an intuitive, easy api that specializes in managing lists of objects.  Namely our good curly braced friend.  And maybe those objects should be stored outside of RAM, like IndexedDB, and manipulated via web workers (for example, but certainly not required.) [so as to not block the UI thread](https://dassur.ma/things/react-redux-comlink/).
+The main issue is that we want to be able to work with a list of objects using an intuitive, easy api that specializes in managing lists of objects.  Namely our good curly braced friend.  And maybe those objects should be stored outside of RAM, like IndexedDB, and manipulated via web workers (for example, but certainly not required) [so as to not block the UI thread](https://dassur.ma/things/react-redux-comlink/).
 
 What we want to "outsource" and make as painless as possible is mapping this beautiful JS to the UI.
 
@@ -406,71 +406,6 @@ To allow for even more loosely coupled integrations, the simple but sweet p-d ca
 </details>
 
 
-##  Defining a piping custom element
-
-The usefullness of this feature has gone down considerably, with the introductino of computed values above.
-
-A convenience function is provided, that allows you to generate a "pipe" or "action" custom element with as few keystrokes as possible.
-
-Here's what the syntax looks like in a JavaScript file:
-
-```JavaScript
-import {PDQ} from 'p-d.p-u/PDQ.js';
-PDQ.define('my-pipeline-action', input => {
-    // do stuff
-    return myProcessedResult;
-});
-```
-
-This will create a custom element with name "my-pipeline-action".  It applies the second argument, a function, to the "input" property of the custom element, every time the input changes.  It then stores the result in property "value", and emits an event with name "value-changed":
-
-```html
-<my-pipeline-action></my-pipeline-action>
-<p-d on="value-changed" prop="input">
-```
-
-As with all custom element definitions, some care should be taken to ensure that the custom element names are unique.  This could be challenging if generating lots of small custom elements, like shown above, to be used in a large application, especially if that large application combines somewhat loosely coupled content from different teams, who also generate many custom elements.  Hopefully, the "Scoped Custom Element Registries" will help make this issue disappear in the future.
-
-PDQ also supports multiple parameters:
-
-```html
-    <script type="module">
-        import {PDQ} from '../PDQ.js';
-        PDQ.define('a-b', ({alpha, beta, gamma}) =>{
-            return alpha + beta + gamma;
-        })
-    </script>
-    <a-b></a-b>
-```
-
-
-### Location, Location, Location
-
-If the issue of mixing JavaScript script tags inside markup is *not* a serious concern for you, but you do want to reap the benefits from making the data flow unidirectionally, without having to jump away to see the code for one of these piping custom elements, you can "inline" the code quite close to where it is needed.  For now, this will only work if you essentially "hard code" the location of PDQ to a CDN with support for bare import specifiers:
-
-```html
-<p-d on="selected-root-nodes-changed" prop="input" val="target"></p-d>
-<script type="module">
-    import {PDQ} from 'https://unpkg.com/p-et-alia@0.0.4/PDQ.js?module';
-    PDQ.define('selected-node-change-handler', (input) =>{
-        if((typeof(nodeList) === 'undefined') || !nodeList.items) return;
-        const idx = nodeList.firstVisibleIndex;
-        nodeList.items = nodeList.items.slice();
-        nodeList.scrollToIndex(idx);
-    })
-</script>
-<selected-node-change-handler></selected-node-change-handler>
-```
-
-With [package name map](https://github.com/WICG/import-maps) support, the import statement could look more like the previous example:
-
-```JavaScript
-import {PDQ} from 'p-et-alia/PDQ.js';
-```
-
-**NB**  There is now a [nice polyfill](https://www.npmjs.com/package/es-module-shims) for import maps.
-
-Now if you add a breakpoint, it will take you to the code, where you can see the surrounding markup.  But you will only see the *markup*, not the actual live elements, unfortunately.  Just saying.
 
 
 ## Disabling the default behavior of initialization (Warning:  Wonky discussion)
@@ -565,6 +500,71 @@ There is a special string used to refer to an element of [composedPath()](https:
 This pulls the node from event.composedPath()[0].node.
 
 
+##  Defining a piping custom element
+
+The usefulness of this feature has gone down considerably, with the introductino of computed values above.
+
+A convenience function is provided, that allows you to generate a "pipe" or "action" custom element with as few keystrokes as possible.
+
+Here's what the syntax looks like in a JavaScript file:
+
+```JavaScript
+import {PDQ} from 'p-d.p-u/PDQ.js';
+PDQ.define('my-pipeline-action', input => {
+    // do stuff
+    return myProcessedResult;
+});
+```
+
+This will create a custom element with name "my-pipeline-action".  It applies the second argument, a function, to the "input" property of the custom element, every time the input changes.  It then stores the result in property "value", and emits an event with name "value-changed":
+
+```html
+<my-pipeline-action></my-pipeline-action>
+<p-d on="value-changed" prop="input">
+```
+
+As with all custom element definitions, some care should be taken to ensure that the custom element names are unique.  This could be challenging if generating lots of small custom elements, like shown above, to be used in a large application, especially if that large application combines somewhat loosely coupled content from different teams, who also generate many custom elements.  Hopefully, the "Scoped Custom Element Registries" will help make this issue disappear in the future.
+
+PDQ also supports multiple parameters:
+
+```html
+    <script type="module">
+        import {PDQ} from '../PDQ.js';
+        PDQ.define('a-b', ({alpha, beta, gamma}) =>{
+            return alpha + beta + gamma;
+        })
+    </script>
+    <a-b></a-b>
+```
+
+
+### Location, Location, Location
+
+If the issue of mixing JavaScript script tags inside markup is *not* a serious concern for you, but you do want to reap the benefits from making the data flow unidirectionally, without having to jump away to see the code for one of these piping custom elements, you can "inline" the code quite close to where it is needed.  For now, this will only work if you essentially "hard code" the location of PDQ to a CDN with support for bare import specifiers:
+
+```html
+<p-d on="selected-root-nodes-changed" prop="input" val="target"></p-d>
+<script type="module">
+    import {PDQ} from 'https://unpkg.com/p-et-alia@0.0.4/PDQ.js?module';
+    PDQ.define('selected-node-change-handler', (input) =>{
+        if((typeof(nodeList) === 'undefined') || !nodeList.items) return;
+        const idx = nodeList.firstVisibleIndex;
+        nodeList.items = nodeList.items.slice();
+        nodeList.scrollToIndex(idx);
+    })
+</script>
+<selected-node-change-handler></selected-node-change-handler>
+```
+
+With [package name map](https://github.com/WICG/import-maps) support, the import statement could look more like the previous example:
+
+```JavaScript
+import {PDQ} from 'p-et-alia/PDQ.js';
+```
+
+**NB**  There is now a [nice polyfill](https://www.npmjs.com/package/es-module-shims) for import maps.
+
+Now if you add a breakpoint, it will take you to the code, where you can see the surrounding markup.  But you will only see the *markup*, not the actual live elements, unfortunately.  Just saying.
 
 
 
