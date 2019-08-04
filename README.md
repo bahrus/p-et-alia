@@ -193,9 +193,13 @@ Clearly, "my-custom-element" is below the p-d element.  The problem is p-d wasn'
 <my-custom-element -lhs></my-custom-element>
 ```
 
-## Seeing through Walls, Part II [TODO]
+## Seeing through Walls, Part II
 
-To keep performance optimal and scalable, the p-d element only tests downstream siblings -- not children of siblings.  However, the use case for being able to drilldown inside a DOM node is quite high.  p-et-alia provides an easy way and a hard way.
+To keep performance optimal and scalable, the p-d element only tests downstream siblings -- not children of siblings.  However, the use case for being able to drilldown inside a DOM node is quite high.  p-et-alia provides an easy way and a hard way to do that.  
+
+### The Easy Way
+
+The easy way uses the ["care-of"](https://faq.usps.com/s/article/How-do-I-address-mail-In-care-of) attribute:
 
 Consider the following:
 
@@ -211,7 +215,7 @@ Consider the following:
 </details>
 ```
 
-To see past both details walls, use the care-of attribute:
+To see past both details walls, use the care-of and from attributes:
 
 ```html
 <details>
@@ -227,11 +231,13 @@ To see past both details walls, use the care-of attribute:
 
 "care-of" only finds the first match (using querySelector).
 
-p-d watches for DOM mutations, in case the set of matching downstream siblings changes. But the "care-of" attribute assumes (for now) that the DOM structure has "settled." If you want to apply recursive DOM monitoring (ia mutationObserver)
+p-d watches for DOM mutations, in case the set of matching downstream siblings changes. But the "care-of" attribute assumes (for now) that the DOM structure has "settled." If you want to apply recursive DOM monitoring (via mutationObserver) use...
 
-## Recursive sibling drilldown with p-d-r -- Invitation Only
+### The Hard Way -  Recursive sibling drilldown with p-d-r -- Invitation Only
 
-Unlike Polymer, permission to do this must be granted explicitly, using the p-d-if attribute on elements where drilldown is needed.  The value of the attribute is used to test against the p-d element (hence you will want to specify some marker, like an ID, on the p-d element, which can be used to validate the invitation.)
+So this is the hard way, but it is more thorough.
+
+Permission to enter inside a node must be granted explicitly, using the p-d-if attribute on elements where drilldown is needed.  The value of the attribute is used to test against the p-d element (hence you will want to specify some marker, like an ID, on the p-d element, which can be used to validate the invitation.)
 
 ```html   
     <text-box></text-box>                                                               
@@ -243,69 +249,52 @@ Unlike Polymer, permission to do this must be granted explicitly, using the p-d-
     </div>
 ```
 
+The benefits of taking this difficult path, is that mutation observers are set up along this full path, so if DOM elements are added dynamically, they will be synchronized based on the binding rules.
 
-##  Defining a piping custom element
 
-A convenience function is provided, that allows you to generate a "pipe" or "action" custom element with as few keystrokes as possible.
 
-Here's what the syntax looks like in a JavaScript file:
+## Deluxe version [partially untested]
 
-```JavaScript
-import {PDQ} from 'p-d.p-u/PDQ.js';
-PDQ.define('my-pipeline-action', input => {
-    // do stuff
-    return myProcessedResult;
-});
-```
+Another custom element, p-d-x, extends p-d and adds these additional features;
 
-This will create a custom element with name "my-pipeline-action".  It applies the second argument, a function, to the "input" property of the custom element, every time the input changes.  It then stores the result in property "value", and emits an event with name "value-changed":
+1)  You can specify adding / removing a css class (untested).
+2)  You can specify a nested path that needs setting.
+3)  You can copy all properties of the source to the target if you specify to="{.:.}" (partly tested).
+4)  For attribute val, more extended expressions are allowed using notation:  a.b.c.fn(param1,param2).d.  fn is a name of a function, and the values inside the paranthesis are converted to strings.  E.g.
 
 ```html
-<my-pipeline-action></my-pipeline-action>
-<p-d on="value-changed" prop="input">
+<p-d-x on=value-changed to=textContent val=target.value.querySelector(FahrenheitToCelsiusResult).textContent></p-d-x>
 ```
 
-As with all custom element definitions, some care should be taken to ensure that the custom element names are unique.  This could be challenging if generating lots of small custom elements, like shown above, to be used in a large application, especially if that large application combines somewhat loosely coupled content from different teams, who also generate many custom elements.  Hopefully, the "Scoped Custom Element Registries" will help make this issue disappear in the future.
+## Computed values
 
-PDQ also supports multiple parameters:
+You can create little p-d-x extension custom elements thusly:
+
+```TypeScript
+import {extend} from 'p-et-alia/p-d-x.js';
+
+extend('slot-bot', {
+    valFromEvent: (e: Event) =>{
+        const slot = e.target as HTMLSlotElement;
+        const ret = slot.assignedElements().map(el => {
+            const clone = el.cloneNode(true) as HTMLElement;
+            clone.removeAttribute('slot');
+            return clone.outerHTML;
+        }).join('');
+        return ret;
+    }
+})
+```
 
 ```html
-    <script type="module">
-        import {PDQ} from '../PDQ.js';
-        PDQ.define('a-b', ({alpha, beta, gamma}) =>{
-            return alpha + beta + gamma;
-        })
-    </script>
-    <a-b></a-b>
+    <!-- Options to vote on, passed in via light children.  -->
+    <slot name="options"></slot>
+    <p-d-x-slot-bot on="slotchange" prop="innerHTML"></p-d-x-slot-bot>
+    <xtal-radio-group-md name="pronoun" data-flag="voted" data-allow-voting="-1"></xtal-radio-group-md>
 ```
 
-## Location, Location, Location
 
-If the issue of mixing JavaScript script tags inside markup is *not* a serious concern for you, but you do want to reap the benefits from making the data flow unidirectionally, without having to jump away to see the code for one of these piping custom elements, you can "inline" the code quite close to where it is needed.  For now, this will only work if you essentially "hard code" the location of PDQ to a CDN with support for bare import specifiers:
 
-```html
-<p-d on="selected-root-nodes-changed" prop="input" val="target"></p-d>
-<script type="module">
-    import {PDQ} from 'https://unpkg.com/p-et-alia@0.0.4/PDQ.js?module';
-    PDQ.define('selected-node-change-handler', (input) =>{
-        if((typeof(nodeList) === 'undefined') || !nodeList.items) return;
-        const idx = nodeList.firstVisibleIndex;
-        nodeList.items = nodeList.items.slice();
-        nodeList.scrollToIndex(idx);
-    })
-</script>
-<selected-node-change-handler></selected-node-change-handler>
-```
-
-With [package name map](https://github.com/WICG/import-maps) support, the import statement could look more like the previous example:
-
-```JavaScript
-import {PDQ} from 'p-et-alia/PDQ.js';
-```
-
-**NB**  There is now a [nice polyfill](https://www.npmjs.com/package/es-module-shims) for import maps.
-
-Now if you add a breakpoint, it will take you to the code, where you can see the surrounding markup.  But you will only see the *markup*, not the actual live elements, unfortunately.  Just saying.
 
 ## Debugging Tips
 
@@ -341,6 +330,133 @@ p-d can be configured to test the event target to make sure it matches a css tes
 </div>
 <p-d on="click" if="a"></p-d>
 ```
+
+## Limitations
+
+Please expand below.
+
+<details>
+<summary>TodoMVC or not TodoMVC
+</summary>
+
+
+These "connector components" would be useless if there were no, you know, components to connect.  It would be like blockchain without people actually engaging in trade.  
+
+<details>
+<summary>Blockchain?</summary>
+Admittedly, the parallels with blockchain are a bit tenous, but I'm attempting to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements. p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow unfettered competition between different component "vendors".  
+</details>
+
+As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
+
+Recursively, some parts of a web component may also involve gluing loosely coupled sub-components together, so these connector components could also be used there to reduce boilerplate, expensive JavaScript, especially in a setting where HTML is imported, though careful measurements will need to be made when there's something [concrete to test](https://discourse.wicg.io/t/proposal-html-modules/3309/10).
+
+However, there are many scenarios where some UI functionality is sufficiently complex and intricate that "gluing together" loosely coupled components isn't the right mindset.  Instead of connecting a Roku to a TV, think implementing a new design of a swiss watch.
+
+![](https://deployant.com/wp-content/uploads/2016/09/patek-repeater-perpetual-tourbillon.jpg)
+
+An example of this is the classic [TodoMVC](http://todomvc.com/) functionality.  
+This is the type of functionality best built with a [component helper library](https://webcomponents.dev/) or two.
+
+But it is worth examining the question:  What is the least amount of "central control" needed to implement the TodoMVC, without triggering a gag reflex?
+
+What follows is a discussion of what that might look like.  
+
+The main issue is that we want to be able to work with a list of objects using an intuitive, easy api that specializes in managing lists of objects.  Namely our good curly braced friend.  And maybe those objects should be stored outside of RAM, like IndexedDB, and manipulated via web workers (for example, but certainly not required.)
+
+What we want to "outsource" and make as painless as possible is mapping this beautiful JS to the UI.
+
+This could all be done with a single self-contained component, but another option is to break down the core functionality into two key components -- a non visual view model component and a component that displays the view model.  Since we only want to add a task when you hit enter, an enhanced input component would make sense:
+
+```html
+<div>
+    <p-d on=item-deleted if=my-visual-to-do-list to=[-delete-task] m=1></p-d>
+    <p-d on=item-edited if=my-visual-to-do-list to=[-update-task] m=1></p-d>
+    <enhanced-input placeholder="What needs to be done?"></enhanced-input>
+    <p-d on=commit to=[-new-task]>
+    <my-non-visual-to-do-list-view-model -new-task -delete-task -update-task></my-non-visual-to-do-list-view-model>
+    <p-d on=list-changed to=[-items] m=1></p-d>
+    <my-visual-to-do-list disabled="2" -items></my-visual-to-do-list>
+</div>
+```
+
+Here we are relying on the "cycling" effect of placing p-d's at the top of a DOM node, with no previous non p-* nodes.  We assume the component my-visual-list is designed in such a way that when you click on some delete button inside that component, it emits an event "item-deleted" and if you edit an item, it emits an event "item-edited", both of which bubble up.
+
+Splitting up the todo composition into these three sub components could allow one or more pieces to be re-used with or without the other.  For example, maybe in one scenario we want the list to display as a simple list, but elsewhere we want it to display inside a calendar.    Or both at the same time.  
+
+But are my-non-visual-to-do-list-view-model and my-visual-to-do-list really loosely coupled?  To a degree.  But they must agree to a common contract as far as the expected format of the events.
+
+To allow for even more loosely coupled integrations, the simple but sweet p-d can be replaced with a more specialized [translator/adaptor connector](https://funtranslations.com/valyrian), that extends p-d-x, which in turn extends p-d, like the [slot-bot example](https://github.com/bahrus/p-et-alia#computed-values).  You could consider it local "mediator" in the blockchain
+
+</details>
+
+
+##  Defining a piping custom element
+
+The usefullness of this feature has gone down considerably, with the introductino of computed values above.
+
+A convenience function is provided, that allows you to generate a "pipe" or "action" custom element with as few keystrokes as possible.
+
+Here's what the syntax looks like in a JavaScript file:
+
+```JavaScript
+import {PDQ} from 'p-d.p-u/PDQ.js';
+PDQ.define('my-pipeline-action', input => {
+    // do stuff
+    return myProcessedResult;
+});
+```
+
+This will create a custom element with name "my-pipeline-action".  It applies the second argument, a function, to the "input" property of the custom element, every time the input changes.  It then stores the result in property "value", and emits an event with name "value-changed":
+
+```html
+<my-pipeline-action></my-pipeline-action>
+<p-d on="value-changed" prop="input">
+```
+
+As with all custom element definitions, some care should be taken to ensure that the custom element names are unique.  This could be challenging if generating lots of small custom elements, like shown above, to be used in a large application, especially if that large application combines somewhat loosely coupled content from different teams, who also generate many custom elements.  Hopefully, the "Scoped Custom Element Registries" will help make this issue disappear in the future.
+
+PDQ also supports multiple parameters:
+
+```html
+    <script type="module">
+        import {PDQ} from '../PDQ.js';
+        PDQ.define('a-b', ({alpha, beta, gamma}) =>{
+            return alpha + beta + gamma;
+        })
+    </script>
+    <a-b></a-b>
+```
+
+
+## Location, Location, Location
+
+If the issue of mixing JavaScript script tags inside markup is *not* a serious concern for you, but you do want to reap the benefits from making the data flow unidirectionally, without having to jump away to see the code for one of these piping custom elements, you can "inline" the code quite close to where it is needed.  For now, this will only work if you essentially "hard code" the location of PDQ to a CDN with support for bare import specifiers:
+
+```html
+<p-d on="selected-root-nodes-changed" prop="input" val="target"></p-d>
+<script type="module">
+    import {PDQ} from 'https://unpkg.com/p-et-alia@0.0.4/PDQ.js?module';
+    PDQ.define('selected-node-change-handler', (input) =>{
+        if((typeof(nodeList) === 'undefined') || !nodeList.items) return;
+        const idx = nodeList.firstVisibleIndex;
+        nodeList.items = nodeList.items.slice();
+        nodeList.scrollToIndex(idx);
+    })
+</script>
+<selected-node-change-handler></selected-node-change-handler>
+```
+
+With [package name map](https://github.com/WICG/import-maps) support, the import statement could look more like the previous example:
+
+```JavaScript
+import {PDQ} from 'p-et-alia/PDQ.js';
+```
+
+**NB**  There is now a [nice polyfill](https://www.npmjs.com/package/es-module-shims) for import maps.
+
+Now if you add a breakpoint, it will take you to the code, where you can see the surrounding markup.  But you will only see the *markup*, not the actual live elements, unfortunately.  Just saying.
+
 
 ## Disabling the default behavior of initialization (Warning:  Wonky discussion)
 
@@ -423,18 +539,6 @@ For that we have:
 
 Another way you can make data "cycle" is by placing a p-* element at the beginning -- if no previous non p-* elements are found, the event handler is attached to the parent. [This has the flaw that it doesn't support the disabling capability, but a possible solution is on the way]
 
-## Deluxe version [partially untested]
-
-Another custom element, p-d-x, extends p-d and adds these additional features;
-
-1)  You can specify adding / removing a css class (untested).
-2)  You can specify a nested path that needs setting.
-3)  You can copy all properties of the source to the target if you specify to="{.:.}" (partly tested).
-4)  For attribute val, more extended expressions are allowed using notation:  a.b.c.fn(param1,param2).d.  fn is a name of a function, and the values inside the paranthesis are converted to strings.  E.g.
-
-```html
-<p-d-x on=value-changed to=textContent val=target.value.querySelector(FahrenheitToCelsiusResult).textContent></p-d-x>
-```
 
 
 There is a special string used to refer to an element of [composedPath()](https://developer.mozilla.org/en-US/docs/Web/API/Event/composedPath):
@@ -445,32 +549,6 @@ There is a special string used to refer to an element of [composedPath()](https:
 
 This pulls the node from event.composedPath()[0].node.
 
-## Computed values
-
-You can create little p-d-x extension custom elements thusly:
-
-```TypeScript
-import {extend} from 'p-et-alia/p-d-x.js';
-
-extend('slot-bot', {
-    valFromEvent: (e: Event) =>{
-        const slot = e.target as HTMLSlotElement;
-        const ret = slot.assignedElements().map(el => {
-            const clone = el.cloneNode(true) as HTMLElement;
-            clone.removeAttribute('slot');
-            return clone.outerHTML;
-        }).join('');
-        return ret;
-    }
-})
-```
-
-```html
-    <!-- Options to vote on, passed in via light children.  -->
-    <slot name="options"></slot>
-    <p-d-x-slot-bot on="slotchange" prop="innerHTML"></p-d-x-slot-bot>
-    <xtal-radio-group-md name="pronoun" data-flag="voted" data-allow-voting="-1"></xtal-radio-group-md>
-```
 
 ##  Differences to other frameworks - data-passing chain vs centralized control
 
@@ -508,61 +586,7 @@ Note the use of the attribute "level='local'".  This limits the scope of the sta
 </div>
 ```
 
-<details>
-<summary>Limitations
-    <h3>TodoMVC or not TodoMVC</h3>
-</summary>
 
-
-These "connector components" would be useless if there were no, you know, components to connect.  It would be like blockchain without people actually engaging in trade.  
-
-<details>
-<summary>Blockchain?</summary>
-Admittedly, the parallels with blockchain are a bit tenous, but I'm attempting to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements. p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow unfettered competition between different component "vendors".  
-</details>
-
-As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
-
-Recursively, some parts of a web component may also involve gluing loosely coupled sub-components together, so these connector components could also be used there to reduce boilerplate, expensive JavaScript, especially in a setting where HTML is imported, though careful measurements will need to be made when there's something [concrete to test](https://discourse.wicg.io/t/proposal-html-modules/3309/10).
-
-However, there are many scenarios where some UI functionality is sufficiently complex and intricate that "gluing together" loosely coupled components isn't the right mindset.  Instead of connecting a Roku to a TV, think implementing a new design of a swiss watch.
-
-![](https://deployant.com/wp-content/uploads/2016/09/patek-repeater-perpetual-tourbillon.jpg)
-
-An example of this is the classic [TodoMVC](http://todomvc.com/) functionality.  
-This is the type of functionality best built with a [component helper library](https://webcomponents.dev/) or two.
-
-But it is worth examining the question:  What is the least amount of "central control" needed to implement the TodoMVC, without triggering a gag reflex?
-
-What follows is a discussion of what that might look like.  
-
-The main issue is that we want to be able to work with a list of objects using an intuitive, easy api that specializes in managing lists of objects.  Namely our good curly braced friend.  And maybe those objects should be stored outside of RAM, like IndexedDB, and manipulated via web workers (for example, but certainly not required.)
-
-What we want to "outsource" and make as painless as possible is mapping this beautiful JS to the UI.
-
-This could all be done with a single self-contained component, but another option is to break down the core functionality into two key components -- a non visual view model component and a component that displays the view model.  Since we only want to add a task when you hit enter, an enhanced input component would make sense:
-
-```html
-<div>
-    <p-d on=item-deleted if=my-visual-to-do-list to=[-delete-task] m=1></p-d>
-    <p-d on=item-edited if=my-visual-to-do-list to=[-update-task] m=1></p-d>
-    <enhanced-input placeholder="What needs to be done?"></enhanced-input>
-    <p-d on=commit to=[-new-task]>
-    <my-non-visual-to-do-list-view-model -new-task -delete-task -update-task></my-non-visual-to-do-list-view-model>
-    <p-d on=list-changed to=[-items] m=1></p-d>
-    <my-visual-to-do-list disabled="2" -items></my-visual-to-do-list>
-</div>
-```
-
-Here we are relying on the "cycling" effect of placing p-d's at the top of a DOM node, with no previous non p-* nodes.  We assume the component my-visual-list is designed in such a way that when you click on some delete button inside that component, it emits an event "item-deleted" and if you edit an item, it emits an event "item-edited", both of which bubble up.
-
-Splitting up the todo composition into these three sub components could allow one or more pieces to be re-used with or without the other.  For example, maybe in one scenario we want the list to display as a simple list, but elsewhere we want it to display inside a calendar.    Or both at the same time.  
-
-But are my-non-visual-to-do-list-view-model and my-visual-to-do-list really loosely coupled?  To a degree.  But they must agree to a common contract as far as the expected format of the events.
-
-To allow for even more loosely coupled integrations, the simple but sweet p-d can be replaced with a more specialized [translator/adaptor connector](https://funtranslations.com/valyrian), that extends p-d-x, which in turn extends p-d, like the [slot-bot example](https://github.com/bahrus/p-et-alia#computed-values).  You could consider it local "mediator" in the blockchain
-
-</details>
 
 
 ## Viewing Your Element
