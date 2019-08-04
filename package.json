@@ -22,7 +22,7 @@
     "es-module-shims": "0.2.14"
   },
   "scripts": {
-    "test": "node createIIFE.js && tape test/*.js",
+    "test": "node tape test/*.js",
     "serve": "node node_modules/xtal-test/serve.js"
   },
   "author": "anderson.bruce.b@gmail.com",
