@@ -21,6 +21,9 @@ Both p-d and p-u have an attribute/property, "on" that specifies an event to mon
 
 When this event monitoring is enabled, if the previous element is disabled, the disabled attribute is removed (more on that later).
 
+
+
+
 ##  Downward flow amongst siblings with p-d. 
 
 p-d  passes information from that previous sibling's event down the p-d instance's sibling list.  It stops event propagation (by default).  Sample markup is shown below: 
@@ -331,6 +334,18 @@ p-d can be configured to test the event target to make sure it matches a css tes
 <p-d on="click" if="a"></p-d>
 ```
 
+##  Differences to other frameworks - data-passing chain vs centralized control
+
+While these components provide a kind of "framework built with web components", similar to Polymer, there's a fundamental difference.  Unlike Polymer (and other competing frameworks), these components don't depend on the existence of a controlling component which manages state.  Instead, it is a little more [JQuery](https://w3techs.com/technologies/overview/javascript_library/all) like.  Why not let each component decide how best to manage its own state?  It is a "peer-to-peer binding framework."  This may be more appealing for some [people](https://www.youtube.com/watch?v=RplnSVTzvnU) / use cases, less appealing to others.  
+
+###  All Hail, Keeper of All Our Stories! 
+
+What if one of the components in your data passing chain is an unreliable dog of a component?  Perhaps the complexity of your application is such that limiting a unified "state" to simply passing data between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore, on setState of some framework you will be stuck with forever, version after version, no matter what wrong, cruel and stupid turns it takes?   What better  thing to bind components together than the keeper of all history, [history.state](https://www.youtube.com/watch?v=IRJ8uFNmzqU)?  
+
+One candidate for providing a hand with managing history.state is the AMP's [amp-bind](https://amp.dev/documentation/components/amp-bind/?referrer=ampproject.org) component, which appears to rely on history.state as its unifying system of record.
+
+ [xtal-state](https://www.webcomponents.org/element/xtal-state), [purr-sist](https://www.webcomponents.org/element/purr-sist) and [bi-st](https://www.webcomponents.org/element/bi-st) also offer their services.
+
 ## Limitations
 
 Please expand below.
@@ -429,7 +444,7 @@ PDQ also supports multiple parameters:
 ```
 
 
-## Location, Location, Location
+### Location, Location, Location
 
 If the issue of mixing JavaScript script tags inside markup is *not* a serious concern for you, but you do want to reap the benefits from making the data flow unidirectionally, without having to jump away to see the code for one of these piping custom elements, you can "inline" the code quite close to where it is needed.  For now, this will only work if you essentially "hard code" the location of PDQ to a CDN with support for bare import specifiers:
 
@@ -550,41 +565,7 @@ There is a special string used to refer to an element of [composedPath()](https:
 This pulls the node from event.composedPath()[0].node.
 
 
-##  Differences to other frameworks - data-passing chain vs centralized control
 
-While these components provide a kind of "framework built with web components", similar to Polymer, there's a fundamental difference.  Unlike Polymer (and other competing frameworks), these components don't depend on the existence of a controlling component which manages state.  Instead, it is a little more [JQuery](https://w3techs.com/technologies/overview/javascript_library/all) like.  Why not let each component decide how best to manage its own state?  It is a "peer-to-peer binding framework."  This may be more appealing for some [people](https://www.youtube.com/watch?v=RplnSVTzvnU) / use cases, less appealing to others.  
-
-###  All Hail, Keeper of All Our Stories! 
-
-What if one of the components in your data passing chain is an unreliable dog of a component?  Perhaps the complexity of your application is such that limiting a unified "state" to simply passing data between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore, on setState of some framework you will be stuck with forever, version after version, no matter what wrong, cruel and stupid turns it takes?   What better  thing to bind components together than the keeper of all history, [history.state](https://www.youtube.com/watch?v=IRJ8uFNmzqU)?  
-
-One candidate for providing a hand with managing history.state is the AMP's [amp-bind](https://amp.dev/documentation/components/amp-bind/?referrer=ampproject.org) component, which appears to rely on history.state as its unifying system of record.
-
- [xtal-state](https://www.webcomponents.org/element/xtal-state), [purr-sist](https://www.webcomponents.org/element/purr-sist) and [bi-st](https://www.webcomponents.org/element/bi-st) also offer their services:
-
-
-
-```html
-<div>
-    <xtal-state-watch watch level=local></xtal-state-watch>
-    <p-d on=history-changed to=#handleViewableNodesChanged prop=firstVisibleIndex val=target.history m=1></p-d>
-    ...
-</div>
-```
-
-Note the use of the attribute "level='local'".  This limits the scope of the state to the local div DOM element.  Then if you need to update this local state, add another tag:
-
-```html
-<div>
-    ...
-    <iron-list>
-        ...
-    </iron-list>
-    <p-d on=scroll prop=history val=target.firstVisibleIndex></p-d>
-    <xtal-state-commit level=local rewrite href=/scroll></xtal-state-commit>
-...
-</div>
-```
 
 
 
