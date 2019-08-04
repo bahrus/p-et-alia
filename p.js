@@ -88,7 +88,6 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
     attributeChangedCallback(name, oldVal, newVal) {
         const f = '_' + name;
         switch (name) {
-            case care_of:
             case iff:
             case on:
             case prop:
@@ -98,6 +97,9 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
                 break;
             case noblock:
                 this[f] = newVal !== null;
+                break;
+            case care_of:
+                this._careOf = newVal;
                 break;
         }
         if (name === val && newVal !== null) {
