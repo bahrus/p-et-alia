@@ -207,11 +207,11 @@ The "easy way" uses the ["care-of"](https://faq.usps.com/s/article/How-do-I-addr
 Consider the following:
 
 ```html
-<details>
-	<summary>my-custom-element Editor</summary>
+<fieldset>
+	<legend>my-custom-element Editor</legend>
 	<input/>
 	<p-d on=input to=my-custom-element[-lhs] m=1></p-d> 
-</details>
+</fieldset>
 <details>
     <summary>my-custom-element in the flesh</summary>
     <my-custom-element -lhs></my-custom-element>
@@ -221,11 +221,11 @@ Consider the following:
 To see past both details walls, use the care-of and from attributes:
 
 ```html
-<details>
-	<summary>my-custom-element Editor</summary>
+<fieldset>
+	<legend>my-custom-element Editor</legend>
 	<input/>
-	<p-d on=input from=details to=details care-of=my-custom-element[-lhs] m=1></p-d> 
-</details>
+	<p-d on=input from=fieldset to=details care-of=my-custom-element[-lhs] m=1></p-d> 
+</fieldset>
 <details>
     <summary>my-custom-element in the flesh</summary>
     <my-custom-element -lhs></my-custom-element>
