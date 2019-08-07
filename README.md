@@ -218,7 +218,7 @@ Consider the following:
 </details>
 ```
 
-To see past both details walls, use the care-of and from attributes:
+To see past both the fieldset and details walls, use the care-of and from attributes:
 
 ```html
 <fieldset>
