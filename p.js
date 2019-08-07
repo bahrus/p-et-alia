@@ -122,7 +122,7 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
     connectedCallback() {
         this.style.display = 'none';
         this.propUp([on, to, noblock, iff, prop, val, 'careOf']);
-        this.init();
+        //this.init();
     }
     init() {
         this.attchEvListnrs();

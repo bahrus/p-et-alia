@@ -86,6 +86,7 @@ export class PD extends P {
         return new NavDown(seed, this.to, this._careOf, bndApply, this.m);
     }
     connectedCallback() {
+        super.connectedCallback();
         this.propUp([m, from]);
         this.attr('pds', '📞');
         if (!this.to) {
@@ -101,7 +102,7 @@ export class PD extends P {
         pdnd.init();
         this._iIP = false;
         this._pdNavDown = pdnd;
-        super.connectedCallback();
+        this.init();
     }
 }
 define(PD);

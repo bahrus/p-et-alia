@@ -136,10 +136,11 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
         return pS;
     }
 
+
     connectedCallback(){
         this.style.display = 'none';
         this.propUp([on, to, noblock, iff, prop, val, 'careOf']);
-        this.init();
+        //this.init();
     }
     init(){
         this.attchEvListnrs();

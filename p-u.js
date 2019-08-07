@@ -53,6 +53,7 @@ export class PU extends P {
     }
     connectedCallback() {
         super.connectedCallback();
+        this.init();
     }
 }
 define(PU);
