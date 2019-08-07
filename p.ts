@@ -55,7 +55,7 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
         return this._careOf;
     }
     set careOf(nv){
-        this._careOf = nv;
+        this.attr(care_of, nv);
     }
 
     _noblock!: boolean;

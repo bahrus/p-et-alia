@@ -76,8 +76,14 @@ export class PD extends P {
     }
     newNavDown(){
         const bndApply = this.applyProps.bind(this);
-        const seed = this._from === undefined ? this : this.closest(this._from);
-        return new NavDown(seed!, this.to, this._careOf, bndApply, this.m);
+        let seed : Element | null = this;
+        if(this._from !== undefined){
+            seed = this.closest(this._from);
+            if(seed === null){
+                throw this._from + ' not found.';
+            }
+        }
+        return new NavDown(seed, this.to, this._careOf, bndApply, this.m);
     }
     _iIP = false;
     connectedCallback() {

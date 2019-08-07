@@ -48,7 +48,7 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
         return this._careOf;
     }
     set careOf(nv) {
-        this._careOf = nv;
+        this.attr(care_of, nv);
     }
     get noblock() {
         return this._noblock;
