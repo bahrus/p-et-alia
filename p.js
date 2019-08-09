@@ -111,13 +111,14 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
      * get previous sibling
      */
     getPreviousSib() {
-        let pS = this;
-        while (pS && pS.tagName.startsWith('P-')) {
-            pS = pS.previousElementSibling;
+        let prevSib = this;
+        while (prevSib && prevSib.tagName.startsWith('P-')) {
+            prevSib = prevSib.previousElementSibling;
         }
-        if (pS === null)
-            pS = this.parentElement;
-        return pS;
+        if (prevSib === null) {
+            prevSib = this.parentElement;
+        }
+        return prevSib;
     }
     connectedCallback() {
         this.style.display = 'none';
@@ -129,6 +130,17 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
         this.doFake();
     }
     ;
+    nudge(prevSib) {
+        const da = prevSib.getAttribute('disabled');
+        if (da !== null) {
+            if (da.length === 0 || da === "1") {
+                prevSib.removeAttribute('disabled');
+            }
+            else {
+                prevSib.setAttribute('disabled', (parseInt(da) - 1).toString());
+            }
+        }
+    }
     attchEvListnrs() {
         if (this._bndHndlEv) {
             return;
@@ -136,18 +148,17 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
         else {
             this._bndHndlEv = this._hndEv.bind(this);
         }
-        const pS = this.getPreviousSib();
-        if (!pS)
+        const prevSib = this.getPreviousSib();
+        if (!prevSib)
             return;
-        pS.addEventListener(this._on, this._bndHndlEv);
-        const da = pS.getAttribute('disabled');
-        if (da !== null) {
-            if (da.length === 0 || da === "1") {
-                pS.removeAttribute('disabled');
-            }
-            else {
-                pS.setAttribute('disabled', (parseInt(da) - 1).toString());
-            }
+        prevSib.addEventListener(this._on, this._bndHndlEv);
+        if (prevSib === this.parentElement && this._if) {
+            prevSib.querySelectorAll(this._if).forEach(publisher => {
+                this.nudge(publisher);
+            });
+        }
+        else {
+            this.nudge(prevSib);
         }
     }
     skI() {

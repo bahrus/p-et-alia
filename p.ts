@@ -128,12 +128,14 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
      * get previous sibling
      */
     getPreviousSib() : Element | null{
-        let pS = this as Element | null;
-        while(pS && pS.tagName.startsWith('P-')){
-            pS = pS.previousElementSibling!;
+        let prevSib = this as Element | null;
+        while(prevSib && prevSib.tagName.startsWith('P-')){
+            prevSib = prevSib.previousElementSibling!;
         }
-        if(pS === null) pS = this.parentElement;
-        return pS;
+        if(prevSib === null) {
+            prevSib = this.parentElement;
+        }
+        return prevSib;
     }
 
 
@@ -146,24 +148,32 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
         this.attchEvListnrs();
         this.doFake();
     };
+    nudge(prevSib: Element){
+        const da = prevSib.getAttribute('disabled');
+        if(da !== null){
+            if(da.length === 0 ||da==="1"){
+                prevSib.removeAttribute('disabled');
+            }else{
+                prevSib.setAttribute('disabled', (parseInt(da) - 1).toString());
+            }
+        }
+    }
     attchEvListnrs(){
         if(this._bndHndlEv){
             return;
         }else{
             this._bndHndlEv = this._hndEv.bind(this);
         }
-        const pS = this.getPreviousSib();
-        if(!pS) return;
-        pS.addEventListener(this._on, this._bndHndlEv);
-        const da = pS.getAttribute('disabled');
-        if(da !== null){
-            if(da.length === 0 ||da==="1"){
-                pS.removeAttribute('disabled');
-            }else{
-                pS.setAttribute('disabled', (parseInt(da) - 1).toString());
-            }
+        const prevSib = this.getPreviousSib();
+        if(!prevSib) return;
+        prevSib.addEventListener(this._on, this._bndHndlEv);
+        if(prevSib === this.parentElement && this._if){
+            prevSib.querySelectorAll(this._if).forEach(publisher =>{
+                this.nudge(publisher);
+            })
+        }else{
+            this.nudge(prevSib);
         }
-        
 
     }
     skI(){
