@@ -397,6 +397,8 @@ This could all be done with a single self-contained component, but another optio
 
 Here we are relying on the "cycling" effect of placing p-d's at the top of a DOM node, with no previous non p-* nodes.  We assume the component my-visual-list is designed in such a way that when you click on some delete button inside that component, it emits an event "item-deleted" and if you edit an item, it emits an event "item-edited", both of which bubble up.
 
+The only (but important) reason we need the if condition is so it can reduce the disabled attribute from my-visual-to-do-list as the latch on (and it is higly recommended that web components don't allow user interaction until disabled is removed.)
+
 Splitting up the todo composition into these three sub components could allow one or more pieces to be re-used with or without the other.  For example, maybe in one scenario we want the list to display as a simple list, but elsewhere we want it to display inside a calendar.    Or both at the same time.  
 
 But are my-non-visual-to-do-list-view-model and my-visual-to-do-list really loosely coupled?  To a degree.  But they must agree to a common contract as far as the expected format of the events.
@@ -487,17 +489,19 @@ For that we have:
 <p-unt on=click dispatch to=myEventName prop=toggledNode val=target.node composed bubbles></p-unt>
 ```
 
-Another way you can make data "cycle" is by placing a p-* element at the beginning -- if no previous non p-* elements are found, the event handler is attached to the parent. [This has the flaw that it doesn't support the disabling capability, but a possible solution is on the way]
+Another way you can make data "cycle" is by placing a p-* element at the beginning -- if no previous non p-* elements are found, the event handler is attached to the parent. 
 
 
-
+<!--
 There is a special string used to refer to an element of [composedPath()](https://developer.mozilla.org/en-US/docs/Web/API/Event/composedPath):
 
 ```html
-<p-u on="click" if="span" to="/myTree{toggledNode:composedPath_0.node}"></p-u>
+<p-u on=click if=span to="/myTree" prop=toggledNode val=composedPath_0.node></p-u>
 ```
 
 This pulls the node from event.composedPath()[0].node.
+
+-->
 
 
 ##  Defining a piping custom element
