@@ -243,13 +243,13 @@ So this is the hard way, but it is more thorough.
 Permission to enter inside a node must be granted explicitly, using the p-d-if attribute on elements where drilldown is needed.  The value of the attribute is used to test against the p-d element (hence you will want to specify some marker, like an ID, on the p-d element, which can be used to validate the invitation.)
 
 ```html   
-    <text-box></text-box>                                                               
-    <p-d-r on="input" to="url-builder" prop="input"></p-d-r>
-    <h3>Search Employees</h3>
-    <div p-d-if="p-d-r">
-        <url-builder></url-builder>
-        <my-filter></my-filter>
-    </div>
+<text-box></text-box>                                                               
+<p-d-r on="input" to="url-builder" prop="input"></p-d-r>
+<h3>Search Employees</h3>
+<div p-d-if="p-d-r">
+    <url-builder></url-builder>
+    <my-filter></my-filter>
+</div>
 ```
 
 The benefits of taking this difficult path, is that mutation observers are set up along this full path, so if DOM elements are added dynamically, they will be synchronized based on the binding rules.
