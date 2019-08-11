@@ -403,7 +403,7 @@ Splitting up the todo composition into these three sub components could allow on
 
 But are my-non-visual-to-do-list-view-model and my-visual-to-do-list really loosely coupled?  To a degree.  But they must agree to a common contract as far as the expected format of the events.
 
-To allow for even more loosely coupled integrations, the simple but sweet p-d can be replaced with a more specialized [translator/adaptor connector](https://funtranslations.com/valyrian), that extends p-d-x, which in turn extends p-d, like the [slot-bot example](https://github.com/bahrus/p-et-alia#computed-values).  You could consider it local "mediator" in the blockchain
+To allow for even more loosely coupled integrations, the simple but sweet p-d can be replaced with a more specialized [translator](https://funtranslations.com/valyrian)/[mediator](https://www.youtube.com/watch?v=GF7tFwLBiKo), that extends p-d-x, which in turn extends p-d, like the [slot-bot example](https://github.com/bahrus/p-et-alia#computed-values).  You could consider it local "mediator" in the blockchain
 
 </details>
 
