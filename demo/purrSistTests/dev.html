@@ -59,7 +59,7 @@
             This might help:  https://developer.mozilla.org/en-US/docs/Web/API/History/length
 
         -->
-        <p-d-x on=click to=xtal-state-update prop=history.submitted val=target.__obj skip-init m=1></p-d-x>
+        <p-d on=click to=xtal-state-update prop=history.submitted val=target.__obj skip-init m=1></p-d>
         <!-- ============================  End UI Input fields =============================== -->
         <!-- Update global history.state object -->
         <xtal-state-update -history rewrite level=global url-search="(?<store>(.*?))" replace-url-value="?id=$<store>" id=historyUpdater></xtal-state-update>
