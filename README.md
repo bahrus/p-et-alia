@@ -22,8 +22,6 @@ Both p-d and p-u have an attribute/property, "on" that specifies an event to mon
 When this event monitoring is enabled, if the previous element is disabled, the disabled attribute is removed (more on that later).
 
 
-
-
 ##  Downward flow amongst siblings with p-d. 
 
 p-d  passes information from that previous sibling's event down the p-d instance's sibling list.  It stops event propagation (by default).  Sample markup is shown below: 
@@ -254,20 +252,17 @@ Permission to enter inside a node must be granted explicitly, using the p-d-if a
 
 The benefits of taking this difficult path, is that mutation observers are set up along this full path, so if DOM elements are added dynamically, they will be synchronized based on the binding rules.
 
+## Miscellaneous features
 
+1)  You can specify adding / removing a css class if the value of prop starts with a dot (".") (untested).
+2)  You can specify a nested path that needs setting (work in progress).
 
-## Deluxe version [partially untested]
+## Deluxe version
 
-Another custom element, p-d-x, extends p-d and adds these additional features;
+An extending web component, p-d-x, contains, experimental additional feature(s):
 
-1)  You can specify adding / removing a css class (untested).
-2)  You can specify a nested path that needs setting.
-3)  You can copy all properties of the source to the target if you specify to="{.:.}" (partly tested).
-4)  For attribute val, more extended expressions are allowed using notation:  a.b.c.fn(param1,param2).d.  fn is a name of a function, and the values inside the paranthesis are converted to strings.  E.g.
+1)  You can copy all properties of the source to the target if you specify prop="." and val="." (partly tested many refactorings ago).
 
-```html
-<p-d-x on=value-changed to=textContent val=target.value.querySelector(FahrenheitToCelsiusResult).textContent></p-d-x>
-```
 
 ## Computed values
 
@@ -288,6 +283,8 @@ extend('slot-bot', {
     }
 })
 ```
+
+Note: [https://dev.to/westbrook/your-content-in-shadow-dom-portals-3cdb](https://dev.to/westbrook/your-content-in-shadow-dom-portals-3cdb) may have better researched approaches than the code above. 
 
 ```html
     <!-- Options to vote on, passed in via light children.  -->
@@ -362,7 +359,7 @@ These "connector components" would be useless if there were no, you know, compon
 Admittedly, the parallels with <a href="https://www.youtube.com/watch?v=RplnSVTzvnU" target="_blank">blockchain</a> are a bit tenous, but this is an attempt to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements. p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow unfettered competition between different component "vendors".  
 </details>
 
-As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller.  
+As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller managing state.  
 
 Recursively, some parts of a web component may also involve gluing loosely coupled sub-components together, so these connector components could also be used there to reduce boilerplate, expensive JavaScript, especially in a setting where HTML is imported, though careful measurements will need to be made when there's something [concrete to test](https://discourse.wicg.io/t/proposal-html-modules/3309/10).
 

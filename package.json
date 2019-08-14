@@ -2,8 +2,8 @@
   "name": "p-et-alia",
   "version": "0.0.19",
   "description": "Declaratively pass properties between DOM elements",
-  "main": "p-d.js",
-  "module": "p-d.js",
+  "main": "p-et-alia.js",
+  "module": "p-et-alia.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bahrus/p-et-alia.git"
@@ -19,7 +19,11 @@
     "jiife": "0.0.12",
     "tape": "4.10.2",
     "xtal-test": "0.0.19",
-    "es-module-shims": "0.2.14"
+    "xtal-state": "0.0.85",
+    "xtal-json-editor": "0.0.39",
+    "es-module-shims": "0.2.15",
+    "aggregator-fn": "0.0.17",
+    "purr-sist": "0.0.58"
   },
   "scripts": {
     "test": "node tape test/*.js",

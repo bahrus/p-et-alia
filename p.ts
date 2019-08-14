@@ -1,5 +1,6 @@
 import {XtallatX, lispToCamel} from 'xtal-element/xtal-latx.js';
 import {hydrate} from 'trans-render/hydrate.js';
+import {createNestedProp} from 'xtal-element/createNestedProp.js';
 
 const on = 'on';
 const noblock = 'noblock';
@@ -9,10 +10,7 @@ const prop ='prop';
 const val = 'val';
 const care_of = 'care-of';
 
-// getPropFromPath(val: any, path: string){
-//     if(!path || path==='.') return val;
-//     return this.getProp(val, path.split('.'));
-// }
+
 function getProp(val: any, pathTokens: (string | [string, string[]])[]){
     let context = val;
     pathTokens.forEach(token => {
@@ -234,7 +232,24 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
                 }
             }
         }
-        (<any>target)[prop] = val;
+        //const targetPath = prop;
+        switch(typeof prop){
+            case 'symbol':
+                (<any>target)[prop] = val;
+                break;
+            default:
+                if (prop.startsWith('.')) {
+                    const cssClass = prop.substr(1);
+                    const method = val ? 'add' : 'remove';
+                    target.classList[method](cssClass);
+                } else if (prop.indexOf('.') > -1) {
+                    const pathTokens = prop.split('.');
+                    createNestedProp(target, pathTokens, val, true);
+                } else {
+                    (<any>target)[prop] = val;
+                }
+        }
+        //(<any>target)[prop] = val;
     }
 
     detach(pS: Element){
