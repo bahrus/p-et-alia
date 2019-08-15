@@ -1,6 +1,6 @@
 import { XtallatX, lispToCamel } from 'xtal-element/xtal-latx.js';
 import { hydrate } from 'trans-render/hydrate.js';
-import { createNestedProp } from 'xtal-element/createNestedProp.js';
+import { WithPath, with_path } from 'xtal-element/with-path.js';
 const on = 'on';
 const noblock = 'noblock';
 const iff = 'if';
@@ -23,7 +23,7 @@ function getProp(val, pathTokens) {
     });
     return context;
 }
-export class P extends XtallatX(hydrate(HTMLElement)) {
+export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     constructor() {
         super();
         this._s = null; // split prop using '.' as deliiter
@@ -72,7 +72,7 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
         this.attr(val, nv);
     }
     static get observedAttributes() {
-        return super.observedAttributes.concat([on, to, noblock, iff, prop, val, care_of]);
+        return super.observedAttributes.concat([on, to, noblock, iff, prop, val, care_of, with_path]);
     }
     getSplit(newVal) {
         if (newVal === '.') {
@@ -96,7 +96,9 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
                 this[f] = newVal !== null;
                 break;
             case care_of:
-                this._careOf = newVal;
+            case with_path:
+                const key = '_' + lispToCamel(name);
+                this[key] = newVal;
                 break;
         }
         if (name === val && newVal !== null) {
@@ -119,7 +121,7 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
     }
     connectedCallback() {
         this.style.display = 'none';
-        this.propUp([on, to, noblock, iff, prop, val, 'careOf']);
+        this.propUp([on, to, noblock, iff, prop, val, 'careOf', 'withPath']);
         //this.init();
     }
     init() {
@@ -228,9 +230,10 @@ export class P extends XtallatX(hydrate(HTMLElement)) {
                     const method = val ? 'add' : 'remove';
                     target.classList[method](cssClass);
                 }
-                else if (prop.indexOf('.') > -1) {
-                    const pathTokens = prop.split('.');
-                    createNestedProp(target, pathTokens, val, true);
+                else if (this._withPath !== undefined) {
+                    const currentVal = target[prop];
+                    const wrappedVal = this.wrap(val, currentVal);
+                    target[prop] = (typeof (currentVal) === 'object' && currentVal !== null) ? Object.assign(currentVal, wrappedVal) : wrappedVal;
                 }
                 else {
                     target[prop] = val;

@@ -392,19 +392,17 @@ This could all be done with a single self-contained component, but another optio
 </div>
 ```
 
-Here we are relying on the "cycling" effect of placing p-d's at the top of a DOM node, with no previous non p-* nodes.  We assume the component my-visual-list is designed in such a way that when you click on some delete button inside that component, it emits an event "item-deleted" and if you edit an item, it emits an event "item-edited", both of which bubble up.
+Here we are relying on the "cycling" effect of placing p-d's at the top of a DOM node, with no previous non p-* nodes.  We assume the component my-visual-to-do-list is designed in such a way that when you click on some delete button inside that component, it emits an event "item-deleted" and if you edit an item, it emits an event "item-edited", both of which bubble up.
 
-The only (but important) reason we need the if condition is so it can reduce the disabled attribute from my-visual-to-do-list as the latch on (and it is higly recommended that web components don't allow user interaction until disabled is removed.)
+The only (but important) reason we need the if condition is so the p-d's can decrement the disabled attribute from my-visual-to-do-list as they latch on (and it is higly recommended that web components don't allow user interaction until disabled is removed.)
 
 Splitting up the todo composition into these three sub components could allow one or more pieces to be re-used with or without the other.  For example, maybe in one scenario we want the list to display as a simple list, but elsewhere we want it to display inside a calendar.    Or both at the same time.  
 
 But are my-non-visual-to-do-list-view-model and my-visual-to-do-list really loosely coupled?  To a degree.  But they must agree to a common contract as far as the expected format of the events.
 
-To allow for even more loosely coupled integrations, the simple but sweet p-d can be replaced with a more specialized [translator](https://funtranslations.com/valyrian)/[mediator](https://www.youtube.com/watch?v=GF7tFwLBiKo), that extends p-d-x, which in turn extends p-d, like the [slot-bot example](https://github.com/bahrus/p-et-alia#computed-values).  You could consider it local "mediator" in the blockchain
+To allow for even more loosely coupled integrations, the simple but sweet p-d can be replaced with a more specialized [translator](https://funtranslations.com/valyrian)/[mediator](https://www.youtube.com/watch?v=GF7tFwLBiKo), that extends p-d-x, which in turn extends p-d, like the [slot-bot example](https://github.com/bahrus/p-et-alia#computed-values).  You could consider it a local "mediator" in the [blockchain](https://www.jamsadr.com/smartcontracts).
 
 </details>
-
-
 
 
 ## Disabling the default behavior of initialization (Warning:  Wonky discussion)
@@ -503,7 +501,7 @@ This pulls the node from event.composedPath()[0].node.
 
 ##  Defining a piping custom element
 
-The usefulness of this feature has gone down considerably, with the introductino of computed values above.
+The usefulness of this feature has gone down considerably, with the introduction of computed values above.
 
 A convenience function is provided, that allows you to generate a "pipe" or "action" custom element with as few keystrokes as possible.
 

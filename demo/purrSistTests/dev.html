@@ -27,14 +27,14 @@
         <!-- Add a new key (or replace existing one) -->
         <input -value placeholder=key>
         <!-- Save key to history.draft.key -->
-        <p-d on=input to=xtal-state-update prop=history.draft.key val=target.value m=1 skip-init></p-d>
+        <p-d on=input to=xtal-state-update[-history] with-path=draft.key val=target.value m=1 skip-init></p-d>
         <!-- Pass key to aggregator that creates key / value object -->
         <p-d on=input to=[-key] val=target.value m=1 skip-init></p-d>
         <!-- Edit (JSON) value -->
         <textarea disabled=2 -value placeholder="value (JSON optional)"></textarea>
         <!-- Pass value to history.draft.value -->
-        <p-d on=input to=xtal-state-update prop=history.draft.value val=target.value m=1 skip-init></p-d>
-        <!-- <p-d-x on=input to="[-history]" val=target.value m=1 skip-init></p-d-x>  -->
+        <p-d on=input to=xtal-state-update[-history] with-path=draft.value val=target.value m=1 skip-init></p-d>
+        <!-- <p-d on=input to=[-history] with-path=draft.value val=target.value m=1 skip-init></p-d>  -->
        
         <!-- Pass (JSON) value to key / value aggregator -->
         <p-d on=input to=[-val] val=target.value m=1></p-d>
@@ -59,7 +59,7 @@
             This might help:  https://developer.mozilla.org/en-US/docs/Web/API/History/length
 
         -->
-        <p-d on=click to=xtal-state-update prop=history.submitted val=target.__obj skip-init m=1></p-d>
+        <p-d on=click to=xtal-state-update[-history] with-path=submitted val=target.__obj skip-init m=1></p-d>
         <!-- ============================  End UI Input fields =============================== -->
         <!-- Update global history.state object -->
         <xtal-state-update  -history rewrite level=global url-search="(?<store>(.*?))" replace-url-value="?id=$<store>" id=historyUpdater></xtal-state-update>
@@ -72,8 +72,8 @@
         <p-u on=new-store-id to="/historyUpdater" prop=url></p-u>
 
         <!-- Pass persisted object to JSON viewer -->
-        <p-d on=value-changed prop=input ></p-d>
-        <xtal-json-editor options={} height=300px></xtal-json-editor>
+        <p-d on=value-changed to=[-input] m=1></p-d>
+        <xtal-json-editor -input options={} height=300px></xtal-json-editor>
         <!-- Reload window to see if changes persist -->
         <button onclick="window.location.reload()">Reload Window</button>
 

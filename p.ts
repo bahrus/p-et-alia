@@ -1,6 +1,7 @@
 import {XtallatX, lispToCamel} from 'xtal-element/xtal-latx.js';
 import {hydrate} from 'trans-render/hydrate.js';
 import {createNestedProp} from 'xtal-element/createNestedProp.js';
+import {WithPath, with_path} from 'xtal-element/with-path.js';
 
 const on = 'on';
 const noblock = 'noblock';
@@ -27,7 +28,7 @@ function getProp(val: any, pathTokens: (string | [string, string[]])[]){
     return context;
 }
 
-export abstract class P extends XtallatX(hydrate(HTMLElement)){
+export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))){
     constructor(){
         super();
         
@@ -90,7 +91,7 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
     }
     
     static get observedAttributes(){
-        return (<any>super.observedAttributes).concat([on, to, noblock, iff, prop, val, care_of]);
+        return (<any>super.observedAttributes).concat([on, to, noblock, iff, prop, val, care_of, with_path]);
     }
     _s: (string | [string, string[]])[] | null = null;  // split prop using '.' as deliiter
     getSplit(newVal: string){
@@ -114,7 +115,9 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
                 (<any>this)[f] = newVal !== null;
                 break;
             case care_of:
-                this._careOf = newVal;
+            case with_path:
+                const key = '_' + lispToCamel(name);
+                (<any>this)[key] = newVal;
                 break;
         }
         if(name === val && newVal !== null){
@@ -139,7 +142,7 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
 
     connectedCallback(){
         this.style.display = 'none';
-        this.propUp([on, to, noblock, iff, prop, val, 'careOf']);
+        this.propUp([on, to, noblock, iff, prop, val, 'careOf', 'withPath']);
         //this.init();
     }
     init(){
@@ -234,6 +237,7 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
         }
         //const targetPath = prop;
         if(target.hasAttribute('debug')) debugger;
+
         switch(typeof prop){
             case 'symbol':
                 (<any>target)[prop] = val;
@@ -243,9 +247,10 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
                     const cssClass = prop.substr(1);
                     const method = val ? 'add' : 'remove';
                     target.classList[method](cssClass);
-                } else if (prop.indexOf('.') > -1) {
-                    const pathTokens = prop.split('.');
-                    createNestedProp(target, pathTokens, val, true);
+                } else if (this._withPath !== undefined){
+                    const currentVal = (<any>target)[prop];
+                    const wrappedVal = this.wrap(val, currentVal);
+                    (<any>target)[prop] = (typeof(currentVal) === 'object' && currentVal !== null) ? Object.assign(currentVal, wrappedVal) : wrappedVal;
                 } else {
                     (<any>target)[prop] = val;
                 }
