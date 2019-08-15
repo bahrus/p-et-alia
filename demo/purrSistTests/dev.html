@@ -17,7 +17,7 @@
         <!-- If id found in address bar, pass it to the persistence reader -->
         <p-d on=match-found to=[-store-id] val=target.value.storeId m=2></p-d>
         <!-- Read stored history.state from remote database if saved -->
-        <purr-sist-myjson disabled=2 read -store-id></purr-sist-myjson>
+        <purr-sist-myjson disabled=3 read -store-id></purr-sist-myjson>
         <!-- If persisted history.state found, repopulate history.state -->
         <p-d on=value-changed to=[-history] val=target.value m=1></p-d>
         <!-- If persisted history.state found, repopulate inputs -->
@@ -27,13 +27,13 @@
         <!-- Add a new key (or replace existing one) -->
         <input -value placeholder=key>
         <!-- Save key to history.draft.key -->
-        <p-d-x on=input to=xtal-state-update prop=history.draft.key val=target.value m=1 skip-init></p-d-x>
+        <p-d on=input to=xtal-state-update prop=history.draft.key val=target.value m=1 skip-init></p-d>
         <!-- Pass key to aggregator that creates key / value object -->
-        <p-d on=input to=[-key] val=target.value m=1></p-d>
+        <p-d on=input to=[-key] val=target.value m=1 skip-init></p-d>
         <!-- Edit (JSON) value -->
         <textarea disabled=2 -value placeholder="value (JSON optional)"></textarea>
         <!-- Pass value to history.draft.value -->
-        <p-d-x on=input to=xtal-state-update prop=history.draft.value val=target.value m=1 skip-init></p-d-x>
+        <p-d on=input to=xtal-state-update prop=history.draft.value val=target.value m=1 skip-init></p-d>
         <!-- <p-d-x on=input to="[-history]" val=target.value m=1 skip-init></p-d-x>  -->
        
         <!-- Pass (JSON) value to key / value aggregator -->
@@ -62,7 +62,7 @@
         <p-d on=click to=xtal-state-update prop=history.submitted val=target.__obj skip-init m=1></p-d>
         <!-- ============================  End UI Input fields =============================== -->
         <!-- Update global history.state object -->
-        <xtal-state-update -history rewrite level=global url-search="(?<store>(.*?))" replace-url-value="?id=$<store>" id=historyUpdater></xtal-state-update>
+        <xtal-state-update  -history rewrite level=global url-search="(?<store>(.*?))" replace-url-value="?id=$<store>" id=historyUpdater></xtal-state-update>
         <!-- Send new history.state object to object persister -->
         <p-d on=history-changed prop=newVal  skip-init></p-d>
         <!-- Persist history.state to remote store-->   
@@ -91,7 +91,6 @@
             import '../../node_modules/purr-sist/purr-sist-myjson.js';
             import '../../p-d.js';
             import '../../p-u.js';
-            import '../../p-d-x.js';
             import '../../node_modules/xtal-state/xtal-state-parse.js';
             import '../../node_modules/xtal-state/xtal-state-update.js';
             import '../../node_modules/xtal-state/xtal-state-watch.js';

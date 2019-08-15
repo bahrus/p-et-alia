@@ -233,6 +233,7 @@ export abstract class P extends XtallatX(hydrate(HTMLElement)){
             }
         }
         //const targetPath = prop;
+        if(target.hasAttribute('debug')) debugger;
         switch(typeof prop){
             case 'symbol':
                 (<any>target)[prop] = val;
