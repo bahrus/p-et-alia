@@ -358,7 +358,7 @@ These "connector components" would be useless if there were no, you know, compon
 <summary>Blockchain?</summary>
 Admittedly, the parallels with blockchain are a bit tenous, but this is an attempt to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements. p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow unfettered competition between different component "vendors".  
 
-[![Watch the video](https://img.youtube.com/vi/RplnSVTzvnU/default.jpg)](https://www.youtube.com/watch?v=RplnSVTzvnU)
+[![Watch the video](https://img.youtube.com/vi/RplnSVTzvnU/maxresdefault.jpg)](https://www.youtube.com/watch?v=RplnSVTzvnU)
 
 
 </details>
