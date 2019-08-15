@@ -499,7 +499,7 @@ This pulls the node from event.composedPath()[0].node.
 
 <details>
 
-    <summary>Defining a piping custom element</summary>
+<summary>Defining a piping custom element</summary>
 
 The usefulness of this feature has gone down considerably, with the introduction of computed values above.
 
