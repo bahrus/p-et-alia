@@ -10,6 +10,8 @@ p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/lef
 
 These components emphasize simplicity and small size -- to be used for 30,000 ft. above the ground component connecting.  Think connecting a TV to a Roku, rather than connecting tightly coupled micro chips together.  See the sections "Limitations" and "p-s" for more discussion about this.
 
+[![Roku](https://i.pinimg.com/originals/41/83/b6/4183b657c76d90cb55428e68b267adcb.jpg)](https://blog.roku.com/introducing-the-roku-watch)
+
 <details>
 <summary>Use cases</summary>
 
