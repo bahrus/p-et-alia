@@ -378,7 +378,7 @@ Recursively, some parts of a web component may also involve gluing loosely coupl
 
 However, there are many scenarios where some UI functionality is sufficiently complex and intricate that "gluing together" loosely coupled components isn't the right mindset.  Instead of connecting a Roku to a TV, think implementing a new design of a swiss watch.
 
-![](https://deployant.com/wp-content/uploads/2016/09/patek-repeater-perpetual-tourbillon.jpg)
+[![Swiss Watch](https://deployant.com/wp-content/uploads/2016/09/patek-repeater-perpetual-tourbillon.jpg)](https://deployant.com/sound-investments-the-genius-of-patek-philippe-minute-repeaters-2/)
 
 An example of this is the classic [TodoMVC](http://todomvc.com/) functionality.  
 This is the type of functionality best built with a [component helper library](https://webcomponents.dev/) or two.
@@ -473,9 +473,13 @@ With these two combined the counter would look like:
 
 ## Targeted, tightly-coupled passing with p-u ("partly-untested")   
 
+http://www.pxleyes.com/images/contests/rube%20goldberg/fullsize/rube%20goldberg_4a3c0e06144db_hires.jpg
+
 I would suggest that for most applications, most of the time, data will naturally flow in one direction.  Those of us who read and write in a [downward direction](https://www.quora.com/Are-there-any-languages-that-read-from-bottom-to-top) will [probably](https://daverupert.com/2019/07/what-i-like-about-vue/) want to stick with that direction when arranging our elements.  But there will inevitably be points where the data flow must go up -- typically in response to a user action.  
 
 That's what p-u provides.  As the name suggests, it should be used sparingly.  
+
+[![Passing Up](http://www.pxleyes.com/images/contests/rube%20goldberg/fullsize/rube%20goldberg_4a3c0e06144db_hires.jpg)](http://www.pxleyes.com/photoshop-picture/4a3be022a6a4b/Remote.html)
 
 p-u can pass data in any direction, but the primary intent is to pass it up the DOM tree to a precise single target.  What *was* the CSS selector, before the opening brace, now becomes a simple ID.  No # before the ID is required (in fact it will assume the ID starts with # if you do this).  If the selector starts with  a slash, it searches for an element with that ID from (root) document, outside any shadow DOM.  If it starts with ./, it searches within the shadow DOM it belongs to  ../ goes up one level. ../../ goes up two levels, etc.  Basically we are emulating the path syntax for imports.
 
