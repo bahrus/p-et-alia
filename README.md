@@ -1,21 +1,21 @@
 <a href="https://nodei.co/npm/p-et-alia/"><img src="https://nodei.co/npm/p-et-alia.png"></a>
 
+Size of all components combined:
+
 <img src="https://badgen.net/bundlephobia/minzip/p-et-alia">
 
 # p-et-alia
 
-p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/left-occipital-right-frontal-petalia-torque-asymmetry)) is a suite of web components beginning with the letter ("p-*") that recognizes a fundamental asymmetry in how data should flow in an application -- mostly down, but passing up can't be avoided occasionally.  [Note, these components had to change their name due to VSCode rudeness].
+p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/left-occipital-right-frontal-petalia-torque-asymmetry)) is a web component "peer-to-peer" framework.  It consists of simple "connector" componentsth at can bind native DOM / web components together, regardless of how the elements got there.   
 
-This package contains two primary custom elements:  p-d and p-u, which stand for "pass down" and "pass up."
-
-These two components dream the impossible dream -- be able to progressively, declaratively, bind native DOM / web components together, regardless of how the elements got there.
-
-Use cases:
+<details>
+<summary>Use cases</summary>
 
 1.  If you just need to connect some elements of a mostly static or [server-rendered](https://www.similartech.com/categories/framework) web site, these components provide a light weight way of doing that.
-2.  These components allow you to keep code-centric **builds** at bay as much as possible.  Why is this important?  Because browsers can process HTML significantly faster than JS.  That doesn't mean you have to edit HTML files.  Theoretically, you could edit in JavaScript and benefit from the tooling (type checks, etc), but compile to HTML for optimum performance. 
+2.  These components allow you to keep code-centric **builds** at bay as much as possible.  Why is this important?  Because browsers can process HTML significantly faster than JS.  That doesn't mean you have to edit HTML files.  Theoretically, you could edit in JavaScript and benefit from the tooling (type checks, etc), but compile to HTML for optimum performance.
+</details>
 
-These components emphasize simplicity and small size -- to be used for 30,000 ft. above the ground component gluing.  Think connecting a TV to a Roku, rather than connecting tightly coupled micro chips together.  See the sections "Limitations" and "p-s" for more discussion about this. 
+These components emphasize simplicity and small size -- to be used for 30,000 ft. above the ground component connecting.  Think connecting a TV to a Roku, rather than connecting tightly coupled micro chips together.  See the sections "Limitations" and "p-s" for more discussion about this. 
 
 Both p-d and p-u have an attribute/property, "on" that specifies an event to monitor for.  They both attach an event listener for the specified event to the previous (non p-*) element.
 
@@ -338,7 +338,7 @@ p-d can be configured to test the event target to make sure it matches a css tes
 
 ##  Differences to other frameworks - data-passing chain vs centralized control
 
-While these components provide a kind of "framework built with web components", similar to Polymer, there's a fundamental difference.  Unlike Polymer (and other competing frameworks), these components don't depend on the existence of a controlling component which manages state.  Instead, it is a little more [JQuery](https://w3techs.com/technologies/overview/javascript_library/all) like.  Why not let each component decide how best to manage its own state?  It is a "peer-to-peer binding framework."  This may be more appealing for some [people](https://www.youtube.com/watch?v=RplnSVTzvnU) / use cases, less appealing to others.  
+These components provide a kind of "framework built with web components".  Unlike other competing frameworks, these components don't depend on the existence of a controlling component which manages state.  Instead, it is a little more [JQuery](https://w3techs.com/technologies/overview/javascript_library/all) like.  Why not let each component decide how best to manage its own state?  It is a "peer-to-peer binding framework."  This may be more appealing for some [people](https://www.youtube.com/watch?v=RplnSVTzvnU) / use cases, less appealing to others.  
 
 ###  All Hail, Keeper of All Our Stories! 
 
