@@ -6,16 +6,20 @@ Size of all components combined:
 
 # p-et-alia
 
-p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/left-occipital-right-frontal-petalia-torque-asymmetry)) is a web component "peer-to-peer" framework.  It consists of simple "connector" componentsth at can bind native DOM / web components together, regardless of how the elements got there.   
+p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/left-occipital-right-frontal-petalia-torque-asymmetry)) is a web component "peer-to-peer" framework.  It consists of simple "connector" components that can progressively bind native DOM / web components together, regardless of how the elements got there. 
+
+These components emphasize simplicity and small size -- to be used for 30,000 ft. above the ground component connecting.  Think connecting a TV to a Roku, rather than connecting tightly coupled micro chips together.  See the sections "Limitations" and "p-s" for more discussion about this.
 
 <details>
 <summary>Use cases</summary>
 
 1.  If you just need to connect some elements of a mostly static or [server-rendered](https://www.similartech.com/categories/framework) web site, these components provide a light weight way of doing that.
 2.  These components allow you to keep code-centric **builds** at bay as much as possible.  Why is this important?  Because browsers can process HTML significantly faster than JS.  That doesn't mean you have to edit HTML files.  Theoretically, you could edit in JavaScript and benefit from the tooling (type checks, etc), but compile to HTML for optimum performance.
+
+
 </details>
 
-These components emphasize simplicity and small size -- to be used for 30,000 ft. above the ground component connecting.  Think connecting a TV to a Roku, rather than connecting tightly coupled micro chips together.  See the sections "Limitations" and "p-s" for more discussion about this. 
+"p-d" is the main component, and stands for "pass down." "p-u" stands for "pass-up." 
 
 Both p-d and p-u have an attribute/property, "on" that specifies an event to monitor for.  They both attach an event listener for the specified event to the previous (non p-*) element.
 
@@ -264,7 +268,7 @@ The benefits of taking this difficult path, is that mutation observers are set u
 
 ## Deluxe version
 
-An extending web component, p-d-x, contains, experimental additional feature(s):
+An extending web component, p-d-x, contains experimental additional feature(s):
 
 1)  You can copy all properties of the source to the target if you specify prop="." and val="." (partly tested many refactorings ago).
 
@@ -289,7 +293,7 @@ extend('slot-bot', {
 })
 ```
 
-Note: [https://dev.to/westbrook/your-content-in-shadow-dom-portals-3cdb](https://dev.to/westbrook/your-content-in-shadow-dom-portals-3cdb) may have better researched approaches than the code above. 
+Note: [Your Content in Shadow DOM Portals ](https://dev.to/westbrook/your-content-in-shadow-dom-portals-3cdb) may have better researched approaches than the code above. 
 
 ```html
     <!-- Options to vote on, passed in via light children.  -->
