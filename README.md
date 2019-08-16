@@ -8,7 +8,7 @@ p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/lef
 
 This package contains two primary custom elements:  p-d and p-u, which stand for "pass down" and "pass up."
 
-These two components dream the impossible dream -- be able to progressively, declaratively, glue native DOM / web components together, regardless of how the elements got there.
+These two components dream the impossible dream -- be able to progressively, declaratively, bind native DOM / web components together, regardless of how the elements got there.
 
 Use cases:
 
@@ -255,7 +255,12 @@ The benefits of taking this difficult path, is that mutation observers are set u
 ## Miscellaneous features
 
 1)  You can specify adding / removing a css class if the value of prop starts with a dot (".") (untested).
-2)  You can specify a nested path that needs setting (work in progress).
+2)  You can specify a nested path that needs setting:
+
+```html
+<!-- Save key to history.draft.key -->
+<p-d on=input to=xtal-state-update[-history] with-path=draft.key val=target.value m=1 skip-init></p-d>
+```
 
 ## Deluxe version
 
