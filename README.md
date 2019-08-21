@@ -501,8 +501,6 @@ With these two combined the counter would look like:
 
 ## Targeted, tightly-coupled passing with p-u ("partly-untested")   
 
-http://www.pxleyes.com/images/contests/rube%20goldberg/fullsize/rube%20goldberg_4a3c0e06144db_hires.jpg
-
 I would suggest that for most applications, most of the time, data will naturally flow in one direction.  Those of us who read and write in a [downward direction](https://www.quora.com/Are-there-any-languages-that-read-from-bottom-to-top) will [probably](https://daverupert.com/2019/07/what-i-like-about-vue/) want to stick with that direction when arranging our elements.  But there will inevitably be points where the data flow must go up -- typically in response to a user action.  
 
 That's what p-u provides.  As the name suggests, it should be used sparingly.  
