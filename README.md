@@ -356,7 +356,8 @@ One candidate for providing a hand with managing history.state is the AMP's [amp
 
  [xtal-state](https://www.webcomponents.org/element/xtal-state), [purr-sist](https://www.webcomponents.org/element/purr-sist) and [bi-st](https://www.webcomponents.org/element/bi-st) also offer their services.
 
-## Limitations
+
+### Limitations
 
 Please expand below.
 
@@ -422,6 +423,29 @@ To allow for even more loosely coupled integrations, the simple but sweet p-d ca
 [![Watch the video](https://img.youtube.com/vi/GF7tFwLBiKo/maxresdefault.jpg)](https://www.youtube.com/watch?v=GF7tFwLBiKo)
 
 </details>
+
+
+
+## pass down state
+
+A special p- element is available for monitoring for history.state changes, and passing it down.
+
+For example, if this markup is present:
+
+```html
+<p-d-state to=[-text-content] val=target.history.val m=1></p-d-state>
+<div -text-content></div>
+```
+
+And then the following code is executed:
+
+```JavaScript
+window.history.pushState({val:100}, '');
+```
+
+Then the div will display value "100"
+
+
 
 ## Disabling the default behavior of initialization (Warning:  Wonky discussion)
 
