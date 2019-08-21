@@ -8,7 +8,7 @@
 </head>
 <body>
     <div>
-        <p-d-state to=[-text-content] val=target.history.val m=1></p-d-state>
+        <p-state-down to=[-text-content] val=target.history.state.val m=1></p-state-down>
         <div -text-content></div>
         <script defer src="../node_modules/es-module-shims/dist/es-module-shims.js"></script>
         <script type="importmap-shim">
@@ -23,7 +23,7 @@
         </script>
         <!-- <script type="module" src="../p-d.js"></script> -->
         <script  type="module-shim">
-            import '../p-d-state.js';
+            import '../p-state-down.js';
         </script>
     </div>
 

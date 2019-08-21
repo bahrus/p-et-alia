@@ -4,8 +4,8 @@ import {XtalStateWatch} from 'xtal-state/xtal-state-watch.js';
 
 const guid = 'guid';
 console.log(XtalStateWatch.is);
-export class PDState extends PDX{
-    static get is(){return 'p-d-state';}
+export class PStateDown extends PDX{
+    static get is(){return 'p-state-down';}
     //TODO:  shared mixin
     private _guid!: string;
     get guid(){
@@ -39,4 +39,4 @@ export class PDState extends PDX{
     }
 }
 
-define(PDState);
+define(PStateDown);

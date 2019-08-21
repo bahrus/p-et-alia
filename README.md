@@ -426,14 +426,14 @@ To allow for even more loosely coupled integrations, the simple but sweet p-d ca
 
 
 
-## pass down state
+## pass history.state down
 
 A special p- element is available for monitoring for history.state changes, and passing it down.
 
 For example, if this markup is present:
 
 ```html
-<p-d-state to=[-text-content] val=target.history.val m=1></p-d-state>
+<p-state-down to=[-text-content] val=target.history.state.val m=1></p-state-down>
 <div -text-content></div>
 ```
 
