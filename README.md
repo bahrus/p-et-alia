@@ -426,14 +426,14 @@ To allow for even more loosely coupled integrations, the simple but sweet p-d ca
 
 
 
-## pass history.state down
+## Passing Out of State
 
 A special p- element is available for monitoring for history.state changes, and passing it down.
 
 For example, if this markup is present:
 
 ```html
-<p-state-down to=[-text-content] val=target.history.state.val m=1></p-state-down>
+<p-out-of-state to=[-text-content] val=target.history.state.val m=1></p-out-of-state>
 <div -text-content></div>
 ```
 
@@ -445,7 +445,15 @@ window.history.pushState({val:100}, '');
 
 Then the div will display value "100"
 
+## Passing Into State
 
+```html
+<button data-val="hello">Hello</button>
+<p-into-state on="click" to=[-text-content] val=target.dataset.val skip-init with-state-path="e.f.g" m=1></p-into-state>
+<div -text-content></div>
+```
+
+This will cause history.state = {e:{f:{g:'hello'}}} on clicking the button.  It will also act just like p-d, and set the div's textContent to "hello."
 
 ## Disabling the default behavior of initialization (Warning:  Wonky discussion)
 
