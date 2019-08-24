@@ -59,7 +59,7 @@ export class PDAndCCState extends PDX{
 
     commit(target: HTMLElement, val: any, e: CustomEventInit) {
         super.commit(target, val, e as Event);
-        if(e.detail[doNotCCEventToState]) return;
+        if(e.detail && e.detail[doNotCCEventToState]) return;
         window.requestAnimationFrame(() =>{
             this._xtalUpdate.history = val;
         })
