@@ -33,7 +33,7 @@ export class PDState extends PDX{
         this._initAndPopStateOnly = nv;
     }
 
-    _fromPath: string | undefined;
+    _fromPath : string | undefined;
     get fromPath(){
         return this._fromPath;
     }
@@ -46,8 +46,9 @@ export class PDState extends PDX{
         this.propUp(['guid', 'initOnly', 'fromPath']);
         const xtalWatch = document.createElement(XtalStateWatch.is) as XtalStateWatch;
         xtalWatch.guid = this._guid;
-        if(this._val === undefined && this._fromPath !== undefined){
-            this.val = 'target.history.state.' + this._fromPath;
+        if(this._val === undefined){
+            const path = this._fromPath === undefined ? '' : '.' + this._fromPath; 
+            this.val = 'target.history.state' + path;
         }
         xtalWatch.addEventListener('history-changed', e =>{
             const cei = e as CustomEventInit;
