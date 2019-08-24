@@ -260,7 +260,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))){
                 } else if (this._withPath !== undefined){
                     const currentVal = (<any>target)[prop];
                     const wrappedVal = this.wrap(val, currentVal);
-                    (<any>target)[prop] = (typeof(currentVal) === 'object' && currentVal !== null) ? Object.assign(currentVal, wrappedVal) : wrappedVal;
+                    (<any>target)[prop] = (typeof(currentVal) === 'object' && currentVal !== null) ? {...currentVal, ...wrappedVal} : wrappedVal;
                 } else {
                     (<any>target)[prop] = val;
                 }
