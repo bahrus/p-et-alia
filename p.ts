@@ -10,6 +10,7 @@ const to = 'to';
 const prop ='prop';
 const val = 'val';
 const care_of = 'care-of';
+const fire_event = 'fire-event';
 
 
 function getProp(val: any, pathTokens: (string | [string, string[]])[]){
@@ -89,9 +90,17 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))){
     set val(nv){
         this.attr(val, nv);
     }
+
+    _fireEvent!: string;
+    get fireEvent(){
+        return this._fireEvent;
+    }
+    set fireEvent(nv){
+        this.attr(fire_event, nv);
+    }
     
     static get observedAttributes(){
-        return (<any>super.observedAttributes).concat([on, to, noblock, iff, prop, val, care_of, with_path]);
+        return (<any>super.observedAttributes).concat([on, to, noblock, iff, prop, val, care_of, with_path, fire_event]);
     }
     _s: (string | [string, string[]])[] | null = null;  // split prop using '.' as deliiter
     getSplit(newVal: string){
@@ -116,6 +125,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))){
                 break;
             case care_of:
             case with_path:
+            case fire_event:
                 const key = '_' + lispToCamel(name);
                 (<any>this)[key] = newVal;
                 break;
@@ -142,7 +152,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))){
 
     connectedCallback(){
         this.style.display = 'none';
-        this.propUp([on, to, noblock, iff, prop, val, 'careOf', 'withPath']);
+        this.propUp([on, to, noblock, iff, prop, val, 'careOf', 'withPath', 'fireEvent']);
         //this.init();
     }
     init(){
@@ -254,6 +264,9 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))){
                 } else {
                     (<any>target)[prop] = val;
                 }
+        }
+        if(this._fireEvent){
+            target.dispatchEvent(new CustomEvent(this._fireEvent, { detail: {value: val} , bubbles: true}));
         }
         //(<any>target)[prop] = val;
     }

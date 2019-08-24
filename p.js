@@ -8,6 +8,7 @@ const to = 'to';
 const prop = 'prop';
 const val = 'val';
 const care_of = 'care-of';
+const fire_event = 'fire-event';
 function getProp(val, pathTokens) {
     let context = val;
     pathTokens.forEach(token => {
@@ -71,8 +72,14 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     set val(nv) {
         this.attr(val, nv);
     }
+    get fireEvent() {
+        return this._fireEvent;
+    }
+    set fireEvent(nv) {
+        this.attr(fire_event, nv);
+    }
     static get observedAttributes() {
-        return super.observedAttributes.concat([on, to, noblock, iff, prop, val, care_of, with_path]);
+        return super.observedAttributes.concat([on, to, noblock, iff, prop, val, care_of, with_path, fire_event]);
     }
     getSplit(newVal) {
         if (newVal === '.') {
@@ -97,6 +104,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
                 break;
             case care_of:
             case with_path:
+            case fire_event:
                 const key = '_' + lispToCamel(name);
                 this[key] = newVal;
                 break;
@@ -121,7 +129,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     }
     connectedCallback() {
         this.style.display = 'none';
-        this.propUp([on, to, noblock, iff, prop, val, 'careOf', 'withPath']);
+        this.propUp([on, to, noblock, iff, prop, val, 'careOf', 'withPath', 'fireEvent']);
         //this.init();
     }
     init() {
@@ -238,6 +246,9 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
                 else {
                     target[prop] = val;
                 }
+        }
+        if (this._fireEvent) {
+            target.dispatchEvent(new CustomEvent(this._fireEvent, { detail: { value: val }, bubbles: true }));
         }
         //(<any>target)[prop] = val;
     }

@@ -9,9 +9,6 @@ const from = 'from';
  * `p-d`
  *  Pass data from one element down the DOM tree to other elements
  *
- * @customElement
- * @polymer
- * @demo demo/index.html
  */
 export class PD extends P {
     static get is() { return 'p-d'; }
