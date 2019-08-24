@@ -3,6 +3,7 @@ import { define } from 'trans-render/define.js';
 import { XtalStateWatch } from 'xtal-state/xtal-state-watch.js';
 const init_and_popstate_only = 'init-and-popstate-only';
 const from_path = 'from-path';
+export const doNotCCEventToState = 'dncc';
 export class PDState extends PDX {
     constructor() {
         super(...arguments);
@@ -11,6 +12,12 @@ export class PDState extends PDX {
     static get is() { return 'p-d-state'; }
     static get observedAttributes() {
         return super.observedAttributes.concat([init_and_popstate_only, from_path]);
+    }
+    getDetail(val) {
+        return {
+            value: val,
+            [doNotCCEventToState]: true
+        };
     }
     attributeChangedCallback(name, oldVal, newVal) {
         switch (name) {

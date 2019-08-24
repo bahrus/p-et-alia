@@ -227,9 +227,9 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))){
         return this._s !== null ? getProp(e, this._s) : this.$N(getProp(e, ['detail', 'value']), getProp(e, ['target', 'value']));
     }
     setVal(e: Event, target: any){
-        this.commit(target, this.valFromEvent(e));
+        this.commit(target, this.valFromEvent(e), e);
     }
-    commit(target: HTMLElement, val: any){
+    commit(target: HTMLElement, val: any, e: Event){
         if(val===undefined) return;
         let prop = this._prop;
         if(prop === undefined){
@@ -266,9 +266,16 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))){
                 }
         }
         if(this._fireEvent){
-            target.dispatchEvent(new CustomEvent(this._fireEvent, { detail: {value: val} , bubbles: true}));
+            target.dispatchEvent(new CustomEvent(this._fireEvent, { 
+                detail: this.getDetail(val),
+                bubbles: true
+            }));
         }
+
         //(<any>target)[prop] = val;
+    }
+    getDetail(val: any){
+        return {value: val};
     }
 
     detach(pS: Element){

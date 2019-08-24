@@ -1,7 +1,7 @@
 import {PDX} from './p-d-x.js';
 import {define} from 'trans-render/define.js';
 import {XtalStateUpdate} from 'xtal-state/xtal-state-update.js';
-
+import {doNotCCEventToState} from './p-d-state.js';
 const with_state_path = 'with-state-path';
 const push = 'push';
 
@@ -57,8 +57,9 @@ export class PDAndCCState extends PDX{
 
 
 
-    commit(target: HTMLElement, val: any) {
-        super.commit(target, val);
+    commit(target: HTMLElement, val: any, e: CustomEventInit) {
+        super.commit(target, val, e as Event);
+        if(e.detail[doNotCCEventToState]) return;
         window.requestAnimationFrame(() =>{
             this._xtalUpdate.history = val;
         })

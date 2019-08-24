@@ -3,16 +3,16 @@ import { define } from 'trans-render/define.js';
 const guid = 'guid';
 export class PDX extends PD {
     static get is() { return 'p-d-x'; }
-    commit(target, val) {
+    commit(target, val, e) {
         if (val === undefined) {
-            super.commit(target, val);
+            super.commit(target, val, e);
             return;
         }
         if (this.val === '.' && this.prop === '.') {
             Object.assign(target, val);
             return;
         }
-        super.commit(target, val);
+        super.commit(target, val, e);
     }
     get guid() {
         return this._guid;
