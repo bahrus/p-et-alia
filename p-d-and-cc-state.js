@@ -39,17 +39,18 @@ export class PDAndCCState extends PDX {
     connectedCallback() {
         super.connectedCallback();
         this.propUp(['guid', 'withStatePath', 'push']);
-        const xtalWatch = document.createElement(XtalStateUpdate.is);
-        xtalWatch.rewrite = true;
-        xtalWatch.withPath = this._withStatePath;
-        xtalWatch.guid = this._guid;
-        this.appendChild(xtalWatch);
-        this._xtalWatch = xtalWatch;
+        const xtalUpdate = document.createElement(XtalStateUpdate.is);
+        xtalUpdate.rewrite = !this._push;
+        xtalUpdate.make = !!this._push;
+        xtalUpdate.withPath = this._withStatePath;
+        xtalUpdate.guid = this._guid;
+        this.appendChild(xtalUpdate);
+        this._xtalUpdate = xtalUpdate;
     }
     commit(target, val) {
         super.commit(target, val);
         window.requestAnimationFrame(() => {
-            this._xtalWatch.history = val;
+            this._xtalUpdate.history = val;
         });
     }
 }
