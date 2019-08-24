@@ -3,18 +3,22 @@ import {define} from 'trans-render/define.js';
 import {XtalStateWatch} from 'xtal-state/xtal-state-watch.js';
 
 const init_and_popstate_only ='init-and-popstate-only';
+const from_path = 'from-path';
 
-export class POutOfState extends PDX{
-    static get is(){return 'p-out-of-state';}
+export class PDState extends PDX{
+    static get is(){return 'p-d-state';}
 
     static get observedAttributes() {
-        return super.observedAttributes.concat([init_and_popstate_only]);
+        return super.observedAttributes.concat([init_and_popstate_only, from_path]);
     }
 
     attributeChangedCallback(name: string, oldVal: string, newVal: string) {
         switch(name){
             case init_and_popstate_only:
                 this._initAndPopStateOnly = newVal !== null;
+                break;
+            case from_path:
+                this._fromPath = newVal;
                 break;
             default:
                 super.attributeChangedCallback(name, oldVal, newVal);
@@ -28,11 +32,23 @@ export class POutOfState extends PDX{
     set initAndPopStateOnly(nv){
         this._initAndPopStateOnly = nv;
     }
+
+    _fromPath: string | undefined;
+    get fromPath(){
+        return this._fromPath;
+    }
+    set fromPath(nv){
+        this._fromPath = nv;
+    }
+
     connectedCallback(){
         super.connectedCallback();
-        this.propUp(['guid', 'initOnly']);
+        this.propUp(['guid', 'initOnly', 'fromPath']);
         const xtalWatch = document.createElement(XtalStateWatch.is) as XtalStateWatch;
         xtalWatch.guid = this._guid;
+        if(this._val === undefined && this._fromPath !== undefined){
+            this.val = 'target.history.state.' + this._fromPath;
+        }
         xtalWatch.addEventListener('history-changed', e =>{
             const cei = e as CustomEventInit;
             if(this._initAndPopStateOnly && !cei.detail.isInitialEvent && !cei.detail.isPopstate) return;
@@ -42,4 +58,4 @@ export class POutOfState extends PDX{
     }
 }
 
-define(POutOfState);
+define(PDState);

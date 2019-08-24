@@ -426,14 +426,14 @@ To allow for even more loosely coupled integrations, the simple but sweet p-d ca
 
 
 
-## Passing Out of State
+## Passing Down History.State
 
 A special p- element is available for monitoring for history.state changes, and passing it down.
 
 For example, if this markup is present:
 
 ```html
-<p-out-of-state to=[-text-content] val=target.history.state.val m=1></p-out-of-state>
+<p-d-state to=[-text-content] from-path=val m=1></p-d-state-decree>
 <div -text-content></div>
 ```
 
@@ -445,15 +445,23 @@ window.history.pushState({val:100}, '');
 
 Then the div will display value "100"
 
-## Passing Into State
+## Recording to History.State
+
+p-d-and-cc-state stands for "pass down and carbon copy state"
 
 ```html
 <button data-val="hello">Hello</button>
-<p-into-state on="click" to=[-text-content] val=target.dataset.val skip-init with-state-path="e.f.g" m=1></p-into-state>
+<p-d-and-cc-state on="click" to=[-text-content] val=target.dataset.val skip-init with-state-path="e.f.g" m=1></p-d-and-cc-state>
 <div -text-content></div>
 ```
 
 This will cause history.state = {e:{f:{g:'hello'}}} on clicking the button.  It will also act just like p-d, and set the div's textContent to "hello."
+
+both p-d-and-cc-state, you can specify a "guid" attribute, which will write to an iframe outside any ShadowDOM with id equally the specified guid, and if no such iframe exists, it creates one.
+
+Note that by using history.state in this manner, the flow of data can easily become circular and infinite.
+
+An option to limit updates from state to the initial value + popstate events can be achieved with attribute "init-and-popstate-only" on p-d-state.
 
 ## Disabling the default behavior of initialization (Warning:  Wonky discussion)
 
