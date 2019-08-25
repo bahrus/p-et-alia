@@ -354,8 +354,44 @@ What if one of the components in your data passing chain is an unreliable dog of
 
 One candidate for providing a hand with managing history.state is the AMP's [amp-bind](https://amp.dev/documentation/components/amp-bind/?referrer=ampproject.org) component, which appears to rely on history.state as its unifying system of record.
 
- [xtal-state](https://www.webcomponents.org/element/xtal-state), [purr-sist](https://www.webcomponents.org/element/purr-sist) and [bi-st](https://www.webcomponents.org/element/bi-st) also offer their services.
+The functionality discussed below is provided as an alternative.
 
+## Passing Down History.State
+
+A special p- element is available for monitoring for history.state changes, and passing it down.
+
+For example, if this markup is present:
+
+```html
+<p-d-state to=[-text-content] from-path=val m=1></p-d-state>
+<div -text-content></div>
+```
+
+And then the following code is executed:
+
+```JavaScript
+window.history.pushState({val:100}, '');
+```
+
+Then the div will display value "100"
+
+## Planting Weirwoods
+
+p-d-f is short for "**p**ass **d**own and [**f**ile with the state](https://www.irs.gov/instructions/i709)"
+
+```html
+<button data-val="hello">Hello</button>
+<p-d-f on="click" to=[-text-content] val=target.dataset.val skip-init with-state-path="e.f.g" m=1></p-d-f>
+<div -text-content></div>
+```
+
+This will cause history.state = {e:{f:{g:'hello'}}} on clicking the button.  It will also act just like p-d, and set the div's textContent to "hello."
+
+both p-d-and-cc-state, you can specify a "guid" attribute, which will write to an iframe outside any ShadowDOM with id equally the specified guid, and if no such iframe exists, it creates one.
+
+Note that by using history.state in this manner, the flow of data can easily become circular and infinite.
+
+An option to limit updates from state to the initial value + popstate events can be achieved with attribute "init-and-popstate-only" on p-d-state.
 
 ### Limitations
 
@@ -396,7 +432,7 @@ The main issue is that we want to be able to work with a list of objects using a
 
 What we want to "outsource" and make as painless as possible is mapping this beautiful JS to the UI.
 
-This could all be done with a single self-contained component, but another option is to break down the core functionality into two key components -- a non visual view model component and a component that displays the view model.  Since we only want to add a task when you hit enter, an enhanced input component would make sense:
+This could all be done with a single self-contained component, but another option is to break down the core functionality into two key components -- a non visual view model component and a component that displays the view model.  Since we only want to add a task when you hit enter, an enhanced input component would also make sense:
 
 ```html
 <div>
@@ -426,42 +462,7 @@ To allow for even more loosely coupled integrations, the simple but sweet p-d ca
 
 
 
-## Passing Down History.State
 
-A special p- element is available for monitoring for history.state changes, and passing it down.
-
-For example, if this markup is present:
-
-```html
-<p-d-state to=[-text-content] from-path=val m=1></p-d-state-decree>
-<div -text-content></div>
-```
-
-And then the following code is executed:
-
-```JavaScript
-window.history.pushState({val:100}, '');
-```
-
-Then the div will display value "100"
-
-## Recording to History.State
-
-p-d-and-cc-state stands for "pass down and carbon copy state"
-
-```html
-<button data-val="hello">Hello</button>
-<p-d-and-cc-state on="click" to=[-text-content] val=target.dataset.val skip-init with-state-path="e.f.g" m=1></p-d-and-cc-state>
-<div -text-content></div>
-```
-
-This will cause history.state = {e:{f:{g:'hello'}}} on clicking the button.  It will also act just like p-d, and set the div's textContent to "hello."
-
-both p-d-and-cc-state, you can specify a "guid" attribute, which will write to an iframe outside any ShadowDOM with id equally the specified guid, and if no such iframe exists, it creates one.
-
-Note that by using history.state in this manner, the flow of data can easily become circular and infinite.
-
-An option to limit updates from state to the initial value + popstate events can be achieved with attribute "init-and-popstate-only" on p-d-state.
 
 ## Disabling the default behavior of initialization (Warning:  Wonky discussion)
 

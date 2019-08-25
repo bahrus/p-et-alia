@@ -1,15 +1,15 @@
 import { PDX } from './p-d-x.js';
 import { define } from 'trans-render/define.js';
 import { XtalStateUpdate } from 'xtal-state/xtal-state-update.js';
-import { doNotCCEventToState } from './p-d-state.js';
+import { doNotCCEventToState } from './p-h-d.js';
 const with_state_path = 'with-state-path';
 const push = 'push';
-export class PDAndCCState extends PDX {
+export class PDF extends PDX {
     constructor() {
         super(...arguments);
         this._push = false;
     }
-    static get is() { return 'p-d-and-cc-state'; }
+    static get is() { return 'p-d-f'; }
     static get observedAttributes() {
         return super.observedAttributes.concat([with_state_path, push]);
     }
@@ -57,4 +57,4 @@ export class PDAndCCState extends PDX {
         });
     }
 }
-define(PDAndCCState);
+define(PDF);
