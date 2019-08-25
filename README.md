@@ -356,14 +356,14 @@ One candidate for providing a hand with managing history.state is the AMP's [amp
 
 The functionality discussed below is provided as an alternative.
 
-## Passing Down History.State
+## Passing History.State Down 
 
-A special p- element is available for monitoring for history.state changes, and passing it down.
+A special, p-h-d element, stands for "pass history down".  It monitors for history.state changes, and passes them down.
 
 For example, if this markup is present:
 
 ```html
-<p-d-state to=[-text-content] from-path=val m=1></p-d-state>
+<p-h-d to=[-text-content] from-path=val m=1></p-h-d>
 <div -text-content></div>
 ```
 
@@ -387,7 +387,7 @@ p-d-f is short for "**p**ass **d**own and [**f**ile with the state](https://www.
 
 This will cause history.state = {e:{f:{g:'hello'}}} on clicking the button.  It will also act just like p-d, and set the div's textContent to "hello."
 
-both p-d-and-cc-state, you can specify a "guid" attribute, which will write to an iframe outside any ShadowDOM with id equally the specified guid, and if no such iframe exists, it creates one.
+both p-d-and-cc-state, you can specify a "guid" attribute, which will write to an iframe outside any ShadowDOM with id equally the specified guid, and if no such iframe exists, it creates one.  The attribute "push" will cause another entry to be added in history (i.e. pushState as opposed to replaceState.)
 
 Note that by using history.state in this manner, the flow of data can easily become circular and infinite.
 
