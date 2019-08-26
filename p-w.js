@@ -1,19 +1,20 @@
-import {PDX} from './p-d-x.js';
-import {define} from 'trans-render/define.js';
-import {XtalStateUpdate} from 'xtal-state/xtal-state-update.js';
-import {doNotCCEventToState} from './p-h-d.js';
+import { PDX } from './p-d-x.js';
+import { define } from 'trans-render/define.js';
+import { XtalStateUpdate } from 'xtal-state/xtal-state-update.js';
+import { doNotCCEventToState } from './p-h-d.js';
 const with_state_path = 'with-state-path';
 const push = 'push';
-
-export class PDF extends PDX{
-    static get is(){return 'p-d-f';}
-
+export class PW extends PDX {
+    constructor() {
+        super(...arguments);
+        this._push = false;
+    }
+    static get is() { return 'p-w'; }
     static get observedAttributes() {
         return super.observedAttributes.concat([with_state_path, push]);
     }
-
-    attributeChangedCallback(name: string, oldVal: string, newVal: string) {
-        switch(name){
+    attributeChangedCallback(name, oldVal, newVal) {
+        switch (name) {
             case with_state_path:
                 this._withStatePath = newVal;
                 break;
@@ -24,46 +25,36 @@ export class PDF extends PDX{
                 super.attributeChangedCallback(name, oldVal, newVal);
         }
     }
-
-    _withStatePath!: string;
-    get withStatePath(){
+    get withStatePath() {
         return this._withStatePath;
     }
-    set withStatePath(nv){
+    set withStatePath(nv) {
         this.attr(with_state_path, nv);
     }
-
-    _push = false;
-    get push(){
+    get push() {
         return this._push;
     }
-    set push(nv){
+    set push(nv) {
         this.attr(push, nv, '');
     }
-
-    _xtalUpdate!: XtalStateUpdate;
-    connectedCallback(){
+    connectedCallback() {
         super.connectedCallback();
         this.propUp(['guid', 'withStatePath', 'push']);
-        const xtalUpdate = document.createElement(XtalStateUpdate.is) as XtalStateUpdate;
+        const xtalUpdate = document.createElement(XtalStateUpdate.is);
         xtalUpdate.rewrite = !this._push;
         xtalUpdate.make = !!this._push;
         xtalUpdate.withPath = this._withStatePath;
         xtalUpdate.guid = this._guid;
-
         this.appendChild(xtalUpdate);
         this._xtalUpdate = xtalUpdate;
     }
-
-
-
-    commit(target: HTMLElement, val: any, e: CustomEventInit) {
-        super.commit(target, val, e as Event);
-        if(e.detail && e.detail[doNotCCEventToState]) return;
-        window.requestAnimationFrame(() =>{
+    commit(target, val, e) {
+        super.commit(target, val, e);
+        if (e.detail && e.detail[doNotCCEventToState])
+            return;
+        window.requestAnimationFrame(() => {
             this._xtalUpdate.history = val;
-        })
+        });
     }
 }
-
-define(PDF);
+define(PW);

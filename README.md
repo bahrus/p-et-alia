@@ -377,21 +377,55 @@ Then the div will display value "100"
 
 ## Planting Weirwoods
 
-p-d-f is short for "**p**ass **d**own and [**f**ile with the state](https://www.irs.gov/instructions/i709)"
+This extension to p-d has the side effect of passing the value to history.state, location specified by optional attributes / properties with-state-path and guid.
+
+Giving a name to this element has been tricky.
+
+I first tried p-d-and-cc-state, but that's too long.
+
+Then I tried p-d-f, short for "**p**ass **d**own and [**f**ile with the state](https://www.irs.gov/instructions/i709)".  That seems easy to remember, due to prior use.  However, PDF has [too many religious overtones](https://www.google.com/search?q=how+do+I+convert+to&rlz=1C1CHBF_enUS834US834&oq=how+do+I+convert+to&aqs=chrome..69i57j0l5.11247j0j8&sourceid=chrome&ie=UTF-8).
+
+So I've finally settled on "p-w".  It is entirely up to you what it stands for -- whatever makes it easier to remember. 
+
+Suggestions for what [p-w could stand for](http://phrontistery.info/w.html):
+
+1.  pass withal
+2.  pass wherewith
+3.  planted weirwood
+4.  pass w[hatever you want w to stand for]
+5.  pass wynd
 
 ```html
 <button data-val="hello">Hello</button>
-<p-d-f on="click" to=[-text-content] val=target.dataset.val skip-init with-state-path="e.f.g" m=1></p-d-f>
+<p-w on="click" to=[-text-content] val=target.dataset.val skip-init with-state-path="e.f.g" m=1></p-w>
 <div -text-content></div>
 ```
 
 This will cause history.state = {e:{f:{g:'hello'}}} on clicking the button.  It will also act just like p-d, and set the div's textContent to "hello."
 
-both p-d-and-cc-state, you can specify a "guid" attribute, which will write to an iframe outside any ShadowDOM with id equally the specified guid, and if no such iframe exists, it creates one.  The attribute "push" will cause another entry to be added in history (i.e. pushState as opposed to replaceState.)
+For both p-h-d and p-w, you can specify a "guid" attribute, which will write to an iframe outside any ShadowDOM with id equaling the specified guid, and if no such iframe exists, it creates one.  The attribute "push" will cause another entry to be added in history (i.e. pushState as opposed to replaceState.)
 
 Note that by using history.state in this manner, the flow of data can easily become circular and infinite.
 
-An option to limit updates from state to the initial value + popstate events can be achieved with attribute "init-and-popstate-only" on p-d-state.
+An option to limit updates from state to the initial value + popstate events can be achieved with attribute "init-and-popstate-only" on p-h-d;
+
+```html
+<!-- ==========================  UI Input Fields ===================================-->
+<!-- If history.state initializes or popstates, repopulate input and artificially raise input event
+"p-h-d" stands for "pass history.state down"
+-->
+<p-h-d init-and-popstate-only to=[-value] m=1 from-path=draft.key fire-event=input></p-h-d>
+<input -value placeholder=key disabled>
+<!-- Pass key to aggregator that creates key / value object and cc history.state (draft.key) -->
+<!-- "p-w" stands for "pass w[hatever you want w to stand for]"  -->
+<p-w on=input to=[-key] push with-state-path=draft.key val=target.value m=1></p-w>
+```
+
+You can make the tag more readable by adding some superflous attributes that have no effect:
+
+```html
+<p-w on=input to=[-key] val=target.value m=1 and merge and push into history.state with-state-path=draft.key ></p-w>
+```
 
 ### Limitations
 

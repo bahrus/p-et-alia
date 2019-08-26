@@ -1,4 +1,6 @@
 const myCustomEl1 = {
+  tag: 'my-cust-el1',
+  id: Symbol(), 
   props: {
     MyFirstProp: {
       type: String,
@@ -18,6 +20,7 @@ const myCustomEl1 = {
 };
 
 const myCustomEl2 = {
+  id: Symbol(),
   props: {
     MySecondProp: {
       type: String,
@@ -25,12 +28,11 @@ const myCustomEl2 = {
     }
   }
 };
-const myCustomEl1Instance = Symbol();
-const myCustomEl2Instance = Symbol();
+const myCustomEl1Instance = [Symbol(), myCustomEl1.id];
+const myCustomEl2Instance = [Symbol(), myCustomEl2.id];
 const fragment = [
   {
-    tag: myCustomEl1,
-    id: myCustomEl1Instance,
+    id: myCustomEl1Instance[0],
     propsVals: [
       {
         id: myCustomEl1.props.MyFirstProp.id,

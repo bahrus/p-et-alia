@@ -19,7 +19,7 @@
     "@webcomponents/webcomponentsjs": "2.2.10",
     "jiife": "0.0.12",
     "tape": "4.10.2",
-    "xtal-test": "0.0.19",
+    "xtal-test": "0.0.20",
     "xtal-json-editor": "0.0.39",
     "es-module-shims": "0.2.15",
     "aggregator-fn": "0.0.17",
