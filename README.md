@@ -17,7 +17,7 @@ These components emphasize simplicity and small size -- to be used for 30,000 ft
 
 1.  If you just need to connect some elements of a mostly static or [server-rendered](https://www.similartech.com/categories/framework) web site, these components provide a light weight way of doing that.
 2.  These components allow you to keep code-centric **builds** at bay as much as possible.  Why is this important?  Because browsers can process HTML significantly faster than JS.  That doesn't mean you have to edit HTML files.  Theoretically, you could edit in JavaScript and benefit from the tooling (type checks, etc), but compile to HTML for optimum performance.
-3.  Sitting down now:  Note that [there are](https://www.11ty.io/) some [far more mature](https://www.netlify.com/) [solutions worth exploring](https://jamstack.org/) whose aims match these.  What I've not seen yet in those solutions is a way of orchestrating web components together, so these components *might* be handy in conjunction with one or more of those solutions.  Who knows?
+3.  Sitting down now:  Note that [there are](https://www.11ty.io/) some [far more mature](https://www.netlify.com/) [solutions worth exploring](https://jamstack.org/) whose aims match these.  Some of them provide a framework, like Vue, that can glue components together, and that's great. 
 
 
 </details>
