@@ -19,7 +19,6 @@ These components emphasize simplicity and small size -- to be used for 30,000 ft
 2.  These components allow you to keep code-centric **builds** at bay as much as possible.  Why is this important?  Because browsers can process HTML significantly faster than JS.  That doesn't mean you have to edit HTML files.  Theoretically, you could edit in JavaScript and benefit from the tooling (type checks, etc), but compile to HTML for optimum performance.
 3.  Sitting down now:  Note that [there are](https://www.11ty.io/) some [far more mature](https://www.netlify.com/) [solutions worth exploring](https://jamstack.org/) whose aims match these.  Some of them provide a framework, like Vue, that can glue components together, and that's great. 
 
-
 </details>
 
 "p-d" is the main component, and stands for "pass down." p-d agrees with the ancient wisdom "all streams flow to the sea because it is lower than they are. Humility gives it its power."  

@@ -1,36 +1,40 @@
 import {PDX} from './p-d-x.js';
 import {define} from 'trans-render/define.js';
-import {XtalStateUpdate} from 'xtal-state/xtal-state-update.js';
+//import {XtalStateUpdate} from 'xtal-state/xtal-state-update.js';
+import {XtalStateUpdateProps} from 'xtal-state/types.d.js';
 import {doNotCCEventToState} from './p-h-d.js';
-const with_state_path = 'with-state-path';
+const state_path = 'state-path';
 const push = 'push';
+const cc = 'cc';
 
 export class PW extends PDX{
     static get is(){return 'p-w';}
 
     static get observedAttributes() {
-        return super.observedAttributes.concat([with_state_path, push]);
+        return super.observedAttributes.concat([state_path, push, cc]);
     }
 
     attributeChangedCallback(name: string, oldVal: string, newVal: string) {
         switch(name){
-            case with_state_path:
-                this._withStatePath = newVal;
+            case state_path:
+                this._statePath = newVal;
                 break;
+            case cc:
             case push:
-                this._push = newVal !== null;
+                (<any>this)['_' + name] = newVal !== null;
+                //this._push = newVal !== null;
                 break;
             default:
                 super.attributeChangedCallback(name, oldVal, newVal);
         }
     }
 
-    _withStatePath!: string;
-    get withStatePath(){
-        return this._withStatePath;
+    _statePath!: string;
+    get statePath(){
+        return this._statePath;
     }
-    set withStatePath(nv){
-        this.attr(with_state_path, nv);
+    set statePath(nv){
+        this.attr(state_path, nv);
     }
 
     _push = false;
@@ -41,21 +45,35 @@ export class PW extends PDX{
         this.attr(push, nv, '');
     }
 
-    _xtalUpdate!: XtalStateUpdate;
-    connectedCallback(){
-        super.connectedCallback();
-        this.propUp(['guid', 'withStatePath', 'push']);
-        const xtalUpdate = document.createElement(XtalStateUpdate.is) as XtalStateUpdate;
-        xtalUpdate.rewrite = !this._push;
-        xtalUpdate.make = !!this._push;
-        xtalUpdate.withPath = this._withStatePath;
-        xtalUpdate.guid = this._guid;
-
-        this.appendChild(xtalUpdate);
-        this._xtalUpdate = xtalUpdate;
+    _cc = false;
+    get cc(){
+        return this._cc;
+    }
+    set cc(nv){
+        this.attr(cc, nv, '');
     }
 
+    _xtalUpdate!: XtalStateUpdateProps;
+    connectedCallback(){
+        super.connectedCallback();
+        this.propUp(['guid', 'statePath', 'push', 'cc']);
+        this.addState();
 
+    }
+
+    _addedState = false;
+    async addState(){
+        if(!this._cc || this._addedState) return;
+        this._addedState = true;
+        const {XtalStateUpdate} = await import('xtal-state/xtal-state-update.js');
+        const xtalUpdate = (<any>document.createElement(XtalStateUpdate.is)) as XtalStateUpdateProps;
+        xtalUpdate.rewrite = !this._push;
+        xtalUpdate.make = !!this._push;
+        xtalUpdate.withPath = this._statePath;
+        xtalUpdate.guid = this._guid;
+        this.appendChild((<any>xtalUpdate) as HTMLElement);
+        this._xtalUpdate = xtalUpdate;
+    }
 
     commit(target: HTMLElement, val: any, e: CustomEventInit) {
         super.commit(target, val, e as Event);
