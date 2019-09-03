@@ -17,7 +17,7 @@ These components emphasize simplicity and small size -- to be used for 30,000 ft
 
 1.  If you just need to connect some elements of a mostly static or [server-rendered](https://www.similartech.com/categories/framework) web site, these components provide a light weight way of doing that.
 2.  These components allow you to keep code-centric **builds** at bay as much as possible.  Why is this important?  Because browsers can process HTML significantly faster than JS.  That doesn't mean you have to edit HTML files.  Theoretically, you could edit in JavaScript and benefit from the tooling (type checks, etc), but compile to HTML for optimum performance.
-3.  Sitting down now:  Note that [there are](https://www.11ty.io/) some [far more mature](https://www.netlify.com/) [solutions worth exploring](https://jamstack.org/) whose aims match these.  Some of them provide a framework, like Vue, that can glue components together, and that's great. 
+3.  Sitting down now:  Note that [there are](https://www.11ty.io/) some [far more mature](https://www.netlify.com/) [solutions worth exploring](https://jamstack.org/) whose aims match these.  Some of them build around a framework, like Vue or React, that can glue components together, and that's great. 
 
 </details>
 
@@ -306,9 +306,6 @@ Note: [Your Content in Shadow DOM Portals ](https://dev.to/westbrook/your-conten
     <xtal-radio-group-md name="pronoun" data-flag="voted" data-allow-voting="-1"></xtal-radio-group-md>
 ```
 
-
-
-
 ## Debugging Tips
 
 Although the markup / code above is a little more verbose than standard ways of adding event handlers, it does have some benefits.  If you do view the live elements, you can sort of "walk through" the DOM elements and custom elements, and see how data is transformed from step to step.  This would be particularly easy if there were a nice browser extension that can quickly view web component properties, regardless of their flavor.  Unfortunately, [existing](https://chrome.google.com/webstore/detail/polyspector/naoehbibkfilaolkmfiehggkfjndlhpd?hl=en) [extensions](https://chrome.google.com/webstore/detail/stencil-inspector/komnnoelcbjpjfnbhmdpgmlbklmicmdi/related) don't seem to support that yet. 
@@ -344,11 +341,11 @@ p-d can be configured to test the event target to make sure it matches a css tes
 <p-d on="click" if="a"></p-d>
 ```
 
+<!--  Too controversial, not worh the angst
+
 ##  Differences to other frameworks - data-passing chain vs centralized control
 
-The is a thought experiment to see
-
-These components provide a kind of "framework built with web components."  It's far less encompassing than traditional frameworks, because it is only designed to glue web components together, so the bulk of the complex logic would be   
+These components provide a kind of "framework built with web components."  It's far less encompassing than traditional frameworks, because it is only designed to glue web components together, so the bulk of the complex logic would be bound inside other web components.  
 
 Unlike other frameworks people actually take seriously, the scope of this "framework" is, these components don't depend on the existence of a controlling component which manages state.  Instead, it is a little more [JQuery](https://w3techs.com/technologies/overview/javascript_library/all) like.  Why not let each component decide how best to manage its own state?  It is a "peer-to-peer binding framework."  This may be more appealing for some [people](https://www.youtube.com/watch?v=RplnSVTzvnU) / use cases, less appealing to others.  
 
@@ -361,6 +358,8 @@ What if one of the components in your data passing chain is an unreliable dog of
 One candidate for providing a hand with managing history.state is the AMP's [amp-bind](https://amp.dev/documentation/components/amp-bind/?referrer=ampproject.org) component, which appears to rely on history.state as its unifying system of record.
 
 The functionality discussed below is provided as an alternative.
+
+-->
 
 ## Passing History.State Down 
 
@@ -379,11 +378,13 @@ And then the following code is executed:
 window.history.pushState({val:100}, '');
 ```
 
-Then the div will display value "100"
+Then the div will display value "100".
 
 ## Planting Weirwoods
 
-This extension to p-d has the side effect of passing the value to history.state, location specified by optional attributes / properties with-state-path and guid.
+p-w extends p-d, but has the capability of causing the side effect of passing the value to history.state, location specified by optional attributes / properties state-path and guid.
+
+<!--  Too controversial, not worth the angst
 
 Giving a name to this element has been tricky.
 
@@ -401,9 +402,12 @@ Suggestions for what [p-w could stand for](http://phrontistery.info/w.html):
 4.  pass w[hatever you want w to stand for]
 5.  pass wynd
 
+-->
+
+
 ```html
 <button data-val="hello">Hello</button>
-<p-w on="click" to=[-text-content] val=target.dataset.val skip-init with-state-path="e.f.g" m=1></p-w>
+<p-w on="click" to=[-text-content] val=target.dataset.val skip-init cc state-path="e.f.g" m=1></p-w>
 <div -text-content></div>
 ```
 
@@ -424,7 +428,7 @@ An option to limit updates from state to the initial value + popstate events can
 <input -value placeholder=key disabled>
 <!-- Pass key to aggregator that creates key / value object and cc history.state (draft.key) -->
 <!-- "p-w" stands for "pass w[hatever you want w to stand for]"  -->
-<p-w on=input to=[-key] push with-state-path=draft.key val=target.value m=1></p-w>
+<p-w on=input to=[-key] push cc state-path=draft.key val=target.value m=1></p-w>
 ```
 
 You can make the tag more readable by adding some superflous attributes that have no effect:
@@ -442,7 +446,10 @@ Please expand below.
 </summary>
 
 
-These "connector components" would be useless if there were no, you know, components to connect.  It would be like blockchain without people actually engaging in trade.  
+These "connector components" would be useless if there were no, you know, components to connect.  
+
+<!--  Too controversial, not worth the angst
+It would be like blockchain without people actually engaging in trade.  
 
 <details>
 <summary>Blockchain?</summary>
@@ -453,7 +460,13 @@ Admittedly, the parallels with blockchain are a bit tenous, but this is an attem
 
 </details>
 
-As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller managing state.  
+-->
+
+As such, the p-et-alia family of components want you to know that they are all very pro web component.  
+
+<!--  Too controversial, not worth the angst
+ even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller managing state.  
+-->
 
 Recursively, some parts of a web component may also involve gluing loosely coupled sub-components together, so these connector components could also be used there to reduce boilerplate, expensive JavaScript, especially in a setting where HTML is imported, though careful measurements will need to be made when there's something [concrete to test](https://discourse.wicg.io/t/proposal-html-modules/3309/10).
 
@@ -494,14 +507,18 @@ Splitting up the todo composition into these three sub components could allow on
 
 But are my-non-visual-to-do-list-view-model and my-visual-to-do-list really loosely coupled?  To a degree.  But they must agree to a common contract as far as the expected format of the events.
 
-To allow for even more loosely coupled integrations, the simple but sweet p-d can be replaced with a more specialized [translator](https://funtranslations.com/valyrian)/[mediator](https://www.youtube.com/watch?v=GF7tFwLBiKo), that extends p-d-x, which in turn extends p-d, like the [slot-bot example](https://github.com/bahrus/p-et-alia#computed-values).  You could consider it a local "mediator" in the [blockchain](https://www.jamsadr.com/smartcontracts).
+To allow for even more loosely coupled integrations, the simple but sweet p-d can be replaced with a more specialized [translator](https://funtranslations.com/valyrian)/[mediator](https://www.youtube.com/watch?v=GF7tFwLBiKo), that extends p-d-x, which in turn extends p-d, like the [slot-bot example](https://github.com/bahrus/p-et-alia#computed-values).  
+
+<!--  Too controversial, not worth the angst
+
+You could consider it a local "mediator" in the [blockchain](https://www.jamsadr.com/smartcontracts).
 
 [![Watch the video](https://img.youtube.com/vi/GF7tFwLBiKo/maxresdefault.jpg)](https://www.youtube.com/watch?v=GF7tFwLBiKo)
 
 </details>
 
 
-
+-->
 
 
 ## Disabling the default behavior of initialization (Warning:  Wonky discussion)
