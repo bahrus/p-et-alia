@@ -1,6 +1,9 @@
 "use strict";
+class MyCustomeEl1 extends HTMLElement {
+    static get is() { return 'my-cust-el1'; }
+}
 const myCustomEl1 = {
-    tag: 'my-cust-el1',
+    tag: MyCustomeEl1.is,
     id: Symbol(),
     props: {
         MyFirstProp: {

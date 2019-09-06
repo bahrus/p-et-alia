@@ -6,6 +6,20 @@ const composed = 'composed';
 const dispatch = 'dispatch';
 export class PUnt extends P {
     static get is() { return 'p-unt'; }
+    static get observedAttributes() {
+        return super.observedAttributes.concat([bubbles, composed, dispatch]);
+    }
+    attributeChangedCallback(name, oldVal, newVal) {
+        switch (name) {
+            case bubbles:
+            case composed:
+            case dispatch:
+                this['_' + name] = newVal !== null;
+                break;
+            default:
+                super.attributeChangedCallback(name, oldVal, newVal);
+        }
+    }
     pass(e) {
         const detail = {};
         this.setVal(e, detail);
