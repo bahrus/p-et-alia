@@ -178,7 +178,7 @@ then the "prop" attribute defaults to the attribute following the first dash i.e
 
 Furthermore, no match will be found if if-diff does not contain the -lhs (or -rhs) "pseudo" attribute.
 
-## [Demo 1](https://jsfiddle.net/bahrus/y8moqgrb/)
+## [Demo 1](https://jsfiddle.net/bahrus/y8moqgrb/4/)
 
 ##  Seeing through Walls, Part I
 
@@ -452,7 +452,7 @@ Please expand below.
 
 These "connector components" would be useless if there were no, you know, components to connect.  
 
-<!--  Too controversial, not worth the angst
+
 It would be like blockchain without people actually engaging in trade.  
 
 <details>
@@ -464,13 +464,10 @@ Admittedly, the parallels with blockchain are a bit tenous, but this is an attem
 
 </details>
 
--->
 
-As such, the p-et-alia family of components want you to know that they are all very pro web component.  
 
-<!--  Too controversial, not worth the angst
- even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller managing state.  
--->
+As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller managing state.  
+
 
 Recursively, some parts of a web component may also involve gluing loosely coupled sub-components together, so these connector components could also be used there to reduce boilerplate, expensive JavaScript, especially in a setting where HTML is imported, though careful measurements will need to be made when there's something [concrete to test](https://discourse.wicg.io/t/proposal-html-modules/3309/10).
 
