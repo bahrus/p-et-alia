@@ -226,7 +226,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
             }
         }
         //const targetPath = prop;
-        if (target.hasAttribute('debug'))
+        if (target.hasAttribute !== undefined && target.hasAttribute('debug'))
             debugger;
         switch (typeof prop) {
             case 'symbol':

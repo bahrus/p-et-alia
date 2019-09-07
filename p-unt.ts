@@ -23,6 +23,12 @@ export class PUnt extends P {
         }
         
     }
+
+    connectedCallback(){
+        this.propUp([bubbles, composed, dispatch]);
+        super.connectedCallback();
+        this.init();
+    }
     
     pass(e: Event) {
         const detail = {};

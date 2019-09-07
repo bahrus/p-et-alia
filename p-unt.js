@@ -20,6 +20,11 @@ export class PUnt extends P {
                 super.attributeChangedCallback(name, oldVal, newVal);
         }
     }
+    connectedCallback() {
+        this.propUp([bubbles, composed, dispatch]);
+        super.connectedCallback();
+        this.init();
+    }
     pass(e) {
         const detail = {};
         this.setVal(e, detail);
