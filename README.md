@@ -343,25 +343,26 @@ p-d can be configured to test the event target to make sure it matches a css tes
 <p-d on="click" if="a"></p-d>
 ```
 
-<!--  Too controversial, not worh the angst
 
-##  Differences to other frameworks - data-passing chain vs centralized control
+##  Differences to traditional frameworks 
 
-These components provide a kind of "framework built with web components."  It's far less encompassing than traditional frameworks, because it is only designed to glue web components together, so the bulk of the complex logic would be bound inside other web components.  
+<details>
+<summary>Data-passing chain vs centralized control</summary>
 
-Unlike other frameworks people actually take seriously, the scope of this "framework" is, these components don't depend on the existence of a controlling component which manages state.  Instead, it is a little more [JQuery](https://w3techs.com/technologies/overview/javascript_library/all) like.  Why not let each component decide how best to manage its own state?  It is a "peer-to-peer binding framework."  This may be more appealing for some [people](https://www.youtube.com/watch?v=RplnSVTzvnU) / use cases, less appealing to others.  
+These components provide a kind of "thingamajg built with web components."  It's far less encompassing than traditional frameworks, because it is only designed to glue web components together, so the bulk of the complex logic will be found inside other web components.  
+
+Unlike traditional frameworks these components don't depend on the existence of a controlling component which manages state.  Instead, it is a little more [JQuery](https://w3techs.com/technologies/overview/javascript_library/all) like.  Why not let each component decide how best to manage its own state?  It is a "peer-to-peer binding framework."  This may be more appealing for some [people](https://www.youtube.com/watch?v=RplnSVTzvnU) / use cases, less appealing to others.  
 
 ###  All Hail, Keeper of All Our Stories! 
 
-What if one of the components in your data passing chain is an unreliable dog of a component?  Perhaps the complexity of your application is such that limiting a unified "state" to simply passing data between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore, on setState of some framework you will be stuck with forever, version after version, no matter what twists and turns it takes?   What better thing to bind components together than the keeper of all history, [history.state](https://www.youtube.com/watch?v=IRJ8uFNmzqU)? 
+What if one of the components in your data passing chain is an unreliable dog of a component?  Perhaps the complexity of your application is such that limiting a unified "state" to simply passing data between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore, on setState of some framework you will be stuck with forever, version after version, no matter what ~~stupid and cruel~~ twists and turns it takes?   What better thing to bind components together than the keeper of all history, [history.state](https://www.youtube.com/watch?v=IRJ8uFNmzqU)? 
 
-[**NB**:  The above paragraph was emulating Game of Thrones too closely, and crossed the line of civil discourse.  Apologies.  Also, some organizations may have the budget to switch frameworks / tightly coupled components to that framework, and/or upgrade to the latest at a whim and that's great, in which case the analogy above won't make any sense.  Other organizations may have a different experience, where choices do become semi-permanent, even down to the point version number.]
 
 One candidate for providing a hand with managing history.state is the AMP's [amp-bind](https://amp.dev/documentation/components/amp-bind/?referrer=ampproject.org) component, which appears to rely on history.state as its unifying system of record.
 
 The functionality discussed below is provided as an alternative.
 
--->
+</details>
 
 ## Passing History.State Down 
 
