@@ -357,6 +357,7 @@ Unlike traditional frameworks these components don't depend on the existence of 
 
 What if one of the components in your data passing chain is an unreliable dog of a component?  Perhaps the complexity of your application is such that limiting a unified "state" to simply passing data between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore, on setState of some framework you will be stuck with forever, version after version, no matter what ~~stupid and cruel~~ twists and turns it takes?   What better thing to bind components together than the keeper of all history, [history.state](https://www.youtube.com/watch?v=IRJ8uFNmzqU)? 
 
+[![Watch the video](https://img.youtube.com/vi/IRJ8uFNmzqU/maxresdefault.jpg)](https://www.youtube.com/watch?v=IRJ8uFNmzqU)
 
 One candidate for providing a hand with managing history.state is the AMP's [amp-bind](https://amp.dev/documentation/components/amp-bind/?referrer=ampproject.org) component, which appears to rely on history.state as its unifying system of record.
 
