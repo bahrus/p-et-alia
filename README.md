@@ -4,9 +4,11 @@ Size of all components combined:
 
 <img src="https://badgen.net/bundlephobia/minzip/p-et-alia">
 
+**NB:**  Some sections are only readable if you expand them.  Some of them contain my scattered thoughts on topics well outside my areas of expertise.  Have salt shaker handy. 
+
 # p-et-alia
 
-p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/left-occipital-right-frontal-petalia-torque-asymmetry)) is a web component "peer-to-peer" framework.  It consists of simple "connector" components that can progressively bind native DOM / web components together, regardless of how the elements got there. 
+p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/left-occipital-right-frontal-petalia-torque-asymmetry)) is a web component "peer-to-peer" thingamajig.  It consists of simple "connector" components that can progressively bind native DOM / web components together, regardless of how the elements got there. 
 
 These components emphasize simplicity and small size -- to be used for 30,000 ft. above the ground component connecting.  Think connecting a TV to a Roku, rather than connecting tightly coupled micro chips together.  See the sections "Limitations" and "p-s" for more discussion about this.
 
@@ -21,7 +23,7 @@ These components emphasize simplicity and small size -- to be used for 30,000 ft
 
 </details>
 
-"p-d" is the main component, and stands for "pass down." p-d agrees with the ancient (and [modern](https://sonniesedge.co.uk/talks/dear-developer/)) wisdom "all streams flow to the sea because it is lower than they are. Humility gives it its power."  
+"p-d" is the main component, and stands for "pass down." p-d [agrees](https://www.youtube.com/watch?v=TObWJt68HGw&feature=youtu.be&t=929) with the ancient (and [modern](https://sonniesedge.co.uk/talks/dear-developer/)) wisdom "all streams flow to the sea because it is lower than they are. Humility gives it its power."  
 
 "p-u" stands for "pass-up," and is to be used sparingly as a last resort. 
 
