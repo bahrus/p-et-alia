@@ -510,16 +510,14 @@ But are my-non-visual-to-do-list-view-model and my-visual-to-do-list really loos
 
 To allow for even more loosely coupled integrations, the simple but sweet p-d can be replaced with a more specialized [translator](https://funtranslations.com/valyrian)/[mediator](https://www.youtube.com/watch?v=GF7tFwLBiKo), that extends p-d-x, which in turn extends p-d, like the [slot-bot example](https://github.com/bahrus/p-et-alia#computed-values).  
 
-<!--  Too controversial, not worth the angst
 
-You could consider it a local "mediator" in the [blockchain](https://www.jamsadr.com/smartcontracts).
+You could consider it a local "mediator" in the [blockchain analogy](https://www.jamsadr.com/smartcontracts).
 
 [![Watch the video](https://img.youtube.com/vi/GF7tFwLBiKo/maxresdefault.jpg)](https://www.youtube.com/watch?v=GF7tFwLBiKo)
 
 </details>
 
 
--->
 
 
 ## Disabling the default behavior of initialization (Warning:  Wonky discussion)
