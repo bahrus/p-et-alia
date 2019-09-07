@@ -366,7 +366,7 @@ The functionality discussed below is provided as an alternative.
 
 ## Passing History.State Down 
 
-A special, p-h-d element, stands for "pass history down".  It monitors for history.state changes, and passes them down.
+A special element, p-h-d, stands for "pass history down".  It monitors for history.state changes, and passes them down.
 
 For example, if this markup is present:
 
@@ -387,7 +387,8 @@ Then the div will display value "100".
 
 p-w extends p-d, but has the capability of causing the side effect of passing the value to history.state, location specified by optional attributes / properties state-path and guid.
 
-<!--  Too controversial, not worth the angst
+<details>
+    <summary>The component that cannot be named.</summary>
 
 Giving a name to this element has been tricky.
 
@@ -405,7 +406,7 @@ Suggestions for what [p-w could stand for](http://phrontistery.info/w.html):
 4.  pass w[hatever you want w to stand for]
 5.  pass wynd
 
--->
+</details>
 
 
 ```html
