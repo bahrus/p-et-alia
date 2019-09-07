@@ -23,7 +23,7 @@ These components emphasize simplicity and small size -- to be used for 30,000 ft
 
 </details>
 
-"p-d" is the main component, and stands for "pass down." p-d [agrees](https://www.youtube.com/watch?v=TObWJt68HGw&feature=youtu.be&t=929) with the ancient (and [modern](https://sonniesedge.co.uk/talks/dear-developer/)) wisdom "all streams flow to the sea because it is lower than they are. Humility gives it its power."  
+"p-d" is the main component, and stands for "pass down." "p-d" agrees with the [ancient](https://www.youtube.com/watch?v=TObWJt68HGw&feature=youtu.be&t=929) (and [modern](https://sonniesedge.co.uk/talks/dear-developer/)) wisdom "all streams flow to the sea because it is lower than they are. Humility gives it its power."  
 
 "p-u" stands for "pass-up," and is to be used sparingly as a last resort. 
 
