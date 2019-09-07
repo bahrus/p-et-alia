@@ -595,7 +595,7 @@ Another objection to this approach is that there needs to be coordination betwee
 
 For that we have:
 
-## Punting [Untested]
+## Punting
 
 ```html
 <p-unt on=click dispatch to=myEventName prop=toggledNode val=target.node composed bubbles></p-unt>
