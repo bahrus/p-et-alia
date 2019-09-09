@@ -407,7 +407,7 @@ Suggestions for what [p-w could stand for](http://phrontistery.info/w.html):
 4.  pass w[hatever you want w to stand for]
 5.  pass wynd
 
-[![Watch the video](https://img.youtube.com/vi/uDZWT8RN9cE/maxresdefault.jpg)](https://www.youtube.com/watch?v=uDZWT8RN9cE)
+[![Watch the video](https://img.youtube.com/vi/83EPdpfIYwU/maxresdefault.jpg)](https://www.youtube.com/watch?v=83EPdpfIYwU)
 
 </details>
 
