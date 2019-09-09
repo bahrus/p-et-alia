@@ -516,7 +516,7 @@ To allow for even more loosely coupled integrations, the simple but sweet p-d ca
 
 You could consider it a local "mediator" in the [blockchain analogy](https://www.jamsadr.com/smartcontracts).
 
-[![Watch the video](https://img.youtube.com/vi/GF7tFwLBiKo/maxresdefault.jpg)](https://www.youtube.com/watch?v=GF7tFwLBiKo)
+[![Watch the video](https://img.youtube.com/vi/83EPdpfIYwU/maxresdefault.jpg)](https://www.youtube.com/watch?v=83EPdpfIYwU)
 
 </details>
 
