@@ -4,6 +4,10 @@ import { getHost } from 'xtal-element/getHost.js';
 const bubbles = 'bubbles';
 const composed = 'composed';
 const dispatch = 'dispatch';
+/**
+ * Dispatch event when previous non p-element triggers prescribed event
+ * @element p-unt
+ */
 export class PUnt extends P {
     static get is() { return 'p-unt'; }
     static get observedAttributes() {
@@ -47,18 +51,28 @@ export class PUnt extends P {
     get bubbles() {
         return this._bubbles;
     }
+    /**
+     * event should bubble up
+     * @attr
+     */
     set bubbles(val) {
         this.attr(bubbles, val, '');
     }
     get composed() {
         return this._composed;
     }
+    /**
+     * Event bubbling should pierce shadow dom
+     */
     set composed(val) {
         this.attr(composed, val, '');
     }
     get dispatch() {
         return this._dispatch;
     }
+    /**
+     * dispatch event
+     */
     set dispatch(val) {
         this.attr(dispatch, val, '');
     }

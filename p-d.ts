@@ -6,8 +6,8 @@ const m = 'm';
 const from = 'from';
 
 /**
- * @element `p-d`
- *  Pass data from one element down the DOM tree to other elements
+ * Pass data from one element down the DOM tree to other elements
+ * @element p-d
  *
  */
 export class PD extends P {
@@ -18,6 +18,10 @@ export class PD extends P {
     get m() {
         return this._m;
     }
+    /**
+     * Maximum number of matching elements expected to be found.
+     * @attr
+     */
     set m(val) {
         this.attr(m, val.toString());
     }
@@ -26,6 +30,10 @@ export class PD extends P {
     get from(){
         return this._from;
     }
+    /**
+     * Source element to start matches from
+     * @attr
+     */
     set from(nv){
         this.attr(from, nv);
     }

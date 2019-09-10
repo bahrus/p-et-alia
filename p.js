@@ -33,12 +33,20 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     get on() {
         return this._on;
     }
+    /**
+     * The event name to monitor for, from previous non p-* element.
+     * @attr
+     */
     set on(val) {
         this.attr(on, val);
     }
     get to() {
         return this._to;
     }
+    /**
+     * css pattern to match for from downstream siblings.
+     * @attr
+     */
     set to(val) {
         this.attr(to, val);
     }
@@ -56,14 +64,26 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     get noblock() {
         return this._noblock;
     }
+    /**
+     * Don't block event propagation.
+     * @attr
+     */
     set noblock(val) {
         this.attr(noblock, val, '');
     }
     get if() { return this._if; }
+    /**
+     * Only act on event if target element css-matches the expression specified by this attribute.
+     * @attr
+     */
     set if(val) {
         this.attr(iff, val);
     }
     get prop() { return this._prop; }
+    /**
+     * Name of property to set on matching downstream siblings.
+     * @attr
+     */
     set prop(val) {
         switch (typeof val) {
             case 'symbol':
@@ -74,12 +94,20 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         }
     }
     get val() { return this._val; }
+    /**
+     * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.
+     * @attr
+     */
     set val(nv) {
         this.attr(val, nv);
     }
     get fireEvent() {
         return this._fireEvent;
     }
+    /**
+     * Artificially fire event on target element whose name is specified by this attribute.
+     * @attr fire-event
+     */
     set fireEvent(nv) {
         this.attr(fire_event, nv);
     }
@@ -214,8 +242,8 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     setVal(e, target) {
         this.commit(target, this.valFromEvent(e), e);
     }
-    commit(target, val, e) {
-        if (val === undefined)
+    commit(target, valx, e) {
+        if (valx === undefined)
             return;
         let prop = this._prop;
         if (prop === undefined) {
@@ -235,26 +263,26 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
             debugger;
         switch (typeof prop) {
             case 'symbol':
-                target[prop] = val;
+                target[prop] = valx;
                 break;
             default:
                 if (prop.startsWith('.')) {
                     const cssClass = prop.substr(1);
-                    const method = val ? 'add' : 'remove';
+                    const method = (valx === undefined && valx === null) ? 'remove' : 'add';
                     target.classList[method](cssClass);
                 }
                 else if (this._withPath !== undefined) {
                     const currentVal = target[prop];
-                    const wrappedVal = this.wrap(val, {});
+                    const wrappedVal = this.wrap(valx, {});
                     target[prop] = (typeof (currentVal) === 'object' && currentVal !== null) ? { ...currentVal, ...wrappedVal } : wrappedVal;
                 }
                 else {
-                    target[prop] = val;
+                    target[prop] = valx;
                 }
         }
         if (this._fireEvent) {
             target.dispatchEvent(new CustomEvent(this._fireEvent, {
-                detail: this.getDetail(val),
+                detail: this.getDetail(valx),
                 bubbles: true
             }));
         }

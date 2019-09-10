@@ -1,12 +1,9 @@
 import { P } from './p.js';
 import { define } from 'trans-render/define.js';
 /**
- * `p-u`
- *  Pass data from one element to a targeted DOM element elsewhere
- *
- * @customElement
- * @polymer
- * @demo demo/index.html
+ * Pass data from one element to a targeted DOM element elsewhere
+ * @element p-u
+ *  
  */
 export class PU extends P {
     static get is() { return 'p-u'; }
