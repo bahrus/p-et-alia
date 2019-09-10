@@ -39,6 +39,10 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))){
     get on(){
         return this._on;
     }
+    /**
+     * The event name to monitor for, from previous non p-* element.
+     * @attr
+     */
     set on(val){
         this.attr(on, val)
     }
@@ -51,9 +55,15 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))){
     }
 
     _careOf!: string;
+
     get careOf(){
         return this._careOf;
     }
+    /**
+     * CSS Selector to use to select single child within the destination element.
+     * @attr care-of
+     * 
+     */
     set careOf(nv){
         this.attr(care_of, nv);
     }

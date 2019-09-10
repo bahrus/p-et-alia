@@ -4,7 +4,7 @@ import { NavDown } from 'xtal-element/NavDown.js';
 const m = 'm';
 const from = 'from';
 /**
- * `p-d`
+ * @element `p-d`
  *  Pass data from one element down the DOM tree to other elements
  *
  */

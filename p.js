@@ -45,6 +45,11 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     get careOf() {
         return this._careOf;
     }
+    /**
+     * CSS Selector to use to select single child within the destination element.
+     * @attr care-of
+     *
+     */
     set careOf(nv) {
         this.attr(care_of, nv);
     }

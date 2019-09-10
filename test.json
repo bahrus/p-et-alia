@@ -1,0 +1,87 @@
+{
+  "version": 2,
+  "tags": [
+    {
+      "name": "`p-d`\nPass data from one element down the DOM tree to other elements",
+      "jsDoc": "/**\n * @element `p-d`\n *  Pass data from one element down the DOM tree to other elements\n *\n */",
+      "attributes": [
+        {
+          "name": "on",
+          "description": "The event name to monitor for, from previous non p-* element.",
+          "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
+          "type": "string"
+        },
+        {
+          "name": "care-of",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "jsDoc": "/**\r\n     * CSS Selector to use to select single child within the destination element.\r\n     * @attr care-of\r\n     * \r\n     */",
+          "type": "string"
+        }
+      ],
+      "properties": [
+        {
+          "name": "disabled",
+          "type": "boolean"
+        },
+        {
+          "name": "evCount",
+          "type": "{ [key: string]: number; }"
+        },
+        {
+          "name": "asIs",
+          "type": "\"\" | \"-changed\""
+        },
+        {
+          "name": "withPath",
+          "type": "string"
+        },
+        {
+          "name": "on",
+          "description": "The event name to monitor for, from previous non p-* element.",
+          "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
+          "type": "string"
+        },
+        {
+          "name": "to",
+          "type": "string"
+        },
+        {
+          "name": "careOf",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "jsDoc": "/**\r\n     * CSS Selector to use to select single child within the destination element.\r\n     * @attr care-of\r\n     * \r\n     */",
+          "type": "string"
+        },
+        {
+          "name": "noblock",
+          "type": "boolean"
+        },
+        {
+          "name": "if",
+          "type": "string"
+        },
+        {
+          "name": "prop",
+          "type": "string | symbol"
+        },
+        {
+          "name": "fireEvent",
+          "type": "string"
+        },
+        {
+          "name": "val",
+          "type": "\"remove\" | \"add\""
+        },
+        {
+          "name": "m",
+          "type": "number"
+        },
+        {
+          "name": "from",
+          "type": "any"
+        }
+      ],
+      "events": [],
+      "slots": []
+    }
+  ]
+}
