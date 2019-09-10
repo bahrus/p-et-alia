@@ -26,8 +26,9 @@
     "purr-sist": "0.0.60"
   },
   "scripts": {
-    "test": "node tape test/*.js",
-    "serve": "node node_modules/xtal-test/serve.js"
+    "test": " && node tape test/*.js",
+    "serve": "node node_modules/xtal-test/serve.js",
+    "doc": "wca analyze p-*.js --outFile custom-elements.json"
   },
   "author": "anderson.bruce.b@gmail.com",
   "license": "MIT",

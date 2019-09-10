@@ -4,6 +4,10 @@ import { doNotCCEventToState } from './p-h-d.js';
 const state_path = 'state-path';
 const push = 'push';
 const cc = 'cc';
+/**
+ * "planted weirwood" -- passes data down just like p-d, but also updates history.state
+ * @element p-w
+ */
 export class PW extends PDX {
     constructor() {
         super(...arguments);
@@ -32,18 +36,30 @@ export class PW extends PDX {
     get statePath() {
         return this._statePath;
     }
+    /**
+     * path within history.state to deep merge data into
+     * @attr state-path
+     */
     set statePath(nv) {
         this.attr(state_path, nv);
     }
     get push() {
         return this._push;
     }
+    /**
+     * push new stack element into history
+     * @attr
+     */
     set push(nv) {
         this.attr(push, nv, '');
     }
     get cc() {
         return this._cc;
     }
+    /**
+     * Should carbon copy data to state
+     * @attr
+     */
     set cc(nv) {
         this.attr(cc, nv, '');
     }

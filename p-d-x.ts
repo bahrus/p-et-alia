@@ -2,7 +2,10 @@ import { PD } from './p-d.js';
 import { define } from 'trans-render/define.js';
 const guid = 'guid';
 
-
+/**
+ * Extends element p-d with experimental features.
+ * @element p-d-x
+ */
 export class PDX extends PD {
     static get is() { return 'p-d-x'; }
     commit(target: HTMLElement, val: any, e: Event) {

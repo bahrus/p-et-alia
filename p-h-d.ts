@@ -4,6 +4,10 @@ import {XtalStateWatch} from 'xtal-state/xtal-state-watch.js';
 const init_and_popstate_only ='init-and-popstate-only';
 const from_path = 'from-path';
 export const doNotCCEventToState = 'dncc';
+/**
+ * Pass history to downstream elements
+ * @element p-h-d
+ */
 export class PhD extends PDX{
     static get is(){return 'p-h-d';}
 
@@ -33,6 +37,10 @@ export class PhD extends PDX{
     get initAndPopStateOnly(){
         return this._initAndPopStateOnly;
     }
+    /**
+     * Only pass down history if is initial history and/or popstate event
+     * @attr init-and-pop-state-only
+     */
     set initAndPopStateOnly(nv){
         this._initAndPopStateOnly = nv;
     }
@@ -41,6 +49,10 @@ export class PhD extends PDX{
     get fromPath(){
         return this._fromPath;
     }
+    /**
+     * JS path within history.state to pass down.
+     * @attr from-path
+     */
     set fromPath(nv){
         this._fromPath = nv;
     }
