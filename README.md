@@ -703,6 +703,21 @@ $ npm run serve
 $ npm tests
 ```
 
+## Syntax
+
+Auto-generated via [wca analyzer](https://github.com/runem/web-component-analyzer)
+
+<!--
+```
+<custom-element-demo>
+<template>
+    <wc-info package-name="npm install p-et-alia" href="https://unpkg.com/p-et-alia@0.0.45/custom-elements.json"></wc-info>
+    <script type="module" src="https://unpkg.com/wc-info@0.0.65/wc-info.js?module"></script>
+</template>
+</custom-element-demo>
+```
+-->
+
 ## p-s
 
 I mentioned at the beginning that there could be performance issues if using these components inside a virtual list, for example.  Although performance issues have not yet been observed, the concern is based on observations made by the [ag-grid](https://www.ag-grid.com/ag-grid-performance-hacks/) team:
