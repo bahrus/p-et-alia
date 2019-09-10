@@ -7,6 +7,12 @@
       "jsDoc": "/**\n * Pass data from one element down the DOM tree to other elements, including children, recursively.\n * Only drills into children if p-d-if matches css of p-d-r element.\n * @element p-d-r\n */",
       "attributes": [
         {
+          "name": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
+          "type": "string"
+        },
+        {
           "name": "on",
           "description": "The event name to monitor for, from previous non p-* element.",
           "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
@@ -74,6 +80,8 @@
         },
         {
           "name": "evCount",
+          "description": "Tracks how many times each event type was called.",
+          "jsDoc": "/**\r\n         * Tracks how many times each event type was called.\r\n         */",
           "type": "{ [key: string]: number; }"
         },
         {
@@ -82,6 +90,8 @@
         },
         {
           "name": "withPath",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
           "type": "string"
         },
         {
@@ -154,6 +164,12 @@
       "jsDoc": "/**\n * Extends element p-d with experimental features.\n * @element p-d-x\n */",
       "attributes": [
         {
+          "name": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
+          "type": "string"
+        },
+        {
           "name": "on",
           "description": "The event name to monitor for, from previous non p-* element.",
           "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
@@ -221,6 +237,8 @@
         },
         {
           "name": "evCount",
+          "description": "Tracks how many times each event type was called.",
+          "jsDoc": "/**\r\n         * Tracks how many times each event type was called.\r\n         */",
           "type": "{ [key: string]: number; }"
         },
         {
@@ -229,6 +247,8 @@
         },
         {
           "name": "withPath",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
           "type": "string"
         },
         {
@@ -305,6 +325,12 @@
       "jsDoc": "/**\n * Pass data from one element down the DOM tree to other elements\n * @element p-d\n *\n */",
       "attributes": [
         {
+          "name": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
+          "type": "string"
+        },
+        {
           "name": "on",
           "description": "The event name to monitor for, from previous non p-* element.",
           "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
@@ -372,6 +398,8 @@
         },
         {
           "name": "evCount",
+          "description": "Tracks how many times each event type was called.",
+          "jsDoc": "/**\r\n         * Tracks how many times each event type was called.\r\n         */",
           "type": "{ [key: string]: number; }"
         },
         {
@@ -380,6 +408,8 @@
         },
         {
           "name": "withPath",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
           "type": "string"
         },
         {
@@ -451,6 +481,12 @@
       "description": "Pass history to downstream elements",
       "jsDoc": "/**\n * Pass history to downstream elements\n * @element p-h-d\n */",
       "attributes": [
+        {
+          "name": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
+          "type": "string"
+        },
         {
           "name": "on",
           "description": "The event name to monitor for, from previous non p-* element.",
@@ -531,6 +567,8 @@
         },
         {
           "name": "evCount",
+          "description": "Tracks how many times each event type was called.",
+          "jsDoc": "/**\r\n         * Tracks how many times each event type was called.\r\n         */",
           "type": "{ [key: string]: number; }"
         },
         {
@@ -539,6 +577,8 @@
         },
         {
           "name": "withPath",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
           "type": "string"
         },
         {
@@ -627,6 +667,12 @@
       "jsDoc": "/**\n * Pass data from one element to a targeted DOM element elsewhere\n * @element p-u\n *\n */",
       "attributes": [
         {
+          "name": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
+          "type": "string"
+        },
+        {
           "name": "on",
           "description": "The event name to monitor for, from previous non p-* element.",
           "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
@@ -682,6 +728,8 @@
         },
         {
           "name": "evCount",
+          "description": "Tracks how many times each event type was called.",
+          "jsDoc": "/**\r\n         * Tracks how many times each event type was called.\r\n         */",
           "type": "{ [key: string]: number; }"
         },
         {
@@ -690,6 +738,8 @@
         },
         {
           "name": "withPath",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
           "type": "string"
         },
         {
@@ -749,6 +799,12 @@
       "description": "Dispatch event when previous non p-element triggers prescribed event",
       "jsDoc": "/**\n * Dispatch event when previous non p-element triggers prescribed event\n * @element p-unt\n */",
       "attributes": [
+        {
+          "name": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
+          "type": "string"
+        },
         {
           "name": "on",
           "description": "The event name to monitor for, from previous non p-* element.",
@@ -811,6 +867,8 @@
         },
         {
           "name": "evCount",
+          "description": "Tracks how many times each event type was called.",
+          "jsDoc": "/**\r\n         * Tracks how many times each event type was called.\r\n         */",
           "type": "{ [key: string]: number; }"
         },
         {
@@ -819,6 +877,8 @@
         },
         {
           "name": "withPath",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
           "type": "string"
         },
         {
@@ -896,6 +956,12 @@
       "description": "\"planted weirwood\" -- passes data down just like p-d, but also updates history.state",
       "jsDoc": "/**\n * \"planted weirwood\" -- passes data down just like p-d, but also updates history.state\n * @element p-w\n */",
       "attributes": [
+        {
+          "name": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
+          "type": "string"
+        },
         {
           "name": "on",
           "description": "The event name to monitor for, from previous non p-* element.",
@@ -982,6 +1048,8 @@
         },
         {
           "name": "evCount",
+          "description": "Tracks how many times each event type was called.",
+          "jsDoc": "/**\r\n         * Tracks how many times each event type was called.\r\n         */",
           "type": "{ [key: string]: number; }"
         },
         {
@@ -990,6 +1058,8 @@
         },
         {
           "name": "withPath",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
           "type": "string"
         },
         {
