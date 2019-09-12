@@ -2,6 +2,7 @@ import {XtallatX, lispToCamel} from 'xtal-element/xtal-latx.js';
 import {hydrate} from 'trans-render/hydrate.js';
 import {createNestedProp} from 'xtal-element/createNestedProp.js';
 import {WithPath, with_path} from 'xtal-element/with-path.js';
+import {PProps} from './types.d.js';
 
 const on = 'on';
 const noblock = 'noblock';
@@ -29,7 +30,7 @@ function getProp(val: any, pathTokens: (string | [string, string[]])[]){
     return context;
 }
 
-export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))){
+export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) implements PProps{
     constructor(){
         super();
         

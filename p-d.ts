@@ -1,6 +1,7 @@
 import { P} from './p.js';
 import { define } from 'trans-render/define.js';
 import {NavDown} from 'xtal-element/NavDown.js';
+import {PDProps} from './types.js';
 
 const m = 'm';
 const from = 'from';
@@ -10,7 +11,7 @@ const from = 'from';
  * @element p-d
  *
  */
-export class PD extends P {
+export class PD extends P implements PDProps {
     static get is() { return 'p-d'; }
     _pdNavDown: NavDown | null = null;
     //_hasMax!: boolean;
