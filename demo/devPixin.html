@@ -17,7 +17,10 @@
     <!-- <div> -->
     <div>
         <div>Input:</div>
-        <xtal-json-merge-pd input="[]" p-d='[{"on":"merged-prop-changed","from":"div","to":"#firstEditor","prop":"input","val":"target.mergedProp"}]'>
+        <xtal-json-merge-pd input="[]" 
+        p-d='[{"on":"merged-prop-changed","from":"div","to":"#firstEditor","prop":"input","val":"target.mergedProp"},
+              {"on":"merged-prop-changed","from":"div","to":"#insertData","prop":"input","val":"target.mergedProp"}
+        ]'>
           <script type="application/json">
             [
                 [
