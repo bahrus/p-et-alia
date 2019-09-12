@@ -7,9 +7,8 @@ type Constructor<T = {}> = new (...args: any[]) => T;
 export function Pixin<TBase extends Constructor<IPixin>>(superClass: TBase) {
     return class extends superClass implements IPixin {
         connectedCallback(){
-            this.pdReg().then(() =>{
-                if(super.connectedCallback) super.connectedCallback();
-            })
+            if(super.connectedCallback) super.connectedCallback();
+            this.pdReg();
         }
         _pds : PDProps[] = [];
         async pdReg(){
@@ -17,11 +16,21 @@ export function Pixin<TBase extends Constructor<IPixin>>(superClass: TBase) {
             if(pd !== null){
                 const {PD} = await import('./p-d.js');
                 const pds = JSON.parse(pd) as PDProps[];
+                this.pdDis(pds);
                 pds.forEach(pd => {
                     const pdForReal = new PD();
                     Object.assign(pdForReal, pd);
+                    //pdForReal.init(this);
+                    pdForReal.connectedCallback(this);
                 })
             }
+        }
+        pdDis(props: PDProps[]){
+            const attr = this.getAttribute('disabled');
+            const attrC = attr !== null ? parseInt(attr) : 0;
+            let currentCount = isNaN(attrC) ? 0 : attrC;
+            this.setAttribute('disabled', (currentCount + props.length).toString());
+
         }
     }
 }

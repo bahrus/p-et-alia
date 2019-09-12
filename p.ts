@@ -190,7 +190,9 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         this.propUp([on, to, noblock, iff, prop, val, 'careOf', 'withPath', 'fireEvent']);
         //this.init();
     }
+    _trigger: HTMLElement | undefined;
     init(){
+        //this._trigger = trigger;
         this.attchEvListnrs();
         this.doFake();
     };
@@ -210,7 +212,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         }else{
             this._bndHndlEv = this._hndEv.bind(this);
         }
-        const prevSib = this.getPreviousSib();
+        const prevSib = this._trigger === undefined ? this.getPreviousSib() : this._trigger;
         if(!prevSib) return;
         prevSib.addEventListener(this._on, this._bndHndlEv);
         if(prevSib === this.parentElement && this._if){

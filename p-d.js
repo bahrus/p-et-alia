@@ -81,16 +81,17 @@ export class PD extends P {
     }
     newNavDown() {
         const bndApply = this.applyProps.bind(this);
-        let seed = this;
+        let seed = this._trigger || this;
         if (this._from !== undefined) {
-            seed = this.closest(this._from);
+            seed = seed.closest(this._from);
             if (seed === null) {
                 throw this._from + ' not found.';
             }
         }
         return new NavDown(seed, this.to, this._careOf, bndApply, this.m);
     }
-    connectedCallback() {
+    connectedCallback(trigger) {
+        this._trigger = trigger;
         super.connectedCallback();
         this.propUp([m, from]);
         this.attr('pds', '📞');

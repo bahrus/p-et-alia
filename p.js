@@ -166,6 +166,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         //this.init();
     }
     init() {
+        //this._trigger = trigger;
         this.attchEvListnrs();
         this.doFake();
     }
@@ -188,7 +189,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         else {
             this._bndHndlEv = this._hndEv.bind(this);
         }
-        const prevSib = this.getPreviousSib();
+        const prevSib = this._trigger === undefined ? this.getPreviousSib() : this._trigger;
         if (!prevSib)
             return;
         prevSib.addEventListener(this._on, this._bndHndlEv);

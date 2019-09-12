@@ -82,9 +82,9 @@ export class PD extends P implements PDProps {
     }
     newNavDown(){
         const bndApply = this.applyProps.bind(this);
-        let seed : Element | null = this;
+        let seed : Element | null = this._trigger || this;
         if(this._from !== undefined){
-            seed = this.closest(this._from);
+            seed = seed.closest(this._from);
             if(seed === null){
                 throw this._from + ' not found.';
             }
@@ -92,7 +92,8 @@ export class PD extends P implements PDProps {
         return new NavDown(seed, this.to, this._careOf, bndApply, this.m);
     }
     _iIP = false;
-    connectedCallback() {
+    connectedCallback(trigger?: HTMLElement) {
+        this._trigger = trigger;
         super.connectedCallback();
         this.propUp([m, from]);
         this.attr('pds', '📞');
