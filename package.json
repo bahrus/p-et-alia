@@ -21,6 +21,7 @@
     "tape": "4.10.2",
     "xtal-test": "0.0.20",
     "xtal-json-editor": "0.0.39",
+    "xtal-json-merge": "0.2.37",
     "es-module-shims": "0.2.15",
     "aggregator-fn": "0.0.18",
     "purr-sist": "0.0.60"

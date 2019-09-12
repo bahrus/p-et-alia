@@ -17,22 +17,22 @@
     <!-- <div> -->
     <div>
         <div>Input:</div>
-        <xtal-json-merge input="[]" data-imp>
+        <xtal-json-merge-pd input="[]">
           <script type="application/json">
-                      [
-                        [
-                            {"name": "Harry Potter", "age":"13"},
-                            {"name": "Albus Dumbledore", "age":"279"}
-                        ]
-                      ]
-                        </script>
-        </xtal-json-merge>
+            [
+                [
+                    {"name": "Harry Potter", "age":"13"},
+                    {"name": "Albus Dumbledore", "age":"279"}
+                ]
+            ]
+            </script>
+        </xtal-json-merge-pd>
         <p-d on="merged-prop-changed" from="div" to="#firstEditor" prop="input" val="target.mergedProp"></p-d>
         <p-d on="merged-prop-changed" from="div" to="#insertData" prop="input" val="target.mergedProp"></p-d>
     </div>
 
 
-    <xtal-json-editor id="firstEditor" options="{}" data-imp></xtal-json-editor>
+    <xtal-json-editor id="firstEditor" options="{}"></xtal-json-editor>
     <br>
     <div>Merge with</div>
     <pre>
@@ -85,15 +85,16 @@
       "imports": {
         "xtal-element/": "../node_modules/xtal-element/",
         "trans-render/": "../node_modules/trans-render/",
-        "p-d": "../p-d.js"
+        "xtal-json-merge/": "../node_modules/xtal-json-merge/"
       }
     }
     </script>
     <!-- <script type="module" src="../p-d.js"></script> -->
     <script  type="module-shim">
         import '../p-d.js';
+        import './xtal-json-merge-pd.js';
     </script>
-    <script type="module" src="https://unpkg.com/xtal-json-merge@0.2.37/xtal-json-merge.js?module"></script>
+    <!-- <script type="module" src="https://unpkg.com/xtal-json-merge@0.2.37/xtal-json-merge.js?module"></script> -->
     <script type="module" src="https://unpkg.com/xtal-json-editor@0.0.39/xtal-json-editor.js?module"></script>
   </div>
 </body>
