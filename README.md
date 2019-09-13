@@ -127,6 +127,40 @@ What we end up with is shown below:
 </div>
 ```
 
+## Optional -- separate tags => attributes
+
+<details>
+<summary>Packaging your component with free connector cable</summary>
+
+These connector components are a bit unusual in the realm of web development -- most binding "frameworks" add event handlers within the tag that spawns the event.  Putting aside questions about performance (which hasn't yet been determined), or IDE support (which I'm sure could accommodate either way with enough grunt work) I'm on the fence which is better.
+
+Among the advantages of inlining the event handler, is that it is easier to keep the event handling coupled with the tag -- if you need to move the component, you are less likely to leave behind stray event handler tags by accident.
+
+With separate (non rendering) tags, it's easier to add commentary, and I think there are debugging benefits.  It feels more "physical."
+
+At any rate, some support for inlining event handling is provided.
+
+First, suppose you have a great web component, <\monitor-blink-rate\> that emits an event every time the user blinks more than 30 times per minute.  Providing a pure web component that does that, and only that, makes a lot of sense.
+
+But you, the web component author, or one of your fans, can enhance that web component with built-in support for passing the event down:
+
+```JavaScript
+import {Pixin} from '../p-ixin.js';
+export class MonitorBlinkRateEtAlia extends Pixin(MonitorBlinkRate){
+
+}
+customElements.define('monitor-blink-et-alia', MonitorBlinkRateEtAlia)
+```
+
+Then you don't need a separate connector component:
+
+```html
+<monitor-blink-et-alia data-recommended-squirt-size="3μl"  p-d='{"on":"blinks-too-much", "to": "eyedrop-spitter[-both]", "val": "target.dataset.recommendedSquirtSize"}'></monitor-blink-et-alia>
+...
+<eyedrop-spitter -left -right -both></eyedrop-spitter>
+```
+</details>
+
 ## A spoonful of [syntactic sugar](https://www.google.com/search?q=a+spoonful+of+syntactic+sugar&rlz=1C1CHBF_enUS834US834&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjf8uuemdDiAhWKm-AKHTTwAy4Q_AUIESgC&biw=1707&bih=850)
 
 One of the beauties of html / attributes vs JavaScript is that attributes can be defined in such a way that configuring a web component can almost read like English:
