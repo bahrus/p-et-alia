@@ -136,11 +136,11 @@ These connector components are a bit unusual in the realm of web development -- 
 
 Among the advantages of inlining the event handler, is that it is easier to keep the event handling coupled with the tag -- if you need to move the component, you are less likely to leave behind stray event handler tags by accident.
 
-With separate (non rendering) tags, it's easier to add commentary, and I think there are debugging benefits.  It feels more "physical."
+With separate (non rendering) tags, it's easier to add commentary, and I think there are debugging benefits.  It feels more "physical."  Plus there's no issue concern about applying non standard, non validating attributes, without resorting to the clunky data- solution (which itself is not foolproof).
 
 At any rate, some support for inlining event handling is provided.
 
-First, suppose you have a great web component, <\monitor-blink-rate\> that emits an event every time the user blinks more than 30 times per minute.  Providing a pure web component that does that, and only that, makes a lot of sense.
+First, suppose you have a great web component, \<monitor-blink-rate\> that emits an event every time the user blinks more than 30 times per minute.  Providing a pure web component that does that, and only that, makes a lot of sense.
 
 But you, the web component author, or one of your fans, can enhance that web component with built-in support for passing the event down:
 
