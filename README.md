@@ -146,16 +146,16 @@ But you, the web component author, or one of your fans, can enhance that web com
 
 ```JavaScript
 import {Pixin} from '../p-ixin.js';
-export class MonitorBlinkRateEtAlia extends Pixin(MonitorBlinkRate){
+export class MonitorBlinkRatePXN extends Pixin(MonitorBlinkRate){
 
 }
-customElements.define('monitor-blink-et-alia', MonitorBlinkRateEtAlia)
+customElements.define('monitor-blink-rate-pxn', MonitorBlinkRatePXN);
 ```
 
 Then you don't need a separate connector component:
 
 ```html
-<monitor-blink-et-alia data-recommended-squirt-size="3μl"  p-d='{"on":"blinks-too-much", "to": "eyedrop-spitter[-both]", "val": "target.dataset.recommendedSquirtSize"}'></monitor-blink-et-alia>
+<monitor-blink-rate-pxn data-recommended-squirt-size="3μl"  p-d='{"on":"blinks-too-much", "to": "eyedrop-spitter[-both]", "val": "target.dataset.recommendedSquirtSize"}'></monitor-blink-rate-pxn>
 ...
 <eyedrop-spitter -left -right -both></eyedrop-spitter>
 ```
@@ -389,7 +389,7 @@ Unlike traditional frameworks these components don't depend on the existence of 
 
 ###  All Hail, Keeper of All Our Stories! 
 
-What if one of the components in your data passing chain is an unreliable dog of a component?  Perhaps the complexity of your application is such that limiting a unified "state" to simply passing data between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore, on setState of some framework you will be stuck with forever, version after version, no matter what ~~stupid and cruel~~ twists and turns it takes?   What better thing to bind components together than the keeper of all history, [history.state](https://www.youtube.com/watch?v=IRJ8uFNmzqU)? 
+What if one of the components in your data passing chain is an unreliable dog of a component?  Perhaps the complexity of your application is such that limiting a unified "state" to simply passing data between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore, on setState of some framework you will be stuck with forever, version after version, no matter what ~~cruel and stupid~~ twists and turns it takes?   What better thing to bind components together than the keeper of all history, [history.state](https://www.youtube.com/watch?v=IRJ8uFNmzqU)? 
 
 [![Watch the video](https://img.youtube.com/vi/IRJ8uFNmzqU/maxresdefault.jpg)](https://www.youtube.com/watch?v=IRJ8uFNmzqU)
 
@@ -469,14 +469,9 @@ An option to limit updates from state to the initial value + popstate events can
 <input -value placeholder=key disabled>
 <!-- Pass key to aggregator that creates key / value object and cc history.state (draft.key) -->
 <!-- "p-w" stands for "pass w[hatever you want w to stand for]"  -->
-<p-w on=input to=[-key] push cc state-path=draft.key val=target.value m=1></p-w>
+<p-w on=input to=[-key] cc state-path=draft.key push val=target.value m=1></p-w>
 ```
 
-You can make the tag more readable by adding some superflous attributes that have no effect:
-
-```html
-<p-w on=input to=[-key] val=target.value m=1 and merge and push into history.state with-state-path=draft.key ></p-w>
-```
 
 ### Limitations
 
@@ -500,8 +495,6 @@ Admittedly, the parallels with blockchain are a bit tenous, but this is an attem
 
 
 </details>
-
-
 
 As such, the p-et-alia family of components want you to know that they are all very pro web component, even if they are also perfectly content gluing components together on a UI that is just a composition of components, without any central component controller managing state.  
 
@@ -555,8 +548,6 @@ You could consider it a local "mediator" in the [blockchain analogy](https://www
 </details>
 
 
-
-
 ## Disabling the default behavior of initialization (Warning:  Wonky discussion)
 
 One of the goals of these components is they can load asynchronously, and the output should, as much as possible, not depend on when these components load.
@@ -583,7 +574,6 @@ You can specify the "depth" of disabling thusly:
 ```
 
 What if you want your element to remain disabled after all the p-d's have latched?  Just set the number one higher than the number of next sibling p-d's.
-
 
 ## Counter test
 
