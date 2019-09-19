@@ -247,8 +247,8 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
     _hndEv(e: Event){
         if(this.hasAttribute('debug')) debugger;
         if(!e) return;
-        if(e.stopPropagation && !this._noblock) e.stopPropagation();
         if(this._if && !(e.target as HTMLElement).matches(this._if)) return;
+        if(e.stopPropagation && !this._noblock) e.stopPropagation();
         this._lastEvent = e;
         this.pass(e);
     }
@@ -269,6 +269,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
     commit(target: HTMLElement, valx: any, e: Event){
         if(valx===undefined) return;
         let prop = this._prop;
+        let attr: string | undefined;
         if(prop === undefined){
             //TODO:  optimize (cache, etc)
             const thingToSplit = this._careOf || this._to;
@@ -278,7 +279,8 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
                 
                 const last = toSplit[len - 1].replace(']', '');
                 if(last.startsWith('-') || last.startsWith('data-')){
-                    prop = lispToCamel( last.split('-').slice(1).join('-'));
+                    attr = last.split('-').slice(1).join('-');
+                    prop = lispToCamel(attr);
                 }
             }
         }
@@ -298,7 +300,9 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
                     const currentVal = (<any>target)[prop];
                     const wrappedVal = this.wrap(valx, {});
                     (<any>target)[prop] = (typeof(currentVal) === 'object' && currentVal !== null) ? {...currentVal, ...wrappedVal} : wrappedVal;
-                } else {
+                } else if(attr !== undefined && this.hasAttribute('set-attr')){
+                    target.setAttribute(attr, valx.toString());
+                }else {
                     (<any>target)[prop] = valx;
                 }
         }

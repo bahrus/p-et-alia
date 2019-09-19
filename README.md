@@ -212,6 +212,18 @@ then the "prop" attribute defaults to the attribute following the first dash i.e
 
 Furthermore, no match will be found if if-diff does not contain the -lhs (or -rhs) "pseudo" attribute.
 
+<details>
+    <summary>Setting attributes (discouraged)</summary>
+    If you want to set the attribute value, rather than the property, use the following syntax:
+
+```html
+        <button data-test="hello">Click me</button>
+        <p-d on=click to=[-my-attrib] val=target.dataset.test skip-init set-attr></p-d>
+        <div -my-attrib>test</div>
+```
+
+</details>
+
 ## [Demo 1](https://jsfiddle.net/bahrus/y8moqgrb/4/)
 
 ##  Seeing through Walls, Part I

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <button data-test="hello">Click me</button>
+        <p-d on=click to=[-my-attrib] val=target.dataset.test skip-init set-attr></p-d>
+        <div -my-attrib>test</div>
+    <!-- Use experimental import maps -->
+    <script defer src="../node_modules/es-module-shims/dist/es-module-shims.js"></script>
+    <script type="importmap-shim">
+    {
+      "imports": {
+        "xtal-element/": "../node_modules/xtal-element/",
+        "trans-render/": "../node_modules/trans-render/",
+        "p-d": "../p-d.js"
+      }
+    }
+    </script>
+    <script  type="module-shim">
+        import '../p-d.js';
+    </script>
+    </div>
+</body>
+</html>

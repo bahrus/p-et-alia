@@ -223,10 +223,10 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
             debugger;
         if (!e)
             return;
-        if (e.stopPropagation && !this._noblock)
-            e.stopPropagation();
         if (this._if && !e.target.matches(this._if))
             return;
+        if (e.stopPropagation && !this._noblock)
+            e.stopPropagation();
         this._lastEvent = e;
         this.pass(e);
     }
@@ -247,6 +247,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         if (valx === undefined)
             return;
         let prop = this._prop;
+        let attr;
         if (prop === undefined) {
             //TODO:  optimize (cache, etc)
             const thingToSplit = this._careOf || this._to;
@@ -255,7 +256,8 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
             if (len > 1) {
                 const last = toSplit[len - 1].replace(']', '');
                 if (last.startsWith('-') || last.startsWith('data-')) {
-                    prop = lispToCamel(last.split('-').slice(1).join('-'));
+                    attr = last.split('-').slice(1).join('-');
+                    prop = lispToCamel(attr);
                 }
             }
         }
@@ -276,6 +278,9 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
                     const currentVal = target[prop];
                     const wrappedVal = this.wrap(valx, {});
                     target[prop] = (typeof (currentVal) === 'object' && currentVal !== null) ? { ...currentVal, ...wrappedVal } : wrappedVal;
+                }
+                else if (attr !== undefined && this.hasAttribute('set-attr')) {
+                    target.setAttribute(attr, valx.toString());
                 }
                 else {
                     target[prop] = valx;
