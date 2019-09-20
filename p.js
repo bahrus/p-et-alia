@@ -238,7 +238,11 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     }
     valFromEvent(e) {
         //const gpfp = getProp.bind(this);
-        return this._s !== null ? getProp(e, this._s) : this.$N(getProp(e, ['detail', 'value']), getProp(e, ['target', 'value']));
+        let val = this._s !== null ? getProp(e, this._s) : this.$N(getProp(e, ['detail', 'value']), getProp(e, ['target', 'value']));
+        if (val === undefined && (typeof (this.val) === 'string') && e.target.hasAttribute(this.val)) {
+            val = e.target.getAttribute(this.val);
+        }
+        return val;
     }
     setVal(e, target) {
         this.commit(target, this.valFromEvent(e), e);
