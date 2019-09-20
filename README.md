@@ -19,7 +19,7 @@ These components emphasize simplicity and small size -- to be used for 30,000 ft
 
 1.  If you just need to connect some elements of a mostly static or [server-rendered](https://www.similartech.com/categories/framework) web site, these components provide a light weight way of doing that.
 2.  These components allow you to keep code-centric **builds** at bay as much as possible.  Why is this important?  Because browsers can process HTML significantly faster than JS.  That doesn't mean you have to edit HTML files.  Theoretically, you could edit in JavaScript and benefit from the tooling (type checks, etc), but compile to HTML for optimum performance.
-3.  Sitting down now:  Note that [there are](https://www.11ty.io/) some [far more mature](https://www.netlify.com/) [solutions worth exploring](https://jamstack.org/) whose aims match these.  Some of them build around a framework, like Vue or React, that can glue components together, and that's great. 
+3.  Note that [there are](https://www.11ty.io/) some [far more mature](https://www.netlify.com/) [solutions worth exploring](https://jamstack.org/) whose aims match these.  Some of them build around a framework, like Vue or React, that can glue components together, and that's great. 
 
 </details>
 
@@ -220,6 +220,18 @@ Furthermore, no match will be found if if-diff does not contain the -lhs (or -rh
         <button data-test="hello">Click me</button>
         <p-d on=click to=[-my-attrib] val=target.dataset.test skip-init set-attr></p-d>
         <div -my-attrib>test</div>
+```
+
+</details>
+
+<details>
+    <summary>Passing down attributes</summary>
+    The value can come from an attribute:
+
+```html
+<button aria-role="hello">Hello</button>
+<p-w on="click" to=[-text-content] val=aria-role skip-init m=1></p-w>
+<div -text-content></div>
 ```
 
 </details>
