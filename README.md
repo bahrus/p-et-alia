@@ -374,13 +374,9 @@ What follows requires support for [dynamic import]() and has been tested in Chro
 
 In the browser console, import the "xtal-shell" console utility:
 
-import('https://unpkg.com/xtal-shell@0.0.21/$hell.js');
+> import('https://unpkg.com/xtal-shell@0.0.21/$hell.js');
 
-The loaded library will make writing your p-d tags easier, and debugging as well.
-
-<details>
-    <summary>Editing support</summary>
-</details>
+The loaded library will make writing debuggin your p-et-alia based applications easier, and figuring out how to add connections between components as well.
 
 <details>
     <summary>Debugging Support</summary>
@@ -391,16 +387,43 @@ But I am quite excited to see Firefox has made some [giant leaps forward](https:
 
 In addition, now that you've imported the xtal-shell, you might find the following helpful.  
 
-Make you sure you select the Elements / Inspector tab in the dev tools (right-clicking on an element and selecting "Inspect" should get you there), in such a way that you can see both the elements and the console at the same time.
+Make sure you select the Elements / Inspector tab in the dev tools (right-clicking on an element and selecting "Inspect" should get you there), in such a way that you can see both the elements and the console at the same time.
 
 Then, as you inspect custom elements, you can type this in the console:
 
-$hell.getProperties($0)
+> $hell.getProperties($0)
 
 You should see an object, which you will want to expand.  This will list the values of Polymer properties, as well as observedAttributes, as well as Object.getOwnProperties.  It also displays the constructor, which you can right-click on, and go to definition to see the code for the web component.
 
 Now as you select other elements in the elements tab, in the console, hit the up arrow and enter (so you don't have to keep typing "$hell.getProperties($0)" each time).  You will have to keep expanding the result.
 </details>
+
+<details>
+    <summary>Editing support</summary>
+
+One of the biggest challenges of binding elements together based on events, is it isn't obvious what custom events a custom element fires, especially if the element is not well documented.
+
+The instructions below work well in Chrome.  Firefox is a little harder.
+
+In the Elements (Inspector) tab click first on the element you want to act as a source element, then on the element below, which you want to pass data to.
+
+Then, in the console, type:
+
+> const pc = $hell.connect($1, $0);
+
+$1 is the first element you clicked on, $0 is the last.  (Firefox doesn't support this.)
+
+Now, as you do things in the source element, which triggers custom events, the xtal-shell will log to the console suggested markup for the p-d element.
+
+To specify the target property you want to populate, type:
+
+pc.destProp = pc.destProps.input
+
+for example.  The value "input" will be suggested by the autocomplete as you type.
+
+</details>
+
+
 
 </details>
 
