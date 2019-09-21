@@ -417,7 +417,7 @@ Now, as you do things in the source element, which triggers custom events, the x
 
 To specify the target property you want to populate, type:
 
-pc.destProp = pc.destProps.input
+> pc.destProp = pc.destProps.input
 
 for example.  The value "input" will be suggested by the autocomplete as you type.
 
