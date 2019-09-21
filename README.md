@@ -8,7 +8,7 @@ Size of all components combined:
 
 # p-et-alia
 
-p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/left-occipital-right-frontal-petalia-torque-asymmetry)) is a web component "peer-to-peer" thingamajig.  It consists of simple "connector" components that can progressively bind native DOM / web components together, regardless of how the elements got there. 
+p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/left-occipital-right-frontal-petalia-torque-asymmetry)) is a web component "peer-to-peer" shell.  It consists of simple "connector" components that can progressively bind native DOM / web components together, regardless of how the elements got there. 
 
 These components emphasize simplicity and small size -- to be used for 30,000 ft. above the ground component connecting.  Think connecting a TV to a Roku, rather than connecting tightly coupled micro chips together.  See the sections "Limitations" and "p-s" for more discussion about this.
 
@@ -30,7 +30,6 @@ These components emphasize simplicity and small size -- to be used for 30,000 ft
 Both p-d and p-u have an attribute/property, "on" that specifies an event to monitor for.  They both attach an event listener for the specified event to the previous (non p-*) element.
 
 When this event monitoring is enabled, if the previous element is disabled, the disabled attribute is removed (more on that later).
-
 
 ##  Downward flow amongst siblings with p-d. 
 
@@ -366,19 +365,33 @@ Note: [Your Content in Shadow DOM Portals ](https://dev.to/westbrook/your-conten
     <xtal-radio-group-md name="pronoun" data-flag="voted" data-allow-voting="-1"></xtal-radio-group-md>
 ```
 
-## Debugging Tips
+## Welcome to $hell
 
-Although the markup / code above is a little more verbose than standard ways of adding event handlers, it does have some benefits.  If you do view the live elements, you can sort of "walk through" the DOM elements and custom elements, and see how data is transformed from step to step.  This would be particularly easy if there were a nice browser extension that can quickly view web component properties, regardless of their flavor.  Unfortunately, [existing](https://chrome.google.com/webstore/detail/polyspector/naoehbibkfilaolkmfiehggkfjndlhpd?hl=en) [extensions](https://chrome.google.com/webstore/detail/stencil-inspector/komnnoelcbjpjfnbhmdpgmlbklmicmdi/related) don't seem to support that yet. 
+<details>
+<summary>Debugging and editing on a shoestring budget</summary>
+
+What follows requires support for [dynamic import]() and has been tested in Chrome and Firefox.  I must say that Firefox has a number of subtle features here not found in Chrome.  Bravo!
+
+In the browser console, import the "xtal-shell" console utility:
+
+import('https://unpkg.com/xtal-shell@0.0.21/$hell.js');
+
+The loaded library will make writing your p-d tags easier, and debugging as well.
+
+<details>
+    <summary>Editing support</summary>
+</details>
+
+<details>
+    <summary>Debugging Support</summary>
+
+Although the p-* tags result in a little more verbose syntax than standard ways of adding event handlers, it does have some benefits.  If you do view the live elements, you can sort of "walk through" the DOM elements and custom elements, and see how data is transformed from step to step.  This would be particularly easy if there were a nice browser extension that can quickly view web component properties, regardless of their flavor.  Unfortunately, [existing](https://chrome.google.com/webstore/detail/polyspector/naoehbibkfilaolkmfiehggkfjndlhpd?hl=en) [extensions](https://chrome.google.com/webstore/detail/stencil-inspector/komnnoelcbjpjfnbhmdpgmlbklmicmdi/related) don't seem to support that yet. 
 
 But I am quite excited to see Firefox has made some [giant leaps forward](https://blog.nightly.mozilla.org/2018/09/06/developer-tools-support-for-web-components-in-firefox-63/) in supporting universal web component debugging.
 
-In addition, you might find the following helpful.  What follows requires support for [dynamic import]() and has been tested in Chrome and Firefox.  I must say that Firefox has a number of subtle features here not found in Chrome.  Bravo!
+In addition, now that you've imported the xtal-shell, you might find the following helpful.  
 
-In the console, type:
-
-import('https://unpkg.com/xtal-shell@0.0.7/$hell.js');
-
-Then make you sure you select the Elements / Inspector tab in the dev tools (right-clicking on an element and selecting "Inspect" should get you there), in such a way that you can see both the elements and the console at the same time.
+Make you sure you select the Elements / Inspector tab in the dev tools (right-clicking on an element and selecting "Inspect" should get you there), in such a way that you can see both the elements and the console at the same time.
 
 Then, as you inspect custom elements, you can type this in the console:
 
@@ -387,6 +400,20 @@ $hell.getProperties($0)
 You should see an object, which you will want to expand.  This will list the values of Polymer properties, as well as observedAttributes, as well as Object.getOwnProperties.  It also displays the constructor, which you can right-click on, and go to definition to see the code for the web component.
 
 Now as you select other elements in the elements tab, in the console, hit the up arrow and enter (so you don't have to keep typing "$hell.getProperties($0)" each time).  You will have to keep expanding the result.
+</details>
+
+</details>
+
+
+
+
+## Debugging Tips
+
+
+
+
+
+
 
 
 ## Conditional Processing
