@@ -343,7 +343,8 @@ You can create little p-d-x extension custom elements thusly:
 ```TypeScript
 import {extend} from 'p-et-alia/p-d-x.js';
 
-extend('slot-bot', {
+extend({
+    name: 'slot-bot'
     valFromEvent: (e: Event) =>{
         const slot = e.target as HTMLSlotElement;
         const ret = slot.assignedElements().map(el => {

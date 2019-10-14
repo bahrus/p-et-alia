@@ -65,5 +65,6 @@ export class PDX extends PD {
 }
 define(PDX);
 
+export const extend = PDX.extend;
 
 
