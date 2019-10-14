@@ -46,13 +46,16 @@ export class PDX extends PD {
     }
 
     static extend(params: ExtensionParams) : string | HTMLElement{
-        class Extension extends PDX{
-            valFromEvent(e: Event){
-                return params.valFromEvent(e);
-            }
-        }
         const name = 'p-d-x-' +  (params.name ? params.name : (new Date()).valueOf().toString());
-        customElements.define('p-d-x-' + name, Extension);
+        if(!customElements.get(name)){
+            class Extension extends PDX{
+                valFromEvent(e: Event){
+                    return params.valFromEvent(e);
+                }
+            }
+            customElements.define(name, Extension);
+        }
+
         if(params.insertAfter !== undefined){
             const newEl = document.createElement(name);
             params.insertAfter.after(newEl);
