@@ -17,3 +17,9 @@ export interface PDProps extends PProps{
 export interface IPixin  extends HTMLElement{
     connectedCallback?(): void;
 }
+
+export interface ExtensionParams{
+    name?: string;
+    insertAfter?: HTMLElement;
+    valFromEvent: (e: Event) => any;
+}

@@ -38,13 +38,22 @@ export class PDX extends PD {
                 super.attributeChangedCallback(name, oldVal, newVal);
         }
     }
-}
-define(PDX);
-export function extend(name, params) {
-    class Extension extends PDX {
-        valFromEvent(e) {
-            return params.valFromEvent(e);
+    static extend(params) {
+        class Extension extends PDX {
+            valFromEvent(e) {
+                return params.valFromEvent(e);
+            }
+        }
+        const name = 'p-d-x-' + (params.name ? params.name : (new Date()).valueOf().toString());
+        customElements.define('p-d-x-' + name, Extension);
+        if (params.insertAfter !== undefined) {
+            const newEl = document.createElement(name);
+            params.insertAfter.after(newEl);
+            return newEl;
+        }
+        else {
+            return name;
         }
     }
-    customElements.define('p-d-x-' + name, Extension);
 }
+define(PDX);
