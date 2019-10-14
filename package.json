@@ -9,20 +9,20 @@
     "url": "git+https://github.com/bahrus/p-et-alia.git"
   },
   "dependencies": {
-    "xtal-element": "0.0.83",
-    "trans-render": "0.0.131",
+    "xtal-element": "0.0.86",
+    "trans-render": "0.0.135",
     "xtal-state": "0.0.99"
   },
   "devDependencies": {
-    "@types/node": "12.7.3",
+    "@types/node": "12.7.12",
     "@types/tape": "4.2.33",
-    "@webcomponents/webcomponentsjs": "2.2.10",
-    "jiife": "0.0.12",
-    "tape": "4.10.2",
+    "@webcomponents/webcomponentsjs": "2.3.0",
+    "jiife": "0.0.14",
+    "tape": "4.11.0",
     "xtal-test": "0.0.20",
     "xtal-json-editor": "0.0.39",
     "xtal-json-merge": "0.2.37",
-    "es-module-shims": "0.2.15",
+    "es-module-shims": "0.4.5",
     "aggregator-fn": "0.0.18",
     "purr-sist": "0.0.60"
   },
