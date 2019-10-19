@@ -18,7 +18,7 @@ These components emphasize simplicity and small size -- to be used for 30,000 ft
 <summary>Use cases</summary>
 
 1.  If you just need to connect some elements of a mostly static or [server-rendered](https://www.similartech.com/categories/framework) web site, these components provide a light weight way of doing that.
-2.  These components allow you to keep code-centric **builds** at bay as much as possible.  Why is this important?  Because browsers can process HTML significantly faster than JS.  That doesn't mean you have to edit HTML files.  Theoretically, you could edit in JavaScript and benefit from the tooling (type checks, etc), but compile to HTML for optimum performance.
+2.  These components allow you to keep code-centric **builds** at bay as much as possible.  Why is this important?  Because browsers can process HTML significantly faster than JS.  That doesn't mean you have to edit HTML files.  Theoretically, you could edit in JavaScript and benefit from the tooling (type checks, etc.), but compile to HTML for optimum performance.
 3.  Note that [there are](https://www.11ty.io/) some [far more mature](https://www.netlify.com/) [solutions worth exploring](https://jamstack.org/) whose aims match these.  Some of them build around a framework, like Vue or React, that can glue components together, and that's just ... awesome.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](https://i.imgur.com/rX6XaC1.gif?noredirect)
@@ -63,7 +63,7 @@ p-d  passes information from that previous sibling's event down the p-d instance
 
 "on" specifies the name of the event to listen for.
 
-"to" is a css selector, similar to css selectors in a css file.  Only the way that selector is used is as a test on each of the next siblings after the p-d element.  The code uses the "matches" method to test each element for a match.
+"to" is a CSS selector, similar to CSS selectors in a CSS file.  Only the way that selector is used is as a test on each of the next siblings after the p-d element.  The code uses the "matches" method to test each element for a match.
 
 "prop" refers to the name of a property on the matching elements which need setting.  
 
@@ -77,7 +77,7 @@ All the components described in this document support an attribute (not a proper
 
 Note that we are suggesting, in the markup above, the use of the CSS grid (display: grid).  The CSS grid allows you to specify where each element inside the CSS Grid container should be displayed.
 
-It appears that the css flex/grid doesn't count elements with display:none as columns or rows.  So all the non visual components, which haven't seen the light on the benefit of setting display:none, could be marked with an attribute, nv (non visual) and apply a style for them, i.e.: 
+It appears that the CSS flex/grid doesn't count elements with display:none as columns or rows.  So all the non visual components, which haven't seen the light on the benefit of setting display:none, could be marked with an attribute, nv (non visual) and apply a style for them, i.e.: 
 
 ```html
 <style>
@@ -96,7 +96,7 @@ Another benefit of making this explicit:  There is likely less overhead from com
 
 One can't help noticing quite a bit of redundancy in the markup above.  We can reduce this redundancy if we apply some default settings. 
 
-1)  If no css specifier is defined, it will pass the properties to the next element.
+1)  If no CSS specifier is defined, it will pass the properties to the next element.
 2)  If no value is specified, it will see if detail.value exists.  If not it will try target.value.
 
 We can also forgo quotes when not needed.
