@@ -1,6 +1,7 @@
 import { PD } from './p-d.js';
 import { define } from 'trans-render/define.js';
 const guid = 'guid';
+const regLookup = {};
 /**
  * Extends element p-d with experimental features.
  * @element p-d-x
@@ -39,7 +40,23 @@ export class PDX extends PD {
         }
     }
     static extend(params) {
-        const name = 'p-d-x-' + (params.name ? params.name : (new Date()).valueOf().toString());
+        const nameDefined = params.name !== undefined;
+        let name;
+        const pdxPrefix = 'p-d-x-';
+        if (nameDefined) {
+            name = pdxPrefix + params.name;
+        }
+        else {
+            const fnSig = params.valFromEvent.toString();
+            const prevName = regLookup[fnSig];
+            if (prevName !== undefined) {
+                name = prevName;
+            }
+            else {
+                name = pdxPrefix + (new Date()).valueOf().toString();
+                regLookup[fnSig] = name;
+            }
+        }
         if (!customElements.get(name)) {
             class Extension extends PDX {
                 valFromEvent(e) {

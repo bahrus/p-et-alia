@@ -48,7 +48,6 @@ export class PDX extends PD {
     }
 
     
-
     static extend(params: ExtensionParams) : string | HTMLElement{
         const nameDefined = params.name !== undefined;
         let name: string | undefined;
