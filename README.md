@@ -702,7 +702,7 @@ For that we have:
 ## Punting
 
 ```html
-<p-unt on=click dispatch to=myEventName prop=toggledNode val=target.node composed bubbles></p-unt>
+<p-unt on=click dispatch to=myEventName prop=toggledNode val=target.node composed bubbles canelable></p-unt>
 ```
 
 Another way you can make data "cycle" is by placing a p-* element at the beginning -- if no previous non p-* elements are found, the event handler is attached to the parent. 
