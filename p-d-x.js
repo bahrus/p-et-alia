@@ -67,7 +67,8 @@ export class PDX extends PD {
         }
         if (params.insertAfter !== undefined) {
             const newEl = document.createElement(name);
-            params.insertAfter.after(newEl);
+            //params.insertAfter.after(newEl); //Safari doesn't support yet
+            params.insertAfter.insertAdjacentElement('afterend', newEl);
             return newEl;
         }
         else {

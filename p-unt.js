@@ -4,6 +4,7 @@ import { getHost } from 'xtal-element/getHost.js';
 const bubbles = 'bubbles';
 const composed = 'composed';
 const dispatch = 'dispatch';
+const cancelable = 'cancelable';
 /**
  * Dispatch event when previous non p-element triggers prescribed event
  * @element p-unt
@@ -11,13 +12,14 @@ const dispatch = 'dispatch';
 export class PUnt extends P {
     static get is() { return 'p-unt'; }
     static get observedAttributes() {
-        return super.observedAttributes.concat([bubbles, composed, dispatch]);
+        return super.observedAttributes.concat([bubbles, composed, dispatch, cancelable]);
     }
     attributeChangedCallback(name, oldVal, newVal) {
         switch (name) {
             case bubbles:
             case composed:
             case dispatch:
+            case cancelable:
                 this['_' + name] = newVal !== null;
                 break;
             default:
@@ -25,7 +27,7 @@ export class PUnt extends P {
         }
     }
     connectedCallback() {
-        this.propUp([bubbles, composed, dispatch]);
+        this.propUp([bubbles, composed, dispatch, cancelable]);
         super.connectedCallback();
         this.init();
     }
@@ -35,6 +37,7 @@ export class PUnt extends P {
         const customEventInit = new CustomEvent(this.to, {
             bubbles: this._bubbles,
             composed: this._composed,
+            cancelable: this._cancelable,
             detail: detail,
         });
         const host = getHost(this);
@@ -63,9 +66,13 @@ export class PUnt extends P {
     }
     /**
      * Event bubbling should pierce shadow dom
+     * @attr
      */
     set composed(val) {
         this.attr(composed, val, '');
+    }
+    get cancelable() {
+        return this._cancelable;
     }
     get dispatch() {
         return this._dispatch;
