@@ -46,7 +46,7 @@ export class PD extends P {
         //this.passDown(this.nextElementSibling, e, 0);
         const count = this.applyProps(this._pdNavDown);
         this.attr('pds', '👂');
-        this.attr('mtch', count.toString());
+        //this.attr('mtch', count.toString());
     }
     getMatches(pd) {
         return pd.matches;
@@ -57,7 +57,8 @@ export class PD extends P {
             return 0;
         if (this._lastEvent === null || !this._lastEvent.target)
             return;
-        const matches = this.getMatches(pd); //const matches = pd.getMatches();
+        const matches = this.getMatches(pd);
+        //const matches = pd.getMatches();
         matches.forEach(el => {
             if (pd._inMutLoop) {
                 if (el.dataset.__pdWIP !== '1')
@@ -65,7 +66,9 @@ export class PD extends P {
             }
             this.setVal(this._lastEvent, el);
         });
-        return matches.length;
+        const len = matches.length;
+        this.attr('mtch', len);
+        return len;
     }
     attributeChangedCallback(name, oldVal, newVal) {
         switch (name) {
