@@ -56,6 +56,7 @@ export class PD extends P implements PDProps {
     applyProps(pd: NavDown){
         //if(this._iIP && this.skI()) return;
         if(this._iIP) return 0;
+        if(this._lastEvent === null || !this._lastEvent.target) return;
         const matches = this.getMatches(pd);//const matches = pd.getMatches();
         matches.forEach(el =>{
             if(pd._inMutLoop){
