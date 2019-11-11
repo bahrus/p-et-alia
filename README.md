@@ -8,7 +8,7 @@ Size of all components combined:
 
 # p-et-alia
 
-p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/left-occipital-right-frontal-petalia-torque-asymmetry)) is a web component "peer-to-peer" shell.  It consists of simple "connector" components that can progressively bind native DOM / web components together, regardless of how the elements got there. 
+p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/left-occipital-right-frontal-petalia-torque-asymmetry)) is a web component "peer-to-peer" framework shell.  It consists of simple "connector" components that can progressively bind native DOM / web components together, regardless of how the elements got there. 
 
 These components emphasize simplicity and small size -- to be used for 30,000 ft. above the ground component connecting.  Think connecting a TV to a Roku, rather than connecting tightly coupled micro chips together.  See the sections "Limitations" and "p-s" for more discussion about this.
 
@@ -19,7 +19,7 @@ These components emphasize simplicity and small size -- to be used for 30,000 ft
 
 1.  If you just need to connect some elements of a mostly static or [server-rendered](https://www.similartech.com/categories/framework) web site, these components provide a light weight way of doing that.
 2.  These components allow you to keep code-centric **builds** at bay as much as possible.  Why is this important?  Because browsers can process HTML significantly faster than JS.  That doesn't mean you have to edit HTML files.  Theoretically, you could edit in JavaScript and benefit from the tooling (type checks, etc.), but compile to HTML for optimum performance.
-3.  Note that [there are](https://www.11ty.io/) some [far more mature](https://www.netlify.com/) [solutions worth exploring](https://jamstack.org/) whose aims match these.  Some of them build around a framework, like Vue or React, that can glue components together, and that's just ... awesome.
+3.  Note that [there are](https://www.11ty.io/) some far more mature [solutions worth exploring](https://jamstack.org/) whose aims partly match these.  Some of them build around a framework, like Vue or React or Svelte, that can glue components together, and that's just ... awesome.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](https://i.imgur.com/rX6XaC1.gif?noredirect)
 
@@ -128,39 +128,7 @@ What we end up with is shown below:
 </div>
 ```
 
-## Optional -- separate tags => attributes
 
-<details>
-<summary>Packaging your component with free connector cable</summary>
-
-These connector components are a bit unusual in the realm of web development -- most binding "frameworks" add event handlers within the tag that spawns the event.  Putting aside questions about performance (which hasn't yet been determined), or IDE support (which I'm sure could accommodate either way with enough grunt work) I'm on the fence which is better.
-
-Among the advantages of inlining the event handler, is that it is easier to keep the event handling coupled with the tag -- if you need to move the component, you are less likely to leave behind stray event handler tags by accident.
-
-With separate (non rendering) tags, it's easier to add commentary, and I think there are debugging benefits.  It feels more "physical."  Plus there's no concern about applying non standard, non validating attributes, without resorting to the clunky data- solution (which itself is not foolproof).
-
-At any rate, some support for inline event handling is provided.
-
-First, suppose you have a great web component, \<monitor-blink-rate\> that emits an event every time the user blinks more than 30 times per minute.  Providing a pure web component that does that, and only that, makes a lot of sense.
-
-But you, the web component author, or one of your fans, can enhance that web component with built-in support for passing the event down:
-
-```JavaScript
-import {Pixin} from '../p-ixin.js';
-export class MonitorBlinkRatePXN extends Pixin(MonitorBlinkRate){
-
-}
-customElements.define('monitor-blink-rate-pxn', MonitorBlinkRatePXN);
-```
-
-Then you don't need a separate connector component:
-
-```html
-<monitor-blink-rate-pxn data-recommended-squirt-size="3μl"  p-d='{"on":"blinks-too-much", "to": "eyedrop-spitter[-both]", "val": "target.dataset.recommendedSquirtSize"}'></monitor-blink-rate-pxn>
-...
-<eyedrop-spitter -left -right -both></eyedrop-spitter>
-```
-</details>
 
 ## A spoonful of [syntactic sugar](https://www.google.com/search?q=a+spoonful+of+syntactic+sugar&rlz=1C1CHBF_enUS834US834&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjf8uuemdDiAhWKm-AKHTTwAy4Q_AUIESgC&biw=1707&bih=850)
 
@@ -235,6 +203,40 @@ Furthermore, no match will be found if if-diff does not contain the -lhs (or -rh
 <div -text-content></div>
 ```
 
+</details>
+
+## Optional -- separate tags => attributes
+
+<details>
+<summary>Packaging your component with free connector cable</summary>
+
+These connector components are a bit unusual in the realm of web development -- most binding "frameworks" add event handlers within the tag that spawns the event.  Putting aside questions about performance (which hasn't yet been determined), or IDE support (which I'm sure could accommodate either way with enough grunt work) I'm on the fence which is better.
+
+Among the advantages of inlining the event handler, is that it is easier to keep the event handling coupled with the tag -- if you need to move the component, you are less likely to leave behind stray event handler tags by accident.
+
+With separate (non rendering) tags, it's easier to add commentary, and I think there are debugging benefits.  It feels more "physical."  Plus there's no concern about applying non standard, non validating attributes, without resorting to the clunky data- solution (which itself is not foolproof).
+
+At any rate, some support for inline event handling is provided.
+
+First, suppose you have a great web component, \<monitor-blink-rate\> that emits an event every time the user blinks more than 30 times per minute.  Providing a pure web component that does that, and only that, makes a lot of sense.
+
+But you, the web component author, or one of your fans, can enhance that web component with built-in support for passing the event down:
+
+```JavaScript
+import {Pixin} from '../p-ixin.js';
+export class MonitorBlinkRatePXN extends Pixin(MonitorBlinkRate){
+
+}
+customElements.define('monitor-blink-rate-pxn', MonitorBlinkRatePXN);
+```
+
+Then you don't need a separate connector component:
+
+```html
+<monitor-blink-rate-pxn data-recommended-squirt-size="3μl"  p-d='{"on":"blinks-too-much", "to": "eyedrop-spitter[-both]", "val": "target.dataset.recommendedSquirtSize"}'></monitor-blink-rate-pxn>
+...
+<eyedrop-spitter -left -right -both></eyedrop-spitter>
+```
 </details>
 
 ## [Demo 1](https://jsfiddle.net/bahrus/y8moqgrb/4/)
