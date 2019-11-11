@@ -56,7 +56,7 @@ export class PD extends P implements PDProps {
     applyProps(pd: NavDown){
         //if(this._iIP && this.skI()) return;
         if(this._iIP) return 0;
-        if(this._lastEvent === null || !this._lastEvent.target) return;
+        if(this._lastEvent === null) return;
         const matches = this.getMatches(pd);
         //const matches = pd.getMatches();
         matches.forEach(el =>{
@@ -66,7 +66,7 @@ export class PD extends P implements PDProps {
             this.setVal(this._lastEvent!, el);
         });
         const len = matches.length;
-        this.attr('mtch', len);
+        this.attr('mtch', len.toString());
         return len;
     }
     attributeChangedCallback(name: string, oldVal: string, newVal: string) {

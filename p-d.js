@@ -55,7 +55,7 @@ export class PD extends P {
         //if(this._iIP && this.skI()) return;
         if (this._iIP)
             return 0;
-        if (this._lastEvent === null || !this._lastEvent.target)
+        if (this._lastEvent === null)
             return;
         const matches = this.getMatches(pd);
         //const matches = pd.getMatches();
@@ -67,7 +67,7 @@ export class PD extends P {
             this.setVal(this._lastEvent, el);
         });
         const len = matches.length;
-        this.attr('mtch', len);
+        this.attr('mtch', len.toString());
         return len;
     }
     attributeChangedCallback(name, oldVal, newVal) {

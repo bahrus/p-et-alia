@@ -12,8 +12,11 @@
     </template>
     <div>
         <div id=main>
-            <input>
-            <p-d on="input" to=[-text-content] val=target.value></p-d>
+            <div>
+                <input>
+                <p-d on="input" from=div to=[-text-content] val=target.value></p-d>
+            </div>
+
             <button onclick="addDiv()">Add Div</button>
         </div>
 
