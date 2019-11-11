@@ -69,8 +69,9 @@ export class PW extends PDX {
         this.addState();
     }
     async addState() {
-        if (!this._cc || this._addedState)
+        if (!this._cc || this._addedState) {
             return;
+        }
         this._addedState = true;
         const { XtalStateUpdate } = await import('xtal-state/xtal-state-update.js');
         const xtalUpdate = document.createElement(XtalStateUpdate.is);
@@ -83,10 +84,11 @@ export class PW extends PDX {
     }
     commit(target, val, e) {
         super.commit(target, val, e);
-        if (e.detail && e.detail[doNotCCEventToState])
+        if ((e.detail && e.detail[doNotCCEventToState]))
             return;
         window.requestAnimationFrame(() => {
-            this._xtalUpdate.history = val;
+            if (this._xtalUpdate !== undefined)
+                this._xtalUpdate.history = val;
         });
     }
 }

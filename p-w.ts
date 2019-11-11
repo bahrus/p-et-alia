@@ -69,7 +69,8 @@ export class PW extends PDX{
         this.attr(cc, nv, '');
     }
 
-    _xtalUpdate!: XtalStateUpdateProps;
+    _xtalUpdate: XtalStateUpdateProps | undefined;
+
     connectedCallback(){
         super.connectedCallback();
         this.propUp(['guid', 'statePath', 'push', 'cc']);
@@ -79,7 +80,9 @@ export class PW extends PDX{
 
     _addedState = false;
     async addState(){
-        if(!this._cc || this._addedState) return;
+        if(!this._cc || this._addedState) {
+            return;
+        }
         this._addedState = true;
         const {XtalStateUpdate} = await import('xtal-state/xtal-state-update.js');
         const xtalUpdate = (<any>document.createElement(XtalStateUpdate.is)) as XtalStateUpdateProps;
@@ -93,9 +96,9 @@ export class PW extends PDX{
 
     commit(target: HTMLElement, val: any, e: CustomEventInit) {
         super.commit(target, val, e as Event);
-        if(e.detail && e.detail[doNotCCEventToState]) return;
+        if((e.detail && e.detail[doNotCCEventToState])) return;
         window.requestAnimationFrame(() =>{
-            this._xtalUpdate.history = val;
+            if(this._xtalUpdate !== undefined) this._xtalUpdate.history = val;
         })
     }
 }
