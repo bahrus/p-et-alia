@@ -81,6 +81,9 @@ export class PUnt extends P {
     get cancelable(){
         return this._cancelable
     }
+    set cancelable(val){
+        this.attr(cancelable, val, '');
+    }
     /**
      * Allow preventDefault
      * @attr

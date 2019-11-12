@@ -74,6 +74,9 @@ export class PUnt extends P {
     get cancelable() {
         return this._cancelable;
     }
+    set cancelable(val) {
+        this.attr(cancelable, val, '');
+    }
     get dispatch() {
         return this._dispatch;
     }
