@@ -454,13 +454,15 @@ p-d can be configured to test the event target to make sure it matches a css tes
 
 These components provide a kind of "thingamajig built with web components."  It's far less encompassing than traditional frameworks, because it is only designed to glue web components together, so the bulk of the complex logic will be found inside other web components.  
 
-Unlike traditional frameworks, these components don't depend on the existence of a controlling component which manages state.  Instead, it is a little more [JQuery](https://w3techs.com/technologies/overview/javascript_library/all) like.  Why not let each component decide how best to manage its own state?  It is a "peer-to-peer binding framework."  This may be more appealing for some [people](https://www.youtube.com/watch?v=RplnSVTzvnU) / use cases, less appealing to others.  
+Unlike traditional frameworks, these components don't depend on the existence of a controlling component which manages state.  Instead, it is a little more [JQuery](https://w3techs.com/technologies/overview/javascript_library/all) like.  Why not let each component decide how best to manage its own state?  
+
+[![Watch the video](https://img.youtube.com/vi/owvMGw2AQ7U/maxresdefault.jpg)](https://www.youtube.com/watch?v=owvMGw2AQ7U)
+
+It is a "peer-to-peer binding framework."  This may be more appealing for some [people](https://www.youtube.com/watch?v=RplnSVTzvnU) / use cases, less appealing to others.  
 
 ###  All Hail, Keeper of All Our Stories! 
 
-What if one of the components in your data passing chain is an unreliable dog of a component?  Perhaps the complexity of your application is such that limiting a unified "state" to simply passing data between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore, on setState of some framework you will be stuck with forever, version after version, no matter what ~~cruel and stupid~~ twists and turns it takes?   What better thing to bind components together than the keeper of all history, [history.state](https://www.youtube.com/watch?v=owvMGw2AQ7U)? 
-
-[![Watch the video](https://img.youtube.com/vi/owvMGw2AQ7U/maxresdefault.jpg)](https://www.youtube.com/watch?v=owvMGw2AQ7U)
+What if one of the components in your data passing chain is an unreliable dog of a component?  Perhaps the complexity of your application is such that limiting a unified "state" to simply passing data between components doesn't seem practical.    Who should rule state then?  Redux?  Mobx?  Standardizing, forevermore, on setState of some framework you will be stuck with forever, version after version, no matter what ~~cruel and stupid~~ twists and turns it takes?   What better thing to bind components together than the keeper of all history, [history.state](https://www.youtube.com/watch?v=zRkhSlMkzIw)? 
 
 [![Watch the video](https://img.youtube.com/vi/zRkhSlMkzIw/maxresdefault.jpg)](https://www.youtube.com/watch?v=zRkhSlMkzIw)
 
