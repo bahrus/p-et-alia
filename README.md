@@ -462,6 +462,8 @@ What if one of the components in your data passing chain is an unreliable dog of
 
 [![Watch the video](https://img.youtube.com/vi/owvMGw2AQ7U/maxresdefault.jpg)](https://www.youtube.com/watch?v=owvMGw2AQ7U)
 
+[![Watch the video](https://img.youtube.com/vi/zRkhSlMkzIw/maxresdefault.jpg)](https://www.youtube.com/watch?v=zRkhSlMkzIw)
+
 One candidate for providing a hand with managing history.state is the AMP's [amp-bind](https://amp.dev/documentation/components/amp-bind/?referrer=ampproject.org) component, which appears to rely on history.state as its unifying system of record.
 
 The functionality discussed below is provided as an alternative.
