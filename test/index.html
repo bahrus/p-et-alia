@@ -1,17 +1,30 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+      <input disabled value="There was an old lady who swallowed a fly;" style="width:100%">
+      <p-d on=foo to=[-data-title] val=target.value></p-d>
+      <button -data-title data-why1="I don't know why she swallowed a fly - Perhaps she'll die!"></button>
 
-    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
-  </head>
-  <body>
-    <script>
-      // Load and run all tests (.html, .js):
-      WCT.loadSuites([
-        'p-d_test.html'
-      ]);
-    </script>
-  </body>
+      
+      <!-- Use experimental import maps -->
+      <script defer src="../node_modules/es-module-shims/dist/es-module-shims.js"></script>
+      <script type="importmap-shim">
+      {
+        "imports": {
+          "xtal-element/": "../node_modules/xtal-element/",
+          "trans-render/": "../node_modules/trans-render/",
+          "p-d": "../p-d.js"
+        }
+      }
+      </script>
+      <script  type="module-shim">
+          import '../p-d.js';
+      </script>
+</body>
 </html>
