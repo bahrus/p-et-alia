@@ -270,6 +270,27 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
     injectVal(e: Event, target: any){
         this.commit(target, this.valFromEvent(e), e);
     }
+    setVal(target: HTMLElement, valx: any, attr: string | undefined, prop: string | symbol){
+        switch(typeof prop){
+            case 'symbol':
+                (<any>target)[prop] = valx;
+                break;
+            default:
+                if (prop.startsWith('.')) {
+                    const cssClass = prop.substr(1);
+                    const method = (valx === undefined && valx === null) ? 'remove' : 'add';
+                    target.classList[method](cssClass);
+                } else if (this._withPath !== undefined){
+                    const currentVal = (<any>target)[prop];
+                    const wrappedVal = this.wrap(valx, {});
+                    (<any>target)[prop] = (typeof(currentVal) === 'object' && currentVal !== null) ? {...currentVal, ...wrappedVal} : wrappedVal;
+                } else if(attr !== undefined && this.hasAttribute('set-attr')){
+                    target.setAttribute(attr, valx.toString());
+                }else {
+                    (<any>target)[prop] = valx;
+                }
+        }
+    }
     commit(target: HTMLElement, valx: any, e: Event){
         if(valx===undefined) return;
         let prop = this._prop;
@@ -290,26 +311,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         }
         //const targetPath = prop;
         if(target.hasAttribute !== undefined && target.hasAttribute('debug')) debugger;
-
-        switch(typeof prop){
-            case 'symbol':
-                (<any>target)[prop] = valx;
-                break;
-            default:
-                if (prop.startsWith('.')) {
-                    const cssClass = prop.substr(1);
-                    const method = (valx === undefined && valx === null) ? 'remove' : 'add';
-                    target.classList[method](cssClass);
-                } else if (this._withPath !== undefined){
-                    const currentVal = (<any>target)[prop];
-                    const wrappedVal = this.wrap(valx, {});
-                    (<any>target)[prop] = (typeof(currentVal) === 'object' && currentVal !== null) ? {...currentVal, ...wrappedVal} : wrappedVal;
-                } else if(attr !== undefined && this.hasAttribute('set-attr')){
-                    target.setAttribute(attr, valx.toString());
-                }else {
-                    (<any>target)[prop] = valx;
-                }
-        }
+        this.setVal(target, valx, attr, prop);
         if(this._fireEvent){
             target.dispatchEvent(new CustomEvent(this._fireEvent, { 
                 detail: this.getDetail(valx),

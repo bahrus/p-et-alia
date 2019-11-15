@@ -247,27 +247,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     injectVal(e, target) {
         this.commit(target, this.valFromEvent(e), e);
     }
-    commit(target, valx, e) {
-        if (valx === undefined)
-            return;
-        let prop = this._prop;
-        let attr;
-        if (prop === undefined) {
-            //TODO:  optimize (cache, etc)
-            const thingToSplit = this._careOf || this._to;
-            const toSplit = thingToSplit.split('[');
-            const len = toSplit.length;
-            if (len > 1) {
-                const last = toSplit[len - 1].replace(']', '');
-                if (last.startsWith('-') || last.startsWith('data-')) {
-                    attr = last.split('-').slice(1).join('-');
-                    prop = lispToCamel(attr);
-                }
-            }
-        }
-        //const targetPath = prop;
-        if (target.hasAttribute !== undefined && target.hasAttribute('debug'))
-            debugger;
+    setVal(target, valx, attr, prop) {
         switch (typeof prop) {
             case 'symbol':
                 target[prop] = valx;
@@ -290,6 +270,29 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
                     target[prop] = valx;
                 }
         }
+    }
+    commit(target, valx, e) {
+        if (valx === undefined)
+            return;
+        let prop = this._prop;
+        let attr;
+        if (prop === undefined) {
+            //TODO:  optimize (cache, etc)
+            const thingToSplit = this._careOf || this._to;
+            const toSplit = thingToSplit.split('[');
+            const len = toSplit.length;
+            if (len > 1) {
+                const last = toSplit[len - 1].replace(']', '');
+                if (last.startsWith('-') || last.startsWith('data-')) {
+                    attr = last.split('-').slice(1).join('-');
+                    prop = lispToCamel(attr);
+                }
+            }
+        }
+        //const targetPath = prop;
+        if (target.hasAttribute !== undefined && target.hasAttribute('debug'))
+            debugger;
+        this.setVal(target, valx, attr, prop);
         if (this._fireEvent) {
             target.dispatchEvent(new CustomEvent(this._fireEvent, {
                 detail: this.getDetail(valx),
