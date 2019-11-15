@@ -40,7 +40,7 @@ p-d  passes information from that previous sibling's event down the p-d instance
 ```html
 <!--- verbose syntax -->
 <div style="display:grid">
-    <input/>                                                                    
+    <input>                                                                    
     <p-d on="input" to="url-builder" prop="input" val="target.value" m="1"></p-d>
     <url-builder prepend="api/allEmployees?startsWith="></url-builder>    
     <p-d on="value-changed" to="fetch-data" prop="url" val="detail.value" m="1"></p-d>
@@ -111,7 +111,7 @@ What we end up with is shown below:
 }
 </style>
 <div style="display:grid">
-    <input/>                                                                    
+    <input>                                                                    
     <p-d on=input prop=input></p-d>
     <url-builder prepend="api/allEmployees?startsWith=" nv></url-builder>   
     <p-d on=value-changed  prop=url></p-d>
@@ -248,7 +248,7 @@ Consider the following markup:
 ```html
 <details>
 	<summary>my-custom-element Editor</summary>
-	<input/>
+	<input>
 	<p-d on=input to=my-custom-element[-lhs] m=1></p-d> 
 </details>
 <my-custom-element -lhs></my-custom-element>
@@ -259,7 +259,7 @@ Clearly, "my-custom-element" is below the p-d element.  The problem is p-d wasn'
 ```html
 <details>
 	<summary>my-custom-element Editor</summary>
-	<input/>
+	<input>
 	<p-d on=input from=details to=my-custom-element[-lhs] m=1></p-d> 
 </details>
 <my-custom-element -lhs></my-custom-element>
@@ -292,7 +292,7 @@ To see past both the fieldset and details walls, use the care-of and from attrib
 ```html
 <fieldset>
 	<legend>my-custom-element Editor</legend>
-	<input/>
+	<input>
 	<p-d on=input from=fieldset to=details care-of=my-custom-element[-lhs] m=1></p-d> 
 </fieldset>
 <details>
