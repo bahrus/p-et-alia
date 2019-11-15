@@ -1,12 +1,17 @@
 import { PD } from './p-d.js';
 import { define } from 'trans-render/define.js';
 const guid = 'guid';
+const del = 'del';
 const regLookup = {};
 /**
  * Extends element p-d with experimental features.
  * @element p-d-x
  */
 export class PDX extends PD {
+    constructor() {
+        super(...arguments);
+        this._del = false;
+    }
     static get is() { return 'p-d-x'; }
     commit(target, val, e) {
         if (val === undefined) {
@@ -26,7 +31,7 @@ export class PDX extends PD {
         this.attr(guid, val);
     }
     static get observedAttributes() {
-        return super.observedAttributes.concat([guid]);
+        return super.observedAttributes.concat([guid, del]);
     }
     attributeChangedCallback(name, oldVal, newVal) {
         switch (name) {
@@ -35,8 +40,31 @@ export class PDX extends PD {
                     return;
                 this._guid = newVal;
                 break;
+            case del:
             default:
                 super.attributeChangedCallback(name, oldVal, newVal);
+        }
+    }
+    get del() {
+        return this._del;
+    }
+    set del(nv) {
+        this.attr(del, nv, '');
+    }
+    setAttr(target, attr, valx) {
+        if (this._del) {
+            target.removeAttribute(attr);
+        }
+        else {
+            super.setAttr(target, attr, valx);
+        }
+    }
+    setProp(target, prop, valx) {
+        if (this._del) {
+            delete target[prop];
+        }
+        else {
+            super.setProp(target, prop, valx);
         }
     }
     static extend(params) {

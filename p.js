@@ -250,7 +250,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     setVal(target, valx, attr, prop) {
         switch (typeof prop) {
             case 'symbol':
-                target[prop] = valx;
+                this.setProp(target, prop, valx);
                 break;
             default:
                 if (prop.startsWith('.')) {
@@ -264,12 +264,18 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
                     target[prop] = (typeof (currentVal) === 'object' && currentVal !== null) ? { ...currentVal, ...wrappedVal } : wrappedVal;
                 }
                 else if (attr !== undefined && this.hasAttribute('set-attr')) {
-                    target.setAttribute(attr, valx.toString());
+                    this.setAttr(target, attr, valx);
                 }
                 else {
-                    target[prop] = valx;
+                    this.setProp(target, prop, valx);
                 }
         }
+    }
+    setAttr(target, attr, valx) {
+        target.setAttribute(attr, valx.toString());
+    }
+    setProp(target, prop, valx) {
+        target[prop] = valx;
     }
     commit(target, valx, e) {
         if (valx === undefined)

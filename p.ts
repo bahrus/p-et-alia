@@ -273,7 +273,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
     setVal(target: HTMLElement, valx: any, attr: string | undefined, prop: string | symbol){
         switch(typeof prop){
             case 'symbol':
-                (<any>target)[prop] = valx;
+                this.setProp(target, prop, valx);
                 break;
             default:
                 if (prop.startsWith('.')) {
@@ -285,11 +285,18 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
                     const wrappedVal = this.wrap(valx, {});
                     (<any>target)[prop] = (typeof(currentVal) === 'object' && currentVal !== null) ? {...currentVal, ...wrappedVal} : wrappedVal;
                 } else if(attr !== undefined && this.hasAttribute('set-attr')){
-                    target.setAttribute(attr, valx.toString());
+                    this.setAttr(target, attr, valx);
                 }else {
-                    (<any>target)[prop] = valx;
+                    this.setProp(target, prop, valx);
+                    
                 }
         }
+    }
+    setAttr(target: HTMLElement, attr: string, valx: any){
+        target.setAttribute(attr, valx.toString());
+    }
+    setProp(target: HTMLElement, prop: string | symbol, valx: any){
+        (<any>target)[prop] = valx;
     }
     commit(target: HTMLElement, valx: any, e: Event){
         if(valx===undefined) return;

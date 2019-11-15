@@ -2,7 +2,7 @@ import { PD } from './p-d.js';
 import { define } from 'trans-render/define.js';
 import {ExtensionParams} from './types.js';
 const guid = 'guid';
-
+const del = 'del';
 const regLookup:{[key: string]: string} = {};
 
 /**
@@ -32,7 +32,7 @@ export class PDX extends PD {
         this.attr(guid, val);
     }
     static get observedAttributes() {
-        return super.observedAttributes.concat([guid]);
+        return super.observedAttributes.concat([guid, del]);
     }
 
     attributeChangedCallback(name: string, oldVal: string, newVal: string) {
@@ -42,11 +42,36 @@ export class PDX extends PD {
                 if(this._guid !== undefined) return;
                 this._guid = newVal;
                 break;
+            case del:
+
             default:
                 super.attributeChangedCallback(name, oldVal, newVal);
         }
     }
 
+    _del: boolean = false;
+    get del(){
+        return this._del;
+    }
+    set del(nv){
+        this.attr(del, nv, '');
+    }
+
+    setAttr(target: HTMLElement, attr: string, valx: any){
+        if(this._del){
+            target.removeAttribute(attr);
+        }else{
+            super.setAttr(target, attr, valx);
+        }
+    }
+
+    setProp(target: HTMLElement, prop: string | symbol, valx: any){
+        if(this._del){
+            delete (<any>target)[prop];
+        }else{
+            super.setProp(target, prop, valx);
+        }
+    }
     
     static extend(params: ExtensionParams) : string | HTMLElement{
         const nameDefined = params.name !== undefined;
