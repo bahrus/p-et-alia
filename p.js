@@ -244,7 +244,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         }
         return val;
     }
-    setVal(e, target) {
+    injectVal(e, target) {
         this.commit(target, this.valFromEvent(e), e);
     }
     commit(target, valx, e) {

@@ -33,7 +33,7 @@ export class PUnt extends P {
     }
     pass(e) {
         const detail = {};
-        this.setVal(e, detail);
+        this.injectVal(e, detail);
         const customEventInit = new CustomEvent(this.to, {
             bubbles: this._bubbles,
             composed: this._composed,

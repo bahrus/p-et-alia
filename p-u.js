@@ -32,7 +32,7 @@ export class PU extends P {
                 throw 'Target Element Not found';
             }
         }
-        this.setVal(e, targetElement);
+        this.injectVal(e, targetElement);
     }
     getHost(el, level, maxLevel) {
         let parent = el;

@@ -29,7 +29,7 @@ export class PU extends P {
                 throw 'Target Element Not found';
             }
         }
-        this.setVal(e, targetElement);
+        this.injectVal(e, targetElement);
     }
 
     _host!: HTMLElement

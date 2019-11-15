@@ -64,7 +64,7 @@ export class PD extends P {
                 if (el.dataset.__pdWIP !== '1')
                     return;
             }
-            this.setVal(this._lastEvent, el);
+            this.injectVal(this._lastEvent, el);
         });
         const len = matches.length;
         this.attr('mtch', len.toString());

@@ -267,7 +267,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         }
         return val;
     }
-    setVal(e: Event, target: any){
+    injectVal(e: Event, target: any){
         this.commit(target, this.valFromEvent(e), e);
     }
     commit(target: HTMLElement, valx: any, e: Event){
