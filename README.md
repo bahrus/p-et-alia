@@ -1,6 +1,6 @@
 <a href="https://nodei.co/npm/p-et-alia/"><img src="https://nodei.co/npm/p-et-alia.png"></a>
 
-[![Actions Status](https://github.com/bahrus/p-et-alia/workflows/CI/badge.svg)](https://github.com/bahrus/p-et-alia/actions)
+[![Actions Status](https://github.com/bahrus/p-et-alia/workflows/CI/badge.svg)](https://github.com/bahrus/p-et-alia/actions?query=workflow%3ACI)
 
 Size of all components combined:
 
