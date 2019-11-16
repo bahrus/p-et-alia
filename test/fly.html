@@ -11,18 +11,22 @@
         [nv=fly]::after{
           content: "She died"
         }
+        [nv]{
+          display:none;
+        }
+        [nv][v="true"]{
+          display:block;
+        }
       </style>
       <div>There was an old lady who swallowed a fly;</div>
       <p-d on=foo to=[-lhs] val=target.textContent m=1></p-d>
-      <if-diff disabled if -lhs equals rhs="There was an old lady who swallowed a fly;" data-key-name=why></if-diff>
-      <p-d on=value-changed to=[-why] val=target.value></p-d>
-      <div data-why=0>
+      <if-diff disabled if -lhs equals rhs="There was an old lady who swallowed a fly;" data-key-name=swallowedFly></if-diff>
+      <p-d on=value-changed to=[-why] val=target.value as-attr></p-d>
+      <div data-swallowed-fly=0>
         <template>
-          <button why=fly>I don't know why she swallowed a fly - Perhaps she'll die!</button>
-          <p-d on=click skip-init to=[-nv] val=target.dataSet.why as-attr></p-d>
-          <div -nv>She died</div>       
-          
-
+          <button disabled -why>I don't know why she swallowed a fly - Perhaps she'll die!</button>
+          <p-d on=click to=[-v] val=why as-attr skip-init></p-d>
+          <div -v nv>She died</div>       
         </template>
       </div>
       
