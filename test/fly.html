@@ -22,9 +22,15 @@
       <p-d on=value-changed to=[-why] val=target.value as-attr></p-d>
       <div data-swallowed-fly=0>
         <template>
-          <button disabled -why>I don't know why she swallowed a fly - Perhaps she'll die!</button>
-          <p-d on=click to=[-err] val=why as-attr skip-init></p-d>
-          <div -err nv ending>She died</div>       
+          <button id=button1 disabled -why>I don't know why she swallowed a fly - Perhaps she'll die!</button>
+          <p-d on=click to=[-err] val=why as-attr skip-init m=1></p-d>
+          <div -err nv>She died</div>
+          <button id=button2 data-val=false disabled data-val=false>There was an old lady who swallowed a spider;</button>
+          <p-d on=click to=[-err] val=target.dataset.val as-attr skip-init m=1></p-d>
+          <div -err nv err=true ending>She died</div>
+          <script>
+            button2.click();
+          </script>       
         </template>
       </div>
       
