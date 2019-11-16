@@ -7,13 +7,22 @@
   <title>Document</title>
 </head>
 <body>
-
+      <style>
+        [nv=fly]::after{
+          content: "She died"
+        }
+      </style>
       <div>There was an old lady who swallowed a fly;</div>
       <p-d on=foo to=[-lhs] val=target.textContent m=1></p-d>
-      <if-diff if -lhs equals rhs="There was an old lady who swallowed a fly;" data-key-name=why></if-diff>
+      <if-diff disabled if -lhs equals rhs="There was an old lady who swallowed a fly;" data-key-name=why></if-diff>
+      <p-d on=value-changed to=[-why] val=target.value></p-d>
       <div data-why=0>
         <template>
-          <div>I don't know why she swallowed a fly - Perhaps she'll die!</div>
+          <button why=fly>I don't know why she swallowed a fly - Perhaps she'll die!</button>
+          <p-d on=click skip-init to=[-nv] val=target.dataSet.why as-attr></p-d>
+          <div -nv>She died</div>       
+          
+
         </template>
       </div>
       
@@ -31,7 +40,7 @@
       </script>
       <script  type="module-shim">
           import '../p-d.js';
-          import '../../node_modules/if-diff/if-diff.js';
+          import '../node_modules/if-diff/if-diff.js';
       </script>
 </body>
 </html>
