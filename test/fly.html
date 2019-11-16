@@ -8,10 +8,13 @@
 </head>
 <body>
       <style>
-        [nv]{
+        [gameover]::after{
+          content: 'She died'
+        }
+        [gameover]{
           display:none;
         }
-        [nv][err="true"]{
+        [gameover][err="true"]{
           display:block;
           color:red;
         }
@@ -24,10 +27,10 @@
         <template>
           <button id=button1 disabled -why>I don't know why she swallowed a fly - Perhaps she'll die!</button>
           <p-d on=click to=[-err] val=why as-attr skip-init m=1></p-d>
-          <div -err nv>She died</div>
+          <div -err gameover></div>
           <button id=button2 data-val=false disabled data-val=false>There was an old lady who swallowed a spider;</button>
           <p-d on=click to=[-err] val=target.dataset.val as-attr skip-init m=1></p-d>
-          <div -err nv err=true ending>She died</div>
+          <div -err gameover err=true></div>
           <script>
             button2.click();
           </script>       

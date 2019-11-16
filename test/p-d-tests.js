@@ -3,13 +3,13 @@ const test = require('tape');
 async function customTests(page) {
     await page.waitFor(4000);
     const errorTags = await page.$$('[err=true]');
-    const endings = await page.$$('[ending]');
+    const endings = await page.$$('[gameover]');
     const TapeTestRunner = {
         test: test
     };
     TapeTestRunner.test('testing dev.html', (t) => {
         t.equal(errorTags.length, 0);
-        t.equals(endings.length, 1);
+        t.equals(endings.length, 2);
         t.end();
     });
 }
