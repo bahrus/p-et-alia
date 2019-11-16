@@ -6,12 +6,13 @@ import { Test } from "tape";
 async function customTests(page: Page) {
     await page.waitFor(4000);
     const errorTag = await page.$('[err=true]');
-    
+    const ending = await page.$('[ending]');
     const TapeTestRunner = {
         test: test
     } as Test;
     TapeTestRunner.test('testing dev.html', (t: any) => {
         t.equal(errorTag, null);
+        t.notEqual(ending, null);
         t.end();
     });
 
