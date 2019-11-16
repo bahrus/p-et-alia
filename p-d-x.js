@@ -2,6 +2,7 @@ import { PD } from './p-d.js';
 import { define } from 'trans-render/define.js';
 const guid = 'guid';
 const del = 'del';
+const after = 'after';
 const regLookup = {};
 /**
  * Extends element p-d with experimental features.

@@ -263,7 +263,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
                     const wrappedVal = this.wrap(valx, {});
                     target[prop] = (typeof (currentVal) === 'object' && currentVal !== null) ? { ...currentVal, ...wrappedVal } : wrappedVal;
                 }
-                else if (attr !== undefined && this.hasAttribute('set-attr')) {
+                else if (attr !== undefined && this.hasAttribute('as-attr')) {
                     this.setAttr(target, attr, valx);
                 }
                 else {

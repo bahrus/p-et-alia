@@ -1,8 +1,11 @@
 import { PD } from './p-d.js';
 import { define } from 'trans-render/define.js';
 import {ExtensionParams} from './types.js';
+
 const guid = 'guid';
 const del = 'del';
+const after = 'after';
+
 const regLookup:{[key: string]: string} = {};
 
 /**

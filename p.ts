@@ -284,7 +284,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
                     const currentVal = (<any>target)[prop];
                     const wrappedVal = this.wrap(valx, {});
                     (<any>target)[prop] = (typeof(currentVal) === 'object' && currentVal !== null) ? {...currentVal, ...wrappedVal} : wrappedVal;
-                } else if(attr !== undefined && this.hasAttribute('set-attr')){
+                } else if(attr !== undefined && this.hasAttribute('as-attr')){
                     this.setAttr(target, attr, valx);
                 }else {
                     this.setProp(target, prop, valx);
