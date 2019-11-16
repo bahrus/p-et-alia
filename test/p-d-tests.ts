@@ -5,13 +5,13 @@ import { Page } from "puppeteer"; //typescript
 import { Test } from "tape";
 async function customTests(page: Page) {
     await page.waitFor(4000);
-    const textContent = await page.$eval('#secondEditor', (c: any) => c.input);
+    const errorTag = await page.$('[err=true]');
     
     const TapeTestRunner = {
         test: test
     } as Test;
     TapeTestRunner.test('testing dev.html', (t: any) => {
-        t.equal(textContent.data[0].name, 'Harry Potter');
+        t.equal(errorTag, null);
         t.end();
     });
 
@@ -19,7 +19,7 @@ async function customTests(page: Page) {
 
 (async () => {
     await xt.runTests({
-        path: 'demo/dev.html'
+        path: 'test/fly.html'
     }, customTests);
 })();
 

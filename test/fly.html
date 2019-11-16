@@ -8,14 +8,12 @@
 </head>
 <body>
       <style>
-        [nv=fly]::after{
-          content: "She died"
-        }
         [nv]{
           display:none;
         }
-        [nv][v="true"]{
+        [nv][err="true"]{
           display:block;
+          color:red;
         }
       </style>
       <div>There was an old lady who swallowed a fly;</div>
@@ -25,8 +23,8 @@
       <div data-swallowed-fly=0>
         <template>
           <button disabled -why>I don't know why she swallowed a fly - Perhaps she'll die!</button>
-          <p-d on=click to=[-v] val=why as-attr skip-init></p-d>
-          <div -v nv>She died</div>       
+          <p-d on=click to=[-err] val=why as-attr skip-init></p-d>
+          <div -err nv>She died</div>       
         </template>
       </div>
       
