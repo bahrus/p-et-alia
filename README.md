@@ -607,7 +607,7 @@ This could all be done with a single self-contained component, but another optio
 
 Here we are relying on the "cycling" effect of placing p-d's at the top of a DOM node, with no previous non p-* nodes.  We assume the component my-visual-to-do-list is designed in such a way that when you click on some delete button inside that component, it emits an event "item-deleted" and if you edit an item, it emits an event "item-edited", both of which bubble up.
 
-The only (but important) reason we need the if condition is so the p-d's can decrement the disabled attribute from my-visual-to-do-list as they latch on (and it is higly recommended that web components don't allow user interaction until disabled is removed.)
+The only (but important) reason we need the if condition is so the p-d's can decrement the disabled attribute from my-visual-to-do-list as they latch on (and it is highly recommended that web components don't allow user interaction until disabled is removed.)
 
 Splitting up the todo composition into these three sub components could allow one or more pieces to be re-used with or without the other.  For example, maybe in one scenario we want the list to display as a simple list, but elsewhere we want it to display inside a calendar.    Or both at the same time.  
 
