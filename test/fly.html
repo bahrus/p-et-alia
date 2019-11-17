@@ -43,16 +43,20 @@
         })
       </script>
 
-      <div id=wriggle1></div>
-      <p-d on=wriggle-event to=[-text-content] val=target.myProp.subProp></p-d>
-      <script>
-        wriggle1.myProp ={
-          subProp: 'That wriggled and jiggled and tickeled inside her!'
-        };
-        wriggle1.dispatchEvent(new CustomEvent('wriggle-event'));
+      <div disabled id=wriggle1></div>
+      <p-d on=wriggle-event to=[-text-content] val=target.myProp.subProp fire-event="why-spider" m=1 skip-init></p-d>
+      <script  type=module-shim>
+        import {waitForAttributeChange} from 'trans-render/waitForAttributeChange.js';
+        waitForAttributeChange(wriggle1, 'disabled').then(() =>{
+          wriggle1.myProp ={
+            subProp: 'That wriggled and jiggled and tickeled inside her!'
+          };
+          wriggle1.dispatchEvent(new CustomEvent('wriggle-event'));
+        })
       </script>
+      <div -text-content data-spider-reason="She swallowed the spider to catch the fly;"></div>
+      <p-d on="why-spider" to=[-text-content] val=target.dataset.spiderReason m=1 skip-init></p-d>
       <div -text-content></div>
-
       <script type="importmap-shim">
       {
         "imports": {
