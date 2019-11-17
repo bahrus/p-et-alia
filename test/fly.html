@@ -7,6 +7,8 @@
   <title>Document</title>
 </head>
 <body>
+      <!-- Use experimental import maps -->
+      <script defer src="../node_modules/es-module-shims/dist/es-module-shims.js"></script>
       <style>
         [gameover]::after{
           content: 'She died'
@@ -28,18 +30,29 @@
           <button id=button1 disabled -why>I don't know why she swallowed a fly - Perhaps she'll die!</button>
           <p-d on=click to=[-err] val=why as-attr skip-init m=1></p-d>
           <div -err gameover></div>
-          <button id=button2 data-val=false disabled data-val=false>There was an old lady who swallowed a spider;</button>
-          <p-d on=click to=[-err] val=target.dataset.val as-attr skip-init m=1></p-d>
-          <div -err gameover err=true></div>
-          <script>
-            button2.click();
-          </script>       
         </template>
       </div>
       
-      
-      <!-- Use experimental import maps -->
-      <script defer src="../node_modules/es-module-shims/dist/es-module-shims.js"></script>
+      <button id=button2 disabled data-err=false>There was an old lady who swallowed a spider;</button>
+      <p-d on=click to=[-err] val=target.dataset.err as-attr skip-init m=1></p-d>
+      <div -err gameover err=true></div>
+      <script type=module-shim>
+        import {waitForAttributeChange} from 'trans-render/waitForAttributeChange.js';
+        waitForAttributeChange(button2, 'disabled').then(() =>{
+          button2.click();
+        })
+      </script>
+
+      <div id=wriggle1></div>
+      <p-d on=wriggle-event to=[-text-content] val=target.myProp.subProp></p-d>
+      <script>
+        wriggle1.myProp ={
+          subProp: 'That wriggled and jiggled and tickeled inside her!'
+        };
+        wriggle1.dispatchEvent(new CustomEvent('wriggle-event'));
+      </script>
+      <div -text-content></div>
+
       <script type="importmap-shim">
       {
         "imports": {
