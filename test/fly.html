@@ -55,8 +55,17 @@
         })
       </script>
       <div -text-content data-spider-reason="She swallowed the spider to catch the fly;"></div>
-      <p-d on="why-spider" to=[-text-content] val=target.dataset.spiderReason m=1 skip-init></p-d>
+      <p-d on=why-spider to=[-text-content] val=target.dataset.spiderReason m=1 skip-init fire-event=spider-explained></p-d>
       <div -text-content></div>
+      <p-d on=spider-explained to=[-lhs] val=target.textContent m=1></p-d>
+      <if-diff if -lhs equals rhs="She swallowed the spider to catch the fly;" data-key-name=flyWhy m=1></if-diff>
+      <div data-fly-why=0>
+        <template>
+            <div>I don't know why she swallowed a fly - Perhaps she'll die!</div>
+            <div gameover></div>
+        </template>
+          
+      </div>
       <script type="importmap-shim">
       {
         "imports": {
