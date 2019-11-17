@@ -10,7 +10,7 @@
       <!-- Use experimental import maps -->
       <script defer src="../node_modules/es-module-shims/dist/es-module-shims.js"></script>
       <style>
-        [endOfSequence]::after{
+        [endOfSequence][err="true"]::after{
           content: 'She died'
         }
         [endOfSequence]{
@@ -72,14 +72,14 @@
           
       </div>
       <div>
-        <span style=display:none;>There was an old lady who swallowed a bird; </span>
+        <span style=display:none;>There was an old lady who swallowed a bird;</span>
         <p-d on=init from=div to=fieldset care-of=legend[-text-content] val=target.textContent m=1 fire-event=bird-swallow></p-d>
       </div>
       <fieldset>
         <legend -text-content></legend>
-        <p-d on=bird-swallow></p-d>
+        <p-d on=bird-swallow to=[-lhs] val=target.textContent m=1></p-d>
         <if-diff if -lhs equals rhs="There was an old lady who swallowed a bird;" data-key-name="birdSwallowed"></if-diff>
-        <div data-birde-swallowed=0>
+        <div data-bird-swallowed=0>
           <template>
             <div endOfSequence></div>
           </template>
