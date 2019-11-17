@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "xtal-element": "0.0.90",
-    "trans-render": "0.0.139",
+    "trans-render": "0.0.141",
     "xtal-state": "0.0.100"
   },
   "devDependencies": {
