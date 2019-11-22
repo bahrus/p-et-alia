@@ -9,7 +9,4 @@ const xt = require('xtal-test/index');
     if (passed) {
         console.log("Tests Passed.  Have a nice day.");
     }
-    else {
-        throw "Tests Failed.  Try, try again.";
-    }
 })();
