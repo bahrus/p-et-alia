@@ -10,17 +10,17 @@
       <!-- Use experimental import maps -->
       <script defer src="../node_modules/es-module-shims/dist/es-module-shims.js"></script>
       <style>
-        [endOfSequence][err="true"]::after{
+        [mark][err="true"]::after{
           content: 'She died'
         }
-        [endOfSequence]{
+        [mark]{
           display:none;
         }
         [err="true"]{
           color:red;
           display:  block;
         }
-        [endOfSequence][err="true"]{
+        [mark][err="true"]{
           display:block;
           
         }
@@ -34,13 +34,13 @@
         <template>
           <button id=button1 disabled -why>I don't know why she swallowed a fly - Perhaps she'll die!</button>
           <p-d on=click to=[-err] val=why as-attr skip-init m=1></p-d>
-          <div -err endOfSequence></div>
+          <div -err mark></div>
         </template>
       </div>
       
       <button id=button2 disabled data-err=false>There was an old lady who swallowed a spider;</button>
       <p-d on=click to=[-err] val=target.dataset.err as-attr skip-init m=1></p-d>
-      <div -err endOfSequence err=true></div>
+      <div -err mark err=true></div>
       <script type=module-shim>
         import {waitForAttributeChange} from 'trans-render/waitForAttributeChange.js';
         waitForAttributeChange(button2, 'disabled').then(() =>{
@@ -67,7 +67,7 @@
       <div data-fly-why=0>
         <template>
             <div>I don't know why she swallowed a fly - Perhaps she'll die!</div>
-            <div endOfSequence></div>
+            <div mark></div>
         </template>
           
       </div>
@@ -82,7 +82,7 @@
         <div data-bird-swallowed=0>
           <template>
             <div>How absurd to swallow a bird!</div>
-            <div endOfSequence></div>
+            <div mark></div>
           </template>
         </div>
       </fieldset>
