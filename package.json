@@ -20,7 +20,7 @@
     "jiife": "0.0.14",
     "tape": "4.11.0",
     "if-diff": "0.0.39",
-    "xtal-test": "0.0.21",
+    "xtal-test": "0.0.30",
     "xtal-json-editor": "0.0.41",
     "xtal-json-merge": "0.2.38",
     "es-module-shims": "0.4.6",
@@ -28,7 +28,7 @@
     "purr-sist": "0.0.60"
   },
   "scripts": {
-    "test": "tape test/*.js",
+    "test": "node test/test-all.js",
     "serve": "node node_modules/xtal-test/serve.js",
     "doc": "wca analyze p-*.js --outFile custom-elements.json"
   },
