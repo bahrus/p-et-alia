@@ -23,3 +23,4 @@ export interface ExtensionParams{
     insertAfter?: HTMLElement;
     valFromEvent: (e: Event) => any;
 }
+
