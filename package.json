@@ -9,14 +9,14 @@
     "url": "git+https://github.com/bahrus/p-et-alia.git"
   },
   "dependencies": {
-    "xtal-element": "0.0.90",
-    "trans-render": "0.0.141",
+    "xtal-element": "0.0.101",
+    "trans-render": "0.0.142",
     "xtal-state": "0.0.100"
   },
   "devDependencies": {
     "@types/node": "12.12.12",
     "@webcomponents/webcomponentsjs": "2.4.0",
-    "if-diff": "0.0.39",
+    "if-diff": "0.0.41",
     "xtal-test": "0.0.31",
     "xtal-json-editor": "0.0.41",
     "xtal-json-merge": "0.2.38",
