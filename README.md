@@ -303,7 +303,7 @@ To see past both the fieldset and details walls, use the care-of and from attrib
 </details>
 ```
 
-"care-of" only finds the first match (using querySelector).
+"care-of" finds all matches, using querySelectorAll.
 
 p-d watches for DOM mutations, in case the set of matching downstream siblings changes. But the "care-of" attribute assumes (for now) that the DOM structure has "settled." If you want to apply recursive DOM monitoring (via mutationObserver) use...
 

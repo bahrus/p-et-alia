@@ -104,3 +104,8 @@ export class PW extends PDX{
 }
 
 define(PW);
+declare global {
+    interface HTMLElementTagNameMap {
+        "p-w": PW,
+    }
+}

@@ -22,3 +22,8 @@ export class PDR extends PD{
     }
 }
 define(PDR);
+declare global {
+    interface HTMLElementTagNameMap {
+        "p-d-r": PDR,
+    }
+}

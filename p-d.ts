@@ -119,3 +119,8 @@ export class PD extends P implements PDProps {
 
 }
 define(PD);
+declare global {
+    interface HTMLElementTagNameMap {
+        "p-d": PD,
+    }
+}

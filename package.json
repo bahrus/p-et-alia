@@ -2,8 +2,10 @@
   "name": "p-et-alia",
   "version": "0.0.67",
   "description": "Declaratively pass properties between DOM elements",
+  "type": "module",
   "main": "p-et-alia.js",
   "module": "p-et-alia.js",
+  "typings": "types.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bahrus/p-et-alia.git"

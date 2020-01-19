@@ -76,3 +76,8 @@ export class PhD extends PDX{
 }
 
 define(PhD);
+declare global {
+    interface HTMLElementTagNameMap {
+        "p-h-d": PhD,
+    }
+}

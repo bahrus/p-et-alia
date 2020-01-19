@@ -54,3 +54,9 @@ export class PU extends P {
 
 }
 define(PU);
+
+declare global {
+    interface HTMLElementTagNameMap {
+        "p-u": PU,
+    }
+}

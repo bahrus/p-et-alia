@@ -116,4 +116,10 @@ define(PDX);
 
 export const extend = PDX.extend;
 
+declare global {
+    interface HTMLElementTagNameMap {
+        "p-d-x": PDX,
+    }
+}
+
 

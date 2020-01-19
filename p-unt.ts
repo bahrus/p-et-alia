@@ -100,3 +100,9 @@ export class PUnt extends P {
     }
 }
 define(PUnt);
+
+declare global {
+    interface HTMLElementTagNameMap {
+        "p-unt": PUnt,
+    }
+}
