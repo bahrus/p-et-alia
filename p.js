@@ -218,12 +218,17 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
                 this._hndEv(lastEvent);
         }
     }
+    _chkIf(e) {
+        if (this._if === undefined)
+            return true;
+        return e.target.matches(this._if);
+    }
     _hndEv(e) {
         if (this.hasAttribute('debug'))
             debugger;
         if (!e)
             return;
-        if (this._if && !e.target.matches(this._if))
+        if (!this._chkIf(e))
             return;
         if (e.stopPropagation && !this._noblock)
             e.stopPropagation();

@@ -16,10 +16,10 @@
     "xtal-state": "0.0.100"
   },
   "devDependencies": {
-    "@types/node": "12.12.12",
-    "@webcomponents/webcomponentsjs": "2.4.0",
-    "if-diff": "0.0.41",
-    "xtal-test": "0.0.31",
+    "@types/node": "13.1.8",
+    "@webcomponents/webcomponentsjs": "2.4.1",
+    "if-diff": "0.0.42",
+    "xtal-test": "0.0.33",
     "xtal-json-editor": "0.0.41",
     "xtal-json-merge": "0.2.38",
     "es-module-shims": "0.4.6",
