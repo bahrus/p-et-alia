@@ -357,7 +357,7 @@ valFromEvent(e: Event){
 }
 ```
 
-A convenience function is made available to override valFromEvent and create an extending web component:
+A convenience function is made available to override valFromEvent and create an extending web component.  For example:
 
 ```TypeScript
 import {extend} from 'p-et-alia/p-d-x.js';
@@ -378,6 +378,8 @@ extend({
 
 Note: [Your Content in Shadow DOM Portals ](https://dev.to/westbrook/your-content-in-shadow-dom-portals-3cdb) may have better researched approaches than the code above. 
 
+This will define a custom element with name p-d-x-slot-bot:
+
 ```html
     <!-- Options to vote on, passed in via light children.  -->
     <slot name="options"></slot>
@@ -385,11 +387,9 @@ Note: [Your Content in Shadow DOM Portals ](https://dev.to/westbrook/your-conten
     <xtal-radio-group-md name="pronoun" data-flag="voted" data-allow-voting="-1"></xtal-radio-group-md>
 ```
 
-This will define a custom element with name p-d-x-slot-bot.
-
 The danger of defining small little custom elements to do these small tasks, is, if you are working with loosely coupled teams and integrating web components together, a strict naming convention needs to be established (pending standards are waiting in the stands to address this.)
 
-If you are generating your markup dynamically, you can let extend come up with a name for you:
+If you are generating your markup dynamically, you can let extend come up with a unique name for you:
 
 ```TypeScript
 import {extend} from 'p-et-alia/p-d-x.js';
@@ -654,7 +654,7 @@ Splitting up the todo composition into these three sub components could allow on
 
 But are my-non-visual-to-do-list-view-model and my-visual-to-do-list really loosely coupled?  To a degree.  But they must agree to a common contract as far as the expected format of the events.
 
-To allow for even more loosely coupled integrations, the simple but sweet p-d can be replaced with a more specialized [translator](https://funtranslations.com/valyrian)/[mediator](https://www.youtube.com/watch?v=GF7tFwLBiKo), that extends p-d-x, which in turn extends p-d, like the [slot-bot example](https://github.com/bahrus/p-et-alia#computed-values).  
+To allow for even more loosely coupled integrations, the simple but sweet p-d can be replaced with a more specialized [translator](https://funtranslations.com/valyrian)/[mediator](https://www.youtube.com/watch?v=GF7tFwLBiKo), by using computed values, mentioned above, either by overriding the valFromEvent method, or using the extend function, like the [slot-bot example](https://github.com/bahrus/p-et-alia#computed-values).  
 
 
 You could consider it a local "mediator" in the [blockchain analogy](https://www.jamsadr.com/smartcontracts).
