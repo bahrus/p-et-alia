@@ -20,7 +20,7 @@ These components emphasize simplicity and small size -- to be used for 30,000 ft
 <summary>Use cases</summary>
 
 1.  If you just need to connect some elements of a mostly static or [server-rendered](https://www.similartech.com/categories/framework) web site, these components provide a light weight way of doing that.
-2.  These components allow you to keep code-centric **builds** at bay as much as possible.  Why is this important?  Because browsers can process HTML significantly faster than JS.  That doesn't mean you have to edit HTML files.  Theoretically, you could edit in JavaScript and benefit from the tooling (type checks, etc.), but compile to HTML for optimum performance.
+2.  These components allow you to keep code-centric **builds** at bay as much as possible.  Why is this important?  Because browsers can process HTML significantly faster than JS.  That doesn't mean you have to edit HTML files.  Theoretically, you could edit in JavaScript, or some other language, and benefit from the tooling (type checks, etc.), but compile to HTML for optimum performance.
 3.  Note that [there are](https://www.11ty.io/) some far more mature [solutions worth exploring](https://jamstack.org/) whose aims partly match these.  Some of them build around a framework, like Vue or React or Svelte, that can glue components together, and that's just ... awesome.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](https://i.imgur.com/rX6XaC1.gif?noredirect)
@@ -32,6 +32,11 @@ These components emphasize simplicity and small size -- to be used for 30,000 ft
 "p-u" stands for "pass-up," and is to be used sparingly as a last resort. 
 
 Both p-d and p-u have an attribute/property, "on" that specifies an event to monitor for.  They both attach an event listener for the specified event to the previous (non p-*) element.
+
+<details>
+    <summary>Criteria for being a p-et-alia  component ("petalian")</summary>
+    Although the pattern of all the components here is to start with the letter p-, standing for "pass", the real criterion used for distinguishing petalia components from non-petalia components is this:  petalia components have property isPetalian set to true, i.e. petalianElement.isPetalian === true.  This is important when petalian components are trying to figure out which "previous" element to attach script to.  They skip any petalian elements.
+</details>
 
 When this event monitoring is enabled, if the previous element is disabled, the disabled attribute is removed (more on that later).
 

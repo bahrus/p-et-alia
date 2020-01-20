@@ -31,17 +31,15 @@ function getProp(val: any, pathTokens: (string | [string, string[]])[]){
 }
 
 export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) implements PProps{
-    constructor(){
-        super();
-        
-    }
+    isPetalian = true;
+
     //* region props
     _on!: string;
     get on(){
         return this._on;
     }
     /**
-     * The event name to monitor for, from previous non p-* element.
+     * The event name to monitor for, from previous non-petalian element.
      * @attr
      */
     set on(val){
@@ -175,7 +173,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
      */
     getPreviousSib() : Element | null{
         let prevSib = this as Element | null;
-        while(prevSib && prevSib.tagName.startsWith('P-')){
+        while(prevSib && prevSib.isPetalian === true){
             prevSib = prevSib.previousElementSibling!;
         }
         if(prevSib === null) {
@@ -244,14 +242,14 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
     _bndHndlEv!: any;
     abstract pass(e: Event) : void;
     _lastEvent: Event | null = null;
-    _chkIf(e: Event){
+    chkIf(e: Event){
         if(this._if === undefined) return true;
         return (e.target as HTMLElement).matches(this._if);
     }
     _hndEv(e: Event){
         if(this.hasAttribute('debug')) debugger;
         if(!e) return;
-        if(!this._chkIf(e)) return;
+        if(!this.chkIf(e)) return;
         if(e.stopPropagation && !this._noblock) e.stopPropagation();
         this._lastEvent = e;
         this.pass(e);

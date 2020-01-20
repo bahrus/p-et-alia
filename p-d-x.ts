@@ -83,7 +83,7 @@ export class PDX extends PD {
         if(nameDefined){
             name = pdxPrefix +  params.name;
         }else{
-            const fnSig = params.valFromEvent.toString();
+            const fnSig = '' + params?.valFromEvent?.toString() + params?.chkIf?.toString();
             const prevName = regLookup[fnSig];
             if(prevName !== undefined){
                 name = prevName;
@@ -94,8 +94,20 @@ export class PDX extends PD {
         }
         if(!customElements.get(name)){
             class Extension extends PDX{
+                _valBind: ((e: Event) => any) | undefined;
+                _chkIf?: ((e:Event) => boolean) | undefined;
+                constructor(){
+                    super();
+                    this._valBind = params?.valFromEvent?.bind(this);
+                    this._chkIf = params?.chkIf?.bind(this);
+                }
                 valFromEvent(e: Event){
-                    return params.valFromEvent(e);
+                    if(this._valBind !== undefined) return this._valBind(e);
+                    return super.valFromEvent(e);
+                }
+                chkIf(e: Event){
+                    if(this._chkIf !== undefined) return this._chkIf(e);
+                    return super.chkIf(e);
                 }
             }
             customElements.define(name, Extension);

@@ -69,6 +69,7 @@ export class PDX extends PD {
         }
     }
     static extend(params) {
+        var _a, _b, _c, _d;
         const nameDefined = params.name !== undefined;
         let name;
         const pdxPrefix = 'p-d-x-';
@@ -76,7 +77,7 @@ export class PDX extends PD {
             name = pdxPrefix + params.name;
         }
         else {
-            const fnSig = params.valFromEvent.toString();
+            const fnSig = '' + ((_b = (_a = params) === null || _a === void 0 ? void 0 : _a.valFromEvent) === null || _b === void 0 ? void 0 : _b.toString()) + ((_d = (_c = params) === null || _c === void 0 ? void 0 : _c.chkIf) === null || _d === void 0 ? void 0 : _d.toString());
             const prevName = regLookup[fnSig];
             if (prevName !== undefined) {
                 name = prevName;
@@ -88,8 +89,21 @@ export class PDX extends PD {
         }
         if (!customElements.get(name)) {
             class Extension extends PDX {
+                constructor() {
+                    var _a, _b, _c, _d;
+                    super();
+                    this._valBind = (_b = (_a = params) === null || _a === void 0 ? void 0 : _a.valFromEvent) === null || _b === void 0 ? void 0 : _b.bind(this);
+                    this._chkIf = (_d = (_c = params) === null || _c === void 0 ? void 0 : _c.chkIf) === null || _d === void 0 ? void 0 : _d.bind(this);
+                }
                 valFromEvent(e) {
-                    return params.valFromEvent(e);
+                    if (this._valBind !== undefined)
+                        return this._valBind(e);
+                    return super.valFromEvent(e);
+                }
+                chkIf(e) {
+                    if (this._chkIf !== undefined)
+                        return this._chkIf(e);
+                    return super.chkIf(e);
                 }
             }
             customElements.define(name, Extension);

@@ -26,7 +26,8 @@ function getProp(val, pathTokens) {
 }
 export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     constructor() {
-        super();
+        super(...arguments);
+        this.isPetalian = true;
         this._s = null; // split prop using '.' as deliiter
         this._lastEvent = null;
     }
@@ -34,7 +35,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         return this._on;
     }
     /**
-     * The event name to monitor for, from previous non p-* element.
+     * The event name to monitor for, from previous non-petalian element.
      * @attr
      */
     set on(val) {
@@ -152,7 +153,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
      */
     getPreviousSib() {
         let prevSib = this;
-        while (prevSib && prevSib.tagName.startsWith('P-')) {
+        while (prevSib && prevSib.isPetalian === true) {
             prevSib = prevSib.previousElementSibling;
         }
         if (prevSib === null) {
@@ -218,7 +219,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
                 this._hndEv(lastEvent);
         }
     }
-    _chkIf(e) {
+    chkIf(e) {
         if (this._if === undefined)
             return true;
         return e.target.matches(this._if);
@@ -228,7 +229,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
             debugger;
         if (!e)
             return;
-        if (!this._chkIf(e))
+        if (!this.chkIf(e))
             return;
         if (e.stopPropagation && !this._noblock)
             e.stopPropagation();

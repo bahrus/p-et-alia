@@ -21,6 +21,7 @@ export interface IPixin  extends HTMLElement{
 export interface ExtensionParams{
     name?: string;
     insertAfter?: HTMLElement;
-    valFromEvent: (e: Event) => any;
+    valFromEvent?: ((e: Event) => any) | undefined;
+    chkIf?: ((e: Event) => boolean) | undefined;
 }
 
