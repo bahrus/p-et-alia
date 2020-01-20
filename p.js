@@ -219,7 +219,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
                 this._hndEv(lastEvent);
         }
     }
-    chkIf(e) {
+    filterEvent(e) {
         if (this._if === undefined)
             return true;
         return e.target.matches(this._if);
@@ -229,7 +229,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
             debugger;
         if (!e)
             return;
-        if (!this.chkIf(e))
+        if (!this.filterEvent(e))
             return;
         if (e.stopPropagation && !this._noblock)
             e.stopPropagation();

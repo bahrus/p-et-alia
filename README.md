@@ -310,7 +310,7 @@ To see past both the fieldset and details walls, use the care-of and from attrib
 
 "care-of" finds all matches, using querySelectorAll.
 
-p-d watches for DOM mutations, in case the set of matching downstream siblings changes. But the "care-of" attribute assumes (for now) that the DOM structure has "settled." If you want to apply recursive DOM monitoring (via mutationObserver) use...
+p-d watches for DOM mutations, in case the set of matching downstream siblings changes. But the "care-of" attribute assumes (for now) that the DOM structure has "settled." This may be fine for static markup derived from a template.  But if you are working with streaming / fluid html, and you want to apply recursive DOM monitoring (via mutationObserver) use...
 
 ### The Hard Way -  Recursive sibling drilldown with p-d-r -- Invitation Only
 
@@ -349,7 +349,15 @@ An extending web component, p-d-x, contains experimental additional feature(s):
 
 ## Computed values
 
-You can create little p-d-x extension custom elements thusly:
+It is easy to extend the p-d element, and provide your own way of deriving the value to be passed via an event.  Simply override the method:
+
+```TypeScript
+valFromEvent(e: Event){
+
+}
+```
+
+A convenience function is made available to override valFromEvent:
 
 ```TypeScript
 import {extend} from 'p-et-alia/p-d-x.js';
@@ -376,6 +384,24 @@ Note: [Your Content in Shadow DOM Portals ](https://dev.to/westbrook/your-conten
     <p-d-x-slot-bot on="slotchange" prop="innerHTML"></p-d-x-slot-bot>
     <xtal-radio-group-md name="pronoun" data-flag="voted" data-allow-voting="-1"></xtal-radio-group-md>
 ```
+
+This will define a custom element with name p-d-x-slot-bot.
+
+The danger of defining small little custom elements to do these small tasks, is, if you are working with loosely coupled teams and integrating web components together, a strict naming convention needs to be established (pending standards are waiting in the stands to address this.)
+
+If you are generating your markup dynamically, you can let extend come up with a name for you:
+
+```TypeScript
+import {extend} from 'p-et-alia/p-d-x.js';
+
+extend({
+    valFromEvent: (e: Event) =>{
+        ...
+    },
+    insertAfter: myElement
+})
+```
+
 
 ## Welcome to $hell
 
@@ -441,7 +467,7 @@ for example.  The value "input" will be suggested by the autocomplete as you typ
 
 
 
-## Conditional Processing
+## Conditional Processing / Event Filtering
 
 p-d can be configured to test the event target to make sure it matches a css test.  This is done with the "if" attribute / property:
 
@@ -452,6 +478,16 @@ p-d can be configured to test the event target to make sure it matches a css tes
 </div>
 <p-d on="click" if="a"></p-d>
 ```
+
+Once again, the if condition is easy to override in a derived class.  If you want to limit passing to every third event, or add debouncing, etc, you will need to define your own filter by overriding:
+
+```TypeScript
+filterEvent(e: Event) : boolean{
+    ...
+}
+```
+
+The extend function mentioned above also allows you to define an event Filter with less fuss.
 
 
 ##  Differences to traditional frameworks 

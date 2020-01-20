@@ -242,14 +242,14 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
     _bndHndlEv!: any;
     abstract pass(e: Event) : void;
     _lastEvent: Event | null = null;
-    chkIf(e: Event){
+    filterEvent(e: Event) : boolean{
         if(this._if === undefined) return true;
         return (e.target as HTMLElement).matches(this._if);
     }
     _hndEv(e: Event){
         if(this.hasAttribute('debug')) debugger;
         if(!e) return;
-        if(!this.chkIf(e)) return;
+        if(!this.filterEvent(e)) return;
         if(e.stopPropagation && !this._noblock) e.stopPropagation();
         this._lastEvent = e;
         this.pass(e);

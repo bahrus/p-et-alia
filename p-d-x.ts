@@ -105,9 +105,9 @@ export class PDX extends PD {
                     if(this._valBind !== undefined) return this._valBind(e);
                     return super.valFromEvent(e);
                 }
-                chkIf(e: Event){
+                filterEvent(e: Event){
                     if(this._chkIf !== undefined) return this._chkIf(e);
-                    return super.chkIf(e);
+                    return super.filterEvent(e);
                 }
             }
             customElements.define(name, Extension);
