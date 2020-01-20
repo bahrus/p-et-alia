@@ -35,7 +35,7 @@ Both p-d and p-u have an attribute/property, "on" that specifies an event to mon
 
 <details>
     <summary>Criteria for being a p-et-alia  component ("petalian")</summary>
-    Although the pattern of all the components here is to start with the letter p-, standing for "pass", the real criterion used for distinguishing petalia components from non-petalia components is this:  petalia components have property isPetalian set to true, i.e. petalianElement.isPetalian === true.  This is important when petalian components are trying to figure out which "previous" element to attach script to.  They skip any petalian elements.
+    Although the pattern of all the components here is to start with the letter p-, standing for "pass", the real criterion used for distinguishing petalia components from non-petalia components is this:  petalia components have property isPetalian set to true, i.e. petalianElement.isPetalian === true.  This is important when petalian components are trying to figure out which "previous" element to attach event handling onto.  They skip any petalian elements while scanning previous siblings.
 </details>
 
 When this event monitoring is enabled, if the previous element is disabled, the disabled attribute is removed (more on that later).
@@ -357,7 +357,7 @@ valFromEvent(e: Event){
 }
 ```
 
-A convenience function is made available to override valFromEvent:
+A convenience function is made available to override valFromEvent and create an extending web component:
 
 ```TypeScript
 import {extend} from 'p-et-alia/p-d-x.js';
