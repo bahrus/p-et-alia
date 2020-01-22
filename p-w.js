@@ -1,4 +1,4 @@
-import { PDX } from './p-d-x.js';
+import { PUnt } from './p-unt.js';
 import { define } from 'trans-render/define.js';
 import { doNotCCEventToState } from './p-h-d.js';
 const state_path = 'state-path';
@@ -8,7 +8,7 @@ const cc = 'cc';
  * "planted weirwood" -- passes data down just like p-d, but also updates history.state
  * @element p-w
  */
-export class PW extends PDX {
+export class PW extends PUnt {
     constructor() {
         super(...arguments);
         this._push = false;
