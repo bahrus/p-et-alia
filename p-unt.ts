@@ -1,4 +1,4 @@
-import { P} from './p.js';
+import { PDX } from './p-d-x.js';
 import {define} from 'trans-render/define.js';
 import {getHost} from 'xtal-element/getHost.js';
 const bubbles = 'bubbles';
@@ -9,7 +9,7 @@ const cancelable = 'cancelable';
  * Dispatch event when previous non p-element triggers prescribed event
  * @element p-unt
  */
-export class PUnt extends P {
+export class PUnt extends PDX {
     static get is() { return 'p-unt'; }
 
     static get observedAttributes() {
@@ -37,22 +37,25 @@ export class PUnt extends P {
     }
     
     pass(e: Event) {
-        const detail = {};
-        this.injectVal(e, detail);
-        const customEventInit = new CustomEvent(this.to, {
-            bubbles: this._bubbles,
-            composed: this._composed,
-            cancelable: this._cancelable,
-            detail: detail,
-        } as CustomEventInit);
-        const host = getHost(this) as any;
-        if( host!== null){
-            host.dispatchEvent(customEventInit);
-            if(host.incAttr) host.incAttr(this.to);
-        }else{
-            this.dispatchEvent(customEventInit);
-            this.incAttr(this.to);
+        if(this._dispatch){
+            const detail = {};
+            this.injectVal(e, detail);
+            const customEventInit = new CustomEvent(this.to, {
+                bubbles: this._bubbles,
+                composed: this._composed,
+                cancelable: this._cancelable,
+                detail: detail,
+            } as CustomEventInit);
+            const host = getHost(this) as any;
+            if( host!== null){
+                host.dispatchEvent(customEventInit);
+                if(host.incAttr) host.incAttr(this.to);
+            }else{
+                this.dispatchEvent(customEventInit);
+                this.incAttr(this.to);
+            }
         }
+        super.pass(e);
         
     }
     _bubbles!: boolean;
