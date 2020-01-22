@@ -173,7 +173,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
      */
     getPreviousSib() : Element | null{
         let prevSib = this as Element | null;
-        while(prevSib && prevSib.isPetalian === true){
+        while(prevSib && (<any>prevSib).isPetalian === true){
             prevSib = prevSib.previousElementSibling!;
         }
         if(prevSib === null) {
