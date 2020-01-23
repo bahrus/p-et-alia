@@ -1,1152 +1,1174 @@
 {
-  "version": 2,
+  "version": "experimental",
   "tags": [
     {
       "name": "p-d-r",
       "description": "Pass data from one element down the DOM tree to other elements, including children, recursively.\nOnly drills into children if p-d-if matches css of p-d-r element.",
-      "jsDoc": "/**\n * Pass data from one element down the DOM tree to other elements, including children, recursively.\n * Only drills into children if p-d-if matches css of p-d-r element.\n * @element p-d-r\n */",
       "attributes": [
         {
           "name": "with-path",
           "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
-          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
           "type": "string"
         },
         {
+          "name": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
+        },
+        {
           "name": "on",
-          "description": "The event name to monitor for, from previous non p-* element.",
-          "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
+          "description": "The event name to monitor for, from previous non-petalian element.",
           "type": "string"
         },
         {
           "name": "to",
           "description": "css pattern to match for from downstream siblings.",
-          "jsDoc": "/**\r\n     * css pattern to match for from downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "care-of",
           "description": "CSS Selector to use to select single child within the destination element.",
-          "jsDoc": "/**\r\n     * CSS Selector to use to select single child within the destination element.\r\n     * @attr care-of\r\n     * \r\n     */",
           "type": "string"
         },
         {
           "name": "noblock",
           "description": "Don't block event propagation.",
-          "jsDoc": "/**\r\n     * Don't block event propagation.\r\n     * @attr\r\n     */",
           "type": "boolean"
         },
         {
           "name": "if",
           "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "jsDoc": "/**\r\n     * Only act on event if target element css-matches the expression specified by this attribute.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "prop",
           "description": "Name of property to set on matching downstream siblings.",
-          "jsDoc": "/**\r\n     * Name of property to set on matching downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string | symbol"
         },
         {
           "name": "val",
           "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "jsDoc": "/**\r\n     * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "fire-event",
           "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "jsDoc": "/**\r\n     * Artificially fire event on target element whose name is specified by this attribute.\r\n     * @attr fire-event\r\n     */",
+          "type": "string"
+        },
+        {
+          "name": "from",
+          "description": "Source element to start matches from",
           "type": "string"
         },
         {
           "name": "m",
           "description": "Maximum number of matching elements expected to be found.",
-          "jsDoc": "/**\r\n     * Maximum number of matching elements expected to be found.\r\n     * @attr\r\n     */",
           "type": "number"
-        },
-        {
-          "name": "from",
-          "description": "Source element to start matches from",
-          "jsDoc": "/**\r\n     * Source element to start matches from\r\n     * @attr\r\n     */",
-          "type": "string"
         }
       ],
       "properties": [
         {
-          "name": "disabled",
-          "type": "boolean"
+          "name": "isPetalian",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "withPath",
+          "attribute": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "type": "string"
         },
         {
           "name": "evCount",
           "description": "Tracks how many times each event type was called.",
-          "jsDoc": "/**\r\n         * Tracks how many times each event type was called.\r\n         */",
-          "type": "{ [key: string]: number; }"
+          "type": "{ [key: string]: number; }",
+          "default": "{}"
         },
         {
-          "name": "asIs",
-          "type": "\"\" | \"-changed\""
-        },
-        {
-          "name": "withPath",
-          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
-          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
-          "type": "string"
+          "name": "disabled",
+          "attribute": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
         },
         {
           "name": "on",
-          "description": "The event name to monitor for, from previous non p-* element.",
-          "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
+          "attribute": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
           "type": "string"
         },
         {
           "name": "to",
+          "attribute": "to",
           "description": "css pattern to match for from downstream siblings.",
-          "jsDoc": "/**\r\n     * css pattern to match for from downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "careOf",
+          "attribute": "care-of",
           "description": "CSS Selector to use to select single child within the destination element.",
-          "jsDoc": "/**\r\n     * CSS Selector to use to select single child within the destination element.\r\n     * @attr care-of\r\n     * \r\n     */",
           "type": "string"
         },
         {
           "name": "noblock",
+          "attribute": "noblock",
           "description": "Don't block event propagation.",
-          "jsDoc": "/**\r\n     * Don't block event propagation.\r\n     * @attr\r\n     */",
           "type": "boolean"
         },
         {
           "name": "if",
+          "attribute": "if",
           "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "jsDoc": "/**\r\n     * Only act on event if target element css-matches the expression specified by this attribute.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "prop",
+          "attribute": "prop",
           "description": "Name of property to set on matching downstream siblings.",
-          "jsDoc": "/**\r\n     * Name of property to set on matching downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string | symbol"
         },
         {
           "name": "val",
+          "attribute": "val",
           "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "jsDoc": "/**\r\n     * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "fireEvent",
+          "attribute": "fire-event",
           "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "jsDoc": "/**\r\n     * Artificially fire event on target element whose name is specified by this attribute.\r\n     * @attr fire-event\r\n     */",
+          "type": "string"
+        },
+        {
+          "name": "from",
+          "attribute": "from",
+          "description": "Source element to start matches from",
           "type": "string"
         },
         {
           "name": "m",
+          "attribute": "m",
           "description": "Maximum number of matching elements expected to be found.",
-          "jsDoc": "/**\r\n     * Maximum number of matching elements expected to be found.\r\n     * @attr\r\n     */",
           "type": "number"
-        },
-        {
-          "name": "from",
-          "description": "Source element to start matches from",
-          "jsDoc": "/**\r\n     * Source element to start matches from\r\n     * @attr\r\n     */",
-          "type": "string"
         }
-      ],
-      "events": [],
-      "slots": []
+      ]
     },
     {
       "name": "p-d-x",
       "description": "Extends element p-d with experimental features.",
-      "jsDoc": "/**\n * Extends element p-d with experimental features.\n * @element p-d-x\n */",
       "attributes": [
         {
           "name": "with-path",
           "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
-          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
           "type": "string"
         },
         {
+          "name": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
+        },
+        {
           "name": "on",
-          "description": "The event name to monitor for, from previous non p-* element.",
-          "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
+          "description": "The event name to monitor for, from previous non-petalian element.",
           "type": "string"
         },
         {
           "name": "to",
           "description": "css pattern to match for from downstream siblings.",
-          "jsDoc": "/**\r\n     * css pattern to match for from downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "care-of",
           "description": "CSS Selector to use to select single child within the destination element.",
-          "jsDoc": "/**\r\n     * CSS Selector to use to select single child within the destination element.\r\n     * @attr care-of\r\n     * \r\n     */",
           "type": "string"
         },
         {
           "name": "noblock",
           "description": "Don't block event propagation.",
-          "jsDoc": "/**\r\n     * Don't block event propagation.\r\n     * @attr\r\n     */",
           "type": "boolean"
         },
         {
           "name": "if",
           "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "jsDoc": "/**\r\n     * Only act on event if target element css-matches the expression specified by this attribute.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "prop",
           "description": "Name of property to set on matching downstream siblings.",
-          "jsDoc": "/**\r\n     * Name of property to set on matching downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string | symbol"
         },
         {
           "name": "val",
           "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "jsDoc": "/**\r\n     * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "fire-event",
           "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "jsDoc": "/**\r\n     * Artificially fire event on target element whose name is specified by this attribute.\r\n     * @attr fire-event\r\n     */",
+          "type": "string"
+        },
+        {
+          "name": "from",
+          "description": "Source element to start matches from",
           "type": "string"
         },
         {
           "name": "m",
           "description": "Maximum number of matching elements expected to be found.",
-          "jsDoc": "/**\r\n     * Maximum number of matching elements expected to be found.\r\n     * @attr\r\n     */",
           "type": "number"
-        },
-        {
-          "name": "from",
-          "description": "Source element to start matches from",
-          "jsDoc": "/**\r\n     * Source element to start matches from\r\n     * @attr\r\n     */",
-          "type": "string"
         }
       ],
       "properties": [
         {
-          "name": "disabled",
+          "name": "guid"
+        },
+        {
+          "name": "del",
           "type": "boolean"
+        },
+        {
+          "name": "isPetalian",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "withPath",
+          "attribute": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "type": "string"
         },
         {
           "name": "evCount",
           "description": "Tracks how many times each event type was called.",
-          "jsDoc": "/**\r\n         * Tracks how many times each event type was called.\r\n         */",
-          "type": "{ [key: string]: number; }"
+          "type": "{ [key: string]: number; }",
+          "default": "{}"
         },
         {
-          "name": "asIs",
-          "type": "\"\" | \"-changed\""
-        },
-        {
-          "name": "withPath",
-          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
-          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
-          "type": "string"
+          "name": "disabled",
+          "attribute": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
         },
         {
           "name": "on",
-          "description": "The event name to monitor for, from previous non p-* element.",
-          "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
+          "attribute": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
           "type": "string"
         },
         {
           "name": "to",
+          "attribute": "to",
           "description": "css pattern to match for from downstream siblings.",
-          "jsDoc": "/**\r\n     * css pattern to match for from downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "careOf",
+          "attribute": "care-of",
           "description": "CSS Selector to use to select single child within the destination element.",
-          "jsDoc": "/**\r\n     * CSS Selector to use to select single child within the destination element.\r\n     * @attr care-of\r\n     * \r\n     */",
           "type": "string"
         },
         {
           "name": "noblock",
+          "attribute": "noblock",
           "description": "Don't block event propagation.",
-          "jsDoc": "/**\r\n     * Don't block event propagation.\r\n     * @attr\r\n     */",
           "type": "boolean"
         },
         {
           "name": "if",
+          "attribute": "if",
           "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "jsDoc": "/**\r\n     * Only act on event if target element css-matches the expression specified by this attribute.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "prop",
+          "attribute": "prop",
           "description": "Name of property to set on matching downstream siblings.",
-          "jsDoc": "/**\r\n     * Name of property to set on matching downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string | symbol"
         },
         {
           "name": "val",
+          "attribute": "val",
           "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "jsDoc": "/**\r\n     * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "fireEvent",
+          "attribute": "fire-event",
           "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "jsDoc": "/**\r\n     * Artificially fire event on target element whose name is specified by this attribute.\r\n     * @attr fire-event\r\n     */",
+          "type": "string"
+        },
+        {
+          "name": "from",
+          "attribute": "from",
+          "description": "Source element to start matches from",
           "type": "string"
         },
         {
           "name": "m",
+          "attribute": "m",
           "description": "Maximum number of matching elements expected to be found.",
-          "jsDoc": "/**\r\n     * Maximum number of matching elements expected to be found.\r\n     * @attr\r\n     */",
           "type": "number"
-        },
-        {
-          "name": "from",
-          "description": "Source element to start matches from",
-          "jsDoc": "/**\r\n     * Source element to start matches from\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "guid",
-          "type": "any"
         }
-      ],
-      "events": [],
-      "slots": []
+      ]
     },
     {
       "name": "p-d",
       "description": "Pass data from one element down the DOM tree to other elements",
-      "jsDoc": "/**\n * Pass data from one element down the DOM tree to other elements\n * @element p-d\n *\n */",
       "attributes": [
+        {
+          "name": "m",
+          "description": "Maximum number of matching elements expected to be found.",
+          "type": "number"
+        },
+        {
+          "name": "from",
+          "description": "Source element to start matches from"
+        },
         {
           "name": "with-path",
           "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
-          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
           "type": "string"
         },
         {
+          "name": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
+        },
+        {
           "name": "on",
-          "description": "The event name to monitor for, from previous non p-* element.",
-          "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
+          "description": "The event name to monitor for, from previous non-petalian element.",
           "type": "string"
         },
         {
           "name": "to",
           "description": "css pattern to match for from downstream siblings.",
-          "jsDoc": "/**\r\n     * css pattern to match for from downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "care-of",
           "description": "CSS Selector to use to select single child within the destination element.",
-          "jsDoc": "/**\r\n     * CSS Selector to use to select single child within the destination element.\r\n     * @attr care-of\r\n     * \r\n     */",
           "type": "string"
         },
         {
           "name": "noblock",
           "description": "Don't block event propagation.",
-          "jsDoc": "/**\r\n     * Don't block event propagation.\r\n     * @attr\r\n     */",
           "type": "boolean"
         },
         {
           "name": "if",
           "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "jsDoc": "/**\r\n     * Only act on event if target element css-matches the expression specified by this attribute.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "prop",
           "description": "Name of property to set on matching downstream siblings.",
-          "jsDoc": "/**\r\n     * Name of property to set on matching downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string | symbol"
         },
         {
           "name": "val",
           "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "jsDoc": "/**\r\n     * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "fire-event",
           "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "jsDoc": "/**\r\n     * Artificially fire event on target element whose name is specified by this attribute.\r\n     * @attr fire-event\r\n     */",
           "type": "string"
-        },
-        {
-          "name": "m",
-          "description": "Maximum number of matching elements expected to be found.",
-          "jsDoc": "/**\n     * Maximum number of matching elements expected to be found.\n     * @attr\n     */",
-          "type": "number"
-        },
-        {
-          "name": "from",
-          "description": "Source element to start matches from",
-          "jsDoc": "/**\n     * Source element to start matches from\n     * @attr\n     */",
-          "type": "any"
         }
       ],
       "properties": [
         {
-          "name": "disabled",
-          "type": "boolean"
-        },
-        {
-          "name": "evCount",
-          "description": "Tracks how many times each event type was called.",
-          "jsDoc": "/**\r\n         * Tracks how many times each event type was called.\r\n         */",
-          "type": "{ [key: string]: number; }"
-        },
-        {
-          "name": "asIs",
-          "type": "\"\" | \"-changed\""
-        },
-        {
-          "name": "withPath",
-          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
-          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
-          "type": "string"
-        },
-        {
-          "name": "on",
-          "description": "The event name to monitor for, from previous non p-* element.",
-          "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "to",
-          "description": "css pattern to match for from downstream siblings.",
-          "jsDoc": "/**\r\n     * css pattern to match for from downstream siblings.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "careOf",
-          "description": "CSS Selector to use to select single child within the destination element.",
-          "jsDoc": "/**\r\n     * CSS Selector to use to select single child within the destination element.\r\n     * @attr care-of\r\n     * \r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "noblock",
-          "description": "Don't block event propagation.",
-          "jsDoc": "/**\r\n     * Don't block event propagation.\r\n     * @attr\r\n     */",
-          "type": "boolean"
-        },
-        {
-          "name": "if",
-          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "jsDoc": "/**\r\n     * Only act on event if target element css-matches the expression specified by this attribute.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "jsDoc": "/**\r\n     * Name of property to set on matching downstream siblings.\r\n     * @attr\r\n     */",
-          "type": "string | symbol"
-        },
-        {
-          "name": "val",
-          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "jsDoc": "/**\r\n     * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "fireEvent",
-          "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "jsDoc": "/**\r\n     * Artificially fire event on target element whose name is specified by this attribute.\r\n     * @attr fire-event\r\n     */",
-          "type": "string"
-        },
-        {
           "name": "m",
+          "attribute": "m",
           "description": "Maximum number of matching elements expected to be found.",
-          "jsDoc": "/**\n     * Maximum number of matching elements expected to be found.\n     * @attr\n     */",
           "type": "number"
         },
         {
           "name": "from",
-          "description": "Source element to start matches from",
-          "jsDoc": "/**\n     * Source element to start matches from\n     * @attr\n     */",
-          "type": "any"
+          "attribute": "from",
+          "description": "Source element to start matches from"
+        },
+        {
+          "name": "isPetalian",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "withPath",
+          "attribute": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "type": "string"
+        },
+        {
+          "name": "evCount",
+          "description": "Tracks how many times each event type was called.",
+          "type": "{ [key: string]: number; }",
+          "default": "{}"
+        },
+        {
+          "name": "disabled",
+          "attribute": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
+        },
+        {
+          "name": "on",
+          "attribute": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
+          "type": "string"
+        },
+        {
+          "name": "to",
+          "attribute": "to",
+          "description": "css pattern to match for from downstream siblings.",
+          "type": "string"
+        },
+        {
+          "name": "careOf",
+          "attribute": "care-of",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "type": "string"
+        },
+        {
+          "name": "noblock",
+          "attribute": "noblock",
+          "description": "Don't block event propagation.",
+          "type": "boolean"
+        },
+        {
+          "name": "if",
+          "attribute": "if",
+          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
+          "type": "string"
+        },
+        {
+          "name": "prop",
+          "attribute": "prop",
+          "description": "Name of property to set on matching downstream siblings.",
+          "type": "string | symbol"
+        },
+        {
+          "name": "val",
+          "attribute": "val",
+          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
+          "type": "string"
+        },
+        {
+          "name": "fireEvent",
+          "attribute": "fire-event",
+          "description": "Artificially fire event on target element whose name is specified by this attribute.",
+          "type": "string"
         }
-      ],
-      "events": [],
-      "slots": []
+      ]
     },
     {
       "name": "p-h-d",
       "description": "Pass history to downstream elements",
-      "jsDoc": "/**\n * Pass history to downstream elements\n * @element p-h-d\n */",
       "attributes": [
+        {
+          "name": "init-and-pop-state-only",
+          "description": "Only pass down history if is initial history and/or popstate event"
+        },
+        {
+          "name": "from-path",
+          "description": "JS path within history.state to pass down."
+        },
         {
           "name": "with-path",
           "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
-          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
           "type": "string"
         },
         {
+          "name": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
+        },
+        {
           "name": "on",
-          "description": "The event name to monitor for, from previous non p-* element.",
-          "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
+          "description": "The event name to monitor for, from previous non-petalian element.",
           "type": "string"
         },
         {
           "name": "to",
           "description": "css pattern to match for from downstream siblings.",
-          "jsDoc": "/**\r\n     * css pattern to match for from downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "care-of",
           "description": "CSS Selector to use to select single child within the destination element.",
-          "jsDoc": "/**\r\n     * CSS Selector to use to select single child within the destination element.\r\n     * @attr care-of\r\n     * \r\n     */",
           "type": "string"
         },
         {
           "name": "noblock",
           "description": "Don't block event propagation.",
-          "jsDoc": "/**\r\n     * Don't block event propagation.\r\n     * @attr\r\n     */",
           "type": "boolean"
         },
         {
           "name": "if",
           "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "jsDoc": "/**\r\n     * Only act on event if target element css-matches the expression specified by this attribute.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "prop",
           "description": "Name of property to set on matching downstream siblings.",
-          "jsDoc": "/**\r\n     * Name of property to set on matching downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string | symbol"
         },
         {
           "name": "val",
           "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "jsDoc": "/**\r\n     * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "fire-event",
           "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "jsDoc": "/**\r\n     * Artificially fire event on target element whose name is specified by this attribute.\r\n     * @attr fire-event\r\n     */",
+          "type": "string"
+        },
+        {
+          "name": "from",
+          "description": "Source element to start matches from",
           "type": "string"
         },
         {
           "name": "m",
           "description": "Maximum number of matching elements expected to be found.",
-          "jsDoc": "/**\r\n     * Maximum number of matching elements expected to be found.\r\n     * @attr\r\n     */",
           "type": "number"
-        },
-        {
-          "name": "from",
-          "description": "Source element to start matches from",
-          "jsDoc": "/**\r\n     * Source element to start matches from\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "init-and-pop-state-only",
-          "description": "Only pass down history if is initial history and/or popstate event",
-          "jsDoc": "/**\n     * Only pass down history if is initial history and/or popstate event\n     * @attr init-and-pop-state-only\n     */",
-          "type": "any"
-        },
-        {
-          "name": "from-path",
-          "description": "JS path within history.state to pass down.",
-          "jsDoc": "/**\n     * JS path within history.state to pass down.\n     * @attr from-path\n     */",
-          "type": "any"
         }
       ],
       "properties": [
         {
-          "name": "disabled",
-          "type": "boolean"
+          "name": "initAndPopStateOnly",
+          "attribute": "init-and-pop-state-only",
+          "description": "Only pass down history if is initial history and/or popstate event"
         },
         {
-          "name": "evCount",
-          "description": "Tracks how many times each event type was called.",
-          "jsDoc": "/**\r\n         * Tracks how many times each event type was called.\r\n         */",
-          "type": "{ [key: string]: number; }"
-        },
-        {
-          "name": "asIs",
-          "type": "\"\" | \"-changed\""
-        },
-        {
-          "name": "withPath",
-          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
-          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
-          "type": "string"
-        },
-        {
-          "name": "on",
-          "description": "The event name to monitor for, from previous non p-* element.",
-          "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "to",
-          "description": "css pattern to match for from downstream siblings.",
-          "jsDoc": "/**\r\n     * css pattern to match for from downstream siblings.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "careOf",
-          "description": "CSS Selector to use to select single child within the destination element.",
-          "jsDoc": "/**\r\n     * CSS Selector to use to select single child within the destination element.\r\n     * @attr care-of\r\n     * \r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "noblock",
-          "description": "Don't block event propagation.",
-          "jsDoc": "/**\r\n     * Don't block event propagation.\r\n     * @attr\r\n     */",
-          "type": "boolean"
-        },
-        {
-          "name": "if",
-          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "jsDoc": "/**\r\n     * Only act on event if target element css-matches the expression specified by this attribute.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "jsDoc": "/**\r\n     * Name of property to set on matching downstream siblings.\r\n     * @attr\r\n     */",
-          "type": "string | symbol"
-        },
-        {
-          "name": "val",
-          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "jsDoc": "/**\r\n     * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "fireEvent",
-          "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "jsDoc": "/**\r\n     * Artificially fire event on target element whose name is specified by this attribute.\r\n     * @attr fire-event\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "m",
-          "description": "Maximum number of matching elements expected to be found.",
-          "jsDoc": "/**\r\n     * Maximum number of matching elements expected to be found.\r\n     * @attr\r\n     */",
-          "type": "number"
-        },
-        {
-          "name": "from",
-          "description": "Source element to start matches from",
-          "jsDoc": "/**\r\n     * Source element to start matches from\r\n     * @attr\r\n     */",
-          "type": "string"
+          "name": "fromPath",
+          "attribute": "from-path",
+          "description": "JS path within history.state to pass down."
         },
         {
           "name": "guid",
           "type": "string"
         },
         {
-          "name": "initAndPopStateOnly",
-          "description": "Only pass down history if is initial history and/or popstate event",
-          "jsDoc": "/**\n     * Only pass down history if is initial history and/or popstate event\n     * @attr init-and-pop-state-only\n     */",
-          "type": "any"
+          "name": "del",
+          "type": "boolean"
         },
         {
-          "name": "fromPath",
-          "description": "JS path within history.state to pass down.",
-          "jsDoc": "/**\n     * JS path within history.state to pass down.\n     * @attr from-path\n     */",
-          "type": "any"
+          "name": "isPetalian",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "withPath",
+          "attribute": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "type": "string"
+        },
+        {
+          "name": "evCount",
+          "description": "Tracks how many times each event type was called.",
+          "type": "{ [key: string]: number; }",
+          "default": "{}"
+        },
+        {
+          "name": "disabled",
+          "attribute": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
+        },
+        {
+          "name": "on",
+          "attribute": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
+          "type": "string"
+        },
+        {
+          "name": "to",
+          "attribute": "to",
+          "description": "css pattern to match for from downstream siblings.",
+          "type": "string"
+        },
+        {
+          "name": "careOf",
+          "attribute": "care-of",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "type": "string"
+        },
+        {
+          "name": "noblock",
+          "attribute": "noblock",
+          "description": "Don't block event propagation.",
+          "type": "boolean"
+        },
+        {
+          "name": "if",
+          "attribute": "if",
+          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
+          "type": "string"
+        },
+        {
+          "name": "prop",
+          "attribute": "prop",
+          "description": "Name of property to set on matching downstream siblings.",
+          "type": "string | symbol"
+        },
+        {
+          "name": "val",
+          "attribute": "val",
+          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
+          "type": "string"
+        },
+        {
+          "name": "fireEvent",
+          "attribute": "fire-event",
+          "description": "Artificially fire event on target element whose name is specified by this attribute.",
+          "type": "string"
+        },
+        {
+          "name": "from",
+          "attribute": "from",
+          "description": "Source element to start matches from",
+          "type": "string"
+        },
+        {
+          "name": "m",
+          "attribute": "m",
+          "description": "Maximum number of matching elements expected to be found.",
+          "type": "number"
         }
-      ],
-      "events": [],
-      "slots": []
+      ]
     },
     {
       "name": "p-u",
       "description": "Pass data from one element to a targeted DOM element elsewhere",
-      "jsDoc": "/**\n * Pass data from one element to a targeted DOM element elsewhere\n * @element p-u\n *\n */",
       "attributes": [
         {
           "name": "with-path",
           "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
-          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
           "type": "string"
         },
         {
+          "name": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
+        },
+        {
           "name": "on",
-          "description": "The event name to monitor for, from previous non p-* element.",
-          "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
+          "description": "The event name to monitor for, from previous non-petalian element.",
           "type": "string"
         },
         {
           "name": "to",
           "description": "css pattern to match for from downstream siblings.",
-          "jsDoc": "/**\r\n     * css pattern to match for from downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "care-of",
           "description": "CSS Selector to use to select single child within the destination element.",
-          "jsDoc": "/**\r\n     * CSS Selector to use to select single child within the destination element.\r\n     * @attr care-of\r\n     * \r\n     */",
           "type": "string"
         },
         {
           "name": "noblock",
           "description": "Don't block event propagation.",
-          "jsDoc": "/**\r\n     * Don't block event propagation.\r\n     * @attr\r\n     */",
           "type": "boolean"
         },
         {
           "name": "if",
           "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "jsDoc": "/**\r\n     * Only act on event if target element css-matches the expression specified by this attribute.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "prop",
           "description": "Name of property to set on matching downstream siblings.",
-          "jsDoc": "/**\r\n     * Name of property to set on matching downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string | symbol"
         },
         {
           "name": "val",
           "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "jsDoc": "/**\r\n     * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "fire-event",
           "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "jsDoc": "/**\r\n     * Artificially fire event on target element whose name is specified by this attribute.\r\n     * @attr fire-event\r\n     */",
           "type": "string"
         }
       ],
       "properties": [
         {
-          "name": "disabled",
-          "type": "boolean"
+          "name": "isPetalian",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "withPath",
+          "attribute": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "type": "string"
         },
         {
           "name": "evCount",
           "description": "Tracks how many times each event type was called.",
-          "jsDoc": "/**\r\n         * Tracks how many times each event type was called.\r\n         */",
-          "type": "{ [key: string]: number; }"
+          "type": "{ [key: string]: number; }",
+          "default": "{}"
         },
         {
-          "name": "asIs",
-          "type": "\"\" | \"-changed\""
-        },
-        {
-          "name": "withPath",
-          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
-          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
-          "type": "string"
+          "name": "disabled",
+          "attribute": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
         },
         {
           "name": "on",
-          "description": "The event name to monitor for, from previous non p-* element.",
-          "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
+          "attribute": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
           "type": "string"
         },
         {
           "name": "to",
+          "attribute": "to",
           "description": "css pattern to match for from downstream siblings.",
-          "jsDoc": "/**\r\n     * css pattern to match for from downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "careOf",
+          "attribute": "care-of",
           "description": "CSS Selector to use to select single child within the destination element.",
-          "jsDoc": "/**\r\n     * CSS Selector to use to select single child within the destination element.\r\n     * @attr care-of\r\n     * \r\n     */",
           "type": "string"
         },
         {
           "name": "noblock",
+          "attribute": "noblock",
           "description": "Don't block event propagation.",
-          "jsDoc": "/**\r\n     * Don't block event propagation.\r\n     * @attr\r\n     */",
           "type": "boolean"
         },
         {
           "name": "if",
+          "attribute": "if",
           "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "jsDoc": "/**\r\n     * Only act on event if target element css-matches the expression specified by this attribute.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "prop",
+          "attribute": "prop",
           "description": "Name of property to set on matching downstream siblings.",
-          "jsDoc": "/**\r\n     * Name of property to set on matching downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string | symbol"
         },
         {
           "name": "val",
+          "attribute": "val",
           "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "jsDoc": "/**\r\n     * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "fireEvent",
+          "attribute": "fire-event",
           "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "jsDoc": "/**\r\n     * Artificially fire event on target element whose name is specified by this attribute.\r\n     * @attr fire-event\r\n     */",
           "type": "string"
         }
-      ],
-      "events": [],
-      "slots": []
+      ]
     },
     {
       "name": "p-unt",
       "description": "Dispatch event when previous non p-element triggers prescribed event",
-      "jsDoc": "/**\n * Dispatch event when previous non p-element triggers prescribed event\n * @element p-unt\n */",
       "attributes": [
         {
-          "name": "with-path",
-          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
-          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
-          "type": "string"
-        },
-        {
-          "name": "on",
-          "description": "The event name to monitor for, from previous non p-* element.",
-          "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "to",
-          "description": "css pattern to match for from downstream siblings.",
-          "jsDoc": "/**\r\n     * css pattern to match for from downstream siblings.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "care-of",
-          "description": "CSS Selector to use to select single child within the destination element.",
-          "jsDoc": "/**\r\n     * CSS Selector to use to select single child within the destination element.\r\n     * @attr care-of\r\n     * \r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "noblock",
-          "description": "Don't block event propagation.",
-          "jsDoc": "/**\r\n     * Don't block event propagation.\r\n     * @attr\r\n     */",
-          "type": "boolean"
-        },
-        {
-          "name": "if",
-          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "jsDoc": "/**\r\n     * Only act on event if target element css-matches the expression specified by this attribute.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "jsDoc": "/**\r\n     * Name of property to set on matching downstream siblings.\r\n     * @attr\r\n     */",
-          "type": "string | symbol"
-        },
-        {
-          "name": "val",
-          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "jsDoc": "/**\r\n     * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "fire-event",
-          "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "jsDoc": "/**\r\n     * Artificially fire event on target element whose name is specified by this attribute.\r\n     * @attr fire-event\r\n     */",
-          "type": "string"
-        },
-        {
           "name": "bubbles",
-          "description": "event should bubble up",
-          "jsDoc": "/**\n     * event should bubble up\n     * @attr\n     */",
-          "type": "any"
-        }
-      ],
-      "properties": [
-        {
-          "name": "disabled",
-          "type": "boolean"
-        },
-        {
-          "name": "evCount",
-          "description": "Tracks how many times each event type was called.",
-          "jsDoc": "/**\r\n         * Tracks how many times each event type was called.\r\n         */",
-          "type": "{ [key: string]: number; }"
-        },
-        {
-          "name": "asIs",
-          "type": "\"\" | \"-changed\""
-        },
-        {
-          "name": "withPath",
-          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
-          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
-          "type": "string"
-        },
-        {
-          "name": "on",
-          "description": "The event name to monitor for, from previous non p-* element.",
-          "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "to",
-          "description": "css pattern to match for from downstream siblings.",
-          "jsDoc": "/**\r\n     * css pattern to match for from downstream siblings.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "careOf",
-          "description": "CSS Selector to use to select single child within the destination element.",
-          "jsDoc": "/**\r\n     * CSS Selector to use to select single child within the destination element.\r\n     * @attr care-of\r\n     * \r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "noblock",
-          "description": "Don't block event propagation.",
-          "jsDoc": "/**\r\n     * Don't block event propagation.\r\n     * @attr\r\n     */",
-          "type": "boolean"
-        },
-        {
-          "name": "if",
-          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "jsDoc": "/**\r\n     * Only act on event if target element css-matches the expression specified by this attribute.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "jsDoc": "/**\r\n     * Name of property to set on matching downstream siblings.\r\n     * @attr\r\n     */",
-          "type": "string | symbol"
-        },
-        {
-          "name": "val",
-          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "jsDoc": "/**\r\n     * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "fireEvent",
-          "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "jsDoc": "/**\r\n     * Artificially fire event on target element whose name is specified by this attribute.\r\n     * @attr fire-event\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "bubbles",
-          "description": "event should bubble up",
-          "jsDoc": "/**\n     * event should bubble up\n     * @attr\n     */",
-          "type": "any"
+          "description": "event should bubble up"
         },
         {
           "name": "composed",
-          "description": "Event bubbling should pierce shadow dom",
-          "jsDoc": "/**\n     * Event bubbling should pierce shadow dom\n     */",
-          "type": "any"
+          "description": "Event bubbling should pierce shadow dom"
         },
-        {
-          "name": "dispatch",
-          "description": "dispatch event",
-          "jsDoc": "/**\n     * dispatch event\n     */",
-          "type": "any"
-        }
-      ],
-      "events": [],
-      "slots": []
-    },
-    {
-      "name": "p-w",
-      "description": "\"planted weirwood\" -- passes data down just like p-d, but also updates history.state",
-      "jsDoc": "/**\n * \"planted weirwood\" -- passes data down just like p-d, but also updates history.state\n * @element p-w\n */",
-      "attributes": [
         {
           "name": "with-path",
           "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
-          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
           "type": "string"
         },
         {
+          "name": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
+        },
+        {
           "name": "on",
-          "description": "The event name to monitor for, from previous non p-* element.",
-          "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
+          "description": "The event name to monitor for, from previous non-petalian element.",
           "type": "string"
         },
         {
           "name": "to",
           "description": "css pattern to match for from downstream siblings.",
-          "jsDoc": "/**\r\n     * css pattern to match for from downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "care-of",
           "description": "CSS Selector to use to select single child within the destination element.",
-          "jsDoc": "/**\r\n     * CSS Selector to use to select single child within the destination element.\r\n     * @attr care-of\r\n     * \r\n     */",
           "type": "string"
         },
         {
           "name": "noblock",
           "description": "Don't block event propagation.",
-          "jsDoc": "/**\r\n     * Don't block event propagation.\r\n     * @attr\r\n     */",
           "type": "boolean"
         },
         {
           "name": "if",
           "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "jsDoc": "/**\r\n     * Only act on event if target element css-matches the expression specified by this attribute.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "prop",
           "description": "Name of property to set on matching downstream siblings.",
-          "jsDoc": "/**\r\n     * Name of property to set on matching downstream siblings.\r\n     * @attr\r\n     */",
           "type": "string | symbol"
         },
         {
           "name": "val",
           "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "jsDoc": "/**\r\n     * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.\r\n     * @attr\r\n     */",
           "type": "string"
         },
         {
           "name": "fire-event",
           "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "jsDoc": "/**\r\n     * Artificially fire event on target element whose name is specified by this attribute.\r\n     * @attr fire-event\r\n     */",
+          "type": "string"
+        },
+        {
+          "name": "from",
+          "description": "Source element to start matches from",
           "type": "string"
         },
         {
           "name": "m",
           "description": "Maximum number of matching elements expected to be found.",
-          "jsDoc": "/**\r\n     * Maximum number of matching elements expected to be found.\r\n     * @attr\r\n     */",
           "type": "number"
-        },
-        {
-          "name": "from",
-          "description": "Source element to start matches from",
-          "jsDoc": "/**\r\n     * Source element to start matches from\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "state-path",
-          "description": "path within history.state to deep merge data into",
-          "jsDoc": "/**\n     * path within history.state to deep merge data into\n     * @attr state-path\n     */",
-          "type": "any"
-        },
-        {
-          "name": "push",
-          "description": "push new stack element into history",
-          "jsDoc": "/**\n     * push new stack element into history\n     * @attr\n     */",
-          "type": "boolean"
-        },
-        {
-          "name": "cc",
-          "description": "Should carbon copy data to state",
-          "jsDoc": "/**\n     * Should carbon copy data to state\n     * @attr\n     */",
-          "type": "boolean"
         }
       ],
       "properties": [
         {
-          "name": "disabled",
-          "type": "boolean"
+          "name": "bubbles",
+          "attribute": "bubbles",
+          "description": "event should bubble up"
         },
         {
-          "name": "evCount",
-          "description": "Tracks how many times each event type was called.",
-          "jsDoc": "/**\r\n         * Tracks how many times each event type was called.\r\n         */",
-          "type": "{ [key: string]: number; }"
+          "name": "composed",
+          "attribute": "composed",
+          "description": "Event bubbling should pierce shadow dom"
         },
         {
-          "name": "asIs",
-          "type": "\"\" | \"-changed\""
+          "name": "cancelable"
         },
         {
-          "name": "withPath",
-          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
-          "jsDoc": "/**\r\n        * object inside a new empty object, with key equal to this value.\r\n        * E.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\n        * and with-path = 'myPath'\r\n        * then the source object which be merged into is:\r\n        * {myPath: {foo: 'hello', bar: 'world'}}\r\n        * @attr with-path\r\n        */",
-          "type": "string"
-        },
-        {
-          "name": "on",
-          "description": "The event name to monitor for, from previous non p-* element.",
-          "jsDoc": "/**\r\n     * The event name to monitor for, from previous non p-* element.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "to",
-          "description": "css pattern to match for from downstream siblings.",
-          "jsDoc": "/**\r\n     * css pattern to match for from downstream siblings.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "careOf",
-          "description": "CSS Selector to use to select single child within the destination element.",
-          "jsDoc": "/**\r\n     * CSS Selector to use to select single child within the destination element.\r\n     * @attr care-of\r\n     * \r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "noblock",
-          "description": "Don't block event propagation.",
-          "jsDoc": "/**\r\n     * Don't block event propagation.\r\n     * @attr\r\n     */",
-          "type": "boolean"
-        },
-        {
-          "name": "if",
-          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "jsDoc": "/**\r\n     * Only act on event if target element css-matches the expression specified by this attribute.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "jsDoc": "/**\r\n     * Name of property to set on matching downstream siblings.\r\n     * @attr\r\n     */",
-          "type": "string | symbol"
-        },
-        {
-          "name": "val",
-          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "jsDoc": "/**\r\n     * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.\r\n     * @attr\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "fireEvent",
-          "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "jsDoc": "/**\r\n     * Artificially fire event on target element whose name is specified by this attribute.\r\n     * @attr fire-event\r\n     */",
-          "type": "string"
-        },
-        {
-          "name": "m",
-          "description": "Maximum number of matching elements expected to be found.",
-          "jsDoc": "/**\r\n     * Maximum number of matching elements expected to be found.\r\n     * @attr\r\n     */",
-          "type": "number"
-        },
-        {
-          "name": "from",
-          "description": "Source element to start matches from",
-          "jsDoc": "/**\r\n     * Source element to start matches from\r\n     * @attr\r\n     */",
-          "type": "string"
+          "name": "dispatch",
+          "description": "dispatch event"
         },
         {
           "name": "guid",
           "type": "string"
         },
         {
-          "name": "statePath",
-          "description": "path within history.state to deep merge data into",
-          "jsDoc": "/**\n     * path within history.state to deep merge data into\n     * @attr state-path\n     */",
-          "type": "any"
+          "name": "del",
+          "type": "boolean"
+        },
+        {
+          "name": "isPetalian",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "withPath",
+          "attribute": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "type": "string"
+        },
+        {
+          "name": "evCount",
+          "description": "Tracks how many times each event type was called.",
+          "type": "{ [key: string]: number; }",
+          "default": "{}"
+        },
+        {
+          "name": "disabled",
+          "attribute": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
+        },
+        {
+          "name": "on",
+          "attribute": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
+          "type": "string"
+        },
+        {
+          "name": "to",
+          "attribute": "to",
+          "description": "css pattern to match for from downstream siblings.",
+          "type": "string"
+        },
+        {
+          "name": "careOf",
+          "attribute": "care-of",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "type": "string"
+        },
+        {
+          "name": "noblock",
+          "attribute": "noblock",
+          "description": "Don't block event propagation.",
+          "type": "boolean"
+        },
+        {
+          "name": "if",
+          "attribute": "if",
+          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
+          "type": "string"
+        },
+        {
+          "name": "prop",
+          "attribute": "prop",
+          "description": "Name of property to set on matching downstream siblings.",
+          "type": "string | symbol"
+        },
+        {
+          "name": "val",
+          "attribute": "val",
+          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
+          "type": "string"
+        },
+        {
+          "name": "fireEvent",
+          "attribute": "fire-event",
+          "description": "Artificially fire event on target element whose name is specified by this attribute.",
+          "type": "string"
+        },
+        {
+          "name": "from",
+          "attribute": "from",
+          "description": "Source element to start matches from",
+          "type": "string"
+        },
+        {
+          "name": "m",
+          "attribute": "m",
+          "description": "Maximum number of matching elements expected to be found.",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "p-w",
+      "description": "\"planted weirwood\" -- passes data down just like p-d, but also updates history.state",
+      "attributes": [
+        {
+          "name": "state-path",
+          "description": "path within history.state to deep merge data into"
         },
         {
           "name": "push",
           "description": "push new stack element into history",
-          "jsDoc": "/**\n     * push new stack element into history\n     * @attr\n     */",
           "type": "boolean"
         },
         {
           "name": "cc",
           "description": "Should carbon copy data to state",
-          "jsDoc": "/**\n     * Should carbon copy data to state\n     * @attr\n     */",
           "type": "boolean"
+        },
+        {
+          "name": "bubbles",
+          "description": "event should bubble up",
+          "type": "boolean"
+        },
+        {
+          "name": "composed",
+          "description": "Event bubbling should pierce shadow dom",
+          "type": "boolean"
+        },
+        {
+          "name": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "type": "string"
+        },
+        {
+          "name": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
+        },
+        {
+          "name": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
+          "type": "string"
+        },
+        {
+          "name": "to",
+          "description": "css pattern to match for from downstream siblings.",
+          "type": "string"
+        },
+        {
+          "name": "care-of",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "type": "string"
+        },
+        {
+          "name": "noblock",
+          "description": "Don't block event propagation.",
+          "type": "boolean"
+        },
+        {
+          "name": "if",
+          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
+          "type": "string"
+        },
+        {
+          "name": "prop",
+          "description": "Name of property to set on matching downstream siblings.",
+          "type": "string | symbol"
+        },
+        {
+          "name": "val",
+          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
+          "type": "string"
+        },
+        {
+          "name": "fire-event",
+          "description": "Artificially fire event on target element whose name is specified by this attribute.",
+          "type": "string"
+        },
+        {
+          "name": "from",
+          "description": "Source element to start matches from",
+          "type": "string"
+        },
+        {
+          "name": "m",
+          "description": "Maximum number of matching elements expected to be found.",
+          "type": "number"
         }
       ],
-      "events": [],
-      "slots": []
+      "properties": [
+        {
+          "name": "statePath",
+          "attribute": "state-path",
+          "description": "path within history.state to deep merge data into"
+        },
+        {
+          "name": "push",
+          "attribute": "push",
+          "description": "push new stack element into history",
+          "type": "boolean"
+        },
+        {
+          "name": "cc",
+          "attribute": "cc",
+          "description": "Should carbon copy data to state",
+          "type": "boolean"
+        },
+        {
+          "name": "bubbles",
+          "attribute": "bubbles",
+          "description": "event should bubble up",
+          "type": "boolean"
+        },
+        {
+          "name": "composed",
+          "attribute": "composed",
+          "description": "Event bubbling should pierce shadow dom",
+          "type": "boolean"
+        },
+        {
+          "name": "cancelable",
+          "type": "boolean"
+        },
+        {
+          "name": "dispatch",
+          "description": "dispatch event",
+          "type": "boolean"
+        },
+        {
+          "name": "guid",
+          "type": "string"
+        },
+        {
+          "name": "del",
+          "type": "boolean"
+        },
+        {
+          "name": "isPetalian",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "withPath",
+          "attribute": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "type": "string"
+        },
+        {
+          "name": "evCount",
+          "description": "Tracks how many times each event type was called.",
+          "type": "{ [key: string]: number; }",
+          "default": "{}"
+        },
+        {
+          "name": "disabled",
+          "attribute": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
+        },
+        {
+          "name": "on",
+          "attribute": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
+          "type": "string"
+        },
+        {
+          "name": "to",
+          "attribute": "to",
+          "description": "css pattern to match for from downstream siblings.",
+          "type": "string"
+        },
+        {
+          "name": "careOf",
+          "attribute": "care-of",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "type": "string"
+        },
+        {
+          "name": "noblock",
+          "attribute": "noblock",
+          "description": "Don't block event propagation.",
+          "type": "boolean"
+        },
+        {
+          "name": "if",
+          "attribute": "if",
+          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
+          "type": "string"
+        },
+        {
+          "name": "prop",
+          "attribute": "prop",
+          "description": "Name of property to set on matching downstream siblings.",
+          "type": "string | symbol"
+        },
+        {
+          "name": "val",
+          "attribute": "val",
+          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
+          "type": "string"
+        },
+        {
+          "name": "fireEvent",
+          "attribute": "fire-event",
+          "description": "Artificially fire event on target element whose name is specified by this attribute.",
+          "type": "string"
+        },
+        {
+          "name": "from",
+          "attribute": "from",
+          "description": "Source element to start matches from",
+          "type": "string"
+        },
+        {
+          "name": "m",
+          "attribute": "m",
+          "description": "Maximum number of matching elements expected to be found.",
+          "type": "number"
+        }
+      ]
     }
   ]
 }
