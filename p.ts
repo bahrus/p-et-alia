@@ -31,7 +31,6 @@ function getProp(val: any, pathTokens: (string | [string, string[]])[]){
 }
 
 export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) implements PProps{
-    isPetalian = true;
 
     //* region props
     _on!: string;
@@ -168,12 +167,13 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         }
         super.attributeChangedCallback(name, oldVal, newVal);
     }
+
     /**
      * get previous sibling
      */
     getPreviousSib() : Element | null{
         let prevSib = this as Element | null;
-        while(prevSib && (<any>prevSib).isPetalian === true){
+        while(prevSib && (<any>prevSib.localName.startsWith('p-') || prevSib.hasAttribute('is-p-d'))){
             prevSib = prevSib.previousElementSibling!;
         }
         if(prevSib === null) {
@@ -186,8 +186,8 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
     connectedCallback(){
         this.style.display = 'none';
         this.propUp([on, to, noblock, iff, prop, val, 'careOf', 'withPath', 'fireEvent']);
-        //this.init();
     }
+
     _trigger: HTMLElement | undefined;
     init(){
         //this._trigger = trigger;

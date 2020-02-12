@@ -35,7 +35,9 @@ Both p-d and p-u have an attribute/property, "on" that specifies an event to mon
 
 <details>
     <summary>Criteria for being a p-et-alia  component ("petalian")</summary>
-    Although the pattern of all the components here is to start with the letter p-, standing for "pass", the real criterion used for distinguishing petalia components from non-petalia components is this:  petalia components have property isPetalian set to true, i.e. petalianElement.isPetalian === true.  This is important when petalian components are trying to figure out which "previous" element to attach event handling onto.  They skip any petalian elements while scanning previous siblings.
+    Although the pattern of all the components here is to start with the letter p-, it may be desirable to extend these elements, but not be confined to beginning the element with name p-.  All these elements are searching for the first non-petalian element to latch the event handler onto.  The problem is elements may not yet have upgraded, so it's difficult to come up with any standard marker indicating that it is a p-d style connector component.
+
+    If your web component doesn't start with p-, add attribute is-p-d.
 </details>
 
 When this event monitoring is enabled, if the previous element is disabled, the disabled attribute is removed (more on that later).
@@ -479,7 +481,7 @@ p-d can be configured to test the event target to make sure it matches a css tes
 <p-d on="click" if="a"></p-d>
 ```
 
-Once again, the if condition is easy to override in a derived class.  If you want to limit passing to every third event, or add debouncing, etc, you will need to define your own filter by overriding:
+Once again, the if condition is easy to override in a derived class.  If you want to limit passing to every third event, or add debouncing (similar to RxJS), etc, you will need to define your own filter by overriding:
 
 ```TypeScript
 filterEvent(e: Event) : boolean{
