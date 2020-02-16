@@ -37,7 +37,19 @@ Both p-d and p-u have an attribute/property, "on" that specifies an event to mon
     <summary>Criteria for being a p-et-alia  component ("petalian")</summary>
     Although the pattern of all the components here is to start with the letter p-, it may be desirable to extend these elements, but not be confined to beginning the element with name p-.  All these elements are searching for the first non-petalian element to latch the event handler onto.  The problem is elements may not yet have upgraded, so it's difficult to come up with any standard marker indicating that it is a p-d style connector component.
 
-    If your web component doesn't start with p-, add attribute is-p-d.
+    After contemplating other non satisfactory solutions to this conundrum, I think the real issue is we need to be able to specify the trigger element to latch on to.
+
+    Tentative proposal [TODO]:
+
+    ```html
+    <div style="display:grid">
+        <input>
+        ...
+        <my-petalian-element observe="input" ...>
+    </div>
+    ```
+
+    "observe" will search for matches going up the previous siblings, and if they all fail, go up one level to the parent, and continue recursively within the shadow DOM realm.
 </details>
 
 When this event monitoring is enabled, if the previous element is disabled, the disabled attribute is removed (more on that later).
@@ -100,6 +112,19 @@ Since p-* are all non visual components, they are given display:none style by de
 
 Another benefit of making this explicit:  There is likely less overhead from components with display:none, as they may not get added to the [rendering tree](https://www.html5rocks.com/en/tutorials/internals/howbrowserswork/#Render_tree_construction).
 
+<details>
+    <summary>
+    Accessibility?
+    </summary>
+
+There is a (slight, I think) controversy with this suggestion.  Most UI's I interact with do tend to have the data flow downward, leading to a submit button on the bottom, for example.  I.e. just as (we postulate) a developer usually finds it easier to understand markup that follows a logical order, this same order will quite likely match the order things make most sense to the user.
+
+
+But should a UI need to break that pattern, what to do?  Although we will see these components provide ample workarounds with the help of cycling or p-u, another solution is to specify the tabIndex.  However, this could pose problems for [assistive technologies](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex), so that should certainly be factored in. This [document](https://www.filamentgroup.com/lab/accessible-responsive.html) has nice pragmatic discussion of this topic.
+
+If none of the workarounds below work, then maybe it's time to enhance the petalian vocabulary to accommodate that scenario.
+
+</details>
 
 ## Compact notation
 
@@ -596,7 +621,7 @@ An option to limit updates from state to the initial value + popstate events can
 Please expand below.
 
 <details>
-<summary>TodoMVC or not TodoMVC
+<summary>TodoMVC or not TodoMVC?
 </summary>
 
 
@@ -607,7 +632,7 @@ It would be like blockchain without people actually engaging in trade.
 
 <details>
 <summary>Blockchain?</summary>
-Admittedly, the parallels with blockchain are a bit tenous, but this is an attempt to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements. p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow unfettered competition between different component "vendors".  
+Admittedly, the parallels with blockchain are a bit tenuous, but this is an attempt to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements. p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow unfettered competition between different component "vendors".  
 
 [![Watch the video](https://img.youtube.com/vi/RplnSVTzvnU/maxresdefault.jpg)](https://www.youtube.com/watch?v=RplnSVTzvnU)
 
@@ -649,6 +674,10 @@ This could all be done with a single self-contained component, but another optio
 ```
 
 Here we are relying on the "cycling" effect of placing p-d's at the top of a DOM node, with no previous non p-* nodes.  We assume the component my-visual-to-do-list is designed in such a way that when you click on some delete button inside that component, it emits an event "item-deleted" and if you edit an item, it emits an event "item-edited", both of which bubble up.
+
+There are some web component libraries (lightning, for example), which discourage having events bubble up by default, due to performance concerns.
+
+If that's the case, place a p-unt element beneath the element that needs to cycle through the parent.
 
 The only (but important) reason we need the if condition is so the p-d's can decrement the disabled attribute from my-visual-to-do-list as they latch on (and it is highly recommended that web components don't allow user interaction until disabled is removed.)
 
