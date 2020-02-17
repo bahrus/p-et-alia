@@ -12,6 +12,7 @@ const prop ='prop';
 const val = 'val';
 const care_of = 'care-of';
 const fire_event = 'fire-event';
+const observe = 'observe';
 
 
 function getProp(val: any, pathTokens: (string | [string, string[]])[]){
@@ -119,6 +120,12 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         this.attr(val, nv);
     }
 
+    _observe!: string;
+    get observe(){return this._observe;}
+    set observe(nv){
+        this.attr(observe, nv);
+    }
+
     _fireEvent!: string;
     get fireEvent(){
         return this._fireEvent;
@@ -134,7 +141,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
     static get observedAttributes(){
         return (<any>super.observedAttributes).concat([on, to, noblock, iff, prop, val, care_of, with_path, fire_event]);
     }
-    _s: (string | [string, string[]])[] | null = null;  // split prop using '.' as deliiter
+    _s: (string | [string, string[]])[] | null = null;  // split prop using '.' as delimiter
     getSplit(newVal: string){
         if(newVal === '.'){
             return [];
@@ -150,6 +157,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
             case prop:
             case val:
             case to:
+            case observe:
                 (<any>this)[f] = newVal;
                 break;
             case noblock:
@@ -190,7 +198,6 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
 
     _trigger: HTMLElement | undefined;
     init(){
-        //this._trigger = trigger;
         this.attchEvListnrs();
         this.doFake();
     };
@@ -223,7 +230,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
 
     }
     skI(){
-        return this.hasAttribute('skip-init')
+        return this.hasAttribute('skip-init');
     }
     doFake(){
         if(!this._if && !this.skI()){
@@ -262,7 +269,6 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         return value;
      }
     valFromEvent(e: Event){
-        //const gpfp = getProp.bind(this);
         let val = this._s !== null ? getProp(e, this._s) : this.$N(getProp(e, ['detail', 'value']), getProp(e, ['target', 'value']));
         if(val === undefined && (typeof(this.val) ==='string') && (e.target as HTMLElement).hasAttribute(this.val)) {
             val = (e.target as HTMLElement).getAttribute(this.val);
@@ -318,7 +324,6 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
                 }
             }
         }
-        //const targetPath = prop;
         if(target.hasAttribute !== undefined && target.hasAttribute('debug')) debugger;
         this.setVal(target, valx, attr, prop);
         if(this._fireEvent){
@@ -328,7 +333,6 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
             }));
         }
 
-        //(<any>target)[prop] = val;
     }
     getDetail(val: any){
         return {value: val};

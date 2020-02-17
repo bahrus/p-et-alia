@@ -45,10 +45,8 @@ export class PD extends P implements PDProps {
     pass(e: Event) {
         this._lastEvent = e;
         this.attr('pds', '🌩️');
-        //this.passDown(this.nextElementSibling, e, 0);
         const count = this.applyProps(this._pdNavDown!);
         this.attr('pds', '👂');
-        //this.attr('mtch', count.toString());
     }
     getMatches(pd: NavDown){
         return pd.matches;
