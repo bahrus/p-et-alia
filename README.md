@@ -31,26 +31,7 @@ These components emphasize simplicity and small size -- to be used for 30,000 ft
 
 "p-u" stands for "pass-up," and is to be used sparingly as a last resort. 
 
-Both p-d and p-u have an attribute/property, "on" that specifies an event to monitor for.  They both attach an event listener for the specified event to the previous (non p-*) element.
-
-<details>
-    <summary>Criteria for being a p-et-alia  component ("petalian")</summary>
-    Although the pattern of all the components here is to start with the letter p-, it may be desirable to extend these elements, but not be confined to beginning the element with name p-.  All these elements are searching for the first non-petalian element to latch the event handler onto.  The problem is elements may not yet have upgraded, so it's difficult to come up with any standard marker indicating that it is a p-d style connector component.
-
-    After contemplating other non satisfactory solutions to this conundrum, I think the real issue is we need to be able to specify the trigger element to latch on to.
-
-    Tentative proposal [TODO]:
-
-    ```html
-    <div style="display:grid">
-        <input>
-        ...
-        <my-petalian-element observe="input" ...>
-    </div>
-    ```
-
-    "observe" will search for matches going up the previous siblings, and if they all fail, go up one level to the parent, and continue recursively within the shadow DOM realm.
-</details>
+Both p-d and p-u have an attribute/property, "on" that specifies an event to monitor for.  They both attach an event listener for the specified event to the first previous element sibling without attribute "on".
 
 When this event monitoring is enabled, if the previous element is disabled, the disabled attribute is removed (more on that later).
 
@@ -77,6 +58,7 @@ p-d  passes information from that previous sibling's event down the p-d instance
     <my-grid id="inactiveList"><my-grid>
 </div>
 ```
+
 
 ##  The anatomy of the p-d attributes / properties.
 
@@ -117,13 +99,7 @@ Another benefit of making this explicit:  There is likely less overhead from com
     Accessibility?
     </summary>
 
-There is a (slight, I think) controversy with this suggestion.  Most UI's I interact with do tend to have the data flow downward, leading to a submit button on the bottom, for example.  I.e. just as (we postulate) a developer usually finds it easier to understand markup that follows a logical order, this same order will quite likely match the order things make most sense to the user.
-
-
-But should a UI need to break that pattern, what to do?  Although we will see these components provide ample workarounds with the help of cycling or p-u, another solution is to specify the tabIndex.  However, this could pose problems for [assistive technologies](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex), so that should certainly be factored in. This [document](https://www.filamentgroup.com/lab/accessible-responsive.html) has nice pragmatic discussion of this topic.
-
-If none of the workarounds below work, then maybe it's time to enhance the petalian vocabulary to accommodate that scenario.
-
+**NB**  This [document](https://www.filamentgroup.com/lab/accessible-responsive.html#focus) highlights the fact that there may be a growing tension between the amazing flexibility css now allows as far as layout, vs the ideal screen readers and key navigation experience. I agree a browser solution seems warranted here.  But do consider this issue carefully.  Given the cycling capabilities discussed below, it should be possible to balance these concerns, generally speaking. 
 </details>
 
 ## Compact notation
@@ -347,15 +323,17 @@ Permission to enter inside a node must be granted explicitly, using the p-d-if a
 
 ```html   
 <text-box></text-box>                                                               
-<p-d-r on="input" to="url-builder" prop="input"></p-d-r>
+<p-d-r on="input" to="url-builder[-input]"></p-d-r>
 <h3>Search Employees</h3>
 <div p-d-if="p-d-r">
-    <url-builder></url-builder>
+    <url-builder -input></url-builder>
     <my-filter></my-filter>
 </div>
 ```
 
 The benefits of taking this difficult path, is that mutation observers are set up along this full path, so if DOM elements are added dynamically, they will be synchronized based on the binding rules.
+
+
 
 ## Miscellaneous features
 
@@ -514,7 +492,7 @@ filterEvent(e: Event) : boolean{
 }
 ```
 
-The extend function mentioned above also allows you to define an event Filter with less fuss.
+The extend function mentioned above also allows you to define an event filter with less fuss.
 
 
 ##  Differences to traditional frameworks 
@@ -528,7 +506,7 @@ Unlike traditional frameworks, these components don't depend on the existence of
 
 [![Watch the video](https://img.youtube.com/vi/owvMGw2AQ7U/maxresdefault.jpg)](https://www.youtube.com/watch?v=owvMGw2AQ7U)
 
-It is a "peer-to-peer binding framework."  This may be more appealing for some [people](https://www.youtube.com/watch?v=RplnSVTzvnU) / use cases, less appealing to others.  
+It is a "peer-to-peer binding framework."   
 
 ###  All Hail, Keeper of All Our Stories! 
 

@@ -27,8 +27,7 @@ function getProp(val, pathTokens) {
 export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     constructor() {
         super(...arguments);
-        this.isPetalian = true;
-        this._s = null; // split prop using '.' as deliiter
+        this._s = null; // split prop using '.' as delimiter
         this._lastEvent = null;
     }
     get on() {
@@ -153,21 +152,21 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
      */
     getPreviousSib() {
         let prevSib = this;
-        while (prevSib && prevSib.isPetalian === true) {
+        // const observe = this._observe;
+        // const observeIsDefined = observe !== undefined;
+        while (prevSib && prevSib.hasAttribute('on')) {
             prevSib = prevSib.previousElementSibling;
-        }
-        if (prevSib === null) {
-            prevSib = this.parentElement;
+            if (prevSib === null) {
+                prevSib = this.parentElement;
+            }
         }
         return prevSib;
     }
     connectedCallback() {
         this.style.display = 'none';
         this.propUp([on, to, noblock, iff, prop, val, 'careOf', 'withPath', 'fireEvent']);
-        //this.init();
     }
     init() {
-        //this._trigger = trigger;
         this.attchEvListnrs();
         this.doFake();
     }
@@ -243,7 +242,6 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         return value;
     }
     valFromEvent(e) {
-        //const gpfp = getProp.bind(this);
         let val = this._s !== null ? getProp(e, this._s) : this.$N(getProp(e, ['detail', 'value']), getProp(e, ['target', 'value']));
         if (val === undefined && (typeof (this.val) === 'string') && e.target.hasAttribute(this.val)) {
             val = e.target.getAttribute(this.val);
@@ -301,7 +299,6 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
                 }
             }
         }
-        //const targetPath = prop;
         if (target.hasAttribute !== undefined && target.hasAttribute('debug'))
             debugger;
         this.setVal(target, valx, attr, prop);
@@ -311,7 +308,6 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
                 bubbles: true
             }));
         }
-        //(<any>target)[prop] = val;
     }
     getDetail(val) {
         return { value: val };

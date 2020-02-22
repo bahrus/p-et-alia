@@ -109,10 +109,10 @@ export class PDX extends PD {
             customElements.define(name, Extension);
         }
         if (params.insertAfter !== undefined) {
-            const newEl = document.createElement(name);
+            const newElement = document.createElement(name);
             //params.insertAfter.after(newEl); //Safari doesn't support yet
-            params.insertAfter.insertAdjacentElement('afterend', newEl);
-            return newEl;
+            params.insertAfter.insertAdjacentElement('afterend', newElement);
+            return newElement;
         }
         else {
             return name;

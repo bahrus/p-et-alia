@@ -12,7 +12,6 @@ const prop ='prop';
 const val = 'val';
 const care_of = 'care-of';
 const fire_event = 'fire-event';
-const observe = 'observe';
 
 
 function getProp(val: any, pathTokens: (string | [string, string[]])[]){
@@ -120,11 +119,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         this.attr(val, nv);
     }
 
-    _observe!: string;
-    get observe(){return this._observe;}
-    set observe(nv){
-        this.attr(observe, nv);
-    }
+
 
     _fireEvent!: string;
     get fireEvent(){
@@ -157,7 +152,6 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
             case prop:
             case val:
             case to:
-            case observe:
                 (<any>this)[f] = newVal;
                 break;
             case noblock:
@@ -181,11 +175,13 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
      */
     getPreviousSib() : Element | null{
         let prevSib = this as Element | null;
-        while(prevSib && (<any>prevSib.localName.startsWith('p-') || prevSib.hasAttribute('is-p-d'))){
+        // const observe = this._observe;
+        // const observeIsDefined = observe !== undefined;
+        while(prevSib && prevSib.hasAttribute('on')){
             prevSib = prevSib.previousElementSibling!;
-        }
-        if(prevSib === null) {
-            prevSib = this.parentElement;
+            if(prevSib === null) {
+                prevSib = this.parentElement;
+            }
         }
         return prevSib;
     }
