@@ -99,7 +99,7 @@ Another benefit of making this explicit:  There is likely less overhead from com
     Accessibility?
     </summary>
 
-**NB**  This [document](https://www.filamentgroup.com/lab/accessible-responsive.html#focus) highlights the fact that there may be a growing tension between the amazing flexibility css now allows as far as layout, vs the ideal screen readers and key navigation experience. I agree a browser solution seems warranted here.  But do consider this issue carefully.  Given the cycling capabilities discussed below, it should be possible to balance these concerns, generally speaking. 
+**NB**  This [document](https://www.filamentgroup.com/lab/accessible-responsive.html#focus) highlights the fact that there may be a growing tension between the amazing flexibility css now allows as far as layout, vs the ideal screen reader and key navigation experience. I agree a browser solution seems warranted here.  But do consider this issue carefully.  Given the cycling capabilities discussed below, it should be possible to balance these concerns, generally speaking. 
 </details>
 
 ## Compact notation
@@ -164,9 +164,9 @@ So we provide support for a slight variation in the syntax:
 
 ```html
 <label for=lhs>LHS:</label><input id=lhs> 
-<p-d on=input to=if-diff[-lhs] m=1></p-d>
+<p-d on=input to=[-lhs] m=1></p-d>
 <label for=rhs>RHS:</label><input id=rhs>
-<p-d on=input to=if-diff[-rhs] m=1></p-d>
+<p-d on=input to=[-rhs] m=1></p-d>
 ...
 <if-diff if -lhs equals -rhs data-key-name=lhs-matches-rhs></if-diff>
 ...
@@ -277,7 +277,7 @@ Clearly, "my-custom-element" is below the p-d element.  The problem is p-d wasn'
 
 ## Seeing through Walls, Part II
 
-To keep performance optimal and scalable, the p-d element only tests downstream siblings -- not children of siblings.  However, the use case for being able to drilldown inside a DOM node is quite high.  p-et-alia provides an easy way and a hard way to do that.  
+To keep performance optimal and scalable, the p-d element only tests downstream siblings -- not children of siblings.  However, the use case for being able to drill down inside a DOM node is quite high.  p-et-alia provides an easy way and a hard way to do that.  
 
 ### The Easy Way
 
@@ -319,21 +319,19 @@ p-d watches for DOM mutations, in case the set of matching downstream siblings c
 
 So this is the hard way, but it is more thorough.
 
-Permission to enter inside a node must be granted explicitly, using the p-d-if attribute on elements where drilldown is needed.  The value of the attribute is used to test against the p-d element (hence you will want to specify some marker, like an ID, on the p-d element, which can be used to validate the invitation.)
+Permission to enter inside a node must be granted explicitly, using the p-d-if attribute on elements where drill down is needed.  The value of the attribute is used to test against the p-d element (hence you may want to specify some marker, like an ID, on the p-d element, which can be used to validate the invitation.)  For most simple scenarios however, p-d-if=p-d-r should do the trick:
 
 ```html   
 <text-box></text-box>                                                               
 <p-d-r on="input" to="url-builder[-input]"></p-d-r>
 <h3>Search Employees</h3>
-<div p-d-if="p-d-r">
+<div p-d-if=p-d-r>
     <url-builder -input></url-builder>
     <my-filter></my-filter>
 </div>
 ```
 
 The benefits of taking this difficult path, is that mutation observers are set up along this full path, so if DOM elements are added dynamically, they will be synchronized based on the binding rules.
-
-
 
 ## Miscellaneous features
 
@@ -358,7 +356,7 @@ It is easy to extend the p-d element, and provide your own way of deriving the v
 
 ```TypeScript
 valFromEvent(e: Event){
-
+    return {whatever:['you', 'want']};
 }
 ```
 
@@ -381,20 +379,20 @@ extend({
 })
 ```
 
-Note: [Your Content in Shadow DOM Portals ](https://dev.to/westbrook/your-content-in-shadow-dom-portals-3cdb) may have better researched approaches than the code above. 
+Note: [Your Content in Shadow DOM Portals ](https://dev.to/westbrook/your-content-in-shadow-dom-portals-3cdb) may have better researched approaches than the code above (and actually is addressing an important larger topic). 
 
 This will define a custom element with name p-d-x-slot-bot:
 
 ```html
-    <!-- Options to vote on, passed in via light children.  -->
+    <!-- Options to vote on, passed in as a data-list element via light children.  -->
     <slot name="options"></slot>
     <p-d-x-slot-bot on="slotchange" prop="innerHTML"></p-d-x-slot-bot>
     <xtal-radio-group-md name="pronoun" data-flag="voted" data-allow-voting="-1"></xtal-radio-group-md>
 ```
 
-The danger of defining small little custom elements to do these small tasks, is, if you are working with loosely coupled teams and integrating web components together, a strict naming convention needs to be established (pending standards are waiting in the stands to address this.)
+The danger of defining small little custom elements to do these small tasks, is, if you are working with loosely coupled teams and integrating web components together, a strict naming convention needs to be established (pending standards are [being considered](https://github.com/w3c/webcomponents/pull/865) to address this.)
 
-If you are generating your markup dynamically, you can let extend come up with a unique name for you:
+If you are generating your markup dynamically, you can let "extend" come up with a unique name for you:
 
 ```TypeScript
 import {extend} from 'p-et-alia/p-d-x.js';
@@ -633,7 +631,7 @@ But it is worth examining the question:  What is the least amount of "central co
 
 What follows is a discussion of what that might look like.  
 
-The main issue is that we want to be able to work with a list of objects using an intuitive, easy api that specializes in managing lists of objects.  Namely our good curly braced friend.  And maybe those objects should be stored outside of RAM, like IndexedDB, and manipulated via web workers (for example, but certainly not required) [so as to not block the UI thread](https://dassur.ma/things/react-redux-comlink/).
+The main issue is that we want to be able to work with a list of objects using an intuitive, easy api that specializes in managing lists of objects.  Namely our good curly braced friend.  And maybe those objects should be stored outside of RAM, like IndexedDB, and manipulated via web workers (for example, but certainly not required) [so as to not block the main thread](https://dassur.ma/things/react-redux-comlink/).
 
 What we want to "outsource" and make as painless as possible is mapping this beautiful JS to the UI.
 
@@ -653,9 +651,9 @@ This could all be done with a single self-contained component, but another optio
 
 Here we are relying on the "cycling" effect of placing p-d's at the top of a DOM node, with no previous non p-* nodes.  We assume the component my-visual-to-do-list is designed in such a way that when you click on some delete button inside that component, it emits an event "item-deleted" and if you edit an item, it emits an event "item-edited", both of which bubble up.
 
-There are some web component libraries (lightning, for example), which discourage having events bubble up by default, due to performance concerns.
+There are some web component libraries ([lightning](https://developer.salesforce.com/docs/component-library/documentation/en/48.0/lwc/lwc.events_best_practices), for example), which discourage having events bubble up by default, due to performance concerns.
 
-If that's the case, place a p-unt element beneath the element that needs to cycle through the parent.
+If that's the case, place a p-unt element (discussed shortly) beneath the element that needs to cycle through the parent.
 
 The only (but important) reason we need the if condition is so the p-d's can decrement the disabled attribute from my-visual-to-do-list as they latch on (and it is highly recommended that web components don't allow user interaction until disabled is removed.)
 
@@ -743,7 +741,7 @@ Sample markup:
 Unlike p-d, p-u doesn't worry about DOM nodes getting created after any passing of data takes place.  If you are using p-u to pass data to previous siblings, or parents of the p-u element, or previous siblings of the parent, etc, then it is quite likely that the DOM element will already have been created, as a natural result of how the browser, and frameworks, typically render DOM.  If, however, you choose to target DOM elements out of this range, it's more of a crapshoot, and do so at your own risk.
 
 
-Another objection to this approach is that there needs to be coordination between  these potentially disparate areas of the DOM, as far as what the agreed ID should be.  This is obviously not a good approach if you are designing a generic component.  Do you really want to tell the person using your component that they need to plop a DOM element with a specific ID, in order to receive the data?  I didn't think you would.  So p-u should probably not be used for this use case (a way of passing information from a generic, reusable component).
+Another objection to this approach is that there needs to be coordination between  these potentially disparate areas of the DOM, as far as what the agreed ID should be.  This is obviously not a good approach if you are designing a generic component.  Do you really want to tell the person using your component that they need to plop a DOM element with a specific ID, in order to receive the data?  I didn't think you would.  So p-u should probably not be used for this use case.
 
 For that we have:
 
