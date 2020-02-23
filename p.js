@@ -152,8 +152,6 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
      */
     getPreviousSib() {
         let prevSib = this;
-        // const observe = this._observe;
-        // const observeIsDefined = observe !== undefined;
         while (prevSib && prevSib.hasAttribute('on')) {
             prevSib = prevSib.previousElementSibling;
             if (prevSib === null) {
