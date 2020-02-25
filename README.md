@@ -107,7 +107,12 @@ Another benefit of making this explicit:  There is likely less overhead from com
 One can't help noticing quite a bit of redundancy in the markup above.  We can reduce this redundancy if we apply some default settings. 
 
 1)  If no CSS specifier is defined, it will pass the properties to the next element.
-2)  If no value is specified, it will see if detail.value exists.  If not it will try target.value.
+~~2)  If no value is specified, it will try target.value.~~
+
+<details>
+<summary>Breaking Change</summary>
+**NB**  "Shortcut" 2) above turns out to have some complicating twists. Polymer's "legacy" binding placed great emphasis on standardizing on detail.value for its two-way binding.  But as the polymer elements continue to shrink as a total of all components, and many of those components do not adhere to the same convention, the costs now seem to outweigh the benefits, of defaulting to detail.value if target.value doesn't exist (or vice versa).  **This is a break change from earlier versions.** One of the weighing factors in making this change is the surprising fact that I've only recently come to terms with -- the input element's input event (often?) emits an event with [event.detail=0](https://www.w3.org/TR/uievents/).
+</details>
 
 We can also forgo quotes when not needed.
 
