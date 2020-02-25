@@ -256,14 +256,14 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         this.pass(e);
     }
     _destIsNA!: boolean;
-    //https://stackoverflow.com/questions/476436/is-there-a-null-coalescing-operator-in-javascript
-    $N(value: any, ifnull: any) {
-        if (value === null || value === undefined)
-          return ifnull;
-        return value;
-     }
+    // //https://stackoverflow.com/questions/476436/is-there-a-null-coalescing-operator-in-javascript
+    // $N(value: any, ifnull: any) {
+    //     if (value === null || value === undefined)
+    //       return ifnull;
+    //     return value;
+    //  }
     valFromEvent(e: Event){
-        let val = this._s !== null ? getProp(e, this._s) : this.$N(getProp(e, ['detail', 'value']), getProp(e, ['target', 'value']));
+        let val = this._s !== null ? getProp(e, this._s) : getProp(e, ['target', 'value']);
         if(val === undefined && (typeof(this.val) ==='string') && (e.target as HTMLElement).hasAttribute(this.val)) {
             val = (e.target as HTMLElement).getAttribute(this.val);
         }

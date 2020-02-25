@@ -233,14 +233,14 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         this._lastEvent = e;
         this.pass(e);
     }
-    //https://stackoverflow.com/questions/476436/is-there-a-null-coalescing-operator-in-javascript
-    $N(value, ifnull) {
-        if (value === null || value === undefined)
-            return ifnull;
-        return value;
-    }
+    // //https://stackoverflow.com/questions/476436/is-there-a-null-coalescing-operator-in-javascript
+    // $N(value: any, ifnull: any) {
+    //     if (value === null || value === undefined)
+    //       return ifnull;
+    //     return value;
+    //  }
     valFromEvent(e) {
-        let val = this._s !== null ? getProp(e, this._s) : this.$N(getProp(e, ['detail', 'value']), getProp(e, ['target', 'value']));
+        let val = this._s !== null ? getProp(e, this._s) : getProp(e, ['target', 'value']);
         if (val === undefined && (typeof (this.val) === 'string') && e.target.hasAttribute(this.val)) {
             val = e.target.getAttribute(this.val);
         }
