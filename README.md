@@ -112,7 +112,7 @@ One can't help noticing quite a bit of redundancy in the markup above.  We can r
 <details>
 <summary>Breaking Change</summary>
 
-**NB**  Shortcut 2) above used to first try detail.value before trying target.value.  But that turns out to have some complicating twists. Polymer's "legacy" binding places great emphasis on standardizing on detail.value for its two-way binding.  But as the polymer elements continue to shrink as a total of all components, and many of those components do not adhere to the same convention, the costs of defaulting to detail.value now seem to outweigh the benefits.  **This is a breaking change from earlier versions.** One of the weighing factors in making this change is the surprising fact that I've only recently come to terms with -- the input element's input event (often?) emits an event with [event.detail=0](https://www.w3.org/TR/uievents/).
+**NB**  Shortcut 2) above used to first try detail.value before trying target.value.  But that turns out to have some complicating twists. Polymer's "legacy" binding places great emphasis on standardizing on detail.value for its two-way binding.  But as the Polymer elements continue to shrink as a total of all components, and most of the alternative components do not adhere to the same convention, the costs of defaulting to detail.value now seem to outweigh the benefits.  **This is a breaking change from earlier versions.** One of the weighing factors in making this change is the surprising fact that I've only recently come to terms with -- the input element's input event (often?) emits an event with [event.detail=0](https://www.w3.org/TR/uievents/).
 </details>
 
 We can also forgo quotes when not needed.
