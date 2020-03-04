@@ -5,6 +5,7 @@ import {ExtensionParams} from './types.js';
 const guid = 'guid';
 const del = 'del';
 const after = 'after';
+const observe = 'observe';
 
 const regLookup:{[key: string]: string} = {};
 
@@ -35,7 +36,7 @@ export class PDX extends PD {
         this.attr(guid, val);
     }
     static get observedAttributes() {
-        return super.observedAttributes.concat([guid, del]);
+        return super.observedAttributes.concat([guid, del, observe]);
     }
 
     attributeChangedCallback(name: string, oldVal: string, newVal: string) {
@@ -60,6 +61,14 @@ export class PDX extends PD {
         this.attr(del, nv, '');
     }
 
+    _observe!: string;
+    get observe(){
+        return this._observe;
+    }
+    set observe(nv){
+        this.attr(observe, nv);
+    }
+
     setAttr(target: HTMLElement, attr: string, valx: any){
         if(this._del){
             target.removeAttribute(attr);
@@ -74,6 +83,22 @@ export class PDX extends PD {
         }else{
             super.setProp(target, prop, valx);
         }
+    }
+
+    /**
+     * get previous sibling
+     */
+    getPreviousSib() : Element | null{
+        const obs = this._observe;
+        if(obs === undefined) return super.getPreviousSib();
+        let prevSib = this as Element | null;
+        while(prevSib && (prevSib.hasAttribute('on') || !prevSib.matches(obs))){
+            prevSib = prevSib.previousElementSibling!;
+            if(prevSib === null) {
+                prevSib = this.parentElement;
+            }
+        }
+        return prevSib;
     }
 
     

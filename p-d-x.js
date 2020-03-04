@@ -3,6 +3,7 @@ import { define } from 'trans-render/define.js';
 const guid = 'guid';
 const del = 'del';
 const after = 'after';
+const observe = 'observe';
 const regLookup = {};
 /**
  * Extends element p-d with experimental features.
@@ -32,7 +33,7 @@ export class PDX extends PD {
         this.attr(guid, val);
     }
     static get observedAttributes() {
-        return super.observedAttributes.concat([guid, del]);
+        return super.observedAttributes.concat([guid, del, observe]);
     }
     attributeChangedCallback(name, oldVal, newVal) {
         switch (name) {
@@ -52,6 +53,12 @@ export class PDX extends PD {
     set del(nv) {
         this.attr(del, nv, '');
     }
+    get observe() {
+        return this._observe;
+    }
+    set observe(nv) {
+        this.attr(observe, nv);
+    }
     setAttr(target, attr, valx) {
         if (this._del) {
             target.removeAttribute(attr);
@@ -68,8 +75,24 @@ export class PDX extends PD {
             super.setProp(target, prop, valx);
         }
     }
+    /**
+     * get previous sibling
+     */
+    getPreviousSib() {
+        const obs = this._observe;
+        if (obs === undefined)
+            return super.getPreviousSib();
+        let prevSib = this;
+        while (prevSib && (prevSib.hasAttribute('on') || !prevSib.matches(obs))) {
+            prevSib = prevSib.previousElementSibling;
+            if (prevSib === null) {
+                prevSib = this.parentElement;
+            }
+        }
+        return prevSib;
+    }
     static extend(params) {
-        var _a, _b, _c, _d;
+        var _a, _b;
         const nameDefined = params.name !== undefined;
         let name;
         const pdxPrefix = 'p-d-x-';
@@ -77,7 +100,7 @@ export class PDX extends PD {
             name = pdxPrefix + params.name;
         }
         else {
-            const fnSig = '' + ((_b = (_a = params) === null || _a === void 0 ? void 0 : _a.valFromEvent) === null || _b === void 0 ? void 0 : _b.toString()) + ((_d = (_c = params) === null || _c === void 0 ? void 0 : _c.chkIf) === null || _d === void 0 ? void 0 : _d.toString());
+            const fnSig = '' + ((_a = params === null || params === void 0 ? void 0 : params.valFromEvent) === null || _a === void 0 ? void 0 : _a.toString()) + ((_b = params === null || params === void 0 ? void 0 : params.chkIf) === null || _b === void 0 ? void 0 : _b.toString());
             const prevName = regLookup[fnSig];
             if (prevName !== undefined) {
                 name = prevName;
@@ -90,10 +113,10 @@ export class PDX extends PD {
         if (!customElements.get(name)) {
             class Extension extends PDX {
                 constructor() {
-                    var _a, _b, _c, _d;
+                    var _a, _b;
                     super();
-                    this._valBind = (_b = (_a = params) === null || _a === void 0 ? void 0 : _a.valFromEvent) === null || _b === void 0 ? void 0 : _b.bind(this);
-                    this._chkIf = (_d = (_c = params) === null || _c === void 0 ? void 0 : _c.chkIf) === null || _d === void 0 ? void 0 : _d.bind(this);
+                    this._valBind = (_a = params === null || params === void 0 ? void 0 : params.valFromEvent) === null || _a === void 0 ? void 0 : _a.bind(this);
+                    this._chkIf = (_b = params === null || params === void 0 ? void 0 : params.chkIf) === null || _b === void 0 ? void 0 : _b.bind(this);
                 }
                 valFromEvent(e) {
                     if (this._valBind !== undefined)
