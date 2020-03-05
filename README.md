@@ -31,7 +31,7 @@ These components emphasize simplicity and small size -- to be used for 30,000 ft
 
 "p-u" stands for "pass-up," and is to be used sparingly as a last resort. 
 
-Both p-d and p-u have an attribute/property, "on" that specifies an event to monitor for.  They both attach an event listener for the specified event to the first previous element sibling without attribute "on".
+Both p-d and p-u have an attribute/property, "on" that specifies an event to monitor for.  They both attach an event listener for the specified event to the first previous element sibling without attribute "on".  You can alternatively specify the criteria for which previous element to observe, as will be discussed later.
 
 When this event monitoring is enabled, if the previous element is disabled, the disabled attribute is removed (more on that later).
 
@@ -99,7 +99,7 @@ Another benefit of making this explicit:  There is likely less overhead from com
     Accessibility?
     </summary>
 
-**NB**  This [document](https://www.filamentgroup.com/lab/accessible-responsive.html#focus) highlights the fact that there may be a growing tension between the amazing flexibility css now allows as far as layout, vs the ideal screen reader and key navigation experience. I agree a browser solution seems warranted here.  But do consider this issue carefully.  Given the cycling capabilities discussed below, it should be possible to balance these concerns, generally speaking. 
+**NB**  This [document](https://www.filamentgroup.com/lab/accessible-responsive.html#focus) highlights the fact that there may be a growing tension between the amazing flexibility css now allows as far as layout, vs the ideal screen reader and keyboard navigation experience. I agree a browser solution seems warranted here.  But do consider this issue carefully.  Given the cycling capabilities discussed below, it should be possible to balance these concerns, generally speaking. 
 </details>
 
 ## Compact notation
@@ -257,6 +257,9 @@ Then you don't need a separate connector component:
 
 ## [Demo 1](https://jsfiddle.net/bahrus/y8moqgrb/4/)
 
+<details>
+<summary>Seeing through walls</summary>
+
 ##  Seeing through Walls, Part I
 
 Consider the following markup:
@@ -283,7 +286,74 @@ Clearly, "my-custom-element" is below the p-d element.  The problem is p-d wasn'
 
 ## Seeing through Walls, Part II
 
-To keep performance optimal and scalable, the p-d element only tests downstream siblings -- not children of siblings.  However, the use case for being able to drill down inside a DOM node is quite high.  p-et-alia provides an easy way and a hard way to do that.  
+To keep performance optimal and scalable, the p-d element only tests downstream siblings -- not children of siblings.  However, the use case for being able to drill down inside a DOM node is quite high.    
+
+This requirement is actually the most vexing case to consider.  We provide no less than three ways to do this.
+
+### Single nested target scenario from non nested source
+
+```html
+<label for="MyPropEditor">My Prop:</label>
+<input id="MyPropEditor">
+<details>
+    <summary>my-custom-element in the flesh</summary>
+    <my-custom-element -my-prop></my-custom-element>
+</details>
+```
+
+How can we allow the input from MyPropEditor to be passed into the my-custom-element?
+
+We can use the "observe" attribute, which p-* elements support [TODO]:
+
+
+```html
+<label for="MyPropEditor">My Prop:</label>
+<input id="MyPropEditor">
+<details>
+    <summary>my-custom-element in the flesh</summary>
+    <p-d observe=input on=input to=[-my-prop] m=1>
+    <my-custom-element -my-prop></my-custom-element>
+</details>
+```
+
+### Single nested target, nested source, and where source event bubbles
+
+```html
+<fieldset>
+	<legend>my-custom-element Editor</legend>
+    <label for="MyPropEditor">My Prop:</label>
+    <input id="MyPropEditor">
+</fieldset>
+<details>
+    <summary>my-custom-element in the flesh</summary>
+    <my-custom-element -my-prop></my-custom-element>
+</details>
+```
+
+### Single nested target, nested source, and where source event does not bubble
+
+We can use "observe" attribute again:
+
+```html
+<fieldset disabled>
+	<legend>my-custom-element Editor</legend>
+    <label for="MyPropEditor">My Prop:</label>
+    <input id="MyPropEditor">
+    <p-unt on=focus dispatch to=focus-set bubbles></p-unt>
+</fieldset>
+<details>
+    <summary>my-custom-element in the flesh</summary>
+    <p-d observe=fieldset on=focus-set to=[-my-prop] m=1>
+    <my-custom-element -my-prop></my-custom-element>
+</details>
+```
+
+### Multiple nested targets, nested source
+
+[TODO] Better Example 
+ 
+
+p-et-alia provides an easy way and a hard way to do that.
 
 ### The Easy Way
 
@@ -336,6 +406,8 @@ Permission to enter inside a node must be granted explicitly, using the p-d-if a
     <my-filter></my-filter>
 </div>
 ```
+
+</details>
 
 The benefits of taking this difficult path, is that mutation observers are set up along this full path, so if DOM elements are added dynamically, they will be synchronized based on the binding rules.
 
