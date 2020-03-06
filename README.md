@@ -797,7 +797,7 @@ Here we are relying on the "cycling" effect of placing p-d's at the top of a DOM
 
 There are some web component libraries ([lightning](https://developer.salesforce.com/docs/component-library/documentation/en/48.0/lwc/lwc.events_best_practices), for example), which discourage having events bubble up by default, due to performance concerns.
 
-If that's the case, place a p-unt element (discussed shortly) beneath the element that needs to cycle through the parent.
+If that's the case, place a p-unt element beneath the element that needs to cycle through the parent.
 
 The only (but important) reason we need the if condition is so the p-d's can decrement the disabled attribute from my-visual-to-do-list as they latch on (and it is highly recommended that web components don't allow user interaction until disabled is removed.)
 
