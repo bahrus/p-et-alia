@@ -432,7 +432,7 @@ Consider the following:
 ```html
 <header>
     <button data-val=true>Expand all</button>
-    <p-d on=click from=header to=main care-of=[-open] val=target.dataset.val skip-init>
+    <p-d on=click from=header to=main care-of=[-open] val=target.dataset.val skip-init></p-d>
 </header>
 <main>
     <details -open>
@@ -452,14 +452,14 @@ p-d watches for DOM mutations, in case the set of matching downstream siblings c
 
 ### The Hard Way -  Recursive sibling drill-down with p-d-r -- Invitation Only
 
-So this is the hard way, but it is more thorough.
+So this is the hard way, but it is more thorough.  An extending component, "p-d-r" can be used ("pass down recursively").
 
-Permission to enter inside a node must be granted explicitly, using the p-d-if attribute on elements where drill down is needed.  The value of the attribute is used to test against the p-d element (hence you may want to specify some marker, like an ID, on the p-d element, which can be used to validate the invitation.)  For most simple scenarios however, p-d-if=p-d-r should do the trick:
+Permission to enter inside a node must be granted explicitly, using the p-d-if attribute on elements where drill-down is needed.  The value of the attribute is used to test against the p-d element (hence you may want to specify some marker, like an ID, on the p-d-r element, which can be used to validate the invitation.)  For most simple scenarios however, p-d-if=p-d-r should do the trick:
 
 ```html
 <header>
     <button data-val=true>Expand all</button>
-    <p-d-r on=click from=header to=[-open] val=target.dataset.val skip-init>
+    <p-d-r on=click from=header to=[-open] val=target.dataset.val skip-init></p-d-r>
 </header>
 <main p-d-if=p-d-r>
     <details -open>
