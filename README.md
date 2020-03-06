@@ -326,41 +326,41 @@ To keep performance optimal and scalable, the p-d element only tests downstream 
 
 This requirement is actually the most vexing case to consider.  Here are a bunch of scenarios:
 
-### Single nested target scenario from non nested source
+### Single nested target scenario from non-nested source
 
 ```html
-<label for="MyPropEditor">My Prop:</label>
-<input id="MyPropEditor">
+<label for="myPropEditor">My Prop:</label>
+<input id="myPropEditor">
 <details>
     <summary>my-custom-element in the flesh</summary>
     <my-custom-element -my-prop></my-custom-element>
 </details>
 ```
 
-How can we allow the input from MyPropEditor to be passed into the my-custom-element?
+How can we allow the input from myPropEditor to be passed into the my-custom-element?
 
-We can use the "observe" attribute, which p-* elements support [TODO]:
+We can use the "observe" attribute, which p-* elements will support [TODO]:
 
 
 ```html
-<label for="MyPropEditor">My Prop:</label>
-<input id="MyPropEditor">
+<label for="myPropEditor">My Prop:</label>
+<input id="myPropEditor">
 <details>
     <summary>my-custom-element in the flesh</summary>
-    <p-d observe=input on=input to=[-my-prop] m=1>
+    <p-d observe=input on=input to=[-my-prop] m=1></p-d>
     <my-custom-element -my-prop></my-custom-element>
 </details>
 ```
 
-The observe attribute is a css match query, and the test is done on previous element siblings, parent, previous element siblings of the parent, etc.  The search stops at any shadow DOM boundary.
+The observe attribute is a css match query, and the test is done on previous element siblings, followed by its parent, followed by previous element siblings of the parent, etc., until a match is found.  The search stops at any shadow DOM boundary.
 
 ### Single nested target, nested source, and where source event bubbles
 
 ```html
 <fieldset>
 	<legend>my-custom-element Editor</legend>
-    <label for="MyPropEditor">My Prop:</label>
-    <input id="MyPropEditor">
+    <label for="myPropEditor">My Prop:</label>
+    <input id="myPropEditor">
 </fieldset>
 <details>
     <summary>my-custom-element in the flesh</summary>
@@ -368,43 +368,58 @@ The observe attribute is a css match query, and the test is done on previous ele
 </details>
 ```
 
-Note that the input event bubbles.  We can connect the components thusly:
+Note that the input event bubbles by default, so it will pass through fieldset.  We can connect the components thusly:
 
 ```html
 <fieldset disabled>
 	<legend>my-custom-element Editor</legend>
-    <label for="MyPropEditor">My Prop:</label>
-    <input id="MyPropEditor">
+    <label for="myPropEditor">My Prop:</label>
+    <input id="myPropEditor">
 </fieldset>
 <details>
     <summary>my-custom-element in the flesh</summary>
-    <p-d observe=fieldset on=input to=[-my-prop] m=1>
+    <p-d observe=fieldset on=input to=[-my-prop] m=1></p-d>
     <my-custom-element -my-prop></my-custom-element>
 </details>
 ```
 
 ### Single nested target, nested source, and where source event does not bubble
 
-We can use "observe" attribute again:
+Often, events don't bubble, like the focus event.  We can use "observe" attribute again if we create a bubbling event via p-unt.
 
 ```html
 <fieldset disabled>
 	<legend>my-custom-element Editor</legend>
-    <label for="MyPropEditor">My Prop:</label>
-    <input id="MyPropEditor">
+    <label for="myPropEditor">My Prop:</label>
+    <input id="myPropEditor">
     <p-unt on=focus dispatch to=focus-set bubbles></p-unt>
 </fieldset>
 <details>
     <summary>my-custom-element in the flesh</summary>
-    <p-d observe=fieldset on=focus-set to=[-my-prop] m=1>
+    <p-d observe=fieldset on=focus-set to=[-my-prop] m=1></p-d>
     <my-custom-element -my-prop></my-custom-element>
 </details>
 ```
 
 ### Multiple nested targets, nested source
 
-[TODO] Better Example 
- 
+```html
+<header>
+	<button data-val=true>Expand all</button> 
+</header>
+<main>
+    <details>
+        <summary>Door 1</summary>
+        I am Thing One
+    </details>
+    <details>
+        <summary>Door 2</summary>
+        I am Thing Two
+    </details>
+</main>
+```
+
+We want to declaratively specify that clicking on the button should cause all the doors to open. 
 
 p-et-alia provides an easy way and a hard way to do that.
 
@@ -415,49 +430,47 @@ The "easy way" uses the ["care-of"](https://faq.usps.com/s/article/How-do-I-addr
 Consider the following:
 
 ```html
-<fieldset>
-	<legend>my-custom-element Editor</legend>
-	<input/>
-	<p-d on=input to=my-custom-element[-lhs] m=1></p-d> 
-</fieldset>
-<details>
-    <summary>my-custom-element in the flesh</summary>
-    <my-custom-element -lhs></my-custom-element>
-</details>
-```
-
-To see past both the fieldset and details walls, use the care-of and from attributes:
-
-```html
-<fieldset>
-	<legend>my-custom-element Editor</legend>
-	<input>
-	<p-d on=input from=fieldset to=details care-of=my-custom-element[-lhs] m=1></p-d> 
-</fieldset>
-<details>
-    <summary>my-custom-element in the flesh</summary>
-    <my-custom-element -lhs></my-custom-element>
-</details>
+<header>
+    <button data-val=true>Expand all</button>
+    <p-d on=click from=header to=main care-of=[-open] val=target.dataset.val skip-init>
+</header>
+<main>
+    <details -open>
+        <summary>Door 1</summary>
+        I am Thing One
+    </details>
+    <details -open>
+        <summary>Door 2</summary>
+        I am Thing Two
+    </details>
+</main>
 ```
 
 "care-of" finds all matches, using querySelectorAll.
 
 p-d watches for DOM mutations, in case the set of matching downstream siblings changes. But the "care-of" attribute assumes (for now) that the DOM structure has "settled." This may be fine for static markup derived from a template.  But if you are working with streaming / fluid html, and you want to apply recursive DOM monitoring (via mutationObserver) use...
 
-### The Hard Way -  Recursive sibling drilldown with p-d-r -- Invitation Only
+### The Hard Way -  Recursive sibling drill-down with p-d-r -- Invitation Only
 
 So this is the hard way, but it is more thorough.
 
 Permission to enter inside a node must be granted explicitly, using the p-d-if attribute on elements where drill down is needed.  The value of the attribute is used to test against the p-d element (hence you may want to specify some marker, like an ID, on the p-d element, which can be used to validate the invitation.)  For most simple scenarios however, p-d-if=p-d-r should do the trick:
 
-```html   
-<text-box></text-box>                                                               
-<p-d-r on="input" to="url-builder[-input]"></p-d-r>
-<h3>Search Employees</h3>
-<div p-d-if=p-d-r>
-    <url-builder -input></url-builder>
-    <my-filter></my-filter>
-</div>
+```html
+<header>
+    <button data-val=true>Expand all</button>
+    <p-d-r on=click from=header to=[-open] val=target.dataset.val skip-init>
+</header>
+<main p-d-if=p-d-r>
+    <details -open>
+        <summary>Door 1</summary>
+        I am Thing One
+    </details>
+    <details -open>
+        <summary>Door 2</summary>
+        I am Thing Two
+    </details>
+</main>
 ```
 
 The benefits of taking this difficult path, is that mutation observers are set up along this full path, so if DOM elements are added dynamically, they will be synchronized based on the binding rules.
