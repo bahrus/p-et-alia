@@ -221,6 +221,42 @@ Furthermore, no match will be found if if-diff does not contain the -lhs (or -rh
 
 </details>
 
+<details>
+<summary>Bad code smells with p-u, giving up with p-unt</summary>
+
+## Targeted, tightly-coupled passing with p-u ("partly-untested")   
+
+I would suggest that for most applications, most of the time, data will naturally flow in one direction.  Those of us who read and write in a [downward direction](https://www.quora.com/Are-there-any-languages-that-read-from-bottom-to-top) will [probably](https://daverupert.com/2019/07/what-i-like-about-vue/) want to stick with that direction when arranging our elements.  But there will inevitably be points where the data flow must go up -- typically in response to a user action.  
+
+That's what p-u provides.  As the name suggests, it should be used sparingly.  
+
+[![Passing Up](http://www.pxleyes.com/images/contests/rube%20goldberg/fullsize/rube%20goldberg_4a3c0e06144db_hires.jpg)](http://www.pxleyes.com/photoshop-picture/4a3be022a6a4b/Remote.html)
+
+p-u can pass data in any direction, but the primary intent is to pass it up the DOM tree to a precise single target.  What *was* the CSS selector, before the opening brace, now becomes a simple ID.  No # before the ID is required (in fact it will assume the ID starts with # if you do this).  If the selector starts with  a slash, it searches for an element with that ID from (root) document, outside any shadow DOM.  If it starts with ./, it searches within the shadow DOM it belongs to  ../ goes up one level. ../../ goes up two levels, etc.  Basically we are emulating the path syntax for imports.
+
+Sample markup:
+
+```html
+ <p-u on="click" to="/myTree" prop="toggledNode" val="target.node"></p-u>
+```
+
+Unlike p-d, p-u doesn't worry about DOM nodes getting created after any passing of data takes place.  If you are using p-u to pass data to previous siblings, or parents of the p-u element, or previous siblings of the parent, etc, then it is quite likely that the DOM element will already have been created, as a natural result of how the browser, and frameworks, typically render DOM.  If, however, you choose to target DOM elements out of this range, it's more of a crapshoot, and do so at your own risk.
+
+
+Another objection to this approach is that there needs to be coordination between  these potentially disparate areas of the DOM, as far as what the agreed ID should be.  This is obviously not a good approach if you are designing a generic component.  Do you really want to tell the person using your component that they need to plop a DOM element with a specific ID, in order to receive the data?  I didn't think you would.  So p-u should probably not be used for this use case.
+
+For that we have:
+
+## [Punting](https://dev.to/open-wc/composed-true-considered-harmful-5g59)
+
+```html
+<p-unt on=click dispatch to=myEventName prop=toggledNode val=target.node composed bubbles cancelable></p-unt>
+```
+
+Another way you can make data "cycle" is by placing a p-* element at the beginning -- if no previous non p-* elements are found, the event handler is attached to the parent.
+
+</details>
+
 ## Optional -- separate tags => attributes
 
 <details>
@@ -268,9 +304,9 @@ Consider the following markup:
 <details>
 	<summary>my-custom-element Editor</summary>
 	<input>
-	<p-d on=input to=my-custom-element[-lhs] m=1></p-d> 
+	<p-d on=input to=my-custom-element[-my-prop] m=1></p-d> 
 </details>
-<my-custom-element -lhs></my-custom-element>
+<my-custom-element -my-prop></my-custom-element>
 ```
 
 Clearly, "my-custom-element" is below the p-d element.  The problem is p-d wasn't born on planet Krypton, and can't see that.  To allow p-d to cross the details wall, provide the "from" attribute:
@@ -279,16 +315,16 @@ Clearly, "my-custom-element" is below the p-d element.  The problem is p-d wasn'
 <details>
 	<summary>my-custom-element Editor</summary>
 	<input>
-	<p-d on=input from=details to=my-custom-element[-lhs] m=1></p-d> 
+	<p-d on=input from=details to=my-custom-element[-my-prop] m=1></p-d> 
 </details>
-<my-custom-element -lhs></my-custom-element>
+<my-custom-element -my-prop></my-custom-element>
 ```
 
 ## Seeing through Walls, Part II
 
 To keep performance optimal and scalable, the p-d element only tests downstream siblings -- not children of siblings.  However, the use case for being able to drill down inside a DOM node is quite high.    
 
-This requirement is actually the most vexing case to consider.  We provide no less than three ways to do this.
+This requirement is actually the most vexing case to consider.  Here are a bunch of scenarios:
 
 ### Single nested target scenario from non nested source
 
@@ -316,6 +352,8 @@ We can use the "observe" attribute, which p-* elements support [TODO]:
 </details>
 ```
 
+The observe attribute is a css match query, and the test is done on previous element siblings, parent, previous element siblings of the parent, etc.  The search stops at any shadow DOM boundary.
+
 ### Single nested target, nested source, and where source event bubbles
 
 ```html
@@ -326,6 +364,21 @@ We can use the "observe" attribute, which p-* elements support [TODO]:
 </fieldset>
 <details>
     <summary>my-custom-element in the flesh</summary>
+    <my-custom-element -my-prop></my-custom-element>
+</details>
+```
+
+Note that the input event bubbles.  We can connect the components thusly:
+
+```html
+<fieldset disabled>
+	<legend>my-custom-element Editor</legend>
+    <label for="MyPropEditor">My Prop:</label>
+    <input id="MyPropEditor">
+</fieldset>
+<details>
+    <summary>my-custom-element in the flesh</summary>
+    <p-d observe=fieldset on=input to=[-my-prop] m=1>
     <my-custom-element -my-prop></my-custom-element>
 </details>
 ```
@@ -407,9 +460,9 @@ Permission to enter inside a node must be granted explicitly, using the p-d-if a
 </div>
 ```
 
-</details>
-
 The benefits of taking this difficult path, is that mutation observers are set up along this full path, so if DOM elements are added dynamically, they will be synchronized based on the binding rules.
+
+</details>
 
 ## Miscellaneous features
 
@@ -800,36 +853,7 @@ With these two combined the counter would look like:
 <div></div>
 ``` 
 
-## Targeted, tightly-coupled passing with p-u ("partly-untested")   
-
-I would suggest that for most applications, most of the time, data will naturally flow in one direction.  Those of us who read and write in a [downward direction](https://www.quora.com/Are-there-any-languages-that-read-from-bottom-to-top) will [probably](https://daverupert.com/2019/07/what-i-like-about-vue/) want to stick with that direction when arranging our elements.  But there will inevitably be points where the data flow must go up -- typically in response to a user action.  
-
-That's what p-u provides.  As the name suggests, it should be used sparingly.  
-
-[![Passing Up](http://www.pxleyes.com/images/contests/rube%20goldberg/fullsize/rube%20goldberg_4a3c0e06144db_hires.jpg)](http://www.pxleyes.com/photoshop-picture/4a3be022a6a4b/Remote.html)
-
-p-u can pass data in any direction, but the primary intent is to pass it up the DOM tree to a precise single target.  What *was* the CSS selector, before the opening brace, now becomes a simple ID.  No # before the ID is required (in fact it will assume the ID starts with # if you do this).  If the selector starts with  a slash, it searches for an element with that ID from (root) document, outside any shadow DOM.  If it starts with ./, it searches within the shadow DOM it belongs to  ../ goes up one level. ../../ goes up two levels, etc.  Basically we are emulating the path syntax for imports.
-
-Sample markup:
-
-```html
- <p-u on="click" to="/myTree" prop="toggledNode" val="target.node"></p-u>
-```
-
-Unlike p-d, p-u doesn't worry about DOM nodes getting created after any passing of data takes place.  If you are using p-u to pass data to previous siblings, or parents of the p-u element, or previous siblings of the parent, etc, then it is quite likely that the DOM element will already have been created, as a natural result of how the browser, and frameworks, typically render DOM.  If, however, you choose to target DOM elements out of this range, it's more of a crapshoot, and do so at your own risk.
-
-
-Another objection to this approach is that there needs to be coordination between  these potentially disparate areas of the DOM, as far as what the agreed ID should be.  This is obviously not a good approach if you are designing a generic component.  Do you really want to tell the person using your component that they need to plop a DOM element with a specific ID, in order to receive the data?  I didn't think you would.  So p-u should probably not be used for this use case.
-
-For that we have:
-
-## [Punting](https://dev.to/open-wc/composed-true-considered-harmful-5g59)
-
-```html
-<p-unt on=click dispatch to=myEventName prop=toggledNode val=target.node composed bubbles cancelable></p-unt>
-```
-
-Another way you can make data "cycle" is by placing a p-* element at the beginning -- if no previous non p-* elements are found, the event handler is attached to the parent. 
+ 
 
 
 <!--
