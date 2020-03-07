@@ -294,9 +294,9 @@ Then you don't need a separate connector component:
 ## [Demo 1](https://jsfiddle.net/bahrus/y8moqgrb/4/)
 
 <details>
-<summary>Seeing through walls</summary>
+<summary>Passing through DOM borders</summary>
 
-##  Seeing through Walls, Part I
+##  Passing messages through DOM borders, Part I
 
 Consider the following markup:
 
@@ -315,12 +315,12 @@ Clearly, "my-custom-element" is below the p-d element.  The problem is p-d wasn'
 <details>
 	<summary>my-custom-element Editor</summary>
 	<input>
-	<p-d on=input from=details to=my-custom-element[-my-prop] m=1></p-d> 
+	<p-d on=input from=details to=[-my-prop] m=1></p-d> 
 </details>
 <my-custom-element -my-prop></my-custom-element>
 ```
 
-## Seeing through Walls, Part II
+## Passing messages through DOM borders, Part II
 
 To keep performance optimal and scalable, the p-d element only tests downstream siblings -- not children of siblings.  However, the use case for being able to drill down inside a DOM node is quite high.    
 
@@ -329,22 +329,22 @@ This requirement is actually the most vexing case to consider.  Here are a bunch
 ### Single nested target scenario from non-nested source
 
 ```html
-<label for="myPropEditor">My Prop:</label>
-<input id="myPropEditor">
+<label for=myPropEditor>My Prop:</label>
+<input id=myPropEditor>
 <details>
     <summary>my-custom-element in the flesh</summary>
     <my-custom-element -my-prop></my-custom-element>
 </details>
 ```
 
-How can we allow the input from myPropEditor to be passed into the my-custom-element?
+How can we allow the input from myPropEditor to be passed into my-custom-element?
 
 We can use the "observe" attribute, which p-* elements will support [TODO]:
 
 
 ```html
-<label for="myPropEditor">My Prop:</label>
-<input id="myPropEditor">
+<label for=myPropEditor>My Prop:</label>
+<input id=myPropEditor>
 <details>
     <summary>my-custom-element in the flesh</summary>
     <p-d observe=input on=input to=[-my-prop] m=1></p-d>
@@ -359,8 +359,8 @@ The observe attribute is a css match query, and the test is done on previous ele
 ```html
 <fieldset>
 	<legend>my-custom-element Editor</legend>
-    <label for="myPropEditor">My Prop:</label>
-    <input id="myPropEditor">
+    <label for=myPropEditor>My Prop:</label>
+    <input id=myPropEditor>
 </fieldset>
 <details>
     <summary>my-custom-element in the flesh</summary>
@@ -368,13 +368,13 @@ The observe attribute is a css match query, and the test is done on previous ele
 </details>
 ```
 
-Note that the input event bubbles by default, so it will pass through fieldset.  We can connect the components thusly:
+Note that the input event bubbles by default, so it will pass through "fieldset".  We can then connect the components thusly:
 
 ```html
 <fieldset disabled>
 	<legend>my-custom-element Editor</legend>
-    <label for="myPropEditor">My Prop:</label>
-    <input id="myPropEditor">
+    <label for=myPropEditor>My Prop:</label>
+    <input id=myPropEditor>
 </fieldset>
 <details>
     <summary>my-custom-element in the flesh</summary>
@@ -390,13 +390,13 @@ Often, events don't bubble, like the focus event.  We can use "observe" attribut
 ```html
 <fieldset disabled>
 	<legend>my-custom-element Editor</legend>
-    <label for="myPropEditor">My Prop:</label>
-    <input id="myPropEditor">
-    <p-unt on=focus dispatch to=focus-set bubbles></p-unt>
+    <label for=myPropEditor>My Prop:</label>
+    <input id=myPropEditor>
+    <p-unt on=focus dispatch to=focus-happened bubbles></p-unt>
 </fieldset>
 <details>
     <summary>my-custom-element in the flesh</summary>
-    <p-d observe=fieldset on=focus-set to=[-my-prop] m=1></p-d>
+    <p-d observe=fieldset on=focus-happened to=[-my-prop] m=1></p-d>
     <my-custom-element -my-prop></my-custom-element>
 </details>
 ```
@@ -448,11 +448,13 @@ Consider the following:
 
 "care-of" finds all matches, using querySelectorAll.
 
-p-d watches for DOM mutations, in case the set of matching downstream siblings changes. But the "care-of" attribute assumes (for now) that the DOM structure has "settled." This may be fine for static markup derived from a template.  But if you are working with streaming / fluid html, and you want to apply recursive DOM monitoring (via mutationObserver) use...
+p-d watches for DOM mutations, in case the set of matching downstream siblings changes, and also caches things in memory for quicker updates.  But the "care-of" attribute assumes (for now) that the DOM structure has "settled." This may be fine for static markup derived from a template.  Also, it requeries for matching elements each time (since no mutation observers are watching for changes), and that may be costly (depending on how effective browsers are at caching repeated queries.)
+
+But if you are working with streaming / fluid html, and you want to apply recursive DOM monitoring (via mutationObserver), and benefit from direct reference updates, use...
 
 ### The Hard Way -  Recursive sibling drill-down with p-d-r -- Invitation Only
 
-So this is the hard way, but it is more thorough.  An extending component, "p-d-r" can be used ("pass down recursively").
+So this is the hard way, but it is more thorough and more performant (I think).  An extending component, "p-d-r" can be used ("pass down recursively").
 
 Permission to enter inside a node must be granted explicitly, using the p-d-if attribute on elements where drill-down is needed.  The value of the attribute is used to test against the p-d element (hence you may want to specify some marker, like an ID, on the p-d-r element, which can be used to validate the invitation.)  For most simple scenarios however, p-d-if=p-d-r should do the trick:
 
@@ -474,6 +476,8 @@ Permission to enter inside a node must be granted explicitly, using the p-d-if a
 ```
 
 The benefits of taking this difficult path, is that mutation observers are set up along this full path, so if DOM elements are added dynamically, they will be synchronized based on the binding rules.
+
+Although for this simple example, the two approaches may look equally hard, the p-d-r approach gets more challenging as the nesting levels increases, especially if the content comes from non tightly coupled sources.
 
 </details>
 
