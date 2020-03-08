@@ -140,6 +140,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
             case prop:
             case val:
             case to:
+            case observe:
                 this[f] = newVal;
                 break;
             case noblock:

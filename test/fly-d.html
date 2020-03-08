@@ -26,8 +26,9 @@
         }
 
       </style>
-      <div>There was an old lady who swallowed a fly;</div>
-      <p-d on=init to=[-lhs] val=target.textContent m=1></p-d>
+      <div data-fly>There was an old lady who swallowed a fly;</div>
+      <div></div>
+      <p-d observe=[data-fly] on=init to=[-lhs] val=target.textContent m=1></p-d>
       <if-diff disabled if -lhs equals rhs="There was an old lady who swallowed a fly;" data-key-name=swallowedFly></if-diff>
       <p-d on=value-changed to=[-why] val=target.value as-attr></p-d>
       <div data-swallowed-fly=0>
