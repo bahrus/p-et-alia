@@ -12,7 +12,7 @@ const prop ='prop';
 const val = 'val';
 const care_of = 'care-of';
 const fire_event = 'fire-event';
-
+const observe = 'observe';
 
 function getProp(val: any, pathTokens: (string | [string, string[]])[]){
     let context = val;
@@ -119,6 +119,17 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         this.attr(val, nv);
     }
 
+    _observe!: string;
+    /**
+     * Specifies element to latch on to, and listen for events.
+     */
+    get observe(){
+        return this._observe;
+    }
+    set observe(nv){
+        this.attr(observe, nv);
+    }
+
 
 
     _fireEvent!: string;
@@ -174,8 +185,9 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
      * get previous sibling
      */
     getPreviousSib() : Element | null{
+        const obs = this._observe;
         let prevSib = this as Element | null;
-        while(prevSib && prevSib.hasAttribute('on')){
+        while(prevSib && ( (obs!=undefined && !prevSib.matches(obs)) || prevSib.hasAttribute('on'))){
             prevSib = prevSib.previousElementSibling!;
             if(prevSib === null) {
                 prevSib = this.parentElement;

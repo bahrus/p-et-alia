@@ -14,6 +14,10 @@ const from = 'from';
 export class PD extends P implements PDProps {
     static get is() { return 'p-d'; }
     _pdNavDown: NavDown | null = null;
+
+
+
+
     //_hasMax!: boolean;
     _m: number = Infinity; 
     get m() {

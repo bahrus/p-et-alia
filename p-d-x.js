@@ -3,7 +3,6 @@ import { define } from 'trans-render/define.js';
 const guid = 'guid';
 const del = 'del';
 const after = 'after';
-const observe = 'observe';
 const regLookup = {};
 /**
  * Extends element p-d with experimental features.
@@ -53,12 +52,6 @@ export class PDX extends PD {
     set del(nv) {
         this.attr(del, nv, '');
     }
-    get observe() {
-        return this._observe;
-    }
-    set observe(nv) {
-        this.attr(observe, nv);
-    }
     setAttr(target, attr, valx) {
         if (this._del) {
             target.removeAttribute(attr);
@@ -74,22 +67,6 @@ export class PDX extends PD {
         else {
             super.setProp(target, prop, valx);
         }
-    }
-    /**
-     * get previous sibling
-     */
-    getPreviousSib() {
-        const obs = this._observe;
-        if (obs === undefined)
-            return super.getPreviousSib();
-        let prevSib = this;
-        while (prevSib && (prevSib.hasAttribute('on') || !prevSib.matches(obs))) {
-            prevSib = prevSib.previousElementSibling;
-            if (prevSib === null) {
-                prevSib = this.parentElement;
-            }
-        }
-        return prevSib;
     }
     static extend(params) {
         var _a, _b;
