@@ -12,7 +12,7 @@ Size of all components combined:
 
 p-et-alia (pronounced ["petalia"](https://carta.anthropogeny.org/moca/topics/left-occipital-right-frontal-petalia-torque-asymmetry)) is a web component "peer-to-peer" framework shell.  It consists of simple "connector" components that can progressively bind native DOM / web components together, regardless of how the elements got there. 
 
-These components emphasize simplicity and small size -- to be used for 30,000 ft. above the ground component connecting.  Think connecting a TV to a Roku, rather than connecting tightly coupled micro chips together.  See the sections "Limitations" and "p-s" for more discussion about this.
+These components emphasize simplicity and small size -- to be used for 30,000 ft. above the ground component connecting.  Think connecting a TV to a Roku, rather than connecting tightly coupled micro chips together.  See the sections ["Limitations"](https://github.com/bahrus/p-et-alia#limitations) for more discussion about this.
 
 [![Roku](http://columbiaisa.50webs.com/video_connect_dvd_vcr_rf.jpg)](http://columbiaisa.50webs.com/tv_dvd_vcr_hookup.htm)
 
@@ -339,15 +339,14 @@ This requirement is actually the most vexing case to consider.  Here are a bunch
 
 How can we allow the input from myPropEditor to be passed into my-custom-element?
 
-We can use the "observe" attribute, which p-* elements will support [TODO]:
-
+We can use the "observe" attribute:
 
 ```html
 <label for=myPropEditor>My Prop:</label>
-<input id=myPropEditor>
+<input disabled id=myPropEditor>
 <details>
     <summary>my-custom-element in the flesh</summary>
-    <p-d observe=input on=input to=[-my-prop] m=1></p-d>
+    <p-d observe=#myPropEditor on=input to=[-my-prop] m=1></p-d>
     <my-custom-element -my-prop></my-custom-element>
 </details>
 ```
@@ -431,8 +430,8 @@ Consider the following:
 
 ```html
 <header>
-    <button data-val=true>Expand all</button>
-    <p-d on=click from=header to=main care-of=[-open] val=target.dataset.val skip-init></p-d>
+    <toggle-button>Expand all</toggle-button>
+    <p-d on=click from=header to=main care-of=[-open] val=target.checked skip-init></p-d>
 </header>
 <main>
     <details -open>
@@ -460,8 +459,8 @@ Permission to enter inside a node must be granted explicitly, using the p-d-if a
 
 ```html
 <header>
-    <button data-val=true>Expand all</button>
-    <p-d-r on=click from=header to=[-open] val=target.dataset.val skip-init></p-d-r>
+    <toggle-button>Expand all</toggle-button>
+    <p-d-r on=click from=header to=[-open] val=target.checked skip-init></p-d-r>
 </header>
 <main p-d-if=p-d-r>
     <details -open>
@@ -475,9 +474,9 @@ Permission to enter inside a node must be granted explicitly, using the p-d-if a
 </main>
 ```
 
-The benefits of taking this difficult path, is that mutation observers are set up along this full path, so if DOM elements are added dynamically, they will be synchronized based on the binding rules.
+The benefits of taking this difficult path, is that mutation observers are set up along all DOM paths which have been "invited".  That way, if DOM elements are added dynamically, they will be synchronized based on the binding rules.
 
-Although for this simple example, the two approaches may look equally hard, the p-d-r approach gets more challenging as the nesting levels increases, especially if the content comes from non tightly coupled sources.
+Although for this simple example the two approaches may look equally hard, the p-d-r approach gets more challenging as the nesting levels increase, especially if the content comes from non tightly coupled sources.
 
 </details>
 
@@ -984,28 +983,3 @@ Auto-generated via [wca analyzer](https://github.com/runem/web-component-analyze
 ```
 -->
 
-## p-s
-
-I mentioned at the beginning that there could be performance issues if using these components inside a virtual list, for example.  Although performance issues have not yet been observed, the concern is based on observations made by the [ag-grid](https://www.ag-grid.com/ag-grid-8-performance-hacks-for-javascript/) team:
-
->The grid needs to have mouse and keyboard listeners on all the cells so that the grid can fire events such as 'cellClicked' and so that the grid can perform grid operations such as selection, range selection, keyboard navigation etc. In all there are 8 events that the grid requires at the cell level which are click, dblclick, mousedown, contextmenu, mouseover, mouseout, mouseenter and mouseleave.
-
->Adding event listeners to the DOM results in a small performance hit. A grid would naturally add thousands of such listeners as even 20 visible columns and 50 visible rows means 20 (columns) x 50 (rows) x 8 (events) = 8,000 event listeners. As the user scrolls our row and column virtualisation kicks in and these listeners are getting constantly added and removed which adds a lag to scrolling.
-
-...
-
->So instead of adding listeners to each cell, we add each listener once to the container that contains the cells. That way the listeners are added once when the grid initialises and not to each individual cell.
-
-We can already do that somewhat with p-d -- wrap multiple elements inside a div tag, and then add p-d after the div tag.  The problem is that will only pass data to DOM elements under the p-d tag.  We can't pass data down to elements below the element that actually triggered the event.
-
-For that we have p-s, which stands for "pass sideways".  It relies a little on the honor code.  Depending on where it is placed, it could result in data flow not being downward.  In the example below, it is placed in a safe place:
-
-```html
-<div>
-    <button>a</button>
-    <button>b</button>
-    <button>c</button>
-    <p-s on=click if=button prop=innerText val=target.innerText skip-init></p-s>
-    <div></div>
-</div>
-```
