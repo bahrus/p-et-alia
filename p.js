@@ -122,7 +122,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         this.attr(fire_event, nv);
     }
     static get observedAttributes() {
-        return super.observedAttributes.concat([on, to, noblock, iff, prop, val, care_of, with_path, fire_event]);
+        return super.observedAttributes.concat([on, to, noblock, iff, prop, val, care_of, with_path, fire_event, observe]);
     }
     getSplit(newVal) {
         if (newVal === '.') {
@@ -173,7 +173,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     }
     connectedCallback() {
         this.style.display = 'none';
-        this.propUp([on, to, noblock, iff, prop, val, 'careOf', 'withPath', 'fireEvent']);
+        this.propUp([on, to, noblock, iff, prop, val, 'careOf', 'withPath', 'fireEvent', observe]);
     }
     init() {
         this.attchEvListnrs();

@@ -36,7 +36,7 @@ export class PDX extends PD {
         this.attr(guid, val);
     }
     static get observedAttributes() {
-        return super.observedAttributes.concat([guid, del, observe]);
+        return super.observedAttributes.concat([guid, del]);
     }
 
     attributeChangedCallback(name: string, oldVal: string, newVal: string) {

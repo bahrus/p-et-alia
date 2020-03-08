@@ -145,7 +145,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
     }
     
     static get observedAttributes(){
-        return (<any>super.observedAttributes).concat([on, to, noblock, iff, prop, val, care_of, with_path, fire_event]);
+        return (<any>super.observedAttributes).concat([on, to, noblock, iff, prop, val, care_of, with_path, fire_event, observe]);
     }
     _s: (string | [string, string[]])[] | null = null;  // split prop using '.' as delimiter
     getSplit(newVal: string){
@@ -199,7 +199,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
 
     connectedCallback(){
         this.style.display = 'none';
-        this.propUp([on, to, noblock, iff, prop, val, 'careOf', 'withPath', 'fireEvent']);
+        this.propUp([on, to, noblock, iff, prop, val, 'careOf', 'withPath', 'fireEvent', observe]);
     }
 
     _trigger: HTMLElement | undefined;
