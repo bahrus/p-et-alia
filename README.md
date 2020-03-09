@@ -246,6 +246,7 @@ Unlike p-d, p-u doesn't worry about DOM nodes getting created after any passing 
 Another objection to this approach is that there needs to be coordination between  these potentially disparate areas of the DOM, as far as what the agreed ID should be.  This is obviously not a good approach if you are designing a generic component.  Do you really want to tell the person using your component that they need to plop a DOM element with a specific ID, in order to receive the data?  I didn't think you would.  So p-u should probably not be used for this use case.
 
 For that we have:
+</details>
 
 ## [Punting](https://dev.to/open-wc/composed-true-considered-harmful-5g59)
 
@@ -255,7 +256,7 @@ For that we have:
 
 Another way you can make data "cycle" is by placing a p-* element at the beginning -- if no previous non p-* elements are found, the event handler is attached to the parent.
 
-</details>
+
 
 ## Optional -- separate tags => attributes
 
