@@ -222,7 +222,7 @@ Furthermore, no match will be found if if-diff does not contain the -lhs (or -rh
 </details>
 
 <details>
-<summary>Bad code smells with p-u, giving up with p-unt</summary>
+<summary>Bad code smells with p-u</summary>
 
 ## Targeted, tightly-coupled passing with p-u ("partly-untested")   
 
