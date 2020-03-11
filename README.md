@@ -109,11 +109,6 @@ One can't help noticing quite a bit of redundancy in the markup above.  We can r
 1)  If no CSS specifier is defined, it will pass the properties to the next element.
 2)  If no value is specified, it will try target.value.
 
-<details>
-<summary>Breaking Change</summary>
-
-**NB**  Shortcut 2) above used to first try detail.value before trying target.value.  But that turns out to have some complicating twists. Polymer's "legacy" binding places great emphasis on standardizing on detail.value for its two-way binding.  But as the Polymer elements continue to shrink as a total of all components, and most of the alternative components do not adhere to the same convention, the costs of defaulting to detail.value now seem to outweigh the benefits.  **This is a breaking change from earlier versions.** One of the weighing factors in making this change is the surprising fact that I've only recently come to terms with -- the input element's input event (often?) emits an event with [event.detail=0](https://www.w3.org/TR/uievents/).
-</details>
 
 We can also forgo quotes when not needed.
 
@@ -755,7 +750,7 @@ It would be like blockchain without people actually engaging in trade.
 
 <details>
 <summary>Blockchain?</summary>
-Admittedly, the parallels with blockchain are a bit tenuous, but this is an attempt to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements. p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow unfettered competition between different component "vendors".  
+Admittedly, the parallels with blockchain are a bit tenuous, but this is an attempt to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements. p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow unfettered competition (nice presentation / accessible / good performance, etc.) between different component "vendors" without any unfair limitations on which technologies they choose to use.  
 
 [![Watch the video](https://img.youtube.com/vi/RplnSVTzvnU/maxresdefault.jpg)](https://www.youtube.com/watch?v=RplnSVTzvnU)
 
@@ -785,24 +780,20 @@ What we want to "outsource" and make as painless as possible is mapping this bea
 This could all be done with a single self-contained component, but another option is to break down the core functionality into two key components -- a non visual view model component and a component that displays the view model.  Since we only want to add a task when you hit enter, an enhanced input component would also make sense:
 
 ```html
-<div>
-    <p-d on=item-deleted if=my-visual-to-do-list to=[-delete-task] m=1></p-d>
-    <p-d on=item-edited if=my-visual-to-do-list to=[-update-task] m=1></p-d>
+<div disabled=2>
     <enhanced-input placeholder="What needs to be done?"></enhanced-input>
-    <p-d on=commit to=[-new-task]>
+    <p-d on=commit to=[-new-task]></p-d><p-d observe=div on=item-deleted to=[-delete-task] m=1></p-d><p-d observe=div on=item-edited to=[-update-task] m=1></p-d>
     <my-non-visual-to-do-list-view-model -new-task -delete-task -update-task></my-non-visual-to-do-list-view-model>
     <p-d on=list-changed to=[-items] m=1></p-d>
-    <my-visual-to-do-list disabled="2" -items></my-visual-to-do-list>
+    <my-visual-to-do-list -items></my-visual-to-do-list>
 </div>
 ```
 
-Here we are relying on the "cycling" effect of placing p-d's at the top of a DOM node, with no previous non p-* nodes.  We assume the component my-visual-to-do-list is designed in such a way that when you click on some delete button inside that component, it emits an event "item-deleted" and if you edit an item, it emits an event "item-edited", both of which bubble up.
+Here, we assume the component "my-visual-to-do-list" is designed in such a way that when you click on some delete button inside that component, it emits an event "item-deleted" and if you edit an item, it emits an event "item-edited", both of which bubble up.
 
 There are some web component libraries ([lightning](https://developer.salesforce.com/docs/component-library/documentation/en/48.0/lwc/lwc.events_best_practices), for example), which discourage having events bubble up by default, due to performance concerns.
 
-If that's the case, place a p-unt element beneath the element that needs to cycle through the parent.
-
-The only (but important) reason we need the if condition is so the p-d's can decrement the disabled attribute from my-visual-to-do-list as they latch on (and it is highly recommended that web components don't allow user interaction until disabled is removed.)
+If that's the case, place a p-unt element beneath the element that needs to cycle through the parent (or use two p-u's instead of two of the p-d's, I won't judge you badly for it ;-) ).
 
 Splitting up the todo composition into these three sub components could allow one or more pieces to be re-used with or without the other.  For example, maybe in one scenario we want the list to display as a simple list, but elsewhere we want it to display inside a calendar.    Or both at the same time.  
 
