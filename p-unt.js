@@ -34,8 +34,8 @@ export class PUnt extends PDX {
     pass(e) {
         if (this._dispatch) {
             const detail = {};
-            this.injectVal(e, detail);
             detail.target = e.target;
+            this.injectVal(e, detail);
             const customEventInit = new CustomEvent(this.to, {
                 bubbles: this._bubbles,
                 composed: this._composed,
