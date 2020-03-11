@@ -102,12 +102,13 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     set val(nv) {
         this.attr(val, nv);
     }
-    /**
-     * Specifies element to latch on to, and listen for events.
-     */
     get observe() {
         return this._observe;
     }
+    /**
+    * Specifies element to latch on to, and listen for events.
+    * @attr
+    */
     set observe(nv) {
         this.attr(observe, nv);
     }

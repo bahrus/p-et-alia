@@ -6,6 +6,11 @@
       "description": "Pass data from one element down the DOM tree to other elements, including children, recursively.\nOnly drills into children if p-d-if matches css of p-d-r element.",
       "attributes": [
         {
+          "name": "observe",
+          "description": "Specifies element to latch on to, and listen for events.",
+          "type": "string"
+        },
+        {
           "name": "with-path",
           "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
           "type": "string"
@@ -68,9 +73,10 @@
       ],
       "properties": [
         {
-          "name": "isPetalian",
-          "type": "boolean",
-          "default": "true"
+          "name": "observe",
+          "attribute": "observe",
+          "description": "Specifies element to latch on to, and listen for events.",
+          "type": "string"
         },
         {
           "name": "withPath",
@@ -157,6 +163,11 @@
       "description": "Extends element p-d with experimental features.",
       "attributes": [
         {
+          "name": "observe",
+          "description": "Specifies element to latch on to, and listen for events.",
+          "type": "string"
+        },
+        {
           "name": "with-path",
           "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
           "type": "string"
@@ -226,9 +237,10 @@
           "type": "boolean"
         },
         {
-          "name": "isPetalian",
-          "type": "boolean",
-          "default": "true"
+          "name": "observe",
+          "attribute": "observe",
+          "description": "Specifies element to latch on to, and listen for events.",
+          "type": "string"
         },
         {
           "name": "withPath",
@@ -324,6 +336,11 @@
           "description": "Source element to start matches from"
         },
         {
+          "name": "observe",
+          "description": "Specifies element to latch on to, and listen for events.",
+          "type": "string"
+        },
+        {
           "name": "with-path",
           "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
           "type": "string"
@@ -387,9 +404,10 @@
           "description": "Source element to start matches from"
         },
         {
-          "name": "isPetalian",
-          "type": "boolean",
-          "default": "true"
+          "name": "observe",
+          "attribute": "observe",
+          "description": "Specifies element to latch on to, and listen for events.",
+          "type": "string"
         },
         {
           "name": "withPath",
@@ -472,6 +490,11 @@
           "description": "JS path within history.state to pass down."
         },
         {
+          "name": "observe",
+          "description": "Specifies element to latch on to, and listen for events.",
+          "type": "string"
+        },
+        {
           "name": "with-path",
           "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
           "type": "string"
@@ -552,9 +575,10 @@
           "type": "boolean"
         },
         {
-          "name": "isPetalian",
-          "type": "boolean",
-          "default": "true"
+          "name": "observe",
+          "attribute": "observe",
+          "description": "Specifies element to latch on to, and listen for events.",
+          "type": "string"
         },
         {
           "name": "withPath",
@@ -641,6 +665,11 @@
       "description": "Pass data from one element to a targeted DOM element elsewhere",
       "attributes": [
         {
+          "name": "observe",
+          "description": "Specifies element to latch on to, and listen for events.",
+          "type": "string"
+        },
+        {
           "name": "with-path",
           "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
           "type": "string"
@@ -693,9 +722,10 @@
       ],
       "properties": [
         {
-          "name": "isPetalian",
-          "type": "boolean",
-          "default": "true"
+          "name": "observe",
+          "attribute": "observe",
+          "description": "Specifies element to latch on to, and listen for events.",
+          "type": "string"
         },
         {
           "name": "withPath",
@@ -776,6 +806,11 @@
         {
           "name": "composed",
           "description": "Event bubbling should pierce shadow dom"
+        },
+        {
+          "name": "observe",
+          "description": "Specifies element to latch on to, and listen for events.",
+          "type": "string"
         },
         {
           "name": "with-path",
@@ -865,9 +900,10 @@
           "type": "boolean"
         },
         {
-          "name": "isPetalian",
-          "type": "boolean",
-          "default": "true"
+          "name": "observe",
+          "attribute": "observe",
+          "description": "Specifies element to latch on to, and listen for events.",
+          "type": "string"
         },
         {
           "name": "withPath",
@@ -978,6 +1014,11 @@
           "type": "boolean"
         },
         {
+          "name": "observe",
+          "description": "Specifies element to latch on to, and listen for events.",
+          "type": "string"
+        },
+        {
           "name": "with-path",
           "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
           "type": "string"
@@ -1086,9 +1127,10 @@
           "type": "boolean"
         },
         {
-          "name": "isPetalian",
-          "type": "boolean",
-          "default": "true"
+          "name": "observe",
+          "attribute": "observe",
+          "description": "Specifies element to latch on to, and listen for events.",
+          "type": "string"
         },
         {
           "name": "withPath",

@@ -120,12 +120,14 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
     }
 
     _observe!: string;
-    /**
-     * Specifies element to latch on to, and listen for events.
-     */
+
     get observe(){
         return this._observe;
     }
+    /**
+    * Specifies element to latch on to, and listen for events.
+    * @attr
+    */
     set observe(nv){
         this.attr(observe, nv);
     }
