@@ -751,7 +751,7 @@ It would be like blockchain without people actually engaging in trade.
 
 <details>
 <summary>Blockchain?</summary>
-Admittedly, the parallels with blockchain are a bit tenuous, but this is an attempt to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements. p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow unfettered competition (nice presentation / accessible / good performance, etc.) between different component "vendors" without any unfair limitations on which technologies they choose to use.  
+Admittedly, the parallels with blockchain are a bit tenuous, but this is an attempt to apply what I believe to be the spirit behind blockchain in both how it works and its desired outcome, to the world of DOM elements. p-et-alia is trying to bind entities together on the web page with a passive, aloof, technology agnostic "framework" that everyone can "trust" -- in order to lower the barrier to entry and level the playing field and allow friendly,  unfettered competition (nice presentation / accessible / good performance, etc.) between different component "vendors," without any unfair limitations on which technologies they choose to use.  
 
 [![Watch the video](https://img.youtube.com/vi/RplnSVTzvnU/maxresdefault.jpg)](https://www.youtube.com/watch?v=RplnSVTzvnU)
 
@@ -783,7 +783,9 @@ This could all be done with a single self-contained component, but another optio
 ```html
 <div disabled=2>
     <enhanced-input placeholder="What needs to be done?"></enhanced-input>
-    <p-d on=commit to=[-new-task]></p-d><p-d observe=div on=item-deleted to=[-delete-task] m=1></p-d><p-d observe=div on=item-edited to=[-update-task] m=1></p-d>
+    <p-d on=commit to=[-new-task]></p-d>
+    <p-d observe=div on=item-deleted to=[-delete-task] m=1></p-d>
+    <p-d observe=div on=item-edited to=[-update-task] m=1></p-d>
     <my-non-visual-to-do-list-view-model -new-task -delete-task -update-task></my-non-visual-to-do-list-view-model>
     <p-d on=list-changed to=[-items] m=1></p-d>
     <my-visual-to-do-list -items></my-visual-to-do-list>
