@@ -243,13 +243,15 @@ Another objection to this approach is that there needs to be coordination betwee
 For that we have:
 </details>
 
-## [Punting](https://dev.to/open-wc/composed-true-considered-harmful-5g59)
+## [p-unt](https://dev.to/open-wc/composed-true-considered-harmful-5g59)
 
 ```html
 <p-unt on=click dispatch to=myEventName prop=toggledNode val=target.node composed bubbles cancelable></p-unt>
 ```
 
-Another way you can make data "cycle" is by placing a p-* element at the beginning -- if no previous non p-* elements are found, the event handler is attached to the parent.
+p-unt creates a custom event with name specified by the "to" attribute, and passes a detail object based on the prop and val attributes.  It also adds the original target element to the detail object.
+
+p-unt can make data "cycle," by placing a p-* element at the beginning -- if no previous non p-* elements are found, the event handler is attached to the parent.
 
 
 
