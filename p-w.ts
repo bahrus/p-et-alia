@@ -5,7 +5,7 @@ import {XtalStateUpdateProps} from 'xtal-state/types.d.js';
 import {doNotCCEventToState} from './p-h-d.js';
 const state_path = 'state-path';
 const push = 'push';
-const cc = 'cc';
+const replace = 'replace';
 
 /**
  * "planted weirwood" -- passes data down just like p-d, but also updates history.state
@@ -15,7 +15,7 @@ export class PW extends PUnt{
     static get is(){return 'p-w';}
 
     static get observedAttributes() {
-        return super.observedAttributes.concat([state_path, push, cc]);
+        return super.observedAttributes.concat([state_path, push, replace]);
     }
 
     attributeChangedCallback(name: string, oldVal: string, newVal: string) {
@@ -23,7 +23,7 @@ export class PW extends PUnt{
             case state_path:
                 this._statePath = newVal;
                 break;
-            case cc:
+            case replace:
             case push:
                 (<any>this)['_' + name] = newVal !== null;
                 //this._push = newVal !== null;
@@ -57,37 +57,37 @@ export class PW extends PUnt{
         this.attr(push, nv, '');
     }
 
-    _cc = false;
-    get cc(){
-        return this._cc;
+    _replace = false;
+    get replace(){
+        return this._replace;
     }
     /**
      * Should carbon copy data to state
      * @attr
      */
-    set cc(nv){
-        this.attr(cc, nv, '');
+    set replace(nv){
+        this.attr(replace, nv, '');
     }
 
     _xtalUpdate: XtalStateUpdateProps | undefined;
 
     connectedCallback(){
         super.connectedCallback();
-        this.propUp(['guid', 'statePath', 'push', 'cc']);
+        this.propUp(['guid', 'statePath', 'push', 'replace']);
         this.addState();
 
     }
 
     _addedState = false;
     async addState(){
-        if(!this._cc || this._addedState) {
+        if((!this._replace && !this._push) || this._addedState) {
             return;
         }
         this._addedState = true;
         const {XtalStateUpdate} = await import('xtal-state/xtal-state-update.js');
         const xtalUpdate = (<any>document.createElement(XtalStateUpdate.is)) as XtalStateUpdateProps;
-        xtalUpdate.rewrite = !this._push;
-        xtalUpdate.make = !!this._push;
+        xtalUpdate.rewrite = this._replace;
+        xtalUpdate.make = this._push;
         xtalUpdate.withPath = this._statePath;
         xtalUpdate.guid = this._guid;
         this.appendChild((<any>xtalUpdate) as HTMLElement);
