@@ -712,11 +712,11 @@ Suggestions for what [p-w could stand for](http://phrontistery.info/w.html):
 
 ```html
 <button data-val="hello">Hello</button>
-<p-w on="click" to=[-text-content] val=target.dataset.val skip-init cc state-path="e.f.g" m=1></p-w>
+<p-w on="click" to=[-text-content] val=target.dataset.val skip-init push state-path="a.b.c" m=1></p-w>
 <div -text-content></div>
 ```
 
-This will cause history.state = {e:{f:{g:'hello'}}} on clicking the button.  It will also act just like p-d, and set the div's textContent to "hello."
+This will cause history.state = {a:{b:{c:'hello'}}} on clicking the button.  It will also act just like p-d, and set the div's textContent to "hello."
 
 For both p-h-d and p-w, you can specify a "guid" attribute, which will write to an iframe outside any ShadowDOM with id equaling the specified guid, and if no such iframe exists, it creates one.  The attribute "push" will cause another entry to be added in history (i.e. pushState as opposed to replaceState.)
 
