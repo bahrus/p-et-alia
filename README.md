@@ -524,7 +524,7 @@ extend({
 })
 ```
 
-Note: [Your Content in Shadow DOM Portals ](https://dev.to/westbrook/your-content-in-shadow-dom-portals-3cdb) may have better researched approaches than the code above (and actually is addressing an important larger topic). 
+Note: [Your Content in Shadow DOM Portals ](https://dev.to/westbrook/your-content-in-shadow-dom-portals-3cdb) has better researched approaches than the code above (and actually is addressing an important larger topic). 
 
 This will define a custom element with name p-d-x-slot-bot:
 
