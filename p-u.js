@@ -17,16 +17,9 @@ export class PU extends P {
         }
         else {
             const len = cssSel.startsWith('./') ? 0 : split.length;
-            const host = this.getHost(this, 0, len);
-            if (host) {
-                if (host.shadowRoot) {
-                    targetElement = host.shadowRoot.getElementById(id);
-                    if (!targetElement)
-                        targetElement = host.querySelector('#' + id);
-                }
-                else {
-                    targetElement = host.querySelector('#' + id);
-                }
+            const host = this.getHost(this, len);
+            if (host !== undefined) {
+                targetElement = host.querySelector('#' + id);
             }
             else {
                 throw 'Target Element Not found';
@@ -34,19 +27,13 @@ export class PU extends P {
         }
         this.injectVal(e, targetElement);
     }
-    getHost(el, level, maxLevel) {
-        let parent = el;
-        while (parent = parent.parentNode) {
-            if (parent.nodeType === 11) {
-                const newLevel = level + 1;
-                if (newLevel >= maxLevel)
-                    return parent['host'];
-                return this.getHost(parent['host'], newLevel, maxLevel);
-            }
-            else if (parent.tagName === 'HTML') {
-                return parent;
-            }
-        }
+    getHost(el, maxLevel) {
+        let parent = el.getRootNode();
+        if (maxLevel === 0)
+            return parent;
+        if (parent.host)
+            return this.getHost(parent.host, maxLevel - 1);
+        return undefined;
     }
     connectedCallback() {
         super.connectedCallback();

@@ -219,7 +219,7 @@ Furthermore, no match will be found if if-diff does not contain the -lhs (or -rh
 <details>
 <summary>Bad code smells with p-u</summary>
 
-## Targeted, tightly-coupled passing with p-u ("partly-untested")   
+## Targeted, tightly-coupled passing with p-u   
 
 I would suggest that for most applications, most of the time, data will naturally flow in one direction.  Those of us who read and write in a [downward direction](https://www.quora.com/Are-there-any-languages-that-read-from-bottom-to-top) will [probably](https://daverupert.com/2019/07/what-i-like-about-vue/) want to stick with that direction when arranging our elements.  But there will inevitably be points where the data flow must go up -- typically in response to a user action.  
 

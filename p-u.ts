@@ -17,14 +17,9 @@ export class PU extends P {
             targetElement = (<any>self)[cssSel.substr(1)];
         } else {
             const len = cssSel.startsWith('./') ? 0 : split.length;
-            const host = this.getHost(<any>this as HTMLElement, 0, len) as HTMLElement;
-            if (host) {
-                if (host.shadowRoot) {
-                    targetElement = host.shadowRoot.getElementById(id) as HTMLElement;
-                    if (!targetElement) targetElement = host.querySelector('#' + id) as HTMLElement;
-                } else {
-                    targetElement = host.querySelector('#' + id) as HTMLElement;
-                }
+            const host = this.getHost(<any>this as HTMLElement, len) as HTMLElement;
+            if (host !== undefined) {
+                targetElement = host.querySelector('#' + id) as HTMLElement;
             } else {
                 throw 'Target Element Not found';
             }
@@ -33,17 +28,11 @@ export class PU extends P {
     }
 
     _host!: HTMLElement
-    getHost(el: HTMLElement, level: number, maxLevel: number): HTMLElement | undefined {
-        let parent = el as HTMLElement;
-        while (parent = parent.parentNode as HTMLElement) {
-            if (parent.nodeType === 11) {
-                const newLevel = level + 1;
-                if (newLevel >= maxLevel) return (<any>parent)['host'];
-                return this.getHost((<any>parent)['host'], newLevel, maxLevel);
-            } else if (parent.tagName === 'HTML') {
-                return parent;
-            }
-        }
+    getHost(el: HTMLElement, maxLevel: number): Node | undefined {
+        let parent = el.getRootNode();
+        if(maxLevel === 0) return parent;
+        if((<any>parent).host) return this.getHost((<any>parent).host as HTMLElement, maxLevel - 1);
+        return undefined;
 
     }
     connectedCallback() {
