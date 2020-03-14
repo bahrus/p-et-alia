@@ -12,6 +12,10 @@ const xt = require('xtal-test/index') as IXtalTestRunner;
         {
             path: 'test/fly-unt.html',
             expectedNoOfSuccessMarkers: 1
+        },
+        {
+            path: 'test/fly-w.html',
+            expectedNoOfSuccessMarkers: 1
         }
     ]);
     if(passed){

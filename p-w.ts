@@ -79,6 +79,7 @@ export class PW extends PUnt{
     }
 
     _addedState = false;
+    _tempVal: any | undefined;
     async addState(){
         if((!this._replace && !this._push) || this._addedState) {
             return;
@@ -92,13 +93,21 @@ export class PW extends PUnt{
         xtalUpdate.guid = this._guid;
         this.appendChild((<any>xtalUpdate) as HTMLElement);
         this._xtalUpdate = xtalUpdate;
+        if(this._tempVal !== undefined) {
+            xtalUpdate.history = this._tempVal;
+            delete this._tempVal;
+        }
     }
-
+    
     commit(target: HTMLElement, val: any, e: CustomEventInit) {
         super.commit(target, val, e as Event);
         if((e.detail && e.detail[doNotCCEventToState])) return;
         window.requestAnimationFrame(() =>{
-            if(this._xtalUpdate !== undefined) this._xtalUpdate.history = val;
+            if(this._xtalUpdate !== undefined){
+                this._xtalUpdate.history = val;
+            }else{
+                this._tempVal = val;
+            }
         })
     }
 }

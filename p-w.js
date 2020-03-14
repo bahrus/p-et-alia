@@ -81,14 +81,22 @@ export class PW extends PUnt {
         xtalUpdate.guid = this._guid;
         this.appendChild(xtalUpdate);
         this._xtalUpdate = xtalUpdate;
+        if (this._tempVal !== undefined) {
+            xtalUpdate.history = this._tempVal;
+            delete this._tempVal;
+        }
     }
     commit(target, val, e) {
         super.commit(target, val, e);
         if ((e.detail && e.detail[doNotCCEventToState]))
             return;
         window.requestAnimationFrame(() => {
-            if (this._xtalUpdate !== undefined)
+            if (this._xtalUpdate !== undefined) {
                 this._xtalUpdate.history = val;
+            }
+            else {
+                this._tempVal = val;
+            }
         });
     }
 }
