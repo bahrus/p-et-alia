@@ -1,17 +1,19 @@
-export interface PProps{
-    on: string;
-    to: string;
-    careOf: string;
-    noblock: boolean;
-    if: string;
-    prop: string | symbol;
-    val: string;
-    fireEvent: string;
+import {Partial} from 'trans-render/init.d.js';
+import { init } from "../xtal-state/xtal-state-api";
+export interface PProps extends HTMLElement{
+    on?: string;
+    to?: string;
+    careOf?: string;
+    noblock?: boolean;
+    if?: string;
+    prop?: string | symbol;
+    val?: string;
+    fireEvent?: string;
 }
 
 export interface PDProps extends PProps{
-    from: string;
-    m: number;
+    from?: string;
+    m?: number;
 }
 
 export interface IPixin  extends HTMLElement{
