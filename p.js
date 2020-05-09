@@ -10,17 +10,24 @@ const val = 'val';
 const care_of = 'care-of';
 const fire_event = 'fire-event';
 const observe = 'observe';
-function getProp(val, pathTokens) {
+function getProp(val, pathTokens, src) {
     let context = val;
+    let first = true;
     pathTokens.forEach(token => {
         if (context) {
-            switch (typeof token) {
-                case 'string':
-                    context = context[token];
-                    break;
-                default:
-                    context = context[token[0]].apply(context, token[1]);
+            if (first && token === 'target' && context['target'] === null) {
+                context = src._trigger;
             }
+            else {
+                switch (typeof token) {
+                    case 'string':
+                        context = context[token];
+                        break;
+                    default:
+                        context = context[token[0]].apply(context, token[1]);
+                }
+            }
+            first = false;
         }
     });
     return context;
@@ -248,10 +255,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         this.pass(e);
     }
     valFromEvent(e) {
-        if (e.target === null) {
-            e.target = this._trigger;
-        }
-        let val = this._s !== null ? getProp(e, this._s) : getProp(e, ['target', 'value']);
+        let val = this._s !== null ? getProp(e, this._s, this) : getProp(e, ['target', 'value'], this);
         if (val === undefined && (typeof (this.val) === 'string') && e.target.hasAttribute(this.val)) {
             val = e.target.getAttribute(this.val);
         }

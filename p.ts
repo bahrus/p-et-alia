@@ -14,17 +14,23 @@ const care_of = 'care-of';
 const fire_event = 'fire-event';
 const observe = 'observe';
 
-function getProp(val: any, pathTokens: (string | [string, string[]])[]){
+function getProp(val: any, pathTokens: (string | [string, string[]])[], src: HTMLElement){
     let context = val;
+    let first = true;
     pathTokens.forEach(token => {
         if(context)  {
-            switch(typeof token){
-                case 'string':
-                    context = context[token];
-                    break;
-                default:
-                    context = context[token[0]].apply(context, token[1]);
+            if(first && token==='target' && context['target'] === null){
+                context = (<any>src)._trigger;
+            }else{
+                switch(typeof token){
+                    case 'string':
+                        context = context[token];
+                        break;
+                    default:
+                        context = context[token[0]].apply(context, token[1]);
+                }
             }
+            first = false;
         }
     });
     return context;
@@ -274,10 +280,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
     _destIsNA!: boolean;
 
     valFromEvent(e: Event){
-        if(e.target === null){
-            (<any>e).target = this._trigger;
-        }
-        let val = this._s !== null ? getProp(e, this._s) : getProp(e, ['target', 'value']);
+        let val = this._s !== null ? getProp(e, this._s, this) : getProp(e, ['target', 'value'], this);
         if(val === undefined && (typeof(this.val) ==='string') && (e.target as HTMLElement).hasAttribute(this.val)) {
             val = (e.target as HTMLElement).getAttribute(this.val);
         }
