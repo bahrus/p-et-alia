@@ -228,6 +228,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         }
         const prevSib = this._trigger === undefined ? this.getPreviousSib() : this._trigger;
         if(!prevSib) return;
+        this._trigger = prevSib as HTMLElement;
         prevSib.addEventListener(this._on, this._bndHndlEv);
         if(prevSib === this.parentElement && this._if){
             prevSib.querySelectorAll(this._if).forEach(publisher =>{
@@ -273,6 +274,9 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
     _destIsNA!: boolean;
 
     valFromEvent(e: Event){
+        if(e.target === null){
+            (<any>e).target = this._trigger;
+        }
         let val = this._s !== null ? getProp(e, this._s) : getProp(e, ['target', 'value']);
         if(val === undefined && (typeof(this.val) ==='string') && (e.target as HTMLElement).hasAttribute(this.val)) {
             val = (e.target as HTMLElement).getAttribute(this.val);

@@ -203,6 +203,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         const prevSib = this._trigger === undefined ? this.getPreviousSib() : this._trigger;
         if (!prevSib)
             return;
+        this._trigger = prevSib;
         prevSib.addEventListener(this._on, this._bndHndlEv);
         if (prevSib === this.parentElement && this._if) {
             prevSib.querySelectorAll(this._if).forEach(publisher => {
@@ -247,6 +248,9 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         this.pass(e);
     }
     valFromEvent(e) {
+        if (e.target === null) {
+            e.target = this._trigger;
+        }
         let val = this._s !== null ? getProp(e, this._s) : getProp(e, ['target', 'value']);
         if (val === undefined && (typeof (this.val) === 'string') && e.target.hasAttribute(this.val)) {
             val = e.target.getAttribute(this.val);
