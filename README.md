@@ -512,19 +512,13 @@ import {extend} from 'p-et-alia/p-d-x.js';
 
 extend({
     name: 'slot-bot'
-    valFromEvent: (e: Event) =>{
-        const slot = e.target as HTMLSlotElement;
-        const ret = slot.assignedElements().map(el => {
-            const clone = el.cloneNode(true) as HTMLElement;
-            clone.removeAttribute('slot');
-            return clone.outerHTML;
-        }).join('');
-        return ret;
+    valFromEvent: function(e: Event){
+        ...
+        return customVal;
     }
 })
 ```
 
-Note: [Your Content in Shadow DOM Portals ](https://dev.to/westbrook/your-content-in-shadow-dom-portals-3cdb) has better researched approaches than the code above (and actually is addressing an important larger topic). 
 
 This will define a custom element with name p-d-x-slot-bot:
 
