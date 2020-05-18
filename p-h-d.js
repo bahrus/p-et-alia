@@ -1,76 +1,41 @@
 import { PDX } from './p-d-x.js';
-import { define } from 'trans-render/define.js';
+import { define, mergeProps } from 'xtal-element/xtal-latx.js';
 import { XtalStateWatch } from 'xtal-state/xtal-state-watch.js';
-const init_and_popstate_only = 'init-and-popstate-only';
-const from_path = 'from-path';
 export const doNotCCEventToState = 'dncc';
 /**
  * Pass history to downstream elements
  * @element p-h-d
  */
 export class PhD extends PDX {
-    constructor() {
-        super(...arguments);
-        this._initAndPopStateOnly = false;
-    }
-    static get is() { return 'p-h-d'; }
-    static get observedAttributes() {
-        return super.observedAttributes.concat([init_and_popstate_only, from_path]);
-    }
     getDetail(val) {
         return {
             value: val,
             [doNotCCEventToState]: true
         };
     }
-    attributeChangedCallback(name, oldVal, newVal) {
-        switch (name) {
-            case init_and_popstate_only:
-                this._initAndPopStateOnly = newVal !== null;
-                break;
-            case from_path:
-                this._fromPath = newVal;
-                break;
-            default:
-                super.attributeChangedCallback(name, oldVal, newVal);
-        }
-    }
-    get initAndPopStateOnly() {
-        return this._initAndPopStateOnly;
-    }
-    /**
-     * Only pass down history if is initial history and/or popstate event
-     * @attr init-and-pop-state-only
-     */
-    set initAndPopStateOnly(nv) {
-        this._initAndPopStateOnly = nv;
-    }
-    get fromPath() {
-        return this._fromPath;
-    }
-    /**
-     * JS path within history.state to pass down.
-     * @attr from-path
-     */
-    set fromPath(nv) {
-        this._fromPath = nv;
-    }
     connectedCallback() {
         super.connectedCallback();
-        this.propUp(['guid', 'initOnly', 'fromPath']);
         const xtalWatch = document.createElement(XtalStateWatch.is);
         xtalWatch.guid = this._guid;
-        if (this._val === undefined) {
-            const path = this._fromPath === undefined ? '' : '.' + this._fromPath;
+        if (this.val === undefined) {
+            const path = this.fromPath === undefined ? '' : '.' + this.fromPath;
             this.val = 'target.history.state' + path;
         }
         xtalWatch.addEventListener('history-changed', e => {
             const cei = e;
-            if (this._initAndPopStateOnly && !cei.detail.isInitialEvent && !cei.detail.isPopstate)
+            if (this.initAndPopStateOnly && !cei.detail.isInitialEvent && !cei.detail.isPopstate)
                 return;
             this.pass(e);
         });
         this.appendChild(xtalWatch);
     }
 }
+PhD.is = 'p-h-d';
+PhD.attributeProps = ({ initAndPopStateOnly, fromPath }) => {
+    const ap = {
+        boolean: [initAndPopStateOnly],
+        string: [fromPath]
+    };
+    return mergeProps(ap, PDX.props);
+};
 define(PhD);

@@ -611,17 +611,19 @@ for example.  The value "input" will be suggested by the autocomplete as you typ
 
 ## Conditional Processing / Event Filtering
 
-p-d can be configured to test the event target to make sure it matches a css test.  This is done with the "if" attribute / property:
+p-d can be configured to test the event target to make sure it matches a css test.  This is done with the "if-target-matches" attribute / property:
 
 ```html
 <div>
     <a href="link1">Link 1</a>
     <a href="link2">Link 2</a>
 </div>
-<p-d on="click" if="a"></p-d>
+<p-d on="click" if-target-matches="a"></p-d>
 ```
 
-Once again, the if condition is easy to override in a derived class.  If you want to limit passing to every third event, or add debouncing (similar to RxJS), etc, you will need to define your own filter by overriding:
+So are essentially filtering out some of the events.
+
+If you need some alternative reason to filter out some events, which if-target-matches doesn't cover, it is easy to override the default event filtering capability, with something more powerful in a derived class.  For example, if you want to limit passing to every third event, or add debouncing (similar to RxJS), etc, you will need to define your own filter by overriding:
 
 ```TypeScript
 filterEvent(e: Event) : boolean{

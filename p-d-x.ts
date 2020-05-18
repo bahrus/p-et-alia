@@ -1,10 +1,10 @@
 import { PD } from './p-d.js';
-import { define } from 'trans-render/define.js';
-import {ExtensionParams} from './types.js';
+import {define, mergeProps} from 'xtal-element/xtal-latx.js';
+import {ExtensionParams} from './types.d.js';
+import {AttributeProps, EvaluatedAttributeProps} from 'xtal-element/types.d.js';
 
 const guid = 'guid';
 const del = 'del';
-const after = 'after';
 
 
 const regLookup:{[key: string]: string} = {};
@@ -14,7 +14,14 @@ const regLookup:{[key: string]: string} = {};
  * @element p-d-x
  */
 export class PDX extends PD {
-    static get is() { return 'p-d-x'; }
+    static is = 'p-d-x';
+    static attributeProps = ({del, guid} : PDX) => {
+        const ap = {
+            boolean: [del],
+            string: [guid],
+        }  as AttributeProps;
+        return mergeProps(ap, (<any>PD).props);
+    }
     commit(target: HTMLElement, val: any, e: Event) {
         if(val === undefined) {
             super.commit(target, val, e);
@@ -39,19 +46,6 @@ export class PDX extends PD {
         return super.observedAttributes.concat([guid, del]);
     }
 
-    attributeChangedCallback(name: string, oldVal: string, newVal: string) {
-        
-        switch(name){
-            case guid:
-                if(this._guid !== undefined) return;
-                this._guid = newVal;
-                break;
-            case del:
-
-            default:
-                super.attributeChangedCallback(name, oldVal, newVal);
-        }
-    }
 
     _del: boolean = false;
     get del(){

@@ -1,8 +1,7 @@
 import { PD } from './p-d.js';
-import { define } from 'trans-render/define.js';
+import { define, mergeProps } from 'xtal-element/xtal-latx.js';
 const guid = 'guid';
 const del = 'del';
-const after = 'after';
 const regLookup = {};
 /**
  * Extends element p-d with experimental features.
@@ -13,7 +12,6 @@ export class PDX extends PD {
         super(...arguments);
         this._del = false;
     }
-    static get is() { return 'p-d-x'; }
     commit(target, val, e) {
         if (val === undefined) {
             super.commit(target, val, e);
@@ -33,18 +31,6 @@ export class PDX extends PD {
     }
     static get observedAttributes() {
         return super.observedAttributes.concat([guid, del]);
-    }
-    attributeChangedCallback(name, oldVal, newVal) {
-        switch (name) {
-            case guid:
-                if (this._guid !== undefined)
-                    return;
-                this._guid = newVal;
-                break;
-            case del:
-            default:
-                super.attributeChangedCallback(name, oldVal, newVal);
-        }
     }
     get del() {
         return this._del;
@@ -69,6 +55,7 @@ export class PDX extends PD {
         }
     }
     static extend(params) {
+        var _a, _b;
         const nameDefined = params.name !== undefined;
         let name;
         const pdxPrefix = 'p-d-x-';
@@ -76,7 +63,7 @@ export class PDX extends PD {
             name = pdxPrefix + params.name;
         }
         else {
-            const fnSig = '' + params?.valFromEvent?.toString() + params?.chkIf?.toString();
+            const fnSig = '' + ((_a = params === null || params === void 0 ? void 0 : params.valFromEvent) === null || _a === void 0 ? void 0 : _a.toString()) + ((_b = params === null || params === void 0 ? void 0 : params.chkIf) === null || _b === void 0 ? void 0 : _b.toString());
             const prevName = regLookup[fnSig];
             if (prevName !== undefined) {
                 name = prevName;
@@ -89,9 +76,10 @@ export class PDX extends PD {
         if (!customElements.get(name)) {
             class Extension extends PDX {
                 constructor() {
+                    var _a, _b;
                     super();
-                    this._valBind = params?.valFromEvent?.bind(this);
-                    this._chkIf = params?.chkIf?.bind(this);
+                    this._valBind = (_a = params === null || params === void 0 ? void 0 : params.valFromEvent) === null || _a === void 0 ? void 0 : _a.bind(this);
+                    this._chkIf = (_b = params === null || params === void 0 ? void 0 : params.chkIf) === null || _b === void 0 ? void 0 : _b.bind(this);
                 }
                 valFromEvent(e) {
                     if (this._valBind !== undefined)
@@ -117,5 +105,13 @@ export class PDX extends PD {
         }
     }
 }
+PDX.is = 'p-d-x';
+PDX.attributeProps = ({ del, guid }) => {
+    const ap = {
+        boolean: [del],
+        string: [guid],
+    };
+    return mergeProps(ap, PD.props);
+};
 define(PDX);
 export const extend = PDX.extend;

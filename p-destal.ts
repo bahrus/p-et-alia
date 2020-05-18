@@ -2,7 +2,10 @@ import { PDX } from './p-d-x.js';
 import {define} from 'trans-render/define.js';
 
 export class PDestal extends PDX {
-    static get is() { return 'p-destal'; }
+
+    static is =  'p-destal'; 
+
+    static attributeProps: any = ({} : PDestal) => (<any>PDX).props;
 
     _host!: HTMLElement;
     _useLocation!: boolean;
@@ -21,7 +24,7 @@ export class PDestal extends PDX {
     }
     _previousValues: { [key: string]: string | null } = {};
     doFakeEvent() {
-        const split = this._on.split(',');
+        const split = this.on.split(',');
         const searchParams = new URLSearchParams(location.search);
         let changedVal = false;
         split.forEach(param => {

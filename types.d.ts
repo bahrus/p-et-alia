@@ -1,11 +1,10 @@
-import {Partial} from 'trans-render/init.d.js';
 import { init } from "../xtal-state/xtal-state-api";
 export interface PProps extends HTMLElement{
     on?: string;
     to?: string;
     careOf?: string;
     noblock?: boolean;
-    if?: string;
+    ifTargetMatches?: string;
     prop?: string | symbol;
     val?: string;
     fireEvent?: string;

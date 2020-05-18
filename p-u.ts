@@ -1,12 +1,17 @@
 import { P } from './p.js';
-import { define } from 'trans-render/define.js';
+import { define, mergeProps } from 'xtal-element/xtal-latx.js';
+import { AttributeProps } from '../xtal-element/types.js';
 /**
  * Pass data from one element to a targeted DOM element elsewhere
  * @element p-u
  *  
  */
 export class PU extends P {
-    static get is() { return 'p-u'; }
+    static is = 'p-u';
+    static attributeProps: any= ({disabled, on, to, careOf, noblock, val, prop, ifTargetMatches,  observe, fireEvent} : PU) => ({
+        boolean: [disabled, noblock],
+        string: [on, to, careOf, val, prop, ifTargetMatches, observe, fireEvent],
+    }  as AttributeProps);
     pass(e: Event) {
         
         const cssSel = this.to;

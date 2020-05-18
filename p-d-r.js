@@ -7,17 +7,16 @@ import { PDNavDown } from './PDNavDown.js';
  * @element p-d-r
  */
 export class PDR extends PD {
-    static get is() {
-        return 'p-d-r';
-    }
     getMatches(pd) {
         return pd.getMatches();
     }
     newNavDown() {
         const bndApply = this.applyProps.bind(this);
-        const pdnd = new PDNavDown(this, this.to, this._careOf, bndApply, this.m);
+        const pdnd = new PDNavDown(this, this.to, this.careOf, bndApply, this.m);
         pdnd.root = this;
         return pdnd;
     }
 }
+PDR.is = 'p-d-r';
+PDR.attributeProps = ({}) => PD.props;
 define(PDR);

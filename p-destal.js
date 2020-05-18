@@ -5,7 +5,6 @@ export class PDestal extends PDX {
         super(...arguments);
         this._previousValues = {};
     }
-    static get is() { return 'p-destal'; }
     getPreviousSib() {
         let parent = this;
         while (parent = parent.parentNode) {
@@ -22,7 +21,7 @@ export class PDestal extends PDX {
         }
     }
     doFakeEvent() {
-        const split = this._on.split(',');
+        const split = this.on.split(',');
         const searchParams = new URLSearchParams(location.search);
         let changedVal = false;
         split.forEach(param => {
@@ -47,4 +46,6 @@ export class PDestal extends PDX {
         this.doFakeEvent();
     }
 }
+PDestal.is = 'p-destal';
+PDestal.attributeProps = ({}) => PDX.props;
 define(PDestal);

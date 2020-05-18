@@ -1,15 +1,6 @@
 import { XtallatX, lispToCamel } from 'xtal-element/xtal-latx.js';
 import { hydrate } from 'trans-render/hydrate.js';
-import { WithPath, with_path } from 'xtal-element/with-path.js';
-const on = 'on';
-const noblock = 'noblock';
-const iff = 'if';
-const to = 'to';
-const prop = 'prop';
-const val = 'val';
-const care_of = 'care-of';
-const fire_event = 'fire-event';
-const observe = 'observe';
+import { WithPath } from 'xtal-element/with-path.js';
 function getProp(val, pathTokens, src) {
     let context = val;
     let first = true;
@@ -38,100 +29,6 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         this._s = null; // split prop using '.' as delimiter
         this._lastEvent = null;
     }
-    get on() {
-        return this._on;
-    }
-    /**
-     * The event name to monitor for, from previous non-petalian element.
-     * @attr
-     */
-    set on(val) {
-        this.attr(on, val);
-    }
-    get to() {
-        return this._to;
-    }
-    /**
-     * css pattern to match for from downstream siblings.
-     * @attr
-     */
-    set to(val) {
-        this.attr(to, val);
-    }
-    get careOf() {
-        return this._careOf;
-    }
-    /**
-     * CSS Selector to use to select single child within the destination element.
-     * @attr care-of
-     *
-     */
-    set careOf(nv) {
-        this.attr(care_of, nv);
-    }
-    get noblock() {
-        return this._noblock;
-    }
-    /**
-     * Don't block event propagation.
-     * @attr
-     */
-    set noblock(val) {
-        this.attr(noblock, val, '');
-    }
-    get if() { return this._if; }
-    /**
-     * Only act on event if target element css-matches the expression specified by this attribute.
-     * @attr
-     */
-    set if(val) {
-        this.attr(iff, val);
-    }
-    get prop() { return this._prop; }
-    /**
-     * Name of property to set on matching downstream siblings.
-     * @attr
-     */
-    set prop(val) {
-        switch (typeof val) {
-            case 'symbol':
-                this._prop = val;
-                break;
-            default:
-                this.attr(prop, val);
-        }
-    }
-    get val() { return this._val; }
-    /**
-     * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.
-     * @attr
-     */
-    set val(nv) {
-        this.attr(val, nv);
-    }
-    get observe() {
-        return this._observe;
-    }
-    /**
-    * Specifies element to latch on to, and listen for events.
-    * @attr
-    */
-    set observe(nv) {
-        this.attr(observe, nv);
-    }
-    get fireEvent() {
-        return this._fireEvent;
-    }
-    /**
-     * Artificially fire event on target element whose name is specified by this attribute.
-     * @attr fire-event
-     */
-    set fireEvent(nv) {
-        this.attr(fire_event, nv);
-    }
-    static get observedAttributes() {
-        return super.observedAttributes.concat([on, to, noblock, iff, prop, val, care_of, with_path, fire_event, observe]);
-    }
     getSplit(newVal) {
         if (newVal === '.') {
             return [];
@@ -140,37 +37,17 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
             return newVal.split('.');
         }
     }
-    attributeChangedCallback(name, oldVal, newVal) {
-        const f = '_' + name;
-        switch (name) {
-            case iff:
-            case on:
-            case prop:
-            case val:
-            case to:
-            case observe:
-                this[f] = newVal;
-                break;
-            case noblock:
-                this[f] = newVal !== null;
-                break;
-            case care_of:
-            case with_path:
-            case fire_event:
-                const key = '_' + lispToCamel(name);
-                this[key] = newVal;
-                break;
+    onPropsChange(name) {
+        if (name === 'val' && this.val !== null) {
+            this._s = this.getSplit(this.val);
         }
-        if (name === val && newVal !== null) {
-            this._s = this.getSplit(newVal);
-        }
-        super.attributeChangedCallback(name, oldVal, newVal);
+        super.onPropsChange(name);
     }
     /**
      * get previous sibling
      */
     getPreviousSib() {
-        const obs = this._observe;
+        const obs = this.observe;
         let prevSib = this;
         while (prevSib && ((obs != undefined && !prevSib.matches(obs)) || prevSib.hasAttribute('on'))) {
             prevSib = prevSib.previousElementSibling;
@@ -182,7 +59,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     }
     connectedCallback() {
         this.style.display = 'none';
-        this.propUp([on, to, noblock, iff, prop, val, 'careOf', 'withPath', 'fireEvent', observe]);
+        super.connectedCallback();
     }
     init() {
         this.attchEvListnrs();
@@ -211,9 +88,9 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         if (!prevSib)
             return;
         this._trigger = prevSib;
-        prevSib.addEventListener(this._on, this._bndHndlEv);
-        if (prevSib === this.parentElement && this._if) {
-            prevSib.querySelectorAll(this._if).forEach(publisher => {
+        prevSib.addEventListener(this.on, this._bndHndlEv);
+        if (prevSib === this.parentElement && this.ifTargetMatches) {
+            prevSib.querySelectorAll(this.ifTargetMatches).forEach(publisher => {
                 this.nudge(publisher);
             });
         }
@@ -225,7 +102,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         return this.hasAttribute('skip-init');
     }
     doFake() {
-        if (!this._if && !this.skI()) {
+        if (!this.ifTargetMatches && !this.skI()) {
             let lastEvent = this._lastEvent;
             if (!lastEvent) {
                 lastEvent = {
@@ -238,9 +115,9 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         }
     }
     filterEvent(e) {
-        if (this._if === undefined)
+        if (this.ifTargetMatches === undefined)
             return true;
-        return e.target.matches(this._if);
+        return e.target.matches(this.ifTargetMatches);
     }
     _hndEv(e) {
         if (this.hasAttribute('debug'))
@@ -249,7 +126,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
             return;
         if (!this.filterEvent(e))
             return;
-        if (e.stopPropagation && !this._noblock)
+        if (e.stopPropagation && !this.noblock)
             e.stopPropagation();
         this._lastEvent = e;
         this.pass(e);
@@ -297,11 +174,11 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     commit(target, valx, e) {
         if (valx === undefined)
             return;
-        let prop = this._prop;
+        let prop = this.prop;
         let attr;
         if (prop === undefined) {
             //TODO:  optimize (cache, etc)
-            const thingToSplit = this._careOf || this._to;
+            const thingToSplit = this.careOf || this.to;
             const toSplit = thingToSplit.split('[');
             const len = toSplit.length;
             if (len > 1) {
@@ -315,8 +192,8 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         if (target.hasAttribute !== undefined && target.hasAttribute('debug'))
             debugger;
         this.setVal(target, valx, attr, prop);
-        if (this._fireEvent) {
-            target.dispatchEvent(new CustomEvent(this._fireEvent, {
+        if (this.fireEvent) {
+            target.dispatchEvent(new CustomEvent(this.fireEvent, {
                 detail: this.getDetail(valx),
                 bubbles: true
             }));
@@ -326,7 +203,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         return { value: val };
     }
     detach(pS) {
-        pS.removeEventListener(this._on, this._bndHndlEv);
+        pS.removeEventListener(this.on, this._bndHndlEv);
     }
     disconnectedCallback() {
         const pS = this.getPreviousSib();

@@ -1,7 +1,8 @@
 import { P} from './p.js';
-import { define } from 'trans-render/define.js';
+import { define } from 'xtal-element/xtal-latx.js';
 import {NavDown} from 'xtal-element/NavDown.js';
 import {PDProps} from './types.js';
+import {AttributeProps, PropDefGet} from 'xtal-element/types.d.js';
 
 const m = 'm';
 const from = 'from';
@@ -12,39 +13,35 @@ const from = 'from';
  *
  */
 export class PD extends P implements PDProps {
-    static get is() { return 'p-d'; }
+    static is = 'p-d';
+
+    static attributeProps: any= ({disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, fireEvent} : PD) => ({
+        boolean: [disabled, noblock],
+        numeric: [m],
+        string: [on, to, careOf, val, prop, ifTargetMatches, from, observe, fireEvent],
+    }  as AttributeProps);
+
     _pdNavDown: NavDown | null = null;
 
 
 
 
     //_hasMax!: boolean;
-    _m: number = Infinity; 
-    get m() {
-        return this._m;
-    }
+
     /**
      * Maximum number of matching elements expected to be found.
      * @attr
      */
-    set m(val) {
-        this.attr(m, val.toString());
-    }
+    m: number | undefined;
 
-    _from!: string;
-    get from(){
-        return this._from;
-    }
+
     /**
      * Source element to start matches from
      * @attr
      */
-    set from(nv){
-        this.attr(from, nv);
-    }
-    static get observedAttributes() {
-        return super.observedAttributes.concat([m, from]);
-    }
+    from: string | undefined;
+
+
 
     pass(e: Event) {
         this._lastEvent = e;
@@ -71,37 +68,22 @@ export class PD extends P implements PDProps {
         this.attr('mtch', len.toString());
         return len;
     }
-    attributeChangedCallback(name: string, oldVal: string, newVal: string) {
-        switch (name) {
-            case m:
-                if (newVal !== null) {
-                    this._m = parseInt(newVal);
-                } 
-                break;
-            case from:
-                this._from = newVal;
-                break;
-            default:
-                super.attributeChangedCallback(name, oldVal, newVal);
-        }
-        
-    }
+
     newNavDown(){
         const bndApply = this.applyProps.bind(this);
         let seed : Element | null = this._trigger || this;
-        if(this._from !== undefined){
-            seed = seed.closest(this._from);
+        if(this.from !== undefined){
+            seed = seed.closest(this.from);
             if(seed === null){
-                throw this._from + ' not found.';
+                throw this.from + ' not found.';
             }
         }
-        return new NavDown(seed, this.to, this._careOf, bndApply, this.m);
+        return new NavDown(seed, this.to, this.careOf, bndApply, this.m!);
     }
     _iIP = false;
     connectedCallback(trigger?: HTMLElement) {
         this._trigger = trigger;
         super.connectedCallback();
-        this.propUp([m, from]);
         this.attr('pds', '📞');
         if(!this.to){
             //apply to next only

@@ -1,12 +1,11 @@
 import { P } from './p.js';
-import { define } from 'trans-render/define.js';
+import { define } from 'xtal-element/xtal-latx.js';
 /**
  * Pass data from one element to a targeted DOM element elsewhere
  * @element p-u
  *
  */
 export class PU extends P {
-    static get is() { return 'p-u'; }
     pass(e) {
         const cssSel = this.to;
         const split = cssSel.split('/');
@@ -40,4 +39,9 @@ export class PU extends P {
         this.init();
     }
 }
+PU.is = 'p-u';
+PU.attributeProps = ({ disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, observe, fireEvent }) => ({
+    boolean: [disabled, noblock],
+    string: [on, to, careOf, val, prop, ifTargetMatches, observe, fireEvent],
+});
 define(PU);

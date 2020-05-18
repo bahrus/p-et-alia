@@ -1,5 +1,5 @@
 import { P } from './p.js';
-import { define } from 'trans-render/define.js';
+import { define } from 'xtal-element/xtal-latx.js';
 import { NavDown } from 'xtal-element/NavDown.js';
 const m = 'm';
 const from = 'from';
@@ -12,33 +12,7 @@ export class PD extends P {
     constructor() {
         super(...arguments);
         this._pdNavDown = null;
-        //_hasMax!: boolean;
-        this._m = Infinity;
         this._iIP = false;
-    }
-    static get is() { return 'p-d'; }
-    get m() {
-        return this._m;
-    }
-    /**
-     * Maximum number of matching elements expected to be found.
-     * @attr
-     */
-    set m(val) {
-        this.attr(m, val.toString());
-    }
-    get from() {
-        return this._from;
-    }
-    /**
-     * Source element to start matches from
-     * @attr
-     */
-    set from(nv) {
-        this.attr(from, nv);
-    }
-    static get observedAttributes() {
-        return super.observedAttributes.concat([m, from]);
     }
     pass(e) {
         this._lastEvent = e;
@@ -68,35 +42,20 @@ export class PD extends P {
         this.attr('mtch', len.toString());
         return len;
     }
-    attributeChangedCallback(name, oldVal, newVal) {
-        switch (name) {
-            case m:
-                if (newVal !== null) {
-                    this._m = parseInt(newVal);
-                }
-                break;
-            case from:
-                this._from = newVal;
-                break;
-            default:
-                super.attributeChangedCallback(name, oldVal, newVal);
-        }
-    }
     newNavDown() {
         const bndApply = this.applyProps.bind(this);
         let seed = this._trigger || this;
-        if (this._from !== undefined) {
-            seed = seed.closest(this._from);
+        if (this.from !== undefined) {
+            seed = seed.closest(this.from);
             if (seed === null) {
-                throw this._from + ' not found.';
+                throw this.from + ' not found.';
             }
         }
-        return new NavDown(seed, this.to, this._careOf, bndApply, this.m);
+        return new NavDown(seed, this.to, this.careOf, bndApply, this.m);
     }
     connectedCallback(trigger) {
         this._trigger = trigger;
         super.connectedCallback();
-        this.propUp([m, from]);
         this.attr('pds', '📞');
         if (!this.to) {
             //apply to next only
@@ -114,4 +73,10 @@ export class PD extends P {
         this.init();
     }
 }
+PD.is = 'p-d';
+PD.attributeProps = ({ disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, fireEvent }) => ({
+    boolean: [disabled, noblock],
+    numeric: [m],
+    string: [on, to, careOf, val, prop, ifTargetMatches, from, observe, fireEvent],
+});
 define(PD);
