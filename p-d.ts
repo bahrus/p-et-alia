@@ -12,12 +12,18 @@ import {AttributeProps, PropDefGet} from 'xtal-element/types.d.js';
 export class PD extends P implements PDProps {
     static is = 'p-d';
 
-    static attributeProps: any= ({disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, fireEvent, skipInit} : PD) => ({
-        boolean: [disabled, noblock, skipInit],
-        numeric: [m],
-        string: [on, to, careOf, val, prop, ifTargetMatches, from, observe, fireEvent],
-        reflect: [disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, fireEvent, skipInit]
-    }  as AttributeProps);
+    static attributeProps: any= ({disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, fireEvent, skipInit} : PD) => {
+        const bool =  [disabled, noblock, skipInit];
+        const num = [m];
+        const str = [on, to, careOf, val, prop, ifTargetMatches, from, observe, fireEvent];
+        const refl = [...bool, ...num, ...str];
+        return {
+            boolean: bool,
+            numeric: num,
+            string: str,
+            reflect: refl
+        } as AttributeProps;
+    }
 
     _pdNavDown: NavDown | null = null;
 

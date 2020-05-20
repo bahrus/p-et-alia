@@ -110,6 +110,7 @@ PDX.attributeProps = ({ del, guid }) => {
     const ap = {
         boolean: [del],
         string: [guid],
+        reflect: [del, guid]
     };
     return mergeProps(ap, PD.props);
 };

@@ -14,10 +14,12 @@ const replace = 'replace';
 export class PW extends PUnt{
     static is = 'p-w';
     static attributeProps: any = ({statePath, replace, push} : PW) => {
+        const bool = [replace, push];
+        const str = [statePath];
         const ap = {
-            boolean: [replace, push],
-            string: [statePath],
-            reflect: [statePath, replace, push]
+            boolean: bool,
+            string: str,
+            reflect: [...bool, ...str],
         } as AttributeProps
         return mergeProps(ap, (<any>PUnt).props);
     } 

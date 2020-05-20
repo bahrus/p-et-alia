@@ -8,10 +8,18 @@ import { AttributeProps } from '../xtal-element/types.js';
  */
 export class PU extends P {
     static is = 'p-u';
-    static attributeProps: any= ({disabled, on, to, careOf, noblock, val, prop, ifTargetMatches,  observe, fireEvent} : PU) => ({
-        boolean: [disabled, noblock],
-        string: [on, to, careOf, val, prop, ifTargetMatches, observe, fireEvent],
-    }  as AttributeProps);
+
+    static attributeProps: any = ({disabled, on, to, careOf, noblock, val, prop, ifTargetMatches,  observe, fireEvent} : PU) => {
+        const bool = [disabled, noblock];
+        const str = [on, to, careOf, val, prop, ifTargetMatches, observe, fireEvent];
+        const refl = [...bool, ...str];
+        return {
+            boolean: bool,
+            string: str,
+            reflect: refl
+        } as AttributeProps;
+    }
+
     pass(e: Event) {
         
         const cssSel = this.to;

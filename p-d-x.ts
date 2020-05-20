@@ -19,6 +19,7 @@ export class PDX extends PD {
         const ap = {
             boolean: [del],
             string: [guid],
+            reflect: [del, guid]
         }  as AttributeProps;
         return mergeProps(ap, (<any>PD).props);
     }

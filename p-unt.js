@@ -41,8 +41,10 @@ export class PUnt extends PDX {
 }
 PUnt.is = 'p-unt';
 PUnt.attributeProps = ({ bubbles, cancelable, composed, dispatch }) => {
+    const bool = [bubbles, cancelable, composed, dispatch];
     const ap = {
-        boolean: [bubbles, cancelable, composed, dispatch]
+        boolean: bool,
+        reflect: bool,
     };
     return mergeProps(ap, PDX.props);
 };
