@@ -34,7 +34,8 @@ PhD.is = 'p-h-d';
 PhD.attributeProps = ({ initAndPopStateOnly, fromPath }) => {
     const ap = {
         boolean: [initAndPopStateOnly],
-        string: [fromPath]
+        string: [fromPath],
+        reflect: [fromPath, initAndPopStateOnly]
     };
     return mergeProps(ap, PDX.props);
 };

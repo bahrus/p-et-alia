@@ -4,9 +4,6 @@ import {NavDown} from 'xtal-element/NavDown.js';
 import {PDProps} from './types.js';
 import {AttributeProps, PropDefGet} from 'xtal-element/types.d.js';
 
-const m = 'm';
-const from = 'from';
-
 /**
  * Pass data from one element down the DOM tree to other elements
  * @element p-d
@@ -15,10 +12,11 @@ const from = 'from';
 export class PD extends P implements PDProps {
     static is = 'p-d';
 
-    static attributeProps: any= ({disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, fireEvent} : PD) => ({
-        boolean: [disabled, noblock],
+    static attributeProps: any= ({disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, fireEvent, skipInit} : PD) => ({
+        boolean: [disabled, noblock, skipInit],
         numeric: [m],
         string: [on, to, careOf, val, prop, ifTargetMatches, from, observe, fireEvent],
+        reflect: [disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, fireEvent, skipInit]
     }  as AttributeProps);
 
     _pdNavDown: NavDown | null = null;

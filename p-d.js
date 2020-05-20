@@ -1,8 +1,6 @@
 import { P } from './p.js';
 import { define } from 'xtal-element/xtal-latx.js';
 import { NavDown } from 'xtal-element/NavDown.js';
-const m = 'm';
-const from = 'from';
 /**
  * Pass data from one element down the DOM tree to other elements
  * @element p-d
@@ -74,9 +72,10 @@ export class PD extends P {
     }
 }
 PD.is = 'p-d';
-PD.attributeProps = ({ disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, fireEvent }) => ({
-    boolean: [disabled, noblock],
+PD.attributeProps = ({ disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, fireEvent, skipInit }) => ({
+    boolean: [disabled, noblock, skipInit],
     numeric: [m],
     string: [on, to, careOf, val, prop, ifTargetMatches, from, observe, fireEvent],
+    reflect: [disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, fireEvent, skipInit]
 });
 define(PD);

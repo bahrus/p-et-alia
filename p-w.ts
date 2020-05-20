@@ -16,7 +16,8 @@ export class PW extends PUnt{
     static attributeProps: any = ({statePath, replace, push} : PW) => {
         const ap = {
             boolean: [replace, push],
-            string: [statePath]
+            string: [statePath],
+            reflect: [statePath, replace, push]
         } as AttributeProps
         return mergeProps(ap, (<any>PUnt).props);
     } 

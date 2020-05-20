@@ -14,7 +14,8 @@ export class PhD extends PDX{
     static attributeProps: any = ({initAndPopStateOnly, fromPath} : PhD) => {
         const ap = {
             boolean: [initAndPopStateOnly],
-            string: [fromPath]
+            string: [fromPath],
+            reflect: [fromPath, initAndPopStateOnly]
         } as AttributeProps
         return mergeProps(ap, (<any>PDX).props);
     } 

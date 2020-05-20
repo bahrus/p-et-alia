@@ -92,6 +92,12 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
      */
     fireEvent!: string;
 
+    /**
+     * Don't raise a "fake" event when attaching to element.
+     * @attr skip-init
+     */
+    skipInit!: boolean;
+
 
     
     _s: (string | [string, string[]])[] | null = null;  // split prop using '.' as delimiter
@@ -165,11 +171,11 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         }
 
     }
-    skI(){
-        return this.hasAttribute('skip-init');
-    }
+    //skI(){
+    //    return this.hasAttribute('skip-init');
+    //}
     doFake(){
-        if(!this.ifTargetMatches && !this.skI()){
+        if(!this.ifTargetMatches && !this.skipInit){
             let lastEvent = this._lastEvent;
             if(!lastEvent){
                 lastEvent = <any>{

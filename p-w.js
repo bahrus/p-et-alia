@@ -53,7 +53,8 @@ PW.is = 'p-w';
 PW.attributeProps = ({ statePath, replace, push }) => {
     const ap = {
         boolean: [replace, push],
-        string: [statePath]
+        string: [statePath],
+        reflect: [statePath, replace, push]
     };
     return mergeProps(ap, PUnt.props);
 };
