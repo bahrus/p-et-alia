@@ -108,8 +108,8 @@ export class PDX extends PD {
 PDX.is = 'p-d-x';
 PDX.attributeProps = ({ del, guid }) => {
     const ap = {
-        boolean: [del],
-        string: [guid],
+        bool: [del],
+        str: [guid],
         reflect: [del, guid]
     };
     return mergeProps(ap, PD.props);

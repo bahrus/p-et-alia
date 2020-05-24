@@ -33,8 +33,8 @@ export class PhD extends PDX {
 PhD.is = 'p-h-d';
 PhD.attributeProps = ({ initAndPopStateOnly, fromPath }) => {
     const ap = {
-        boolean: [initAndPopStateOnly],
-        string: [fromPath],
+        bool: [initAndPopStateOnly],
+        str: [fromPath],
         reflect: [fromPath, initAndPopStateOnly]
     };
     return mergeProps(ap, PDX.props);

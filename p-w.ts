@@ -17,8 +17,8 @@ export class PW extends PUnt{
         const bool = [replace, push];
         const str = [statePath];
         const ap = {
-            boolean: bool,
-            string: str,
+            bool: bool,
+            str: str,
             reflect: [...bool, ...str],
         } as AttributeProps
         return mergeProps(ap, (<any>PUnt).props);

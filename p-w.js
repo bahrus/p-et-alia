@@ -54,8 +54,8 @@ PW.attributeProps = ({ statePath, replace, push }) => {
     const bool = [replace, push];
     const str = [statePath];
     const ap = {
-        boolean: bool,
-        string: str,
+        bool: bool,
+        str: str,
         reflect: [...bool, ...str],
     };
     return mergeProps(ap, PUnt.props);

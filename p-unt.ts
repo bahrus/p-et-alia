@@ -17,7 +17,7 @@ export class PUnt extends PDX {
     static attributeProps: any = ({bubbles, cancelable, composed, dispatch}: PUnt) => {
         const bool = [bubbles, cancelable, composed, dispatch];
         const ap = {
-            boolean: bool,
+            bool: bool,
             reflect: bool,
         } as AttributeProps;
         return mergeProps(ap, (<any>PDX).props);

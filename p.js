@@ -98,9 +98,6 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
             this.nudge(prevSib);
         }
     }
-    //skI(){
-    //    return this.hasAttribute('skip-init');
-    //}
     doFake() {
         if (!this.ifTargetMatches && !this.skipInit) {
             let lastEvent = this._lastEvent;

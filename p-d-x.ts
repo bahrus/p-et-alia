@@ -17,8 +17,8 @@ export class PDX extends PD {
     static is = 'p-d-x';
     static attributeProps = ({del, guid} : PDX) => {
         const ap = {
-            boolean: [del],
-            string: [guid],
+            bool: [del],
+            str: [guid],
             reflect: [del, guid]
         }  as AttributeProps;
         return mergeProps(ap, (<any>PD).props);

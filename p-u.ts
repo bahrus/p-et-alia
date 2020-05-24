@@ -14,8 +14,8 @@ export class PU extends P {
         const str = [on, to, careOf, val, prop, ifTargetMatches, observe, fireEvent];
         const refl = [...bool, ...str];
         return {
-            boolean: bool,
-            string: str,
+            bool: bool,
+            str: str,
             reflect: refl
         } as AttributeProps;
     }

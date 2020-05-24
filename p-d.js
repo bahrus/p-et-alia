@@ -78,9 +78,9 @@ PD.attributeProps = ({ disabled, on, to, careOf, noblock, val, prop, ifTargetMat
     const str = [on, to, careOf, val, prop, ifTargetMatches, from, observe, fireEvent];
     const refl = [...bool, ...num, ...str];
     return {
-        boolean: bool,
-        numeric: num,
-        string: str,
+        bool: bool,
+        num: num,
+        str: str,
         reflect: refl
     };
 };

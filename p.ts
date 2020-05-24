@@ -171,9 +171,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         }
 
     }
-    //skI(){
-    //    return this.hasAttribute('skip-init');
-    //}
+
     doFake(){
         if(!this.ifTargetMatches && !this.skipInit){
             let lastEvent = this._lastEvent;

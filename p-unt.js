@@ -43,7 +43,7 @@ PUnt.is = 'p-unt';
 PUnt.attributeProps = ({ bubbles, cancelable, composed, dispatch }) => {
     const bool = [bubbles, cancelable, composed, dispatch];
     const ap = {
-        boolean: bool,
+        bool: bool,
         reflect: bool,
     };
     return mergeProps(ap, PDX.props);
