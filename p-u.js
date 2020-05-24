@@ -43,11 +43,11 @@ PU.is = 'p-u';
 PU.attributeProps = ({ disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, observe, fireEvent }) => {
     const bool = [disabled, noblock];
     const str = [on, to, careOf, val, prop, ifTargetMatches, observe, fireEvent];
-    const refl = [...bool, ...str];
+    const reflect = [...bool, ...str];
     return {
-        bool: bool,
-        str: str,
-        reflect: refl
+        bool,
+        str,
+        reflect
     };
 };
 define(PU);

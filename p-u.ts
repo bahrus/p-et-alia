@@ -12,11 +12,11 @@ export class PU extends P {
     static attributeProps: any = ({disabled, on, to, careOf, noblock, val, prop, ifTargetMatches,  observe, fireEvent} : PU) => {
         const bool = [disabled, noblock];
         const str = [on, to, careOf, val, prop, ifTargetMatches, observe, fireEvent];
-        const refl = [...bool, ...str];
+        const reflect = [...bool, ...str];
         return {
-            bool: bool,
-            str: str,
-            reflect: refl
+            bool,
+            str,
+            reflect
         } as AttributeProps;
     }
 

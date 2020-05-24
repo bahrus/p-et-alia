@@ -76,12 +76,12 @@ PD.attributeProps = ({ disabled, on, to, careOf, noblock, val, prop, ifTargetMat
     const bool = [disabled, noblock, skipInit];
     const num = [m];
     const str = [on, to, careOf, val, prop, ifTargetMatches, from, observe, fireEvent];
-    const refl = [...bool, ...num, ...str];
+    const reflect = [...bool, ...num, ...str];
     return {
-        bool: bool,
-        num: num,
-        str: str,
-        reflect: refl
+        bool,
+        num,
+        str,
+        reflect
     };
 };
 define(PD);
