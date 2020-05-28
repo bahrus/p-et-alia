@@ -74,7 +74,9 @@ p-d  passes information from that previous sibling's event down the p-d instance
 
 If any of the sub-expressions evaluate to null or undefined, then the target element(s) aren't modified.
 
-All the components described in this document support an attribute (not a property), "debug".  If the attribute is present, the code will break every time the event it is monitoring for fires.  Adding a debug attribute to a target element will also cause the processing to break every time a new value is about to be set.
+All the components described in this document support an attribute/property, "debug".  If the attribute is present, the code will break every time the event it is monitoring for fires.  Adding a debug attribute to a target element will also cause the processing to break every time a new value is about to be set.
+
+Another attribute/property, "log" logs whenever the event fires.
 
 ##  But what if the way my elements should display isn't related to how data should flow?
 

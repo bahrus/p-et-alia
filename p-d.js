@@ -72,8 +72,8 @@ export class PD extends P {
     }
 }
 PD.is = 'p-d';
-PD.attributeProps = ({ disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, fireEvent, skipInit }) => {
-    const bool = [disabled, noblock, skipInit];
+PD.attributeProps = ({ disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, fireEvent, skipInit, debug, log }) => {
+    const bool = [disabled, noblock, skipInit, debug, log];
     const num = [m];
     const str = [on, to, careOf, val, prop, ifTargetMatches, from, observe, fireEvent];
     const reflect = [...bool, ...num, ...str];

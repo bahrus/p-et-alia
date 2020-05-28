@@ -1,4 +1,5 @@
 import {XtallatX, lispToCamel} from 'xtal-element/xtal-latx.js';
+import {PropAction} from 'xtal-element/types.d.js';
 import {hydrate} from 'trans-render/hydrate.js';
 import {createNestedProp} from 'xtal-element/createNestedProp.js';
 import {WithPath, with_path} from 'xtal-element/with-path.js';
@@ -98,6 +99,10 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
      */
     skipInit!: boolean;
 
+    debug!: boolean;
+
+    log!: boolean;
+
 
     
     _s: (string | [string, string[]])[] | null = null;  // split prop using '.' as delimiter
@@ -109,12 +114,14 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         }
     }
 
-    onPropsChange(name: string){
-        if(name === 'val' && this.val !== null){
-            this._s = this.getSplit(this.val);
-        }
-        super.onPropsChange(name);
-    }
+    propActions = [
+        ({val, self} : P) =>{
+            if(val !== null){
+                self._s = self.getSplit(val);
+            }
+        } 
+    ] as PropAction[];
+
 
     /**
      * get previous sibling
@@ -194,7 +201,10 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         return (e.target as HTMLElement).matches(this.ifTargetMatches);
     }
     _hndEv(e: Event){
-        if(this.hasAttribute('debug')) debugger;
+        if(this.log){
+            console.log('handlingEvent', this, e);
+        }
+        if(this.debug) debugger;
         if(!e) return;
         if(!this.filterEvent(e)) return;
         if(e.stopPropagation && !this.noblock) e.stopPropagation();

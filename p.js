@@ -27,6 +27,13 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     constructor() {
         super(...arguments);
         this._s = null; // split prop using '.' as delimiter
+        this.propActions = [
+            ({ val, self }) => {
+                if (val !== null) {
+                    self._s = self.getSplit(val);
+                }
+            }
+        ];
         this._lastEvent = null;
     }
     getSplit(newVal) {
@@ -36,12 +43,6 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         else {
             return newVal.split('.');
         }
-    }
-    onPropsChange(name) {
-        if (name === 'val' && this.val !== null) {
-            this._s = this.getSplit(this.val);
-        }
-        super.onPropsChange(name);
     }
     /**
      * get previous sibling
@@ -117,7 +118,10 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         return e.target.matches(this.ifTargetMatches);
     }
     _hndEv(e) {
-        if (this.hasAttribute('debug'))
+        if (this.log) {
+            console.log('handlingEvent', this, e);
+        }
+        if (this.debug)
             debugger;
         if (!e)
             return;
