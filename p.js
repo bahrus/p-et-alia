@@ -153,7 +153,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
                     const method = (valx === undefined && valx === null) ? 'remove' : 'add';
                     target.classList[method](cssClass);
                 }
-                else if (this._withPath !== undefined) {
+                else if (this.withPath !== undefined) {
                     const currentVal = target[prop];
                     const wrappedVal = this.wrap(valx, {});
                     target[prop] = (typeof (currentVal) === 'object' && currentVal !== null) ? { ...currentVal, ...wrappedVal } : wrappedVal;
