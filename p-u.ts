@@ -9,9 +9,9 @@ import { AttributeProps } from '../xtal-element/types.js';
 export class PU extends P {
     static is = 'p-u';
 
-    static attributeProps: any = ({disabled, on, to, careOf, noblock, val, prop, ifTargetMatches,  observe, fireEvent} : PU) => {
+    static attributeProps: any = ({disabled, on, to, careOf, noblock, val, prop, ifTargetMatches,  observe, fireEvent, withPath} : PU) => {
         const bool = [disabled, noblock];
-        const str = [on, to, careOf, val, prop, ifTargetMatches, observe, fireEvent];
+        const str = [on, to, careOf, val, prop, ifTargetMatches, observe, fireEvent, withPath];
         const reflect = [...bool, ...str];
         return {
             bool,
