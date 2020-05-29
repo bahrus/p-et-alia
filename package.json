@@ -12,17 +12,17 @@
   "dependencies": {
     "xtal-element": "0.0.164",
     "trans-render": "0.0.182",
-    "xtal-state": "0.0.106"
+    "xtal-state": "0.0.107"
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "2.4.3",
-    "if-diff": "0.0.44",
+    "if-diff": "0.0.49",
     "xtal-test": "0.0.44",
     "xtal-json-editor": "0.0.41",
     "xtal-json-merge": "0.2.38",
     "es-module-shims": "0.4.6",
-    "aggregator-fn": "0.0.21",
-    "purr-sist": "0.0.62",
+    "aggregator-fn": "0.0.24",
+    "purr-sist": "0.0.66",
     "templ-mount": "0.0.56"
   },
   "scripts": {
