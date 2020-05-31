@@ -1,7 +1,5 @@
 import { PD } from './p-d.js';
 import { define, mergeProps } from 'xtal-element/xtal-latx.js';
-const guid = 'guid';
-const del = 'del';
 const regLookup = {};
 /**
  * Extends element p-d with experimental features.
@@ -11,7 +9,7 @@ let PDX = /** @class */ (() => {
     class PDX extends PD {
         constructor() {
             super(...arguments);
-            this._del = false;
+            this.del = false;
         }
         commit(target, val, e) {
             if (val === undefined) {
@@ -23,37 +21,6 @@ let PDX = /** @class */ (() => {
                 return;
             }
             super.commit(target, val, e);
-        }
-        get guid() {
-            return this._guid;
-        }
-        set guid(val) {
-            this.attr(guid, val);
-        }
-        static get observedAttributes() {
-            return super.observedAttributes.concat([guid, del]);
-        }
-        get del() {
-            return this._del;
-        }
-        set del(nv) {
-            this.attr(del, nv, '');
-        }
-        setAttr(target, attr, valx) {
-            if (this._del) {
-                target.removeAttribute(attr);
-            }
-            else {
-                super.setAttr(target, attr, valx);
-            }
-        }
-        setProp(target, prop, valx) {
-            if (this._del) {
-                delete target[prop];
-            }
-            else {
-                super.setProp(target, prop, valx);
-            }
         }
         static extend(params) {
             var _a, _b;

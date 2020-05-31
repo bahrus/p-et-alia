@@ -1,11 +1,7 @@
 import { PD } from './p-d.js';
 import {define, mergeProps} from 'xtal-element/xtal-latx.js';
 import {ExtensionParams} from './types.d.js';
-import {AttributeProps, EvaluatedAttributeProps} from 'xtal-element/types.d.js';
-
-const guid = 'guid';
-const del = 'del';
-
+import {AttributeProps} from 'xtal-element/types.d.js';
 
 const regLookup:{[key: string]: string} = {};
 
@@ -36,43 +32,11 @@ export class PDX extends PD {
     }
 
     //TODO:  shared mixin
-    protected _guid!: string;
-    get guid(){
-        return this._guid;
-    }
-    set guid(val){
-        this.attr(guid, val);
-    }
-    static get observedAttributes() {
-        return super.observedAttributes.concat([guid, del]);
-    }
+    guid!: string;
+
+    del: boolean = false;
 
 
-    _del: boolean = false;
-    get del(){
-        return this._del;
-    }
-    set del(nv){
-        this.attr(del, nv, '');
-    }
-
-
-
-    setAttr(target: HTMLElement, attr: string, valx: any){
-        if(this._del){
-            target.removeAttribute(attr);
-        }else{
-            super.setAttr(target, attr, valx);
-        }
-    }
-
-    setProp(target: HTMLElement, prop: string | symbol, valx: any){
-        if(this._del){
-            delete (<any>target)[prop];
-        }else{
-            super.setProp(target, prop, valx);
-        }
-    }
 
     
     static extend(params: ExtensionParams) : string | HTMLElement{
