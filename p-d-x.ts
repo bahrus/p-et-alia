@@ -93,6 +93,7 @@ export class PDX extends PD {
         }
         if(!customElements.get(name)){
             class Extension extends PDX{
+                static is = name!;
                 _valBind: ((e: Event) => any) | undefined;
                 _chkIf?: ((e:Event) => boolean) | undefined;
                 constructor(){
@@ -109,7 +110,7 @@ export class PDX extends PD {
                     return super.filterEvent(e);
                 }
             }
-            customElements.define(name, Extension);
+            define(Extension);
         }
 
         if(params.insertAfter !== undefined){
