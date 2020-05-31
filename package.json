@@ -10,8 +10,8 @@
     "url": "git+https://github.com/bahrus/p-et-alia.git"
   },
   "dependencies": {
-    "xtal-element": "0.0.171",
-    "trans-render": "0.0.182",
+    "xtal-element": "0.0.174",
+    "trans-render": "0.0.184",
     "xtal-state": "0.0.107"
   },
   "devDependencies": {
