@@ -10,7 +10,7 @@
     "url": "git+https://github.com/bahrus/p-et-alia.git"
   },
   "dependencies": {
-    "xtal-element": "0.0.176",
+    "xtal-element": "0.0.179",
     "trans-render": "0.0.184",
     "xtal-state": "0.0.107"
   },
@@ -23,7 +23,7 @@
     "es-module-shims": "0.4.6",
     "aggregator-fn": "0.0.24",
     "purr-sist": "0.0.66",
-    "templ-mount": "0.0.56"
+    "templ-mount": "0.0.57"
   },
   "scripts": {
     "test": "node test/test-all.js",
