@@ -633,14 +633,13 @@ filterEvent(e: Event) : boolean{
 }
 ```
 
+The extend function mentioned above also allows you to define an event filter with less fuss.
+
 ## Asynchronous Passing [TODO:  Testing]
 
 By default, no attempt is made to relieve the main thread when responding to an event.  Whether or not async should be the default is a reasonable debate.  The event object itself often contains information that would be lost after yielding the thread.  Web component designers should ensure that when a property is passed in, which may result in an expensive use of CPU, that it yields the thread at the first opportunity.
 
-But for those cases where the sentiment above is insufficient, an attribute / property, "async" supports yielding the thread before passing the message down.  In that case, binding to target.* will tend to be much more reliable than binding to event.*  A copy of the original event is passed, with the property "isFake" added on for clarity.
-
-The extend function mentioned above also allows you to define an event filter with less fuss.
-
+But for those cases where the sentiment above is insufficient, an attribute / property, "async" supports yielding the thread before passing the message down.  In that case, don't be surprised if the event object has "degraded" a bit, as it is no longer a live event at that point.  A copy of the original event is passed, with the property "isFake" added on for clarity.
 
 ##  Differences to traditional frameworks 
 
