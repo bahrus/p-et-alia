@@ -5,8 +5,6 @@ import {createNestedProp} from 'xtal-element/createNestedProp.js';
 import {WithPath, with_path} from 'xtal-element/with-path.js';
 import {PProps} from './types.d.js';
 
-
-
 function getProp(val: any, pathTokens: (string | [string, string[]])[], src: HTMLElement){
     let context = val;
     let first = true;
@@ -57,7 +55,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
      * Don't block event propagation.
      * @attr
      */
-    noblock = false;
+    noblock!: boolean;
     
     /**
      * Only act on event if target element css-matches the expression specified by this attribute.
@@ -97,11 +95,11 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
      * Don't raise a "fake" event when attaching to element.
      * @attr skip-init
      */
-    skipInit = false;
+    skipInit!: boolean;
 
-    debug = false;
+    debug!: boolean;
 
-    log = false;
+    log!: boolean;
 
     async = false;
     
@@ -209,7 +207,15 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         if(!this.filterEvent(e)) return;
         if(e.stopPropagation && !this.noblock) e.stopPropagation();
         this._lastEvent = e;
-        this.pass(e);
+        if(this.async){
+            setTimeout(() => {
+                Object.assign(e, {isFake: true, target: this.getPreviousSib()});
+                this.pass(e);
+            });
+        }else{
+            this.pass(e);
+        }
+        
     }
     _destIsNA!: boolean;
 

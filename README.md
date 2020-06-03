@@ -633,7 +633,7 @@ filterEvent(e: Event) : boolean{
 }
 ```
 
-## Asynchronous Passing [TODO]
+## Asynchronous Passing [TODO:  Testing]
 
 By default, no attempt is made to relieve the main thread when responding to an event.  Whether or not async should be the default is a reasonable debate.  The event object itself often contains information that would be lost after yielding the thread.  Web component designers should ensure that when a property is passed in, which may result in an expensive use of CPU, that it yields the thread at the first opportunity.
 

@@ -12,8 +12,11 @@ import {AttributeProps, PropDefGet} from 'xtal-element/types.d.js';
 export class PD extends P implements PDProps {
     static is = 'p-d';
 
-    static attributeProps: any= ({disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, fireEvent, skipInit, debug, log, withPath} : PD) => {
-        const bool =  [disabled, noblock, skipInit, debug, log];
+    static attributeProps: any = ({
+            disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, 
+            fireEvent, skipInit, debug, log, withPath, async
+    } : PD) => {
+        const bool =  [disabled, noblock, skipInit, debug, log, async];
         const num = [m];
         const str = [on, to, careOf, val, prop, ifTargetMatches, from, observe, fireEvent, withPath];
         const reflect = [...bool, ...num, ...str];
