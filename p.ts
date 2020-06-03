@@ -55,7 +55,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
      * Don't block event propagation.
      * @attr
      */
-    noblock!: boolean;
+    noblock = false;
     
     /**
      * Only act on event if target element css-matches the expression specified by this attribute.
