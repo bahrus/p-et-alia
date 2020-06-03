@@ -28,12 +28,12 @@ let PUnt = /** @class */ (() => {
                 });
                 const host = getHost(this);
                 if (host !== null) {
-                    host.dispatchEvent(customEventInit);
+                    setTimeout(() => host.dispatchEvent(customEventInit));
                     if (host.incAttr)
                         host.incAttr(this.to);
                 }
                 else {
-                    this.dispatchEvent(customEventInit);
+                    setTimeout(() => this.dispatchEvent(customEventInit));
                     this.incAttr(this.to);
                 }
             }

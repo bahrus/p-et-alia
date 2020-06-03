@@ -43,10 +43,10 @@ export class PUnt extends PDX {
             } as CustomEventInit);
             const host = getHost(this) as any;
             if( host!== null){
-                host.dispatchEvent(customEventInit);
+                setTimeout(() => host.dispatchEvent(customEventInit));
                 if(host.incAttr) host.incAttr(this.to);
             }else{
-                this.dispatchEvent(customEventInit);
+                setTimeout(() => this.dispatchEvent(customEventInit));
                 this.incAttr(this.to);
             }
         }
