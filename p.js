@@ -31,6 +31,11 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
          * @attr
          */
         this.noblock = false;
+        /**
+         * Don't raise a "fake" event when attaching to element.
+         * @attr skip-init
+         */
+        this.skipInit = false;
         this.async = false;
         this._s = null; // split prop using '.' as delimiter
         this.propActions = [

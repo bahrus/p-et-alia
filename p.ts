@@ -95,7 +95,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
      * Don't raise a "fake" event when attaching to element.
      * @attr skip-init
      */
-    skipInit!: boolean;
+    skipInit = false;
 
     debug!: boolean;
 
