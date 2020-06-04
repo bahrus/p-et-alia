@@ -36,6 +36,8 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
          * @attr skip-init
          */
         this.skipInit = false;
+        this.debug = false;
+        this.log = false;
         this.async = false;
         this._s = null; // split prop using '.' as delimiter
         this.propActions = [

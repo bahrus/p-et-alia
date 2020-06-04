@@ -97,9 +97,9 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
      */
     skipInit = false;
 
-    debug!: boolean;
+    debug = false;
 
-    log!: boolean;
+    log = false;
 
     async = false;
     
