@@ -11,9 +11,14 @@
       <script defer src="../node_modules/es-module-shims/dist/es-module-shims.js"></script>
 
       <button id=button2 disabled data-err=false>There was an old lady who swallowed a spider;</button>
-      <p-d on=click to=[-err] val=target.dataset.err as-attr skip-init m=1></p-d>
+      <p-d id=pd as-attr skip-init m=1></p-d>
       <div -err mark err=true></div>
       
+      <script>
+        pd.on = 'click';
+        pd.to = '[-err]';
+        pd.val = 'target.dataset.err';
+      </script>
       <script type="importmap-shim">
       {
         "imports": {
