@@ -23,7 +23,6 @@ let PDX = /** @class */ (() => {
             super.commit(target, val, e);
         }
         static extend(params) {
-            var _a, _b;
             const nameDefined = params.name !== undefined;
             let name;
             const pdxPrefix = 'p-d-x-';
@@ -31,7 +30,7 @@ let PDX = /** @class */ (() => {
                 name = pdxPrefix + params.name;
             }
             else {
-                const fnSig = '' + ((_a = params === null || params === void 0 ? void 0 : params.valFromEvent) === null || _a === void 0 ? void 0 : _a.toString()) + ((_b = params === null || params === void 0 ? void 0 : params.chkIf) === null || _b === void 0 ? void 0 : _b.toString());
+                const fnSig = '' + params?.valFromEvent?.toString() + params?.chkIf?.toString();
                 const prevName = regLookup[fnSig];
                 if (prevName !== undefined) {
                     name = prevName;
@@ -45,10 +44,9 @@ let PDX = /** @class */ (() => {
                 let Extension = /** @class */ (() => {
                     class Extension extends PDX {
                         constructor() {
-                            var _a, _b;
                             super();
-                            this._valBind = (_a = params === null || params === void 0 ? void 0 : params.valFromEvent) === null || _a === void 0 ? void 0 : _a.bind(this);
-                            this._chkIf = (_b = params === null || params === void 0 ? void 0 : params.chkIf) === null || _b === void 0 ? void 0 : _b.bind(this);
+                            this._valBind = params?.valFromEvent?.bind(this);
+                            this._chkIf = params?.chkIf?.bind(this);
                         }
                         valFromEvent(e) {
                             if (this._valBind !== undefined)

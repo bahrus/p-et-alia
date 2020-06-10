@@ -26,19 +26,6 @@ function getProp(val, pathTokens, src) {
 export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
     constructor() {
         super(...arguments);
-        /**
-         * Don't block event propagation.
-         * @attr
-         */
-        this.noblock = false;
-        /**
-         * Don't raise a "fake" event when attaching to element.
-         * @attr skip-init
-         */
-        this.skipInit = false;
-        this.debug = false;
-        this.log = false;
-        this.async = false;
         this._s = null; // split prop using '.' as delimiter
         this.propActions = [
             ({ val, self }) => {

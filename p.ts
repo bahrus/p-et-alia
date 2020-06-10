@@ -55,7 +55,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
      * Don't block event propagation.
      * @attr
      */
-    noblock = false;
+    noblock!: boolean;
     
     /**
      * Only act on event if target element css-matches the expression specified by this attribute.
@@ -95,13 +95,13 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
      * Don't raise a "fake" event when attaching to element.
      * @attr skip-init
      */
-    skipInit = false;
+    skipInit!: boolean;
 
-    debug = false;
+    debug!: boolean;
 
-    log = false;
+    log!: boolean;
 
-    async = false;
+    async!: boolean;
     
     _s: (string | [string, string[]])[] | null = null;  // split prop using '.' as delimiter
     getSplit(newVal: string){
