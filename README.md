@@ -685,6 +685,8 @@ window.history.pushState({val:100}, '');
 
 Then the div will display value "100".
 
+Unlike the other components here, p-h-d doesn't latch on to any (previous) DOM Elements (and hence is not impacted by whether those DOM elements are disabled or not).
+
 ## Planting Weirwoods
 
 p-w extends p-d, but has the capability of causing the side effect of passing the value to history.state, location specified by optional attributes / properties state-path and guid.
