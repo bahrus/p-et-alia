@@ -17,7 +17,7 @@ let PhD = /** @class */ (() => {
         connectedCallback() {
             super.connectedCallback();
             const xtalWatch = document.createElement(XtalStateWatch.is);
-            xtalWatch.guid = this._guid;
+            xtalWatch.guid = this.guid;
             if (this.val === undefined) {
                 const path = this.fromPath === undefined ? '' : '.' + this.fromPath;
                 this.val = 'target.history.state' + path;

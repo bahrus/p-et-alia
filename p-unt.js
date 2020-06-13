@@ -34,7 +34,7 @@ let PUnt = /** @class */ (() => {
                 }
                 else {
                     setTimeout(() => this.dispatchEvent(customEventInit));
-                    this.incAttr(this.to);
+                    this.__incAttr(this.to);
                 }
             }
             super.pass(e);

@@ -43,7 +43,7 @@ export class PhD extends PDX{
     connectedCallback(){
         super.connectedCallback();
         const xtalWatch = document.createElement(XtalStateWatch.is) as XtalStateWatch;
-        xtalWatch.guid = this._guid;
+        xtalWatch.guid = this.guid;
         if(this.val === undefined){
             const path = this.fromPath === undefined ? '' : '.' + this.fromPath; 
             this.val = 'target.history.state' + path;
