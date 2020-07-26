@@ -1,6 +1,6 @@
 {
   "name": "p-et-alia",
-  "version": "0.0.105",
+  "version": "0.0.106",
   "description": "Declaratively pass properties between DOM elements",
   "main": "p-et-alia.js",
   "module": "p-et-alia.js",
