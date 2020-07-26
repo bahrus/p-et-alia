@@ -6,21 +6,17 @@ import { PDNavDown } from './PDNavDown.js';
  * Only drills into children if p-d-if matches css of p-d-r element.
  * @element p-d-r
  */
-let PDR = /** @class */ (() => {
-    class PDR extends PD {
-        getMatches(pd) {
-            return pd.getMatches();
-        }
-        newNavDown() {
-            const bndApply = this.applyProps.bind(this);
-            const pdnd = new PDNavDown(this, this.to, this.careOf, bndApply, this.m);
-            pdnd.root = this;
-            return pdnd;
-        }
+export class PDR extends PD {
+    getMatches(pd) {
+        return pd.getMatches();
     }
-    PDR.is = 'p-d-r';
-    PDR.attributeProps = ({}) => PD.props;
-    return PDR;
-})();
-export { PDR };
+    newNavDown() {
+        const bndApply = this.applyProps.bind(this);
+        const pdnd = new PDNavDown(this, this.to, this.careOf, bndApply, this.m);
+        pdnd.root = this;
+        return pdnd;
+    }
+}
+PDR.is = 'p-d-r';
+PDR.attributeProps = ({}) => PD.props;
 define(PDR);

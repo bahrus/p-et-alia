@@ -6,41 +6,37 @@ export const doNotCCEventToState = 'dncc';
  * Pass history to downstream elements
  * @element p-h-d
  */
-let PhD = /** @class */ (() => {
-    class PhD extends PDX {
-        getDetail(val) {
-            return {
-                value: val,
-                [doNotCCEventToState]: true
-            };
-        }
-        connectedCallback() {
-            super.connectedCallback();
-            const xtalWatch = document.createElement(XtalStateWatch.is);
-            xtalWatch.guid = this.guid;
-            if (this.val === undefined) {
-                const path = this.fromPath === undefined ? '' : '.' + this.fromPath;
-                this.val = 'target.history.state' + path;
-            }
-            xtalWatch.addEventListener('history-changed', e => {
-                const cei = e;
-                if (this.initAndPopStateOnly && !cei.detail.isInitialEvent && !cei.detail.isPopstate)
-                    return;
-                this.pass(e);
-            });
-            this.appendChild(xtalWatch);
-        }
-    }
-    PhD.is = 'p-h-d';
-    PhD.attributeProps = ({ initAndPopStateOnly, fromPath }) => {
-        const ap = {
-            bool: [initAndPopStateOnly],
-            str: [fromPath],
-            reflect: [fromPath, initAndPopStateOnly]
+export class PhD extends PDX {
+    getDetail(val) {
+        return {
+            value: val,
+            [doNotCCEventToState]: true
         };
-        return mergeProps(ap, PDX.props);
+    }
+    connectedCallback() {
+        super.connectedCallback();
+        const xtalWatch = document.createElement(XtalStateWatch.is);
+        xtalWatch.guid = this.guid;
+        if (this.val === undefined) {
+            const path = this.fromPath === undefined ? '' : '.' + this.fromPath;
+            this.val = 'target.history.state' + path;
+        }
+        xtalWatch.addEventListener('history-changed', e => {
+            const cei = e;
+            if (this.initAndPopStateOnly && !cei.detail.isInitialEvent && !cei.detail.isPopstate)
+                return;
+            this.pass(e);
+        });
+        this.appendChild(xtalWatch);
+    }
+}
+PhD.is = 'p-h-d';
+PhD.attributeProps = ({ initAndPopStateOnly, fromPath }) => {
+    const ap = {
+        bool: [initAndPopStateOnly],
+        str: [fromPath],
+        reflect: [fromPath, initAndPopStateOnly]
     };
-    return PhD;
-})();
-export { PhD };
+    return mergeProps(ap, PDX.props);
+};
 define(PhD);

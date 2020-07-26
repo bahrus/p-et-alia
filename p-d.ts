@@ -100,7 +100,7 @@ export class PD extends P implements PDProps {
         const pdnd = this.newNavDown();
         //const pdnd = new PDNavDown(this, this.to, nd => bndApply(nd), this.m);
         //pdnd.root = this;
-        pdnd.ignore = 'p-d,p-d-x,p-d-r,script';
+
         this._iIP = true;
         pdnd.init();
         this._iIP = false;

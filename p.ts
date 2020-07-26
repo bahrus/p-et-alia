@@ -9,7 +9,7 @@ function getProp(val: any, pathTokens: (string | [string, string[]])[], src: HTM
     let context = val;
     let first = true;
     pathTokens.forEach(token => {
-        if(context)  {
+        if(context && token!=='')  {
             if(first && token==='target' && context['target'] === null){
                 context = (<any>src)._trigger;
             }else{
