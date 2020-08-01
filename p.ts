@@ -65,10 +65,16 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
 
 
     /**
-     * Name of property to set on matching downstream siblings.
+     * Name of property to set on matching (downstream) siblings.
      * @attr
      */
     prop!: string;
+
+    /**
+     * Dynamically determined name of property to set on matching (downstream) siblings from event object.
+     * @attr prop-from-event
+     */
+    propFromEvent: string | undefined;
 
 
     /**
@@ -263,17 +269,22 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         let attr: string | undefined;
         if(prop === undefined){
             //TODO:  optimize (cache, etc)
-            const thingToSplit = this.careOf || this.to;
-            const toSplit = thingToSplit.split('[');
-            const len = toSplit.length;
-            if(len > 1){
-                
-                const last = toSplit[len - 1].replace(']', '');
-                if(last.startsWith('-') || last.startsWith('data-')){
-                    attr = last.split('-').slice(1).join('-');
-                    prop = lispToCamel(attr);
+            if(this.propFromEvent !== undefined){
+                prop = getProp(e, this.propFromEvent.split('.'), target);
+            }else{
+                const thingToSplit = this.careOf || this.to;
+                const toSplit = thingToSplit.split('[');
+                const len = toSplit.length;
+                if(len > 1){
+                    
+                    const last = toSplit[len - 1].replace(']', '');
+                    if(last.startsWith('-') || last.startsWith('data-')){
+                        attr = last.split('-').slice(1).join('-');
+                        prop = lispToCamel(attr);
+                    }
                 }
             }
+
         }
         if(target.hasAttribute !== undefined && target.hasAttribute('debug')) debugger;
         this.setVal(target, valx, attr, prop);

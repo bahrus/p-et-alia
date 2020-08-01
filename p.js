@@ -187,14 +187,19 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         let attr;
         if (prop === undefined) {
             //TODO:  optimize (cache, etc)
-            const thingToSplit = this.careOf || this.to;
-            const toSplit = thingToSplit.split('[');
-            const len = toSplit.length;
-            if (len > 1) {
-                const last = toSplit[len - 1].replace(']', '');
-                if (last.startsWith('-') || last.startsWith('data-')) {
-                    attr = last.split('-').slice(1).join('-');
-                    prop = lispToCamel(attr);
+            if (this.propFromEvent !== undefined) {
+                prop = getProp(e, this.propFromEvent.split('.'), target);
+            }
+            else {
+                const thingToSplit = this.careOf || this.to;
+                const toSplit = thingToSplit.split('[');
+                const len = toSplit.length;
+                if (len > 1) {
+                    const last = toSplit[len - 1].replace(']', '');
+                    if (last.startsWith('-') || last.startsWith('data-')) {
+                        attr = last.split('-').slice(1).join('-');
+                        prop = lispToCamel(attr);
+                    }
                 }
             }
         }
