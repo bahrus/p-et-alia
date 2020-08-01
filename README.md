@@ -27,7 +27,7 @@ These components emphasize simplicity and small size -- to be used for 30,000 ft
 
 </details>
 
-"p-d" is the main component, and stands for "pass down." "p-d" agrees with the [ancient](https://www.youtube.com/watch?v=TObWJt68HGw&feature=youtu.be&t=929) (and [modern](https://sonniesedge.co.uk/talks/dear-developer/)) wisdom "all streams flow to the sea because it is lower than they are. Humility gives it its power."  
+"p-d" is the main component, and stands for "pass down." "p-d" agrees with the [ancient](https://youtu.be/9knX6YGPtL0?t=927) (and [modern](https://sonniesedge.co.uk/talks/dear-developer/)) wisdom "all streams flow to the sea because it is lower than they are. Humility gives it its power."  
 
 "p-u" stands for "pass-up," and is to be used sparingly as a last resort. 
 
@@ -68,7 +68,7 @@ p-d  passes information from that previous sibling's event down the p-d instance
 
 "to" is a CSS selector, similar to CSS selectors in a CSS file.  Only the way that selector is used is as a test on each of the next siblings after the p-d element.  The code uses the "matches" method to test each element for a match.
 
-"prop" refers to the name of a property on the matching elements which need setting.  
+"prop" refers to the name of a property on the matching elements which need setting.  (An optional property/attribute, propFromEvent/prop-from-event provides a setting a dynamic property on the target elements based on a value found in the event object -- useful when using a single p-d element to handle events from multiple elements that bubble.)
 
 "val" is a JavaScript path / expression for where to get the value used for setting.  The path is evaluated from the JavaScript event that gets fired.  For example "a.b.c" type expressions are allowed.  No ! or other JavaScript expressions is currently supported.  If the path is a single ., then it will pass the entire event object.  
 
@@ -812,7 +812,7 @@ But are my-non-visual-to-do-list-view-model and my-visual-to-do-list really loos
 To allow for even more loosely coupled integrations, the simple but sweet p-d can be replaced with a more specialized [translator](https://funtranslations.com/valyrian)/[mediator](https://www.youtube.com/watch?v=GF7tFwLBiKo), by using computed values, mentioned above, either by overriding the valFromEvent method, or using the extend function, like the [slot-bot example](https://github.com/bahrus/p-et-alia#computed-values).  
 
 
-You could consider it a local "mediator" in the [blockchain analogy](https://www.jamsadr.com/smartcontracts).
+You could consider it a local "smart contract mediator" in the [blockchain analogy](https://www.jamsadr.com/smartcontracts).
 
 [![Watch the video](https://img.youtube.com/vi/GF7tFwLBiKo/maxresdefault.jpg)](https://www.youtube.com/watch?v=GF7tFwLBiKo)
 
