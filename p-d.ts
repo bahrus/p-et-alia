@@ -14,9 +14,9 @@ export class PD extends P implements PDProps {
 
     static attributeProps: any = ({
             disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, 
-            fireEvent, skipInit, debug, log, withPath, async, propFromEvent
+            fireEvent, skipInit, debug, log, withPath, async, propFromEvent, capture
     } : PD) => {
-        const bool =  [disabled, noblock, skipInit, debug, log, async];
+        const bool =  [disabled, noblock, skipInit, debug, log, async, capture];
         const num = [m];
         const str = [on, to, careOf, val, prop, ifTargetMatches, from, observe, fireEvent, withPath, propFromEvent];
         const reflect = [...bool, ...num, ...str];

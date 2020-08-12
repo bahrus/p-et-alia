@@ -3,12 +3,73 @@
   "tags": [
     {
       "name": "p-d-r",
+      "path": "./p-d-r.js",
       "description": "Pass data from one element down the DOM tree to other elements, including children, recursively.\nOnly drills into children if p-d-if matches css of p-d-r element.",
       "attributes": [
         {
+          "name": "from",
+          "description": "Source element to start matches from",
+          "type": "string | undefined"
+        },
+        {
+          "name": "m",
+          "description": "Maximum number of matching elements expected to be found.",
+          "type": "number | undefined"
+        },
+        {
+          "name": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "to",
+          "description": "css pattern to match for from downstream siblings.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "care-of",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "noblock",
+          "description": "Don't block event propagation.",
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "ifTargetMatches",
+          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "prop",
+          "description": "Name of property to set on matching (downstream) siblings.",
+          "type": "string | symbol | undefined"
+        },
+        {
+          "name": "prop-from-event",
+          "description": "Dynamically determined name of property to set on matching (downstream) siblings from event object.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "val",
+          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
+          "type": "string | undefined"
+        },
+        {
           "name": "observe",
-          "description": "Specifies element to latch on to, and listen for events.",
+          "description": "Specifies element to latch on to, and listen for events.\r\nSearches previous siblings, parent, previous siblings of parent, etc.\r\nStops at Shadow DOM boundary.",
           "type": "string"
+        },
+        {
+          "name": "fire-event",
+          "description": "Artificially fire event on target element whose name is specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "skip-init",
+          "description": "Don't raise a \"fake\" event when attaching to element.",
+          "type": "boolean"
         },
         {
           "name": "with-path",
@@ -19,64 +80,107 @@
           "name": "disabled",
           "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
           "type": "boolean"
-        },
-        {
-          "name": "on",
-          "description": "The event name to monitor for, from previous non-petalian element.",
-          "type": "string"
-        },
-        {
-          "name": "to",
-          "description": "css pattern to match for from downstream siblings.",
-          "type": "string"
-        },
-        {
-          "name": "care-of",
-          "description": "CSS Selector to use to select single child within the destination element.",
-          "type": "string"
-        },
-        {
-          "name": "noblock",
-          "description": "Don't block event propagation.",
-          "type": "boolean"
-        },
-        {
-          "name": "if",
-          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "type": "string | symbol"
-        },
-        {
-          "name": "val",
-          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "type": "string"
-        },
-        {
-          "name": "fire-event",
-          "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "from",
-          "description": "Source element to start matches from",
-          "type": "string"
-        },
-        {
-          "name": "m",
-          "description": "Maximum number of matching elements expected to be found.",
-          "type": "number"
         }
       ],
       "properties": [
         {
+          "name": "is",
+          "type": "string",
+          "default": "\"p-d\""
+        },
+        {
+          "name": "from",
+          "attribute": "from",
+          "description": "Source element to start matches from",
+          "type": "string | undefined"
+        },
+        {
+          "name": "m",
+          "attribute": "m",
+          "description": "Maximum number of matching elements expected to be found.",
+          "type": "number | undefined"
+        },
+        {
+          "name": "on",
+          "attribute": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "to",
+          "attribute": "to",
+          "description": "css pattern to match for from downstream siblings.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "careOf",
+          "attribute": "care-of",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "noblock",
+          "attribute": "noblock",
+          "description": "Don't block event propagation.",
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "ifTargetMatches",
+          "attribute": "ifTargetMatches",
+          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "prop",
+          "attribute": "prop",
+          "description": "Name of property to set on matching (downstream) siblings.",
+          "type": "string | symbol | undefined"
+        },
+        {
+          "name": "propFromEvent",
+          "attribute": "prop-from-event",
+          "description": "Dynamically determined name of property to set on matching (downstream) siblings from event object.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "val",
+          "attribute": "val",
+          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
+          "type": "string | undefined"
+        },
+        {
           "name": "observe",
           "attribute": "observe",
-          "description": "Specifies element to latch on to, and listen for events.",
+          "description": "Specifies element to latch on to, and listen for events.\r\nSearches previous siblings, parent, previous siblings of parent, etc.\r\nStops at Shadow DOM boundary.",
           "type": "string"
+        },
+        {
+          "name": "fireEvent",
+          "attribute": "fire-event",
+          "description": "Artificially fire event on target element whose name is specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "skipInit",
+          "attribute": "skip-init",
+          "description": "Don't raise a \"fake\" event when attaching to element.",
+          "type": "boolean"
+        },
+        {
+          "name": "debug",
+          "type": "boolean"
+        },
+        {
+          "name": "log",
+          "type": "boolean"
+        },
+        {
+          "name": "async",
+          "type": "boolean"
+        },
+        {
+          "name": "capture",
+          "type": "boolean"
         },
         {
           "name": "withPath",
@@ -85,87 +189,99 @@
           "type": "string"
         },
         {
-          "name": "evCount",
-          "description": "Tracks how many times each event type was called.",
-          "type": "{ [key: string]: number; }",
-          "default": "{}"
+          "name": "attributeProps",
+          "default": "\"({\\r\\n            disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, \\r\\n            fireEvent, skipInit, debug, log, withPath, async, propFromEvent, capture\\r\\n    } : PD) => {\\r\\n        const bool =  [disabled, noblock, skipInit, debug, log, async, capture];\\r\\n        const num = [m];\\r\\n        const str = [on, to, careOf, val, prop, ifTargetMatches, from, observe, fireEvent, withPath, propFromEvent];\\r\\n        const reflect = [...bool, ...num, ...str];\\r\\n        return {\\r\\n            bool,\\r\\n            num,\\r\\n            str,\\r\\n            reflect\\r\\n        } as AttributeProps;\\r\\n    }\""
+        },
+        {
+          "name": "self",
+          "type": "this",
+          "default": "\"this\""
+        },
+        {
+          "name": "propActions",
+          "type": "PropAction<HTMLElement>[]",
+          "default": "[null]"
+        },
+        {
+          "name": "defaultValues"
         },
         {
           "name": "disabled",
           "attribute": "disabled",
           "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
           "type": "boolean"
-        },
-        {
-          "name": "on",
-          "attribute": "on",
-          "description": "The event name to monitor for, from previous non-petalian element.",
-          "type": "string"
-        },
-        {
-          "name": "to",
-          "attribute": "to",
-          "description": "css pattern to match for from downstream siblings.",
-          "type": "string"
-        },
-        {
-          "name": "careOf",
-          "attribute": "care-of",
-          "description": "CSS Selector to use to select single child within the destination element.",
-          "type": "string"
-        },
-        {
-          "name": "noblock",
-          "attribute": "noblock",
-          "description": "Don't block event propagation.",
-          "type": "boolean"
-        },
-        {
-          "name": "if",
-          "attribute": "if",
-          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "prop",
-          "attribute": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "type": "string | symbol"
-        },
-        {
-          "name": "val",
-          "attribute": "val",
-          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "type": "string"
-        },
-        {
-          "name": "fireEvent",
-          "attribute": "fire-event",
-          "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "from",
-          "attribute": "from",
-          "description": "Source element to start matches from",
-          "type": "string"
-        },
-        {
-          "name": "m",
-          "attribute": "m",
-          "description": "Maximum number of matching elements expected to be found.",
-          "type": "number"
         }
       ]
     },
     {
       "name": "p-d-x",
+      "path": "./p-d-x.js",
       "description": "Extends element p-d with experimental features.",
       "attributes": [
         {
+          "name": "from",
+          "description": "Source element to start matches from",
+          "type": "string | undefined"
+        },
+        {
+          "name": "m",
+          "description": "Maximum number of matching elements expected to be found.",
+          "type": "number | undefined"
+        },
+        {
+          "name": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "to",
+          "description": "css pattern to match for from downstream siblings.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "care-of",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "noblock",
+          "description": "Don't block event propagation.",
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "ifTargetMatches",
+          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "prop",
+          "description": "Name of property to set on matching (downstream) siblings.",
+          "type": "string | symbol | undefined"
+        },
+        {
+          "name": "prop-from-event",
+          "description": "Dynamically determined name of property to set on matching (downstream) siblings from event object.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "val",
+          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
+          "type": "string | undefined"
+        },
+        {
           "name": "observe",
-          "description": "Specifies element to latch on to, and listen for events.",
+          "description": "Specifies element to latch on to, and listen for events.\r\nSearches previous siblings, parent, previous siblings of parent, etc.\r\nStops at Shadow DOM boundary.",
           "type": "string"
+        },
+        {
+          "name": "fire-event",
+          "description": "Artificially fire event on target element whose name is specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "skip-init",
+          "description": "Don't raise a \"fake\" event when attaching to element.",
+          "type": "boolean"
         },
         {
           "name": "with-path",
@@ -176,71 +292,112 @@
           "name": "disabled",
           "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
           "type": "boolean"
-        },
-        {
-          "name": "on",
-          "description": "The event name to monitor for, from previous non-petalian element.",
-          "type": "string"
-        },
-        {
-          "name": "to",
-          "description": "css pattern to match for from downstream siblings.",
-          "type": "string"
-        },
-        {
-          "name": "care-of",
-          "description": "CSS Selector to use to select single child within the destination element.",
-          "type": "string"
-        },
-        {
-          "name": "noblock",
-          "description": "Don't block event propagation.",
-          "type": "boolean"
-        },
-        {
-          "name": "if",
-          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "type": "string | symbol"
-        },
-        {
-          "name": "val",
-          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "type": "string"
-        },
-        {
-          "name": "fire-event",
-          "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "from",
-          "description": "Source element to start matches from",
-          "type": "string"
-        },
-        {
-          "name": "m",
-          "description": "Maximum number of matching elements expected to be found.",
-          "type": "number"
         }
       ],
       "properties": [
         {
-          "name": "guid"
+          "name": "del",
+          "type": "boolean",
+          "default": "false"
         },
         {
-          "name": "del",
-          "type": "boolean"
+          "name": "is",
+          "type": "string",
+          "default": "\"p-d\""
+        },
+        {
+          "name": "from",
+          "attribute": "from",
+          "description": "Source element to start matches from",
+          "type": "string | undefined"
+        },
+        {
+          "name": "m",
+          "attribute": "m",
+          "description": "Maximum number of matching elements expected to be found.",
+          "type": "number | undefined"
+        },
+        {
+          "name": "on",
+          "attribute": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "to",
+          "attribute": "to",
+          "description": "css pattern to match for from downstream siblings.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "careOf",
+          "attribute": "care-of",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "noblock",
+          "attribute": "noblock",
+          "description": "Don't block event propagation.",
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "ifTargetMatches",
+          "attribute": "ifTargetMatches",
+          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "prop",
+          "attribute": "prop",
+          "description": "Name of property to set on matching (downstream) siblings.",
+          "type": "string | symbol | undefined"
+        },
+        {
+          "name": "propFromEvent",
+          "attribute": "prop-from-event",
+          "description": "Dynamically determined name of property to set on matching (downstream) siblings from event object.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "val",
+          "attribute": "val",
+          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
+          "type": "string | undefined"
         },
         {
           "name": "observe",
           "attribute": "observe",
-          "description": "Specifies element to latch on to, and listen for events.",
+          "description": "Specifies element to latch on to, and listen for events.\r\nSearches previous siblings, parent, previous siblings of parent, etc.\r\nStops at Shadow DOM boundary.",
           "type": "string"
+        },
+        {
+          "name": "fireEvent",
+          "attribute": "fire-event",
+          "description": "Artificially fire event on target element whose name is specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "skipInit",
+          "attribute": "skip-init",
+          "description": "Don't raise a \"fake\" event when attaching to element.",
+          "type": "boolean"
+        },
+        {
+          "name": "debug",
+          "type": "boolean"
+        },
+        {
+          "name": "log",
+          "type": "boolean"
+        },
+        {
+          "name": "async",
+          "type": "boolean"
+        },
+        {
+          "name": "capture",
+          "type": "boolean"
         },
         {
           "name": "withPath",
@@ -249,107 +406,35 @@
           "type": "string"
         },
         {
-          "name": "evCount",
-          "description": "Tracks how many times each event type was called.",
-          "type": "{ [key: string]: number; }",
-          "default": "{}"
+          "name": "attributeProps",
+          "default": "\"({\\r\\n            disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, m, from, observe, \\r\\n            fireEvent, skipInit, debug, log, withPath, async, propFromEvent, capture\\r\\n    } : PD) => {\\r\\n        const bool =  [disabled, noblock, skipInit, debug, log, async, capture];\\r\\n        const num = [m];\\r\\n        const str = [on, to, careOf, val, prop, ifTargetMatches, from, observe, fireEvent, withPath, propFromEvent];\\r\\n        const reflect = [...bool, ...num, ...str];\\r\\n        return {\\r\\n            bool,\\r\\n            num,\\r\\n            str,\\r\\n            reflect\\r\\n        } as AttributeProps;\\r\\n    }\""
+        },
+        {
+          "name": "self",
+          "type": "this",
+          "default": "\"this\""
+        },
+        {
+          "name": "propActions",
+          "type": "PropAction<HTMLElement>[]",
+          "default": "[null]"
+        },
+        {
+          "name": "defaultValues"
         },
         {
           "name": "disabled",
           "attribute": "disabled",
           "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
           "type": "boolean"
-        },
-        {
-          "name": "on",
-          "attribute": "on",
-          "description": "The event name to monitor for, from previous non-petalian element.",
-          "type": "string"
-        },
-        {
-          "name": "to",
-          "attribute": "to",
-          "description": "css pattern to match for from downstream siblings.",
-          "type": "string"
-        },
-        {
-          "name": "careOf",
-          "attribute": "care-of",
-          "description": "CSS Selector to use to select single child within the destination element.",
-          "type": "string"
-        },
-        {
-          "name": "noblock",
-          "attribute": "noblock",
-          "description": "Don't block event propagation.",
-          "type": "boolean"
-        },
-        {
-          "name": "if",
-          "attribute": "if",
-          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "prop",
-          "attribute": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "type": "string | symbol"
-        },
-        {
-          "name": "val",
-          "attribute": "val",
-          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "type": "string"
-        },
-        {
-          "name": "fireEvent",
-          "attribute": "fire-event",
-          "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "from",
-          "attribute": "from",
-          "description": "Source element to start matches from",
-          "type": "string"
-        },
-        {
-          "name": "m",
-          "attribute": "m",
-          "description": "Maximum number of matching elements expected to be found.",
-          "type": "number"
         }
       ]
     },
     {
       "name": "p-d",
+      "path": "./p-d.js",
       "description": "Pass data from one element down the DOM tree to other elements",
       "attributes": [
-        {
-          "name": "m",
-          "description": "Maximum number of matching elements expected to be found.",
-          "type": "number"
-        },
-        {
-          "name": "from",
-          "description": "Source element to start matches from"
-        },
-        {
-          "name": "observe",
-          "description": "Specifies element to latch on to, and listen for events.",
-          "type": "string"
-        },
-        {
-          "name": "with-path",
-          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
-          "type": "string"
-        },
-        {
-          "name": "disabled",
-          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
-          "type": "boolean"
-        },
         {
           "name": "on",
           "description": "The event name to monitor for, from previous non-petalian element.",
@@ -371,14 +456,19 @@
           "type": "boolean"
         },
         {
-          "name": "if",
+          "name": "ifTargetMatches",
           "description": "Only act on event if target element css-matches the expression specified by this attribute.",
           "type": "string"
         },
         {
           "name": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "type": "string | symbol"
+          "description": "Name of property to set on matching (downstream) siblings.",
+          "type": "string"
+        },
+        {
+          "name": "prop-from-event",
+          "description": "Dynamically determined name of property to set on matching (downstream) siblings from event object.",
+          "type": "string | undefined"
         },
         {
           "name": "val",
@@ -386,47 +476,32 @@
           "type": "string"
         },
         {
+          "name": "observe",
+          "description": "Specifies element to latch on to, and listen for events.\r\nSearches previous siblings, parent, previous siblings of parent, etc.\r\nStops at Shadow DOM boundary.",
+          "type": "string"
+        },
+        {
           "name": "fire-event",
           "description": "Artificially fire event on target element whose name is specified by this attribute.",
           "type": "string"
-        }
-      ],
-      "properties": [
-        {
-          "name": "m",
-          "attribute": "m",
-          "description": "Maximum number of matching elements expected to be found.",
-          "type": "number"
         },
         {
-          "name": "from",
-          "attribute": "from",
-          "description": "Source element to start matches from"
+          "name": "skip-init",
+          "description": "Don't raise a \"fake\" event when attaching to element.",
+          "type": "boolean"
         },
         {
-          "name": "observe",
-          "attribute": "observe",
-          "description": "Specifies element to latch on to, and listen for events.",
-          "type": "string"
-        },
-        {
-          "name": "withPath",
-          "attribute": "with-path",
+          "name": "with-path",
           "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
           "type": "string"
         },
         {
-          "name": "evCount",
-          "description": "Tracks how many times each event type was called.",
-          "type": "{ [key: string]: number; }",
-          "default": "{}"
-        },
-        {
           "name": "disabled",
-          "attribute": "disabled",
           "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
           "type": "boolean"
-        },
+        }
+      ],
+      "properties": [
         {
           "name": "on",
           "attribute": "on",
@@ -452,16 +527,22 @@
           "type": "boolean"
         },
         {
-          "name": "if",
-          "attribute": "if",
+          "name": "ifTargetMatches",
+          "attribute": "ifTargetMatches",
           "description": "Only act on event if target element css-matches the expression specified by this attribute.",
           "type": "string"
         },
         {
           "name": "prop",
           "attribute": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "type": "string | symbol"
+          "description": "Name of property to set on matching (downstream) siblings.",
+          "type": "string"
+        },
+        {
+          "name": "propFromEvent",
+          "attribute": "prop-from-event",
+          "description": "Dynamically determined name of property to set on matching (downstream) siblings from event object.",
+          "type": "string | undefined"
         },
         {
           "name": "val",
@@ -470,29 +551,139 @@
           "type": "string"
         },
         {
+          "name": "observe",
+          "attribute": "observe",
+          "description": "Specifies element to latch on to, and listen for events.\r\nSearches previous siblings, parent, previous siblings of parent, etc.\r\nStops at Shadow DOM boundary.",
+          "type": "string"
+        },
+        {
           "name": "fireEvent",
           "attribute": "fire-event",
           "description": "Artificially fire event on target element whose name is specified by this attribute.",
           "type": "string"
+        },
+        {
+          "name": "skipInit",
+          "attribute": "skip-init",
+          "description": "Don't raise a \"fake\" event when attaching to element.",
+          "type": "boolean"
+        },
+        {
+          "name": "debug",
+          "type": "boolean"
+        },
+        {
+          "name": "log",
+          "type": "boolean"
+        },
+        {
+          "name": "async",
+          "type": "boolean"
+        },
+        {
+          "name": "capture",
+          "type": "boolean"
+        },
+        {
+          "name": "withPath",
+          "attribute": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "type": "string"
+        },
+        {
+          "name": "attributeProps",
+          "default": "\"({disabled} : IXtallatXI) => ({\\r\\n            bool: [disabled],\\r\\n        } as AttributeProps)\""
+        },
+        {
+          "name": "self",
+          "type": "this",
+          "default": "\"this\""
+        },
+        {
+          "name": "propActions",
+          "type": "PropAction<HTMLElement>[]",
+          "default": "[null]"
+        },
+        {
+          "name": "defaultValues"
+        },
+        {
+          "name": "disabled",
+          "attribute": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
         }
       ]
     },
     {
       "name": "p-h-d",
+      "path": "./p-h-d.js",
       "description": "Pass history to downstream elements",
       "attributes": [
         {
-          "name": "init-and-pop-state-only",
-          "description": "Only pass down history if is initial history and/or popstate event"
+          "name": "from",
+          "description": "Source element to start matches from",
+          "type": "string | undefined"
         },
         {
-          "name": "from-path",
-          "description": "JS path within history.state to pass down."
+          "name": "m",
+          "description": "Maximum number of matching elements expected to be found.",
+          "type": "number | undefined"
+        },
+        {
+          "name": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "to",
+          "description": "css pattern to match for from downstream siblings.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "care-of",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "noblock",
+          "description": "Don't block event propagation.",
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "ifTargetMatches",
+          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "prop",
+          "description": "Name of property to set on matching (downstream) siblings.",
+          "type": "string | symbol | undefined"
+        },
+        {
+          "name": "prop-from-event",
+          "description": "Dynamically determined name of property to set on matching (downstream) siblings from event object.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "val",
+          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
+          "type": "string | undefined"
         },
         {
           "name": "observe",
-          "description": "Specifies element to latch on to, and listen for events.",
+          "description": "Specifies element to latch on to, and listen for events.\r\nSearches previous siblings, parent, previous siblings of parent, etc.\r\nStops at Shadow DOM boundary.",
           "type": "string"
+        },
+        {
+          "name": "fire-event",
+          "description": "Artificially fire event on target element whose name is specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "skip-init",
+          "description": "Don't raise a \"fake\" event when attaching to element.",
+          "type": "boolean"
         },
         {
           "name": "with-path",
@@ -503,82 +694,116 @@
           "name": "disabled",
           "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
           "type": "boolean"
-        },
-        {
-          "name": "on",
-          "description": "The event name to monitor for, from previous non-petalian element.",
-          "type": "string"
-        },
-        {
-          "name": "to",
-          "description": "css pattern to match for from downstream siblings.",
-          "type": "string"
-        },
-        {
-          "name": "care-of",
-          "description": "CSS Selector to use to select single child within the destination element.",
-          "type": "string"
-        },
-        {
-          "name": "noblock",
-          "description": "Don't block event propagation.",
-          "type": "boolean"
-        },
-        {
-          "name": "if",
-          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "type": "string | symbol"
-        },
-        {
-          "name": "val",
-          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "type": "string"
-        },
-        {
-          "name": "fire-event",
-          "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "from",
-          "description": "Source element to start matches from",
-          "type": "string"
-        },
-        {
-          "name": "m",
-          "description": "Maximum number of matching elements expected to be found.",
-          "type": "number"
         }
       ],
       "properties": [
-        {
-          "name": "initAndPopStateOnly",
-          "attribute": "init-and-pop-state-only",
-          "description": "Only pass down history if is initial history and/or popstate event"
-        },
-        {
-          "name": "fromPath",
-          "attribute": "from-path",
-          "description": "JS path within history.state to pass down."
-        },
         {
           "name": "guid",
           "type": "string"
         },
         {
           "name": "del",
-          "type": "boolean"
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "is",
+          "type": "string",
+          "default": "\"p-d-x\""
+        },
+        {
+          "name": "from",
+          "attribute": "from",
+          "description": "Source element to start matches from",
+          "type": "string | undefined"
+        },
+        {
+          "name": "m",
+          "attribute": "m",
+          "description": "Maximum number of matching elements expected to be found.",
+          "type": "number | undefined"
+        },
+        {
+          "name": "on",
+          "attribute": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "to",
+          "attribute": "to",
+          "description": "css pattern to match for from downstream siblings.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "careOf",
+          "attribute": "care-of",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "noblock",
+          "attribute": "noblock",
+          "description": "Don't block event propagation.",
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "ifTargetMatches",
+          "attribute": "ifTargetMatches",
+          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "prop",
+          "attribute": "prop",
+          "description": "Name of property to set on matching (downstream) siblings.",
+          "type": "string | symbol | undefined"
+        },
+        {
+          "name": "propFromEvent",
+          "attribute": "prop-from-event",
+          "description": "Dynamically determined name of property to set on matching (downstream) siblings from event object.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "val",
+          "attribute": "val",
+          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
+          "type": "string | undefined"
         },
         {
           "name": "observe",
           "attribute": "observe",
-          "description": "Specifies element to latch on to, and listen for events.",
+          "description": "Specifies element to latch on to, and listen for events.\r\nSearches previous siblings, parent, previous siblings of parent, etc.\r\nStops at Shadow DOM boundary.",
           "type": "string"
+        },
+        {
+          "name": "fireEvent",
+          "attribute": "fire-event",
+          "description": "Artificially fire event on target element whose name is specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "skipInit",
+          "attribute": "skip-init",
+          "description": "Don't raise a \"fake\" event when attaching to element.",
+          "type": "boolean"
+        },
+        {
+          "name": "debug",
+          "type": "boolean"
+        },
+        {
+          "name": "log",
+          "type": "boolean"
+        },
+        {
+          "name": "async",
+          "type": "boolean"
+        },
+        {
+          "name": "capture",
+          "type": "boolean"
         },
         {
           "name": "withPath",
@@ -587,98 +812,36 @@
           "type": "string"
         },
         {
-          "name": "evCount",
-          "description": "Tracks how many times each event type was called.",
-          "type": "{ [key: string]: number; }",
-          "default": "{}"
+          "name": "attributeProps",
+          "type": "({ del, guid }: PDX) => EvaluatedAttributeProps",
+          "default": "\"({del, guid} : PDX) => {\\r\\n        const ap = {\\r\\n            bool: [del],\\r\\n            str: [guid],\\r\\n            reflect: [del, guid]\\r\\n        }  as AttributeProps;\\r\\n        return mergeProps(ap, (<any>PD).props);\\r\\n    }\""
+        },
+        {
+          "name": "self",
+          "type": "this",
+          "default": "\"this\""
+        },
+        {
+          "name": "propActions",
+          "type": "PropAction<HTMLElement>[]",
+          "default": "[null]"
+        },
+        {
+          "name": "defaultValues"
         },
         {
           "name": "disabled",
           "attribute": "disabled",
           "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
           "type": "boolean"
-        },
-        {
-          "name": "on",
-          "attribute": "on",
-          "description": "The event name to monitor for, from previous non-petalian element.",
-          "type": "string"
-        },
-        {
-          "name": "to",
-          "attribute": "to",
-          "description": "css pattern to match for from downstream siblings.",
-          "type": "string"
-        },
-        {
-          "name": "careOf",
-          "attribute": "care-of",
-          "description": "CSS Selector to use to select single child within the destination element.",
-          "type": "string"
-        },
-        {
-          "name": "noblock",
-          "attribute": "noblock",
-          "description": "Don't block event propagation.",
-          "type": "boolean"
-        },
-        {
-          "name": "if",
-          "attribute": "if",
-          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "prop",
-          "attribute": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "type": "string | symbol"
-        },
-        {
-          "name": "val",
-          "attribute": "val",
-          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "type": "string"
-        },
-        {
-          "name": "fireEvent",
-          "attribute": "fire-event",
-          "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "from",
-          "attribute": "from",
-          "description": "Source element to start matches from",
-          "type": "string"
-        },
-        {
-          "name": "m",
-          "attribute": "m",
-          "description": "Maximum number of matching elements expected to be found.",
-          "type": "number"
         }
       ]
     },
     {
       "name": "p-u",
+      "path": "./p-u.js",
       "description": "Pass data from one element to a targeted DOM element elsewhere",
       "attributes": [
-        {
-          "name": "observe",
-          "description": "Specifies element to latch on to, and listen for events.",
-          "type": "string"
-        },
-        {
-          "name": "with-path",
-          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
-          "type": "string"
-        },
-        {
-          "name": "disabled",
-          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
-          "type": "boolean"
-        },
         {
           "name": "on",
           "description": "The event name to monitor for, from previous non-petalian element.",
@@ -700,14 +863,19 @@
           "type": "boolean"
         },
         {
-          "name": "if",
+          "name": "ifTargetMatches",
           "description": "Only act on event if target element css-matches the expression specified by this attribute.",
           "type": "string"
         },
         {
           "name": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "type": "string | symbol"
+          "description": "Name of property to set on matching (downstream) siblings.",
+          "type": "string"
+        },
+        {
+          "name": "prop-from-event",
+          "description": "Dynamically determined name of property to set on matching (downstream) siblings from event object.",
+          "type": "string | undefined"
         },
         {
           "name": "val",
@@ -715,36 +883,32 @@
           "type": "string"
         },
         {
-          "name": "fire-event",
-          "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "type": "string"
-        }
-      ],
-      "properties": [
-        {
           "name": "observe",
-          "attribute": "observe",
-          "description": "Specifies element to latch on to, and listen for events.",
+          "description": "Specifies element to latch on to, and listen for events.\r\nSearches previous siblings, parent, previous siblings of parent, etc.\r\nStops at Shadow DOM boundary.",
           "type": "string"
         },
         {
-          "name": "withPath",
-          "attribute": "with-path",
+          "name": "fire-event",
+          "description": "Artificially fire event on target element whose name is specified by this attribute.",
+          "type": "string"
+        },
+        {
+          "name": "skip-init",
+          "description": "Don't raise a \"fake\" event when attaching to element.",
+          "type": "boolean"
+        },
+        {
+          "name": "with-path",
           "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
           "type": "string"
         },
         {
-          "name": "evCount",
-          "description": "Tracks how many times each event type was called.",
-          "type": "{ [key: string]: number; }",
-          "default": "{}"
-        },
-        {
           "name": "disabled",
-          "attribute": "disabled",
           "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
           "type": "boolean"
-        },
+        }
+      ],
+      "properties": [
         {
           "name": "on",
           "attribute": "on",
@@ -770,16 +934,22 @@
           "type": "boolean"
         },
         {
-          "name": "if",
-          "attribute": "if",
+          "name": "ifTargetMatches",
+          "attribute": "ifTargetMatches",
           "description": "Only act on event if target element css-matches the expression specified by this attribute.",
           "type": "string"
         },
         {
           "name": "prop",
           "attribute": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "type": "string | symbol"
+          "description": "Name of property to set on matching (downstream) siblings.",
+          "type": "string"
+        },
+        {
+          "name": "propFromEvent",
+          "attribute": "prop-from-event",
+          "description": "Dynamically determined name of property to set on matching (downstream) siblings from event object.",
+          "type": "string | undefined"
         },
         {
           "name": "val",
@@ -788,29 +958,139 @@
           "type": "string"
         },
         {
+          "name": "observe",
+          "attribute": "observe",
+          "description": "Specifies element to latch on to, and listen for events.\r\nSearches previous siblings, parent, previous siblings of parent, etc.\r\nStops at Shadow DOM boundary.",
+          "type": "string"
+        },
+        {
           "name": "fireEvent",
           "attribute": "fire-event",
           "description": "Artificially fire event on target element whose name is specified by this attribute.",
           "type": "string"
+        },
+        {
+          "name": "skipInit",
+          "attribute": "skip-init",
+          "description": "Don't raise a \"fake\" event when attaching to element.",
+          "type": "boolean"
+        },
+        {
+          "name": "debug",
+          "type": "boolean"
+        },
+        {
+          "name": "log",
+          "type": "boolean"
+        },
+        {
+          "name": "async",
+          "type": "boolean"
+        },
+        {
+          "name": "capture",
+          "type": "boolean"
+        },
+        {
+          "name": "withPath",
+          "attribute": "with-path",
+          "description": "object inside a new empty object, with key equal to this value.\r\nE.g. if the incoming object is {foo: 'hello', bar: 'world'}\r\nand with-path = 'myPath'\r\nthen the source object which be merged into is:\r\n{myPath: {foo: 'hello', bar: 'world'}}",
+          "type": "string"
+        },
+        {
+          "name": "attributeProps",
+          "default": "\"({disabled} : IXtallatXI) => ({\\r\\n            bool: [disabled],\\r\\n        } as AttributeProps)\""
+        },
+        {
+          "name": "self",
+          "type": "this",
+          "default": "\"this\""
+        },
+        {
+          "name": "propActions",
+          "type": "PropAction<HTMLElement>[]",
+          "default": "[null]"
+        },
+        {
+          "name": "defaultValues"
+        },
+        {
+          "name": "disabled",
+          "attribute": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
         }
       ]
     },
     {
       "name": "p-unt",
+      "path": "./p-unt.js",
       "description": "Dispatch event when previous non p-element triggers prescribed event",
       "attributes": [
         {
-          "name": "bubbles",
-          "description": "event should bubble up"
+          "name": "from",
+          "description": "Source element to start matches from",
+          "type": "string | undefined"
         },
         {
-          "name": "composed",
-          "description": "Event bubbling should pierce shadow dom"
+          "name": "m",
+          "description": "Maximum number of matching elements expected to be found.",
+          "type": "number | undefined"
+        },
+        {
+          "name": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "to",
+          "description": "css pattern to match for from downstream siblings.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "care-of",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "noblock",
+          "description": "Don't block event propagation.",
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "ifTargetMatches",
+          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "prop",
+          "description": "Name of property to set on matching (downstream) siblings.",
+          "type": "string | symbol | undefined"
+        },
+        {
+          "name": "prop-from-event",
+          "description": "Dynamically determined name of property to set on matching (downstream) siblings from event object.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "val",
+          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
+          "type": "string | undefined"
         },
         {
           "name": "observe",
-          "description": "Specifies element to latch on to, and listen for events.",
+          "description": "Specifies element to latch on to, and listen for events.\r\nSearches previous siblings, parent, previous siblings of parent, etc.\r\nStops at Shadow DOM boundary.",
           "type": "string"
+        },
+        {
+          "name": "fire-event",
+          "description": "Artificially fire event on target element whose name is specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "skip-init",
+          "description": "Don't raise a \"fake\" event when attaching to element.",
+          "type": "boolean"
         },
         {
           "name": "with-path",
@@ -821,89 +1101,116 @@
           "name": "disabled",
           "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
           "type": "boolean"
-        },
-        {
-          "name": "on",
-          "description": "The event name to monitor for, from previous non-petalian element.",
-          "type": "string"
-        },
-        {
-          "name": "to",
-          "description": "css pattern to match for from downstream siblings.",
-          "type": "string"
-        },
-        {
-          "name": "care-of",
-          "description": "CSS Selector to use to select single child within the destination element.",
-          "type": "string"
-        },
-        {
-          "name": "noblock",
-          "description": "Don't block event propagation.",
-          "type": "boolean"
-        },
-        {
-          "name": "if",
-          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "type": "string | symbol"
-        },
-        {
-          "name": "val",
-          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "type": "string"
-        },
-        {
-          "name": "fire-event",
-          "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "from",
-          "description": "Source element to start matches from",
-          "type": "string"
-        },
-        {
-          "name": "m",
-          "description": "Maximum number of matching elements expected to be found.",
-          "type": "number"
         }
       ],
       "properties": [
-        {
-          "name": "bubbles",
-          "attribute": "bubbles",
-          "description": "event should bubble up"
-        },
-        {
-          "name": "composed",
-          "attribute": "composed",
-          "description": "Event bubbling should pierce shadow dom"
-        },
-        {
-          "name": "cancelable"
-        },
-        {
-          "name": "dispatch",
-          "description": "dispatch event"
-        },
         {
           "name": "guid",
           "type": "string"
         },
         {
           "name": "del",
-          "type": "boolean"
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "is",
+          "type": "string",
+          "default": "\"p-d-x\""
+        },
+        {
+          "name": "from",
+          "attribute": "from",
+          "description": "Source element to start matches from",
+          "type": "string | undefined"
+        },
+        {
+          "name": "m",
+          "attribute": "m",
+          "description": "Maximum number of matching elements expected to be found.",
+          "type": "number | undefined"
+        },
+        {
+          "name": "on",
+          "attribute": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "to",
+          "attribute": "to",
+          "description": "css pattern to match for from downstream siblings.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "careOf",
+          "attribute": "care-of",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "noblock",
+          "attribute": "noblock",
+          "description": "Don't block event propagation.",
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "ifTargetMatches",
+          "attribute": "ifTargetMatches",
+          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "prop",
+          "attribute": "prop",
+          "description": "Name of property to set on matching (downstream) siblings.",
+          "type": "string | symbol | undefined"
+        },
+        {
+          "name": "propFromEvent",
+          "attribute": "prop-from-event",
+          "description": "Dynamically determined name of property to set on matching (downstream) siblings from event object.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "val",
+          "attribute": "val",
+          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
+          "type": "string | undefined"
         },
         {
           "name": "observe",
           "attribute": "observe",
-          "description": "Specifies element to latch on to, and listen for events.",
+          "description": "Specifies element to latch on to, and listen for events.\r\nSearches previous siblings, parent, previous siblings of parent, etc.\r\nStops at Shadow DOM boundary.",
           "type": "string"
+        },
+        {
+          "name": "fireEvent",
+          "attribute": "fire-event",
+          "description": "Artificially fire event on target element whose name is specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "skipInit",
+          "attribute": "skip-init",
+          "description": "Don't raise a \"fake\" event when attaching to element.",
+          "type": "boolean"
+        },
+        {
+          "name": "debug",
+          "type": "boolean"
+        },
+        {
+          "name": "log",
+          "type": "boolean"
+        },
+        {
+          "name": "async",
+          "type": "boolean"
+        },
+        {
+          "name": "capture",
+          "type": "boolean"
         },
         {
           "name": "withPath",
@@ -912,97 +1219,36 @@
           "type": "string"
         },
         {
-          "name": "evCount",
-          "description": "Tracks how many times each event type was called.",
-          "type": "{ [key: string]: number; }",
-          "default": "{}"
+          "name": "attributeProps",
+          "type": "({ del, guid }: PDX) => EvaluatedAttributeProps",
+          "default": "\"({del, guid} : PDX) => {\\r\\n        const ap = {\\r\\n            bool: [del],\\r\\n            str: [guid],\\r\\n            reflect: [del, guid]\\r\\n        }  as AttributeProps;\\r\\n        return mergeProps(ap, (<any>PD).props);\\r\\n    }\""
+        },
+        {
+          "name": "self",
+          "type": "this",
+          "default": "\"this\""
+        },
+        {
+          "name": "propActions",
+          "type": "PropAction<HTMLElement>[]",
+          "default": "[null]"
+        },
+        {
+          "name": "defaultValues"
         },
         {
           "name": "disabled",
           "attribute": "disabled",
           "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
           "type": "boolean"
-        },
-        {
-          "name": "on",
-          "attribute": "on",
-          "description": "The event name to monitor for, from previous non-petalian element.",
-          "type": "string"
-        },
-        {
-          "name": "to",
-          "attribute": "to",
-          "description": "css pattern to match for from downstream siblings.",
-          "type": "string"
-        },
-        {
-          "name": "careOf",
-          "attribute": "care-of",
-          "description": "CSS Selector to use to select single child within the destination element.",
-          "type": "string"
-        },
-        {
-          "name": "noblock",
-          "attribute": "noblock",
-          "description": "Don't block event propagation.",
-          "type": "boolean"
-        },
-        {
-          "name": "if",
-          "attribute": "if",
-          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "prop",
-          "attribute": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "type": "string | symbol"
-        },
-        {
-          "name": "val",
-          "attribute": "val",
-          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "type": "string"
-        },
-        {
-          "name": "fireEvent",
-          "attribute": "fire-event",
-          "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "from",
-          "attribute": "from",
-          "description": "Source element to start matches from",
-          "type": "string"
-        },
-        {
-          "name": "m",
-          "attribute": "m",
-          "description": "Maximum number of matching elements expected to be found.",
-          "type": "number"
         }
       ]
     },
     {
       "name": "p-w",
+      "path": "./p-w.js",
       "description": "\"planted weirwood\" -- passes data down just like p-d, but also updates history.state",
       "attributes": [
-        {
-          "name": "state-path",
-          "description": "path within history.state to deep merge data into"
-        },
-        {
-          "name": "push",
-          "description": "push new stack element into history",
-          "type": "boolean"
-        },
-        {
-          "name": "cc",
-          "description": "Should carbon copy data to state",
-          "type": "boolean"
-        },
         {
           "name": "bubbles",
           "description": "event should bubble up",
@@ -1014,9 +1260,69 @@
           "type": "boolean"
         },
         {
+          "name": "from",
+          "description": "Source element to start matches from",
+          "type": "string | undefined"
+        },
+        {
+          "name": "m",
+          "description": "Maximum number of matching elements expected to be found.",
+          "type": "number | undefined"
+        },
+        {
+          "name": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "to",
+          "description": "css pattern to match for from downstream siblings.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "care-of",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "noblock",
+          "description": "Don't block event propagation.",
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "ifTargetMatches",
+          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "prop",
+          "description": "Name of property to set on matching (downstream) siblings.",
+          "type": "string | symbol | undefined"
+        },
+        {
+          "name": "prop-from-event",
+          "description": "Dynamically determined name of property to set on matching (downstream) siblings from event object.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "val",
+          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
+          "type": "string | undefined"
+        },
+        {
           "name": "observe",
-          "description": "Specifies element to latch on to, and listen for events.",
+          "description": "Specifies element to latch on to, and listen for events.\r\nSearches previous siblings, parent, previous siblings of parent, etc.\r\nStops at Shadow DOM boundary.",
           "type": "string"
+        },
+        {
+          "name": "fire-event",
+          "description": "Artificially fire event on target element whose name is specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "skip-init",
+          "description": "Don't raise a \"fake\" event when attaching to element.",
+          "type": "boolean"
         },
         {
           "name": "with-path",
@@ -1027,76 +1333,9 @@
           "name": "disabled",
           "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
           "type": "boolean"
-        },
-        {
-          "name": "on",
-          "description": "The event name to monitor for, from previous non-petalian element.",
-          "type": "string"
-        },
-        {
-          "name": "to",
-          "description": "css pattern to match for from downstream siblings.",
-          "type": "string"
-        },
-        {
-          "name": "care-of",
-          "description": "CSS Selector to use to select single child within the destination element.",
-          "type": "string"
-        },
-        {
-          "name": "noblock",
-          "description": "Don't block event propagation.",
-          "type": "boolean"
-        },
-        {
-          "name": "if",
-          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "type": "string | symbol"
-        },
-        {
-          "name": "val",
-          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "type": "string"
-        },
-        {
-          "name": "fire-event",
-          "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "from",
-          "description": "Source element to start matches from",
-          "type": "string"
-        },
-        {
-          "name": "m",
-          "description": "Maximum number of matching elements expected to be found.",
-          "type": "number"
         }
       ],
       "properties": [
-        {
-          "name": "statePath",
-          "attribute": "state-path",
-          "description": "path within history.state to deep merge data into"
-        },
-        {
-          "name": "push",
-          "attribute": "push",
-          "description": "push new stack element into history",
-          "type": "boolean"
-        },
-        {
-          "name": "cc",
-          "attribute": "cc",
-          "description": "Should carbon copy data to state",
-          "type": "boolean"
-        },
         {
           "name": "bubbles",
           "attribute": "bubbles",
@@ -1124,13 +1363,107 @@
         },
         {
           "name": "del",
-          "type": "boolean"
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "is",
+          "type": "string",
+          "default": "\"p-unt\""
+        },
+        {
+          "name": "from",
+          "attribute": "from",
+          "description": "Source element to start matches from",
+          "type": "string | undefined"
+        },
+        {
+          "name": "m",
+          "attribute": "m",
+          "description": "Maximum number of matching elements expected to be found.",
+          "type": "number | undefined"
+        },
+        {
+          "name": "on",
+          "attribute": "on",
+          "description": "The event name to monitor for, from previous non-petalian element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "to",
+          "attribute": "to",
+          "description": "css pattern to match for from downstream siblings.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "careOf",
+          "attribute": "care-of",
+          "description": "CSS Selector to use to select single child within the destination element.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "noblock",
+          "attribute": "noblock",
+          "description": "Don't block event propagation.",
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "ifTargetMatches",
+          "attribute": "ifTargetMatches",
+          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "prop",
+          "attribute": "prop",
+          "description": "Name of property to set on matching (downstream) siblings.",
+          "type": "string | symbol | undefined"
+        },
+        {
+          "name": "propFromEvent",
+          "attribute": "prop-from-event",
+          "description": "Dynamically determined name of property to set on matching (downstream) siblings from event object.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "val",
+          "attribute": "val",
+          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
+          "type": "string | undefined"
         },
         {
           "name": "observe",
           "attribute": "observe",
-          "description": "Specifies element to latch on to, and listen for events.",
+          "description": "Specifies element to latch on to, and listen for events.\r\nSearches previous siblings, parent, previous siblings of parent, etc.\r\nStops at Shadow DOM boundary.",
           "type": "string"
+        },
+        {
+          "name": "fireEvent",
+          "attribute": "fire-event",
+          "description": "Artificially fire event on target element whose name is specified by this attribute.",
+          "type": "string | undefined"
+        },
+        {
+          "name": "skipInit",
+          "attribute": "skip-init",
+          "description": "Don't raise a \"fake\" event when attaching to element.",
+          "type": "boolean"
+        },
+        {
+          "name": "debug",
+          "type": "boolean"
+        },
+        {
+          "name": "log",
+          "type": "boolean"
+        },
+        {
+          "name": "async",
+          "type": "boolean"
+        },
+        {
+          "name": "capture",
+          "type": "boolean"
         },
         {
           "name": "withPath",
@@ -1139,76 +1472,27 @@
           "type": "string"
         },
         {
-          "name": "evCount",
-          "description": "Tracks how many times each event type was called.",
-          "type": "{ [key: string]: number; }",
-          "default": "{}"
+          "name": "attributeProps",
+          "default": "\"({bubbles, cancelable, composed, dispatch}: PUnt) => {\\r\\n        const bool = [bubbles, cancelable, composed, dispatch];\\r\\n        const ap = {\\r\\n            bool: bool,\\r\\n            reflect: bool,\\r\\n        } as AttributeProps;\\r\\n        return mergeProps(ap, (<any>PDX).props);\\r\\n    }\""
+        },
+        {
+          "name": "self",
+          "type": "this",
+          "default": "\"this\""
+        },
+        {
+          "name": "propActions",
+          "type": "PropAction<HTMLElement>[]",
+          "default": "[null]"
+        },
+        {
+          "name": "defaultValues"
         },
         {
           "name": "disabled",
           "attribute": "disabled",
           "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
           "type": "boolean"
-        },
-        {
-          "name": "on",
-          "attribute": "on",
-          "description": "The event name to monitor for, from previous non-petalian element.",
-          "type": "string"
-        },
-        {
-          "name": "to",
-          "attribute": "to",
-          "description": "css pattern to match for from downstream siblings.",
-          "type": "string"
-        },
-        {
-          "name": "careOf",
-          "attribute": "care-of",
-          "description": "CSS Selector to use to select single child within the destination element.",
-          "type": "string"
-        },
-        {
-          "name": "noblock",
-          "attribute": "noblock",
-          "description": "Don't block event propagation.",
-          "type": "boolean"
-        },
-        {
-          "name": "if",
-          "attribute": "if",
-          "description": "Only act on event if target element css-matches the expression specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "prop",
-          "attribute": "prop",
-          "description": "Name of property to set on matching downstream siblings.",
-          "type": "string | symbol"
-        },
-        {
-          "name": "val",
-          "attribute": "val",
-          "description": "Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.",
-          "type": "string"
-        },
-        {
-          "name": "fireEvent",
-          "attribute": "fire-event",
-          "description": "Artificially fire event on target element whose name is specified by this attribute.",
-          "type": "string"
-        },
-        {
-          "name": "from",
-          "attribute": "from",
-          "description": "Source element to start matches from",
-          "type": "string"
-        },
-        {
-          "name": "m",
-          "attribute": "m",
-          "description": "Maximum number of matching elements expected to be found.",
-          "type": "number"
         }
       ]
     }

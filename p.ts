@@ -86,6 +86,8 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
 
     /**
     * Specifies element to latch on to, and listen for events.
+    * Searches previous siblings, parent, previous siblings of parent, etc.
+    * Stops at Shadow DOM boundary.
     * @attr
     */
     observe!: string;
@@ -108,6 +110,11 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
     log!: boolean;
 
     async!: boolean;
+
+    /**
+     * A Boolean indicating that events of this type will be dispatched to the registered listener before being dispatched to any EventTarget beneath it in the DOM tree.
+     */
+    capture!: boolean;
     
     _s: (string | [string, string[]])[] | null = null;  // split prop using '.' as delimiter
     getSplit(newVal: string){
@@ -172,7 +179,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         const prevSib = this._trigger === undefined ? this.getPreviousSib() : this._trigger;
         if(!prevSib) return;
         this._trigger = prevSib as HTMLElement;
-        prevSib.addEventListener(this.on, this._bndHndlEv);
+        prevSib.addEventListener(this.on, this._bndHndlEv, {capture: this.capture});
         if(prevSib === this.parentElement && this.ifTargetMatches){
             prevSib.querySelectorAll(this.ifTargetMatches).forEach(publisher =>{
                 this.nudge(publisher);

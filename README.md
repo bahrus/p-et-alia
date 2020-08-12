@@ -225,9 +225,8 @@ Furthermore, no match will be found if if-diff does not contain the -lhs (or -rh
 
 I would suggest that for most applications, most of the time, data will naturally flow in one direction.  Those of us who read and write in a [downward direction](https://www.quora.com/Are-there-any-languages-that-read-from-bottom-to-top) will [probably](https://daverupert.com/2019/07/what-i-like-about-vue/) want to stick with that direction when arranging our elements.  But there will inevitably be points where the data flow must go up -- typically in response to a user action.  
 
-That's what p-u provides.  As the name suggests, it should be used sparingly.  
+That's what p-u provides.  As the name suggests, it should be used [sparingly](http://www.pxleyes.com/images/contests/rube%20goldberg/fullsize/rube%20goldberg_4a3c0e06144db_hires.jpg).  
 
-[![Passing Up](http://www.pxleyes.com/images/contests/rube%20goldberg/fullsize/rube%20goldberg_4a3c0e06144db_hires.jpg)](http://www.pxleyes.com/photoshop-picture/4a3be022a6a4b/Remote.html)
 
 p-u can pass data in any direction, but the primary intent is to pass it up the DOM tree to a precise single target.  What *was* the CSS selector, before the opening brace, now becomes a simple ID.  No # before the ID is required (in fact it will assume the ID starts with # if you do this).  If the selector starts with  a slash, it searches for an element with that ID from (root) document, outside any shadow DOM.  If it starts with ./, it searches within the shadow DOM it belongs to  ../ goes up one level. ../../ goes up two levels, etc.  Basically we are emulating the path syntax for imports.
 
@@ -789,10 +788,10 @@ This could all be done with a single self-contained component, but another optio
 
 ```html
 <div disabled=2>
+    <p-d on=item-deleted to=[-delete-task] m=1></p-d>
+    <p-d on=item-edited to=[-update-task] m=1></p-d>
     <enhanced-input placeholder="What needs to be done?"></enhanced-input>
     <p-d on=commit to=[-new-task]></p-d>
-    <p-d observe=div on=item-deleted to=[-delete-task] m=1></p-d>
-    <p-d observe=div on=item-edited to=[-update-task] m=1></p-d>
     <my-non-visual-to-do-list-view-model -new-task -delete-task -update-task></my-non-visual-to-do-list-view-model>
     <p-d on=list-changed to=[-items] m=1></p-d>
     <my-visual-to-do-list -items></my-visual-to-do-list>
@@ -803,7 +802,15 @@ Here, we assume the component "my-visual-to-do-list" is designed in such a way t
 
 There are some web component libraries ([lightning](https://developer.salesforce.com/docs/component-library/documentation/en/48.0/lwc/lwc.events_best_practices), for example), which discourage having events bubble up by default, due to performance concerns.
 
-If that's the case, place a p-unt element beneath the element that needs to cycle through the parent (or use two p-u's instead of two of the p-d's, I won't judge you badly for it ;-) ).
+If that's the case, try using the "capture" option:
+
+```html
+<div disabled=2>
+    <p-d capture on=item-deleted to=[-delete-task] m=1></p-d>
+    <p-d capture on=item-edited to=[-update-task] m=1></p-d>
+    ...
+</div>
+```
 
 Splitting up the todo composition into these three sub components could allow one or more pieces to be re-used with or without the other.  For example, maybe in one scenario we want the list to display as a simple list, but elsewhere we want it to display inside a calendar.    Or both at the same time.  
 
