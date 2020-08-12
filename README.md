@@ -705,7 +705,7 @@ Suggestions for what [p-w could stand for](http://phrontistery.info/w.html):
 
 1.  pass withal
 2.  pass wherewith
-3.  planted weirwood
+3.  planted [weirwood](https://awoiaf.westeros.org/index.php/Weirwood#Religion)
 4.  pass w[hatever you want w to stand for]
 5.  pass wynd
 

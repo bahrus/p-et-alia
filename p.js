@@ -89,7 +89,7 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         if (!prevSib)
             return;
         this._trigger = prevSib;
-        prevSib.addEventListener(this.on, this._bndHndlEv);
+        prevSib.addEventListener(this.on, this._bndHndlEv, { capture: this.capture });
         if (prevSib === this.parentElement && this.ifTargetMatches) {
             prevSib.querySelectorAll(this.ifTargetMatches).forEach(publisher => {
                 this.nudge(publisher);

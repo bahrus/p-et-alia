@@ -40,8 +40,8 @@ export class PU extends P {
     }
 }
 PU.is = 'p-u';
-PU.attributeProps = ({ disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, observe, fireEvent, withPath, async }) => {
-    const bool = [disabled, noblock, async];
+PU.attributeProps = ({ disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, observe, fireEvent, withPath, async, capture }) => {
+    const bool = [disabled, noblock, async, capture];
     const str = [on, to, careOf, val, prop, ifTargetMatches, observe, fireEvent, withPath];
     const reflect = [...bool, ...str];
     return {
