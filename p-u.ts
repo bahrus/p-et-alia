@@ -9,9 +9,9 @@ import { AttributeProps } from '../xtal-element/types.js';
 export class PU extends P {
     static is = 'p-u';
 
-    static attributeProps: any = ({disabled, on, to, careOf, noblock, val, prop, ifTargetMatches,  observe, fireEvent, withPath, async, capture} : PU) => {
+    static attributeProps: any = ({disabled, on, to, careOf, noblock, val, prop, ifTargetMatches,  observe, fireEvent, withPath, async, capture, parseValAs, toClosest} : PU) => {
         const bool = [disabled, noblock, async, capture];
-        const str = [on, to, careOf, val, prop, ifTargetMatches, observe, fireEvent, withPath];
+        const str = [on, to, careOf, val, prop, ifTargetMatches, observe, fireEvent, withPath, parseValAs, toClosest];
         const reflect = [...bool, ...str];
         return {
             bool,
@@ -21,23 +21,28 @@ export class PU extends P {
     }
 
     pass(e: Event) {
-        
+        let targetElement: Element | undefined | null;
         const cssSel = this.to;
-        const split = cssSel.split('/');
-        const id = split[split.length - 1];
-        let targetElement: HTMLElement;
-        if (cssSel.startsWith('/')) {
-            targetElement = (<any>self)[cssSel.substr(1)];
-        } else {
-            const len = cssSel.startsWith('./') ? 0 : split.length;
-            const host = this.getHost(<any>this as HTMLElement, len) as HTMLElement;
-            if (host !== undefined) {
-                targetElement = host.querySelector('#' + id) as HTMLElement;
+        if(cssSel !== undefined){
+            const split = cssSel.split('/');
+            const id = split[split.length - 1];
+            
+            if (cssSel.startsWith('/')) {
+                targetElement = (<any>self)[cssSel.substr(1)];
             } else {
-                throw 'Target Element Not found';
+                const len = cssSel.startsWith('./') ? 0 : split.length;
+                const host = this.getHost(<any>this as HTMLElement, len) as HTMLElement;
+                if (host !== undefined) {
+                    targetElement = host.querySelector('#' + id) as HTMLElement;
+                } else {
+                    throw 'Target Element Not found';
+                }
             }
+        }else{
+            const closest = this.toClosest;
+            if(closest !== undefined) targetElement = this.closest(closest);
         }
-        this.injectVal(e, targetElement);
+        if(targetElement) this.injectVal(e, targetElement);
     }
 
     _host!: HTMLElement
@@ -53,7 +58,7 @@ export class PU extends P {
         this.init();
     }
 
-
+    toClosest: string | undefined;
 }
 define(PU);
 

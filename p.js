@@ -145,6 +145,20 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         if (val === undefined && (typeof (this.val) === 'string') && e.target.hasAttribute(this.val)) {
             val = e.target.getAttribute(this.val);
         }
+        switch (this.parseValAs) {
+            case 'bool':
+                val = val === 'true';
+                break;
+            case 'int':
+                val = parseInt(val);
+                break;
+            case 'float':
+                val = parseFloat(val);
+                break;
+            case 'date':
+                val = new Date(val);
+                break;
+        }
         return val;
     }
     injectVal(e, target) {

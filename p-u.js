@@ -7,24 +7,32 @@ import { define } from 'xtal-element/xtal-latx.js';
  */
 export class PU extends P {
     pass(e) {
-        const cssSel = this.to;
-        const split = cssSel.split('/');
-        const id = split[split.length - 1];
         let targetElement;
-        if (cssSel.startsWith('/')) {
-            targetElement = self[cssSel.substr(1)];
-        }
-        else {
-            const len = cssSel.startsWith('./') ? 0 : split.length;
-            const host = this.getHost(this, len);
-            if (host !== undefined) {
-                targetElement = host.querySelector('#' + id);
+        const cssSel = this.to;
+        if (cssSel !== undefined) {
+            const split = cssSel.split('/');
+            const id = split[split.length - 1];
+            if (cssSel.startsWith('/')) {
+                targetElement = self[cssSel.substr(1)];
             }
             else {
-                throw 'Target Element Not found';
+                const len = cssSel.startsWith('./') ? 0 : split.length;
+                const host = this.getHost(this, len);
+                if (host !== undefined) {
+                    targetElement = host.querySelector('#' + id);
+                }
+                else {
+                    throw 'Target Element Not found';
+                }
             }
         }
-        this.injectVal(e, targetElement);
+        else {
+            const closest = this.toClosest;
+            if (closest !== undefined)
+                targetElement = this.closest(closest);
+        }
+        if (targetElement)
+            this.injectVal(e, targetElement);
     }
     getHost(el, maxLevel) {
         let parent = el.getRootNode();
@@ -40,9 +48,9 @@ export class PU extends P {
     }
 }
 PU.is = 'p-u';
-PU.attributeProps = ({ disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, observe, fireEvent, withPath, async, capture }) => {
+PU.attributeProps = ({ disabled, on, to, careOf, noblock, val, prop, ifTargetMatches, observe, fireEvent, withPath, async, capture, parseValAs, toClosest }) => {
     const bool = [disabled, noblock, async, capture];
-    const str = [on, to, careOf, val, prop, ifTargetMatches, observe, fireEvent, withPath];
+    const str = [on, to, careOf, val, prop, ifTargetMatches, observe, fireEvent, withPath, parseValAs, toClosest];
     const reflect = [...bool, ...str];
     return {
         bool,

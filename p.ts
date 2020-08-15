@@ -111,6 +111,8 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
 
     async!: boolean;
 
+    parseValAs: 'int' | 'float' | 'bool' | 'date' | undefined;
+
     /**
      * A Boolean indicating that events of this type will be dispatched to the registered listener before being dispatched to any EventTarget beneath it in the DOM tree.
      */
@@ -236,6 +238,20 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
         let val = this._s !== null ? getProp(e, this._s, this) : getProp(e, ['target', 'value'], this);
         if(val === undefined && (typeof(this.val) ==='string') && (e.target as HTMLElement).hasAttribute(this.val)) {
             val = (e.target as HTMLElement).getAttribute(this.val);
+        }
+        switch(this.parseValAs){
+            case 'bool':
+                val = val === 'true';
+                break;
+            case 'int':
+                val = parseInt(val);
+                break;
+            case 'float':
+                val = parseFloat(val);
+                break;
+            case 'date':
+                val = new Date(val);
+                break;
         }
         return val;
     }

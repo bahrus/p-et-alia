@@ -236,6 +236,8 @@ Sample markup:
  <p-u on="click" to="/myTree" prop="toggledNode" val="target.node"></p-u>
 ```
 
+An alternative to the to property/attribute is the property/attribute toClosest/to-closest, which uses the [closest](https://developer.mozilla.org/en-US/docs/Web/API/Element/closest) function to find the single element to pass the value to.
+
 Unlike p-d, p-u doesn't worry about DOM nodes getting created after any passing of data takes place.  If you are using p-u to pass data to previous siblings, or parents of the p-u element, or previous siblings of the parent, etc, then it is quite likely that the DOM element will already have been created, as a natural result of how the browser, and frameworks, typically render DOM.  If, however, you choose to target DOM elements out of this range, it's more of a crapshoot, and do so at your own risk.
 
 
@@ -495,6 +497,9 @@ An extending web component, p-d-x, contains experimental additional feature(s):
 
 1)  You can copy all properties of the source to the target if you specify prop="." and val="." (partly tested many refactorings ago).
 
+## Parsed values
+
+To convert from a string to other formats, use property/attribute parseValAs/parse-val-as.  Current options are "int", "float", "bool" and "date."
 
 ## Computed values
 
