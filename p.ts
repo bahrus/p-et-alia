@@ -111,7 +111,7 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
 
     async!: boolean;
 
-    parseValAs: 'int' | 'float' | 'bool' | 'date' | undefined;
+    parseValAs: 'int' | 'float' | 'bool' | 'date' | 'truthy' | 'falsy' | undefined;
 
     /**
      * A Boolean indicating that events of this type will be dispatched to the registered listener before being dispatched to any EventTarget beneath it in the DOM tree.
@@ -251,6 +251,12 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
                 break;
             case 'date':
                 val = new Date(val);
+                break;
+            case 'truthy':
+                val = !!val;
+                break;
+            case 'falsy':
+                val = !val;
                 break;
         }
         return val;

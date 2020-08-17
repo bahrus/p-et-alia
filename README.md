@@ -499,7 +499,7 @@ An extending web component, p-d-x, contains experimental additional feature(s):
 
 ## Parsed values
 
-To convert from a string to other formats, use property/attribute parseValAs/parse-val-as.  Current options are "int", "float", "bool" and "date."
+To convert from a string to other formats, use property/attribute parseValAs/parse-val-as.  Current options are "int", "float", "bool", "truthy", "falsy" and "date."
 
 ## Computed values
 

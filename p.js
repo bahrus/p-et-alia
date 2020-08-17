@@ -158,6 +158,12 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
             case 'date':
                 val = new Date(val);
                 break;
+            case 'truthy':
+                val = !!val;
+                break;
+            case 'falsy':
+                val = !val;
+                break;
         }
         return val;
     }
