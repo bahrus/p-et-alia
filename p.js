@@ -225,7 +225,15 @@ export class P extends WithPath(XtallatX(hydrate(HTMLElement))) {
         }
         if (target.hasAttribute !== undefined && target.hasAttribute('debug'))
             debugger;
-        this.setVal(target, valx, attr, prop);
+        let realTarget = target;
+        if (this.proxyId) {
+            const sym = Symbol.for(this.proxyId);
+            if (realTarget[sym] === undefined) {
+                realTarget[sym] = {};
+            }
+            realTarget = realTarget[sym];
+        }
+        this.setVal(realTarget, valx, attr, prop);
         if (this.fireEvent) {
             target.dispatchEvent(new CustomEvent(this.fireEvent, {
                 detail: this.getDetail(valx),

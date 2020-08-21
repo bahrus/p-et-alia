@@ -76,6 +76,8 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
      */
     propFromEvent: string | undefined;
 
+    proxyId: string | undefined;
+
 
     /**
      * Specifies path to JS object from event, that should be passed to downstream siblings.  Value of '.' passes entire entire object.
@@ -316,7 +318,15 @@ export abstract class P extends WithPath(XtallatX(hydrate(HTMLElement))) impleme
 
         }
         if(target.hasAttribute !== undefined && target.hasAttribute('debug')) debugger;
-        this.setVal(target, valx, attr, prop);
+        let realTarget = target as any;
+        if(this.proxyId){
+            const sym = Symbol.for(this.proxyId);
+            if(realTarget[sym] === undefined){
+                realTarget[sym] = {};
+            }
+            realTarget = realTarget[sym];
+        }
+        this.setVal(realTarget, valx, attr, prop);
         if(this.fireEvent){
             target.dispatchEvent(new CustomEvent(this.fireEvent, { 
                 detail: this.getDetail(valx),
