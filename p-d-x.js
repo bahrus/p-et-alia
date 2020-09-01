@@ -1,5 +1,5 @@
 import { PD } from './p-d.js';
-import { define, mergeProps } from 'xtal-element/xtal-latx.js';
+import { define } from 'xtal-element/xtal-latx.js';
 const regLookup = {};
 /**
  * Extends element p-d with experimental features.
@@ -72,13 +72,10 @@ export class PDX extends PD {
     }
 }
 PDX.is = 'p-d-x';
-PDX.attributeProps = ({ del, guid }) => {
-    const ap = {
-        bool: [del],
-        str: [guid],
-        reflect: [del, guid]
-    };
-    return mergeProps(ap, PD.props);
-};
+PDX.attributeProps = ({ del, guid }) => ({
+    bool: [del],
+    str: [guid],
+    reflect: [del, guid]
+});
 define(PDX);
 export const extend = PDX.extend;

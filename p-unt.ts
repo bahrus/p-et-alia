@@ -14,14 +14,10 @@ export class PUnt extends PDX {
 
     static is = 'p-unt';
 
-    static attributeProps: any = ({bubbles, cancelable, composed, dispatch}: PUnt) => {
-        const bool = [bubbles, cancelable, composed, dispatch];
-        const ap = {
-            bool: bool,
-            reflect: bool,
-        } as AttributeProps;
-        return mergeProps(ap, (<any>PDX).props);
-    }
+    static attributeProps: any = ({bubbles, cancelable, composed, dispatch}: PUnt) => ({
+        bool: [bubbles, cancelable, composed, dispatch],
+        reflect: [bubbles, cancelable, composed, dispatch],
+    })
 
 
 

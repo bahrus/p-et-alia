@@ -1,5 +1,5 @@
 import { PUnt } from './p-unt.js';
-import { define, mergeProps } from 'xtal-element/xtal-latx.js';
+import { define } from 'xtal-element/xtal-latx.js';
 import { doNotCCEventToState } from './p-h-d.js';
 const state_path = 'state-path';
 const push = 'push';
@@ -50,14 +50,9 @@ export class PW extends PUnt {
     }
 }
 PW.is = 'p-w';
-PW.attributeProps = ({ statePath, replace, push }) => {
-    const bool = [replace, push];
-    const str = [statePath];
-    const ap = {
-        bool: bool,
-        str: str,
-        reflect: [...bool, ...str],
-    };
-    return mergeProps(ap, PUnt.props);
-};
+PW.attributeProps = ({ statePath, replace, push }) => ({
+    bool: [replace, push],
+    str: [statePath],
+    reflect: [replace, push, statePath],
+});
 define(PW);

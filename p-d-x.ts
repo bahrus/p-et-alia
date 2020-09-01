@@ -11,14 +11,11 @@ const regLookup:{[key: string]: string} = {};
  */
 export class PDX extends PD {
     static is = 'p-d-x';
-    static attributeProps = ({del, guid} : PDX) => {
-        const ap = {
-            bool: [del],
-            str: [guid],
-            reflect: [del, guid]
-        }  as AttributeProps;
-        return mergeProps(ap, (<any>PD).props);
-    }
+    static attributeProps = ({del, guid} : PDX) => ({
+        bool: [del],
+        str: [guid],
+        reflect: [del, guid]
+    });
     commit(target: HTMLElement, val: any, e: Event) {
         if(val === undefined) {
             super.commit(target, val, e);

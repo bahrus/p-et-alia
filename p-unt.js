@@ -1,5 +1,5 @@
 import { PDX } from './p-d-x.js';
-import { define, mergeProps } from 'xtal-element/xtal-latx.js';
+import { define } from 'xtal-element/xtal-latx.js';
 import { getHost } from 'xtal-element/getHost.js';
 const bubbles = 'bubbles';
 const composed = 'composed';
@@ -40,12 +40,8 @@ export class PUnt extends PDX {
     }
 }
 PUnt.is = 'p-unt';
-PUnt.attributeProps = ({ bubbles, cancelable, composed, dispatch }) => {
-    const bool = [bubbles, cancelable, composed, dispatch];
-    const ap = {
-        bool: bool,
-        reflect: bool,
-    };
-    return mergeProps(ap, PDX.props);
-};
+PUnt.attributeProps = ({ bubbles, cancelable, composed, dispatch }) => ({
+    bool: [bubbles, cancelable, composed, dispatch],
+    reflect: [bubbles, cancelable, composed, dispatch],
+});
 define(PUnt);

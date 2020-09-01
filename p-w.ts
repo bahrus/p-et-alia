@@ -13,16 +13,11 @@ const replace = 'replace';
  */
 export class PW extends PUnt{
     static is = 'p-w';
-    static attributeProps: any = ({statePath, replace, push} : PW) => {
-        const bool = [replace, push];
-        const str = [statePath];
-        const ap = {
-            bool: bool,
-            str: str,
-            reflect: [...bool, ...str],
-        } as AttributeProps
-        return mergeProps(ap, (<any>PUnt).props);
-    } 
+    static attributeProps: any = ({statePath, replace, push} : PW) => ({
+        bool: [replace, push],
+        str: [statePath],
+        reflect: [replace, push, statePath],
+    }); 
 
     /**
      * path within history.state to deep merge data into
