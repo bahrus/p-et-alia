@@ -11,14 +11,11 @@ export const doNotCCEventToState = 'dncc';
 export class PhD extends PDX{
     static  is = 'p-h-d';
 
-    static attributeProps: any = ({initAndPopStateOnly, fromPath} : PhD) => {
-        const ap = {
-            bool: [initAndPopStateOnly],
-            str: [fromPath],
-            reflect: [fromPath, initAndPopStateOnly]
-        } as AttributeProps
-        return mergeProps(ap, (<any>PDX).props);
-    } 
+    static attributeProps: any = ({initAndPopStateOnly, fromPath} : PhD) => ({
+        bool: [initAndPopStateOnly],
+        str: [fromPath],
+        reflect: [fromPath, initAndPopStateOnly]
+    } as AttributeProps); 
 
     getDetail(val: any){
         return {

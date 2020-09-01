@@ -1,5 +1,5 @@
 import { PDX } from './p-d-x.js';
-import { define, mergeProps } from 'xtal-element/xtal-latx.js';
+import { define } from 'xtal-element/xtal-latx.js';
 import { XtalStateWatch } from 'xtal-state/xtal-state-watch.js';
 export const doNotCCEventToState = 'dncc';
 /**
@@ -31,12 +31,9 @@ export class PhD extends PDX {
     }
 }
 PhD.is = 'p-h-d';
-PhD.attributeProps = ({ initAndPopStateOnly, fromPath }) => {
-    const ap = {
-        bool: [initAndPopStateOnly],
-        str: [fromPath],
-        reflect: [fromPath, initAndPopStateOnly]
-    };
-    return mergeProps(ap, PDX.props);
-};
+PhD.attributeProps = ({ initAndPopStateOnly, fromPath }) => ({
+    bool: [initAndPopStateOnly],
+    str: [fromPath],
+    reflect: [fromPath, initAndPopStateOnly]
+});
 define(PhD);
