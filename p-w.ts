@@ -1,5 +1,5 @@
 import {PUnt} from './p-unt.js';
-import {define, mergeProps} from 'xtal-element/xtal-latx.js';
+import {define} from 'xtal-element/xtal-latx.js';
 import {XtalStateUpdateProps} from 'xtal-state/types.d.js';
 import {doNotCCEventToState} from './p-h-d.js';
 import { AttributeProps } from '../xtal-element/types.js';

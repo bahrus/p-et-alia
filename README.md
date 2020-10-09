@@ -828,6 +828,8 @@ You could consider it a local "smart contract mediator" in the [blockchain analo
 
 [![Watch the video](https://img.youtube.com/vi/GF7tFwLBiKo/maxresdefault.jpg)](https://www.youtube.com/watch?v=GF7tFwLBiKo)
 
+**NB:** An avante-garde, non-gag-inducing approach to the todo problem is available [here](https://mavo.io/#todo).
+
 </details>
 
 

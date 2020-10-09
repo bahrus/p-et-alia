@@ -1,5 +1,5 @@
 import {PDX} from './p-d-x.js';
-import {define, mergeProps} from 'xtal-element/xtal-latx.js';
+import {define} from 'xtal-element/xtal-latx.js';
 import {XtalStateWatch} from 'xtal-state/xtal-state-watch.js';
 import { AttributeProps } from '../xtal-element/types.js';
 

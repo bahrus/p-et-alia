@@ -31,10 +31,6 @@ export class PD extends P implements PDProps {
     _pdNavDown: NavDown | null = null;
 
 
-
-
-    //_hasMax!: boolean;
-
     /**
      * Maximum number of matching elements expected to be found.
      * @attr
