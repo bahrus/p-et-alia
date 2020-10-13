@@ -7,6 +7,71 @@ const debounce = (fn, time) => {
     };
 };
 
+//export const propUp: unique symbol = Symbol.for('8646ccd5-3ffd-447a-a4df-0022ca3a8155');
+//export const attribQueue: unique symbol = Symbol.for('02ca2c80-68e0-488f-b4b4-6859284848fb');
+/**
+ * Base mixin for many xtal- components
+ * @param superClass
+ */
+function hydrate(superClass) {
+    return class extends superClass {
+        constructor() {
+            super(...arguments);
+            this.__conn = false;
+        }
+        /**
+         * Set attribute value.
+         * @param name
+         * @param val
+         * @param trueVal String to set attribute if true.
+         */
+        attr(name, val, trueVal) {
+            if (val === undefined)
+                return this.getAttribute(name);
+            if (!this.__conn) {
+                if (this.__attribQueue === undefined)
+                    this.__attribQueue = [];
+                this.__attribQueue.push({
+                    name, val, trueVal
+                });
+                return;
+            }
+            const v = val ? 'set' : 'remove'; //verb
+            this[v + 'Attribute'](name, trueVal || val);
+        }
+        /**
+         * Needed for asynchronous loading
+         * @param props Array of property names to "upgrade", without losing value set while element was Unknown
+         * @private
+         */
+        __propUp(props) {
+            const defaultValues = this.constructor['defaultValues'];
+            props.forEach(prop => {
+                let value = this[prop];
+                if (value === undefined && defaultValues !== undefined) {
+                    value = defaultValues[prop];
+                }
+                if (this.hasOwnProperty(prop)) {
+                    delete this[prop];
+                }
+                if (value !== undefined)
+                    this[prop] = value;
+            });
+        }
+        connectedCallback() {
+            this.__conn = true;
+            const ep = this.constructor.props;
+            this.__propUp([...ep.bool, ...ep.str, ...ep.num, ...ep.obj]);
+            if (this.__attribQueue !== undefined) {
+                this.__attribQueue.forEach(attribQItem => {
+                    this.attr(attribQItem.name, attribQItem.val, attribQItem.trueVal);
+                });
+                this.__attribQueue = undefined;
+            }
+        }
+    };
+}
+
 /**
  * Base class for many xtal- components
  * @param superClass
@@ -191,6 +256,7 @@ function XtallatX(superClass) {
                 }
                 return this.___processActionDebouncer;
             }
+            propActionsHub(propAction) { }
             __processActionQueue() {
                 if (this.propActions === undefined)
                     return;
@@ -200,6 +266,7 @@ function XtallatX(superClass) {
                     const dependencies = deconstruct(propAction);
                     const dependencySet = new Set(dependencies);
                     if (intersection(queue, dependencySet).size > 0) {
+                        this.propActionsHub(propAction);
                         propAction(this);
                     }
                 });
@@ -342,83 +409,25 @@ function camelToLisp(s) {
 }
 const propCategories = ['bool', 'str', 'num', 'reflect', 'notify', 'obj', 'jsonProp', 'dry', 'log', 'debug', 'async'];
 const argList = Symbol('argList');
+function substrBefore(s, search) {
+    let returnS = s.trim();
+    let iPosOfColon = returnS.indexOf(search);
+    if (iPosOfColon > -1)
+        return returnS.substr(0, iPosOfColon);
+    return returnS;
+}
 function deconstruct(fn) {
     if (fn[argList] === undefined) {
         const fnString = fn.toString().trim();
         if (fnString.startsWith('({')) {
             const iPos = fnString.indexOf('})', 2);
-            fn[argList] = fnString.substring(2, iPos).split(',').map(s => s.trim());
+            fn[argList] = fnString.substring(2, iPos).split(',').map(s => substrBefore(s, ':'));
         }
         else {
             fn[argList] = [];
         }
     }
     return fn[argList];
-}
-
-//export const propUp: unique symbol = Symbol.for('8646ccd5-3ffd-447a-a4df-0022ca3a8155');
-//export const attribQueue: unique symbol = Symbol.for('02ca2c80-68e0-488f-b4b4-6859284848fb');
-/**
- * Base mixin for many xtal- components
- * @param superClass
- */
-function hydrate(superClass) {
-    return class extends superClass {
-        constructor() {
-            super(...arguments);
-            this.__conn = false;
-        }
-        /**
-         * Set attribute value.
-         * @param name
-         * @param val
-         * @param trueVal String to set attribute if true.
-         */
-        attr(name, val, trueVal) {
-            if (val === undefined)
-                return this.getAttribute(name);
-            if (!this.__conn) {
-                if (this.__attribQueue === undefined)
-                    this.__attribQueue = [];
-                this.__attribQueue.push({
-                    name, val, trueVal
-                });
-                return;
-            }
-            const v = val ? 'set' : 'remove'; //verb
-            this[v + 'Attribute'](name, trueVal || val);
-        }
-        /**
-         * Needed for asynchronous loading
-         * @param props Array of property names to "upgrade", without losing value set while element was Unknown
-         * @private
-         */
-        __propUp(props) {
-            const defaultValues = this.constructor['defaultValues'];
-            props.forEach(prop => {
-                let value = this[prop];
-                if (value === undefined && defaultValues !== undefined) {
-                    value = defaultValues[prop];
-                }
-                if (this.hasOwnProperty(prop)) {
-                    delete this[prop];
-                }
-                if (value !== undefined)
-                    this[prop] = value;
-            });
-        }
-        connectedCallback() {
-            this.__conn = true;
-            const ep = this.constructor.props;
-            this.__propUp([...ep.bool, ...ep.str, ...ep.num, ...ep.obj]);
-            if (this.__attribQueue !== undefined) {
-                this.__attribQueue.forEach(attribQItem => {
-                    this.attr(attribQItem.name, attribQItem.val, attribQItem.trueVal);
-                });
-                this.__attribQueue = undefined;
-            }
-        }
-    };
 }
 
 function createNestedProp(target, pathTokens, val, clone) {
@@ -1079,365 +1088,6 @@ PU.attributeProps = ({ disabled, on, to, careOf, noblock, val, prop, ifTargetMat
 };
 define(PU);
 
-const debounce$1 = (fn, time) => {
-    let timeout;
-    return function () {
-        const functionCall = () => fn.apply(this, arguments);
-        clearTimeout(timeout);
-        timeout = setTimeout(functionCall, time);
-    };
-};
-
-const ltcRe$1 = /(\-\w)/g;
-function lispToCamel$1(s) {
-    return s.replace(ltcRe$1, function (m) { return m[1].toUpperCase(); });
-}
-const ctlRe$1 = /[\w]([A-Z])/g;
-function camelToLisp$1(s) {
-    return s.replace(ctlRe$1, function (m) {
-        return m[0] + "-" + m[1];
-    }).toLowerCase();
-}
-const propCategories$1 = ['bool', 'str', 'num', 'reflect', 'notify', 'obj', 'jsonProp', 'dry', 'log', 'debug', 'async'];
-const argList$1 = Symbol('argList');
-function deconstruct$1(fn) {
-    if (fn[argList$1] === undefined) {
-        const fnString = fn.toString().trim();
-        if (fnString.startsWith('({')) {
-            const iPos = fnString.indexOf('})', 2);
-            fn[argList$1] = fnString.substring(2, iPos).split(',').map(s => s.trim());
-        }
-        else {
-            fn[argList$1] = [];
-        }
-    }
-    return fn[argList$1];
-}
-//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
-function intersection$1(setA, setB) {
-    let _intersection = new Set();
-    for (let elem of setB) {
-        if (setA.has(elem)) {
-            _intersection.add(elem);
-        }
-    }
-    return _intersection;
-}
-const ignorePropKey = Symbol();
-const ignoreAttrKey$1 = Symbol();
-const propInfoSym$1 = Symbol('propInfo');
-const atrInit$1 = Symbol('atrInit');
-function define$2(MyElementClass) {
-    const props = MyElementClass.props;
-    const proto = MyElementClass.prototype;
-    const flatProps = [...props.bool, ...props.num, ...props.str, ...props.obj];
-    const existingProps = Object.getOwnPropertyNames(proto);
-    MyElementClass[propInfoSym$1] = {};
-    flatProps.forEach(prop => {
-        if (existingProps.includes(prop))
-            return;
-        const sym = Symbol(prop);
-        const propInfo = {};
-        propCategories$1.forEach(cat => {
-            propInfo[cat] = props[cat].includes(prop);
-        });
-        MyElementClass[propInfoSym$1][prop] = propInfo;
-        Object.defineProperty(proto, prop, {
-            get() {
-                return this[sym];
-            },
-            set(nv) {
-                const ik = this[ignorePropKey];
-                if (ik !== undefined && ik[prop] === true) {
-                    delete ik[prop];
-                    this[sym] = nv;
-                    return;
-                }
-                const propInfo = MyElementClass[propInfoSym$1][prop];
-                if (propInfo.dry) {
-                    if (nv === this[sym])
-                        return;
-                }
-                const c2l = camelToLisp$1(prop);
-                if (propInfo.reflect) {
-                    //experimental line -- we want the attribute to take precedence over default value.
-                    if (this[atrInit$1] === undefined && this.hasAttribute(c2l))
-                        return;
-                    if (this[ignoreAttrKey$1] === undefined)
-                        this[ignoreAttrKey$1] = {};
-                    this[ignoreAttrKey$1][c2l] = true;
-                    if (propInfo.bool) {
-                        this.attr(c2l, nv, '');
-                    }
-                    else if (propInfo.str) {
-                        this.attr(c2l, nv);
-                    }
-                    else if (propInfo.num) {
-                        this.attr(c2l, nv.toString());
-                    }
-                    else if (propInfo.obj) {
-                        this.attr(c2l, JSON.stringify(nv));
-                    }
-                }
-                this[sym] = nv;
-                if (propInfo.log) {
-                    console.log(propInfo, nv);
-                }
-                if (propInfo.debug)
-                    debugger;
-                this.onPropsChange(prop);
-                if (propInfo.notify) {
-                    this[de$1](c2l, { value: nv });
-                }
-            },
-        });
-    });
-    const tagName = MyElementClass.is;
-    if (customElements.get(tagName)) {
-        console.warn('Already registered ' + tagName);
-        return;
-    }
-    customElements.define(tagName, MyElementClass);
-}
-const de$1 = Symbol.for('1f462044-3fe5-4fa8-9d26-c4165be15551');
-/**
- * Base class for many xtal- components
- * @param superClass
- */
-function XtallatX$1(superClass) {
-    var _a;
-    return _a = class extends superClass {
-            constructor() {
-                super(...arguments);
-                /**
-                 * Tracks how many times each event type was called.
-                 */
-                this.__evCount = {};
-                this.self = this;
-                this._xlConnected = false;
-                this.__propActionQueue = new Set();
-            }
-            static get evalPath() {
-                return lispToCamel$1(this.is);
-            }
-            static get observedAttributes() {
-                const props = this.props;
-                return [...props.bool, ...props.num, ...props.str, ...props.jsonProp].map(s => camelToLisp$1(s));
-            }
-            static get props() {
-                if (this[this.evalPath] === undefined) {
-                    const args = deconstruct$1(this.attributeProps);
-                    const arg = {};
-                    args.forEach(token => {
-                        arg[token] = token;
-                    });
-                    this[this.evalPath] = this.attributeProps(arg);
-                    const ep = this[this.evalPath];
-                    propCategories$1.forEach(propCat => {
-                        ep[propCat] = ep[propCat] || [];
-                    });
-                }
-                return this[this.evalPath];
-            }
-            /**
-             * Turn number into string with even and odd values easy to query via css.
-             * @param n
-             */
-            __to$(n) {
-                const mod = n % 2;
-                return (n - mod) / 2 + '-' + mod;
-            }
-            /**
-             * Increment event count
-             * @param name
-             */
-            __incAttr(name) {
-                const ec = this.__evCount;
-                if (name in ec) {
-                    ec[name]++;
-                }
-                else {
-                    ec[name] = 0;
-                }
-                this.attr('data-' + name, this.__to$(ec[name]));
-            }
-            onPropsChange(name) {
-                let isAsync = false;
-                const propInfoLookup = this.constructor[propInfoSym$1];
-                if (Array.isArray(name)) {
-                    name.forEach(subName => {
-                        this.__propActionQueue.add(subName);
-                        const propInfo = propInfoLookup[subName];
-                        if (propInfo !== undefined && propInfo.async)
-                            isAsync = true;
-                    });
-                }
-                else {
-                    this.__propActionQueue.add(name);
-                    const propInfo = propInfoLookup[name];
-                    if (propInfo !== undefined && propInfo.async)
-                        isAsync = true;
-                }
-                if (this.disabled || !this._xlConnected) {
-                    return;
-                }
-                if (isAsync) {
-                    this.__processActionDebouncer();
-                }
-                else {
-                    this.__processActionQueue();
-                }
-            }
-            attributeChangedCallback(n, ov, nv) {
-                this[atrInit$1] = true; // track each attribute?
-                const ik = this[ignoreAttrKey$1];
-                if (ik !== undefined && ik[n] === true) {
-                    delete ik[n];
-                    return;
-                }
-                const propName = lispToCamel$1(n);
-                if (this[ignorePropKey] === undefined)
-                    this[ignorePropKey] = {};
-                this[ignorePropKey][propName] = true;
-                const anyT = this;
-                const ep = this.constructor.props;
-                if (ep.str.includes(propName)) {
-                    anyT[propName] = nv;
-                }
-                else if (ep.bool.includes(propName)) {
-                    anyT[propName] = nv !== null;
-                }
-                else if (ep.num.includes(propName)) {
-                    anyT[propName] = parseFloat(nv);
-                }
-                else if (ep.jsonProp.includes(propName)) {
-                    try {
-                        anyT[propName] = JSON.parse(nv);
-                    }
-                    catch (e) {
-                        anyT[propName] = nv;
-                    }
-                }
-                this.onPropsChange(propName);
-            }
-            connectedCallback() {
-                super.connectedCallback();
-                this._xlConnected = true;
-                this.__processActionDebouncer();
-                this.onPropsChange('');
-            }
-            /**
-             * Dispatch Custom Event
-             * @param name Name of event to dispatch ("-changed" will be appended if asIs is false)
-             * @param detail Information to be passed with the event
-             * @param asIs If true, don't append event name with '-changed'
-             */
-            [de$1](name, detail, asIs = false, bubbles = false) {
-                if (this.disabled)
-                    return;
-                const eventName = name + (asIs ? '' : '-changed');
-                const newEvent = new CustomEvent(eventName, {
-                    detail: detail,
-                    bubbles: bubbles,
-                    composed: false,
-                    cancelable: true,
-                });
-                this.dispatchEvent(newEvent);
-                this.__incAttr(eventName);
-                return newEvent;
-            }
-            get __processActionDebouncer() {
-                if (this.___processActionDebouncer === undefined) {
-                    this.___processActionDebouncer = debounce$1((getNew = false) => {
-                        this.__processActionQueue();
-                    }, 16);
-                }
-                return this.___processActionDebouncer;
-            }
-            __processActionQueue() {
-                if (this.propActions === undefined)
-                    return;
-                const queue = this.__propActionQueue;
-                this.__propActionQueue = new Set();
-                this.propActions.forEach(propAction => {
-                    const dependencies = deconstruct$1(propAction);
-                    const dependencySet = new Set(dependencies);
-                    if (intersection$1(queue, dependencySet).size > 0) {
-                        propAction(this);
-                    }
-                });
-            }
-        },
-        _a.attributeProps = ({ disabled }) => ({
-            bool: [disabled],
-        }),
-        _a;
-}
-
-//export const propUp: unique symbol = Symbol.for('8646ccd5-3ffd-447a-a4df-0022ca3a8155');
-//export const attribQueue: unique symbol = Symbol.for('02ca2c80-68e0-488f-b4b4-6859284848fb');
-/**
- * Base mixin for many xtal- components
- * @param superClass
- */
-function hydrate$1(superClass) {
-    return class extends superClass {
-        constructor() {
-            super(...arguments);
-            this.__conn = false;
-        }
-        /**
-         * Set attribute value.
-         * @param name
-         * @param val
-         * @param trueVal String to set attribute if true.
-         */
-        attr(name, val, trueVal) {
-            if (val === undefined)
-                return this.getAttribute(name);
-            if (!this.__conn) {
-                if (this.__attribQueue === undefined)
-                    this.__attribQueue = [];
-                this.__attribQueue.push({
-                    name, val, trueVal
-                });
-                return;
-            }
-            const v = val ? 'set' : 'remove'; //verb
-            this[v + 'Attribute'](name, trueVal || val);
-        }
-        /**
-         * Needed for asynchronous loading
-         * @param props Array of property names to "upgrade", without losing value set while element was Unknown
-         */
-        __propUp(props) {
-            const defaultValues = this.constructor['defaultValues'];
-            props.forEach(prop => {
-                let value = this[prop];
-                if (value === undefined && defaultValues !== undefined) {
-                    value = defaultValues[prop];
-                }
-                if (this.hasOwnProperty(prop)) {
-                    delete this[prop];
-                }
-                if (value !== undefined)
-                    this[prop] = value;
-            });
-        }
-        connectedCallback() {
-            this.__conn = true;
-            const ep = this.constructor.props;
-            this.__propUp([...ep.bool, ...ep.str, ...ep.num, ...ep.obj]);
-            if (this.__attribQueue !== undefined) {
-                this.__attribQueue.forEach(attribQItem => {
-                    this.attr(attribQItem.name, attribQItem.val, attribQItem.trueVal);
-                });
-                this.__attribQueue = undefined;
-            }
-        }
-    };
-}
-
 const subscriber_count = Symbol('sc');
 class StoreKeeper {
     constructor(guid) {
@@ -1481,22 +1131,22 @@ class StoreKeeper {
     }
 }
 
-class XtalStateBase extends XtallatX$1(hydrate$1(HTMLElement)) {
+const linkStoreKeeper = ({ guid, self }) => {
+    if (guid !== undefined) {
+        self._storeKeeper = new StoreKeeper(guid);
+    }
+};
+class XtalStateBase extends XtallatX(hydrate(HTMLElement)) {
     constructor() {
         super(...arguments);
-        this.propActions = [
-            ({ guid, self }) => {
-                if (guid !== undefined) {
-                    self._storeKeeper = new StoreKeeper(guid);
-                }
-            }
-        ];
+        this.propActions = [linkStoreKeeper];
     }
     disconnectedCallback() {
         if (this._storeKeeper)
             this._storeKeeper.forget();
     }
     connectedCallback() {
+        this.style.display = 'none';
         super.connectedCallback();
         this.onPropsChange('disabled');
     }
@@ -1562,18 +1212,18 @@ function init(win = window) {
     win.history.pushState = function (newState, title, URL) {
         const oldState = win.history.state;
         boundPushState(newState, title, URL);
-        de$2(oldState, win, title);
+        de$1(oldState, win, title);
     };
     const originalReplaceState = win.history.replaceState;
     const boundReplaceState = originalReplaceState.bind(win.history);
     win.history.replaceState = function (newState, title, URL) {
         const oldState = win.history.state;
         boundReplaceState(newState, title, URL);
-        de$2(oldState, win, title);
+        de$1(oldState, win, title);
     };
 }
 init();
-function de$2(oldState, win, title) {
+function de$1(oldState, win, title) {
     const detail = {
         oldState: oldState,
         newState: win.history.state,
@@ -1616,103 +1266,104 @@ function doState(newState, verb, title = '', url = null, win = window) {
     });
 }
 
+const addEventHandlers = ({ self }) => {
+    if (!self._addedEventHandlers) {
+        self._addedEventHandlers = true;
+        if (self._storeKeeper) {
+            self._storeKeeper.getContextWindow().then(win => {
+                self._win = win;
+                self.addEventHandlers(win);
+            });
+        }
+        else {
+            self._win = window;
+            self.addEventHandlers(window);
+        }
+    }
+};
 /**
  * Watch for history.state changes
  * @element xtal-state-watch
  * @event history-changed
  */
-let XtalStateWatch = /** @class */ (() => {
-    class XtalStateWatch extends XtalStateBase {
-        constructor() {
-            super(...arguments);
-            this._addedEventHandlers = false;
-            this.propActions = this.propActions.concat([
-                ({ disabled, self }) => {
-                    if (!self._addedEventHandlers) {
-                        self._addedEventHandlers = true;
-                        if (self._storeKeeper) {
-                            self._storeKeeper.getContextWindow().then(win => {
-                                self._win = win;
-                                self.addEventHandlers(win);
-                            });
-                        }
-                        else {
-                            self._win = window;
-                            self.addEventHandlers(window);
-                        }
-                    }
-                }
-            ]);
-            this._initialEvent = true;
-        }
-        get history() {
-            if (this._win === undefined)
-                return undefined;
-            return this._win.history;
-        }
-        onPropsChange(name) {
-            super.onPropsChange(name);
-        }
-        stateChangeHandler(e) {
-            const detail = e.detail;
-            let isPopstate = false;
-            if (detail.initVal) {
-                //win.__xtalStateInfo.hasStarted;
-                this.dataset.historyInit = "true";
-                this.dataset.popstate = "true";
-                isPopstate = true;
-            }
-            else {
-                delete this.dataset.popstate;
-                delete this.dataset.historyInit;
-            }
-            this.notify(isPopstate);
-        }
-        popStateHandler(e) {
+class XtalStateWatch extends XtalStateBase {
+    constructor() {
+        super(...arguments);
+        this._addedEventHandlers = false;
+        this.propActions = this.propActions.concat([
+            addEventHandlers
+        ]);
+        this._initialEvent = true;
+    }
+    get history() {
+        if (this._win === undefined)
+            return undefined;
+        return this._win.history;
+    }
+    onPropsChange(name) {
+        super.onPropsChange(name);
+    }
+    stateChangeHandler(e) {
+        const detail = e.detail;
+        let isPopstate = false;
+        if (detail.initVal) {
+            //win.__xtalStateInfo.hasStarted;
+            this.dataset.historyInit = "true";
             this.dataset.popstate = "true";
-            this.notify(true);
+            isPopstate = true;
         }
-        addEventHandlers(win) {
-            const info = init(win);
-            this._stateChangeHandler = this.stateChangeHandler.bind(this);
-            win.addEventListener(history_state_update, this._stateChangeHandler);
-            this._popStateHandler = this.popStateHandler.bind(this);
-            win.addEventListener("popstate", this._popStateHandler);
-            if (win.history.state !== null) {
-                this.notify(false);
-            }
+        else {
+            delete this.dataset.popstate;
+            delete this.dataset.historyInit;
         }
-        disconnectedCallback() {
-            if (this._win) {
-                if (this._stateChangeHandler) {
-                    this._win.removeEventListener(history_state_update, this._stateChangeHandler);
-                }
-                if (this._popStateHandler) {
-                    this._win.removeEventListener('popstate', this._popStateHandler);
-                }
-            }
-        }
-        notify(isPopstate) {
-            if (this.disabled || !this._xlConnected)
-                return;
-            if (this._initialEvent) {
-                this.dataset.initialEvent = "true";
-            }
-            else {
-                delete this.dataset.initialEvent;
-            }
-            this[de$1]("history", {
-                value: this.history.state,
-                isInitialEvent: this._initialEvent,
-                isPopstate: isPopstate,
-            });
-            this._initialEvent = false;
+        this.notify(isPopstate);
+    }
+    popStateHandler(e) {
+        this.dataset.popstate = "true";
+        this.notify(true);
+    }
+    addEventHandlers(win) {
+        const info = init(win);
+        this._stateChangeHandler = this.stateChangeHandler.bind(this);
+        win.addEventListener(history_state_update, this._stateChangeHandler);
+        this._popStateHandler = this.popStateHandler.bind(this);
+        win.addEventListener("popstate", this._popStateHandler);
+        if (win.history.state !== null) {
+            this.notify(false);
         }
     }
-    XtalStateWatch.is = "xtal-state-watch";
-    return XtalStateWatch;
-})();
-define$2(XtalStateWatch);
+    disconnectedCallback() {
+        if (this._win) {
+            if (this._stateChangeHandler) {
+                this._win.removeEventListener(history_state_update, this._stateChangeHandler);
+            }
+            if (this._popStateHandler) {
+                this._win.removeEventListener('popstate', this._popStateHandler);
+            }
+        }
+    }
+    notify(isPopstate) {
+        if (this.disabled || !this._xlConnected)
+            return;
+        if (this._initialEvent) {
+            this.dataset.initialEvent = "true";
+        }
+        else {
+            delete this.dataset.initialEvent;
+        }
+        this[de]("history", {
+            value: this.history.state,
+            isInitialEvent: this._initialEvent,
+            isPopstate: isPopstate,
+        });
+        this._initialEvent = false;
+    }
+}
+/**
+ * @private
+ */
+XtalStateWatch.is = "xtal-state-watch";
+define(XtalStateWatch);
 
 const doNotCCEventToState = 'dncc';
 /**
@@ -1826,7 +1477,7 @@ class PW extends PUnt {
             return;
         }
         this._addedState = true;
-        const { XtalStateUpdate } = await import('./xtal-state-update-e02af891.min.js');
+        const { XtalStateUpdate } = await import('./xtal-state-update-cf0e4ad3.min.js');
         const xtalUpdate = document.createElement(XtalStateUpdate.is);
         xtalUpdate.rewrite = this.replace;
         xtalUpdate.make = this.push;
@@ -1861,4 +1512,4 @@ PW.attributeProps = ({ statePath, replace, push }) => ({
 });
 define(PW);
 
-export { XtalStateBase as X, debounce$1 as a, de$1 as b, define$2 as d, pushState as p, setState as s };
+export { WithPath as W, XtalStateBase as X, de as a, define as b, debounce as d, pushState as p, setState as s };
