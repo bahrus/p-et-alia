@@ -21,7 +21,7 @@
     "xtal-test": "0.0.48",
     "xtal-json-editor": "0.0.44",
     "xtal-json-merge": "0.2.39",
-    "es-module-shims": "0.7.1",
+    "es-module-shims": "0.5.2",
     "aggregator-fn": "0.0.24",
     "purr-sist": "0.0.71",
     "templ-mount": "0.0.58",
