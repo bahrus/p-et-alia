@@ -10,22 +10,23 @@
     "url": "git+https://github.com/bahrus/p-et-alia.git"
   },
   "dependencies": {
-    "xtal-element": "0.0.310",
-    "trans-render": "0.0.267",
-    "xtal-state": "0.0.114",
-    "css-observe": "0.0.25"
+    "xtal-element": "0.0.314",
+    "trans-render": "0.0.269",
+    "xtal-state": "0.0.115",
+    "css-observe": "0.0.27"
   },
   "devDependencies": {
-    "@webcomponents/webcomponentsjs": "2.4.3",
+    "@webcomponents/webcomponentsjs": "2.5.0",
     "if-diff": "0.0.61",
-    "xtal-test": "0.0.46",
+    "xtal-test": "0.0.48",
     "xtal-json-editor": "0.0.44",
     "xtal-json-merge": "0.2.39",
-    "es-module-shims": "0.5.2",
+    "es-module-shims": "0.7.1",
     "aggregator-fn": "0.0.24",
     "purr-sist": "0.0.71",
     "templ-mount": "0.0.58",
-    "@rollup/plugin-node-resolve": "9.0.0",
+    "@rollup/plugin-node-resolve": "10.0.0",
+    "@skypack/package-check": "0.2.2",
     "terser": "5.3.3"
   },
   "scripts": {
@@ -33,7 +34,8 @@
     "serve": "node node_modules/xtal-test/serve.js",
     "doc": "wca analyze p-*.js --outFile custom-elements.json",
     "bundle": "rollup --config",
-    "compress": "node minify"
+    "compress": "node minify",
+    "package-check": "package-check"
   },
   "author": "anderson.bruce.b@gmail.com",
   "license": "MIT",
