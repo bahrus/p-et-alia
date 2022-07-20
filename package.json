@@ -27,7 +27,7 @@
     "templ-mount": "0.0.58",
     "@rollup/plugin-node-resolve": "10.0.0",
     "@skypack/package-check": "0.2.2",
-    "terser": "5.3.3"
+    "terser": "5.14.2"
   },
   "scripts": {
     "test": "node test/test-all.js",
